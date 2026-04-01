@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bien — DCKImmo</title>
+    <meta name="description" content="Détail d’un bien immobilier — DCKImmo." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body data-page="listing">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="./index.html" aria-label="Aller à l’accueil">
+          <img src="./assets/1.jpg" alt="DCKImmo" />
+        </a>
+        <nav class="nav" data-nav>
+          <a href="./biens.html">Biens</a>
+          <a href="./index.html#recherche-rapide">Recherche</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="panel">
+          <div class="inner">
+            <a class="btn ghost small" href="./biens.html">← Retour aux biens</a>
+          </div>
+        </div>
+
+        <div class="section" style="padding:18px 0 0">
+          <div class="listing-page">
+            <div class="listing-gallery card" data-gallery>
+              <div class="media">
+                <img data-gallery-img alt="" src="./assets/1.jpg" />
+                <button class="nav prev" type="button" aria-label="Photo précédente" data-gallery-prev>‹</button>
+                <button class="nav next" type="button" aria-label="Photo suivante" data-gallery-next>›</button>
+                <div class="count" data-gallery-count></div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="inner">
+                <div class="pill" data-listing-pill></div>
+                <h2 style="margin:12px 0 8px" data-listing-title></h2>
+                <div class="meta" data-listing-meta></div>
+                <div class="meta" style="margin-top:8px" data-listing-availability></div>
+                <div class="listing-price" data-listing-price></div>
+
+                <div class="facts" style="margin-top:14px" data-listing-facts></div>
+
+                <h3 style="margin:16px 0 8px">Description</h3>
+                <p class="desc" data-listing-desc></p>
+
+                <h3 style="margin:16px 0 8px">Caractéristiques</h3>
+                <div class="features" data-listing-features></div>
+
+                <div class="cta" style="margin-top:18px">
+                  <a class="btn primary" href="./dossier.html">Demande de dossier</a>
+                </div>
+
+                <h3 style="margin:18px 0 8px">Contact</h3>
+                <div class="contact-cards">
+                  <div class="contact-card">
+                    <div class="k">Contact</div>
+                    <div class="v">Deniz Demirci</div>
+                  </div>
+                  <div class="contact-card">
+                    <div class="k">Téléphone</div>
+                    <div class="v"><a href="tel:+41787338717">+41 78 733 87 17</a></div>
+                  </div>
+                  <div class="contact-card">
+                    <div class="k">Email</div>
+                    <div class="v"><a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a></div>
+                  </div>
+                  <div class="contact-card">
+                    <div class="k">Adresse</div>
+                    <div class="v">Courtételle</div>
+                  </div>
+                </div>
+                <div style="margin-top:12px" class="map" aria-label="Carte Google Maps">
+                  <iframe
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse&output=embed"
+                    title="Courtételle"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+                  <a class="btn primary" href="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
+                  <a class="btn" href="tel:+41787338717">Appeler</a>
+                </div>
+
+                <h3 style="margin:18px 0 8px">Demande de visite</h3>
+                <form class="form" data-demo-form="Demande de visite">
+                  <div class="field">
+                    <span class="label">Nom</span>
+                    <input class="control" required placeholder="Nom Prénom" />
+                  </div>
+                  <div class="field">
+                    <span class="label">Email</span>
+                    <input class="control" type="email" required placeholder="vous@exemple.ch" />
+                  </div>
+                  <div class="field">
+                    <span class="label">Téléphone</span>
+                    <input class="control" required placeholder="+41 …" />
+                  </div>
+                  <div class="field full">
+                    <span class="label">Message</span>
+                    <textarea class="control" rows="4" required placeholder="Vos disponibilités, questions, informations…"></textarea>
+                  </div>
+                  <div class="actions">
+                    <button class="btn primary" type="submit">Envoyer</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="lightbox" id="photo-lightbox" aria-hidden="true">
+      <div class="inner">
+        <img alt="Agrandissement photo" />
+        <button class="nav prev" type="button" aria-label="Photo précédente">‹</button>
+        <button class="nav next" type="button" aria-label="Photo suivante">›</button>
+        <button class="close" type="button" aria-label="Fermer">×</button>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <img src="./assets/dckimmo-logo.svg" alt="DCKImmo" />
+            <div class="footer-desc">
+              Propriétés à vendre et à louer dans le Jura & Jura bernois. Contact direct, transparence et accompagnement.
+            </div>
+            <div class="footer-social">
+              <a class="social-btn" href="#" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-cols">
+            <div class="footer-col">
+              <div class="k">Navigation</div>
+              <a href="./biens.html">Biens</a>
+              <a href="./index.html#recherche-rapide">Recherche</a>
+              <a href="./contact.html">Contact</a>
+              <a href="./dossier.html">Demande de dossier</a>
+            </div>
+            <div class="footer-col">
+              <div class="k">Contact</div>
+              <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
+              <a href="tel:+41787338717">+41 78 733 87 17</a>
+              <div class="fine" style="margin-top:8px">Courtételle — Jura</div>
+            </div>
+            <div class="footer-col">
+              <div class="k">Rester informé</div>
+              <form class="footer-form" data-demo-form="Newsletter">
+                <input class="control" placeholder="Nom Prénom" />
+                <input class="control" type="email" placeholder="Email" />
+                <button class="btn primary" type="submit">S’inscrire</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="fine">© <span id="y"></span> DCKImmo — Deniz Demirci</div>
+          <div class="fine">Mentions légales • Politique de confidentialité</div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast" data-toast></div>
+    <script type="module" src="./scripts/app.js"></script>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+    <script>
+      (function () {
+        const titleEl = document.querySelector("[data-listing-title]");
+        if (!titleEl) return;
+        if (String(titleEl.textContent || "").trim()) return;
+
+        const qp = new URLSearchParams(window.location.search);
+        const id = qp.get("id") || "";
+
+        const DB = {
+          "JU-DEL-M001": {
+            category: "sale",
+            propertyType: "Maison",
+            title: "Maison 5,5 pièces avec jardin et garage — Delémont",
+            region: "Jura",
+            locality: "Delémont",
+            rooms: 5.5,
+            surface: 160,
+            price: 825000,
+            priceSuffix: "",
+            desc: "Maison familiale lumineuse, séjour traversant, cuisine équipée, 4 chambres, sous-sol complet et garage. Jardin plat et terrasse.",
+            tags: ["Jardin", "Garage", "Terrasse", "Calme"],
+            photos: [
+              "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JU-POR-002": {
+            category: "sale",
+            propertyType: "Maison",
+            title: "Maison familiale 6,5 pièces avec jardin — Porrentruy",
+            region: "Jura",
+            locality: "Porrentruy",
+            rooms: 6.5,
+            surface: 180,
+            price: 950000,
+            priceSuffix: "",
+            desc: "Maison familiale avec cheminée, grand jardin et garage double. Quartier calme et prestations modernes.",
+            tags: ["Cheminée", "Jardin", "Double garage", "Calme", "Pompe à chaleur", "Panneaux solaires"],
+            photos: [
+              "https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JU-POR-M002": {
+            category: "sale",
+            propertyType: "Maison",
+            title: "Maison rénovée 6,5 pièces — Porrentruy",
+            region: "Jura",
+            locality: "Porrentruy",
+            rooms: 6.5,
+            surface: 185,
+            price: 945000,
+            priceSuffix: "",
+            desc: "Volumes généreux, cuisine ouverte, terrasse, 5 chambres, 2 salles de bains, buanderie et caves.",
+            tags: ["Rénové", "Terrasse", "Buanderie", "Cave"],
+            photos: [
+              "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JUB-MOU-M003": {
+            category: "sale",
+            propertyType: "Maison",
+            title: "Maison individuelle 5,5 pièces — Moutier",
+            region: "Jura bernois",
+            locality: "Moutier",
+            rooms: 5.5,
+            surface: 150,
+            price: 680000,
+            priceSuffix: "",
+            desc: "Maison individuelle bien entretenue, séjour lumineux, 4 chambres, sous-sol et places extérieures. Proche nature et commodités.",
+            tags: ["Lumineux", "Sous-sol", "Places extérieures"],
+            photos: [
+              "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JUB-TRM-M004": {
+            category: "sale",
+            propertyType: "Maison",
+            title: "Maison mitoyenne 4,5 pièces — Tramelan",
+            region: "Jura bernois",
+            locality: "Tramelan",
+            rooms: 4.5,
+            surface: 128,
+            price: 540000,
+            priceSuffix: "",
+            desc: "Mitoyenne bien distribuée, séjour avec accès terrasse, 3 chambres, cave et place couverte. Quartier calme.",
+            tags: ["Terrasse", "Place couverte", "Cave"],
+            photos: [
+              "https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JUB-TAV-M005": {
+            category: "sale",
+            propertyType: "Maison",
+            title: "Grande maison de village 7,5 pièces — Tavannes",
+            region: "Jura bernois",
+            locality: "Tavannes",
+            rooms: 7.5,
+            surface: 230,
+            price: 595000,
+            priceSuffix: "",
+            desc: "Spacieuse maison de village, nombreuses pièces et potentiel d’aménagement. Jardin, cour intérieure et stationnement.",
+            tags: ["Jardin", "Dépendances", "Combles"],
+            photos: [
+              "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JU-DEL-M006": {
+            category: "rent",
+            propertyType: "Maison",
+            title: "Maison 4,5 pièces à louer — Delémont",
+            region: "Jura",
+            locality: "Delémont",
+            rooms: 4.5,
+            surface: 120,
+            price: 2150,
+            priceSuffix: "/mois",
+            desc: "Cuisine ouverte, séjour avec accès terrasse, 3 chambres, cave et buanderie. Quartier calme, proche centre.",
+            tags: ["Terrasse", "Cave", "Place extérieure", "Calme"],
+            photos: [
+              "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JU-POR-M007": {
+            category: "rent",
+            propertyType: "Maison",
+            title: "Maison 5 pièces avec jardin — Porrentruy",
+            region: "Jura",
+            locality: "Porrentruy",
+            rooms: 5.0,
+            surface: 140,
+            price: 2250,
+            priceSuffix: "/mois",
+            desc: "Maison 5 pièces, cuisine équipée, séjour lumineux, 4 chambres, buanderie. Jardin clos et terrasse.",
+            tags: ["Jardin", "Terrasse", "Buanderie"],
+            photos: [
+              "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JUB-BIE-M008": {
+            category: "rent",
+            propertyType: "Maison",
+            title: "Maison urbaine 4,5 pièces — Bienne",
+            region: "Jura bernois",
+            locality: "Biel/Bienne",
+            rooms: 4.5,
+            surface: 115,
+            price: 2350,
+            priceSuffix: "/mois",
+            desc: "Maison de ville 4.5 pièces, cuisine moderne, 3 chambres, buanderie. Petite cour/terrasse. Situation pratique.",
+            tags: ["Cour", "Proche gare", "Moderne"],
+            photos: [
+              "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JUB-TRM-M009": {
+            category: "rent",
+            propertyType: "Maison",
+            title: "Maison jumelle 5,5 pièces — Tramelan",
+            region: "Jura bernois",
+            locality: "Tramelan",
+            rooms: 5.5,
+            surface: 150,
+            price: 2180,
+            priceSuffix: "/mois",
+            desc: "Séjour ouvrant sur terrasse, cuisine agencée, 4 chambres, 2 salles d’eau, sous-sol et place couverte.",
+            tags: ["Terrasse", "Sous-sol", "Place couverte"],
+            photos: [
+              "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+          "JUB-TAV-M010": {
+            category: "rent",
+            propertyType: "Maison",
+            title: "Maison de village 6 pièces — Tavannes",
+            region: "Jura bernois",
+            locality: "Tavannes",
+            rooms: 6.0,
+            surface: 170,
+            price: 2050,
+            priceSuffix: "/mois",
+            desc: "Maison de village, pièces spacieuses, cave et grenier. Petit espace extérieur. Commodités à pied.",
+            tags: ["Centre", "Grenier", "Cave"],
+            photos: [
+              "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=70",
+              "https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1800&q=70"
+            ],
+          },
+        };
+
+        const listing = DB[id] || {
+          category: "rent",
+          propertyType: "Appartement",
+          title: id ? `Bien ${id}` : "Bien — DCKImmo",
+          region: "Jura",
+          locality: "—",
+          rooms: 0,
+          surface: 0,
+          price: 0,
+          priceSuffix: "",
+          desc: "Description indisponible. Ouvrez le site via localhost pour afficher toutes les informations dynamiques.",
+          tags: ["Balcon", "Cuisine équipée", "Calme", "Proche commerces"],
+          photos: ["./assets/1.jpg"],
+        };
+
+        const formatRooms = (v) => {
+          const n = Number(v);
+          if (!Number.isFinite(n) || n <= 0) return "";
+          return `${n.toString().replace(".", ",")} p.`;
+        };
+
+        const formatCHF = (v) => {
+          const n = Number(v);
+          if (!Number.isFinite(n) || n <= 0) return "";
+          return new Intl.NumberFormat("fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
+        };
+
+        const pill = document.querySelector("[data-listing-pill]");
+        const metaEl = document.querySelector("[data-listing-meta]");
+        const priceEl = document.querySelector("[data-listing-price]");
+        const descEl = document.querySelector("[data-listing-desc]");
+        const featsEl = document.querySelector("[data-listing-features]");
+        const dossierBtn = document.querySelector(".cta a.btn.primary[href$='dossier.html']");
+
+        const catLabel = listing.category === "sale" ? "À vendre" : "À louer";
+        const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
+
+        if (pill) {
+          pill.innerHTML = `
+            <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
+            <strong style="letter-spacing:.02em">${catLabel}</strong>
+            <span style="opacity:.65">•</span>
+            <span style="opacity:.85">${listing.propertyType}</span>
+            <span style="opacity:.65">•</span>
+            <span style="opacity:.85">${id || ""}</span>
+          `;
+        }
+
+        titleEl.textContent = listing.title || "";
+        if (metaEl) metaEl.textContent = `${listing.region} — ${listing.locality} • ${formatRooms(listing.rooms)}${listing.surface ? ` • ${listing.surface} m²` : ""}`;
+        if (priceEl) priceEl.textContent = `${formatCHF(listing.price)}${listing.priceSuffix ? ` ${listing.priceSuffix}` : ""}`.trim();
+        if (descEl) descEl.textContent = listing.desc || "";
+
+        if (featsEl) {
+          const pool = [
+            ...(listing.tags || []),
+            "Cuisine équipée",
+            "Double vitrage",
+            "Fibre optique",
+            "Proche commerces",
+            "Proche écoles",
+            "Calme"
+          ];
+          const seen = new Set();
+          const out = [];
+          for (const t of pool) {
+            const s = String(t || "").trim();
+            if (!s) continue;
+            if (seen.has(s)) continue;
+            seen.add(s);
+            out.push(s);
+          }
+          featsEl.innerHTML = out.map((t) => `<span class="tag">${t}</span>`).join("");
+        }
+
+        if (dossierBtn && id) {
+          const type = listing.category === "sale" ? "Achat" : "Location";
+          dossierBtn.setAttribute("href", `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`);
+        }
+
+        const photos = Array.isArray(listing.photos) && listing.photos.length ? listing.photos : ["./assets/1.jpg"];
+        let idx = 0;
+        const img = document.querySelector("[data-gallery-img]");
+        const prev = document.querySelector("[data-gallery-prev]");
+        const next = document.querySelector("[data-gallery-next]");
+        const countEl = document.querySelector("[data-gallery-count]");
+        const showNav = photos.length > 1;
+        if (prev) prev.style.display = showNav ? "" : "none";
+        if (next) next.style.display = showNav ? "" : "none";
+        if (countEl) countEl.style.display = showNav ? "" : "none";
+
+        const setPhoto = (i) => {
+          idx = (i + photos.length) % photos.length;
+          if (img) img.src = photos[idx];
+          if (countEl) countEl.textContent = `${idx + 1} / ${photos.length}`;
+        };
+        setPhoto(0);
+
+        document.addEventListener("click", (e) => {
+          const t = e.target;
+          if (!(t instanceof HTMLElement)) return;
+          if (t.closest("[data-gallery-prev]")) setPhoto(idx - 1);
+          if (t.closest("[data-gallery-next]")) setPhoto(idx + 1);
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowLeft") setPhoto(idx - 1);
+          if (e.key === "ArrowRight") setPhoto(idx + 1);
+        });
+      })();
+    </script>
+  </body>
+</html>

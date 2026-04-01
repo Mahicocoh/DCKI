@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recherche — DCKImmo</title>
+    <meta name="description" content="Recherche immobilière DCKImmo : à vendre / à louer, Jura et Jura bernois." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body data-page="recherche">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="./index.html" aria-label="Aller à l’accueil">
+          <img src="./assets/1.jpg" alt="DCKImmo" />
+        </a>
+        <nav class="nav" data-nav>
+          <a href="./biens.html">Biens</a>
+          <a href="./index.html#recherche-rapide">Recherche</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section" style="padding-top:20px;">
+      <div class="container">
+        <div class="is24-search" style="margin-top:0;">
+          <div class="is24-tabs">
+            <button type="button" class="is24-tab active" data-search-tab="rent">Louer</button>
+            <button type="button" class="is24-tab" data-search-tab="sale">Acheter</button>
+          </div>
+          <form class="is24-body" data-search-form>
+            <input type="hidden" name="cat" value="rent" id="search-page-cat" />
+            
+            <div class="is24-field large">
+              <span class="is24-label">Où?</span>
+              <div class="autocomplete-wrapper">
+                <input class="is24-control" name="q" id="search-q" autocomplete="off" placeholder="Localité, NPA, Canton..." />
+                <div class="autocomplete-list" id="search-autocomplete"></div>
+              </div>
+            </div>
+            
+            <div class="is24-field">
+              <span class="is24-label">Prix à</span>
+              <select class="is24-control" name="maxPriceQuick">
+                <option value="">indiff.</option>
+                <option value="1000">1 000 CHF</option>
+                <option value="1500">1 500 CHF</option>
+                <option value="2000">2 000 CHF</option>
+                <option value="2500">2 500 CHF</option>
+                <option value="3000">3 000 CHF</option>
+                <option value="4000">4 000 CHF</option>
+                <option value="5000">5 000 CHF</option>
+                <option value="1000000">1 000 000 CHF</option>
+              </select>
+            </div>
+
+            <div class="is24-field">
+              <span class="is24-label">Pièces de</span>
+              <select class="is24-control" name="minRooms">
+                <option value="">indiff.</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+              </select>
+            </div>
+
+            <button type="button" class="is24-btn" data-open-filters>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+              Filtres
+            </button>
+
+            <div class="is24-field" style="min-width:160px">
+              <span class="is24-label" style="visibility:hidden">Action</span>
+              <button type="submit" class="is24-btn primary" style="width:100%">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <span data-count>Rechercher</span>
+              </button>
+            </div>
+
+            <div class="modal" id="filters-modal">
+              <div class="backdrop" data-close-filters></div>
+              <div class="dialog" style="max-width: 600px; margin-top: 10vh;">
+                <div class="content">
+                  <div class="titleRow">
+                    <h3 style="margin:0">Filtres avancés</h3>
+                    <button type="button" class="close" data-close-filters aria-label="Fermer">×</button>
+                  </div>
+                  
+                  <div class="form" style="margin-top: 20px;">
+                    <div class="field">
+                      <span class="label">Région</span>
+                      <select class="control" name="region">
+                        <option value="">Toutes</option>
+                        <option value="Jura">Jura</option>
+                        <option value="Jura bernois">Jura bernois</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <span class="label">Commune / ville</span>
+                      <select class="control" name="locality" data-locality>
+                        <option value="">Toutes</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <span class="label">Type</span>
+                      <select class="control" name="propertyType">
+                        <option value="">Tous</option>
+                        <option value="Appartement">Appartement</option>
+                        <option value="Maison">Maison</option>
+                        <option value="Villa">Villa</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <span class="label">Tri</span>
+                      <select class="control" name="sort">
+                        <option value="">Pertinence</option>
+                        <option value="price_asc">Prix (croissant)</option>
+                        <option value="price_desc">Prix (décroissant)</option>
+                        <option value="surface_desc">Surface (décroissant)</option>
+                        <option value="rooms_desc">Pièces (décroissant)</option>
+                      </select>
+                    </div>
+
+                    <div class="field">
+                      <span class="label">Prix min (CHF)</span>
+                      <input class="control" name="minPrice" inputmode="numeric" placeholder="ex : 1200" />
+                    </div>
+
+                    <div class="field">
+                      <span class="label">Prix max (CHF)</span>
+                      <input class="control" name="maxPrice" inputmode="numeric" placeholder="ex : 2500" />
+                    </div>
+                    
+                    <div class="field">
+                      <span class="label">Surface min (m²)</span>
+                      <input class="control" name="minSurface" inputmode="numeric" placeholder="ex : 70" />
+                    </div>
+
+                    <div class="field full">
+                      <span class="label">Caractéristiques</span>
+                      <div class="filter-chips" data-tags-list></div>
+                    </div>
+
+                    <div class="actions" style="margin-top: 10px;">
+                      <button class="btn primary" type="submit" style="width: 100%;">Appliquer les filtres</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="section" style="padding:22px 0 0">
+          <div class="panel" data-empty style="display:none">
+            <div class="inner">
+              <h3 style="margin:0 0 6px">Aucun bien trouvé</h3>
+              <p class="lead" style="margin:0">Essayez Louer / Acheter ou élargissez la région.</p>
+            </div>
+          </div>
+          <div class="grid cols-3" data-results></div>
+        </div>
+      </div>
+    </main>
+
+    <section class="section" id="contact" style="padding-top:0">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="panel">
+            <div class="inner">
+              <h2 style="margin-top:0">Contact</h2>
+              <p class="lead" style="margin-top:0">Deniz Demirci — Impasse de la Basilique, 2852 Courtételle — <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a></p>
+              <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
+                <iframe
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse&output=embed"
+                  title="Impasse de la Basilique, Courtételle"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="inner">
+              <h2 style="margin-top:0">Demande</h2>
+              <form class="form" data-demo-form="Demande (visite / dossier)">
+                <div class="field">
+                  <span class="label">Nom</span>
+                  <input class="control" required placeholder="Nom Prénom" />
+                </div>
+                <div class="field">
+                  <span class="label">Email</span>
+                  <input class="control" type="email" required placeholder="vous@exemple.ch" />
+                </div>
+                <div class="field">
+                  <span class="label">Objet</span>
+                  <select class="control" required>
+                    <option>Demande de visite</option>
+                    <option>Question</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <span class="label">Référence (optionnel)</span>
+                  <input class="control" placeholder="ex : JU-DEL-001" />
+                </div>
+                <div class="field full">
+                  <span class="label">Message</span>
+                  <textarea class="control" rows="4" required placeholder="Votre demande…"></textarea>
+                </div>
+                <div class="actions">
+                  <button class="btn primary" type="submit">Envoyer</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <img src="./assets/dckimmo-logo.svg" alt="DCKImmo" />
+            <div class="footer-desc">
+              Propriétés à vendre et à louer dans le Jura & Jura bernois. Contact direct, transparence et accompagnement.
+            </div>
+            <div class="footer-social">
+              <a class="social-btn" href="#" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-cols">
+            <div class="footer-col">
+              <div class="k">Navigation</div>
+              <a href="./biens.html">Biens</a>
+              <a href="./index.html#recherche-rapide">Recherche</a>
+              <a href="./contact.html">Contact</a>
+              <a href="./dossier.html">Demande de dossier</a>
+            </div>
+            <div class="footer-col">
+              <div class="k">Contact</div>
+              <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
+              <a href="tel:+41787338717">+41 78 733 87 17</a>
+              <div class="fine" style="margin-top:8px">Courtételle — Jura</div>
+            </div>
+            <div class="footer-col">
+              <div class="k">Rester informé</div>
+              <form class="footer-form" data-demo-form="Newsletter">
+                <input class="control" placeholder="Nom Prénom" />
+                <input class="control" type="email" placeholder="Email" />
+                <button class="btn primary" type="submit">S’inscrire</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="fine">© <span id="y"></span> DCKImmo — Deniz Demirci</div>
+          <div class="fine">Mentions légales • Politique de confidentialité</div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast" data-toast></div>
+    <script type="module" src="./scripts/app.js"></script>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>

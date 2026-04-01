@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biens — DCKImmo</title>
+    <meta name="description" content="Liste de biens DCKImmo : à vendre et à louer." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body data-page="biens">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="./index.html" aria-label="Aller à l’accueil">
+          <img src="./assets/1.jpg" alt="DCKImmo" />
+        </a>
+        <nav class="nav" data-nav>
+          <a href="./biens.html">Biens</a>
+          <a href="./index.html#recherche-rapide">Recherche</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="panel">
+          <div class="inner">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+              <div>
+                <h2 style="margin:0">Biens</h2>
+                <p class="lead" style="margin:8px 0 0">
+                  À vendre et à louer. Cliquez sur un bien pour voir la fiche complète.
+                </p>
+              </div>
+              <div class="pill">
+                <strong>Total</strong>
+                <span data-biens-count>0 biens</span>
+              </div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+              <a class="btn" href="./biens.html?cat=sale#vendre" data-cat-sale>À vendre</a>
+              <a class="btn" href="./biens.html?cat=rent#louer" data-cat-rent>À louer</a>
+              <a class="btn primary" href="./index.html#recherche-rapide">Recherche</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="section" id="vendre" style="padding:22px 0 0">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <h2 style="margin:0">À vendre</h2>
+            <div class="pill">
+              <strong>Résultats</strong>
+              <span data-biens-sale-count>0 biens</span>
+            </div>
+          </div>
+          <div class="grid cols-3" style="margin-top:14px" data-biens-sale-grid>
+            <article class="card listing" data-category="sale" data-region="Jura" data-locality="Delémont" data-type="Maison" data-rooms="5.5" data-surface="160" data-price="825000" data-tags="Jardin,Garage,Terrasse,Calme">
+              <a class="listing-link" href="./bien.html?id=JU-DEL-M001" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=70" alt="Maison 5,5 pièces avec jardin et garage — Delémont" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison 5,5 pièces avec jardin et garage — Delémont</h3>
+                  <div class="meta">Jura — Delémont • Maison • 5,5 pièces • 160 m²</div>
+                  <p class="desc">Maison familiale lumineuse, séjour traversant, cuisine équipée, 4 chambres, sous-sol et garage. Jardin plat et terrasse.</p>
+                  <div class="chipRow">
+                    <span class="tag">Jardin</span><span class="tag">Garage</span><span class="tag">Terrasse</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 825’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="sale" data-region="Jura" data-locality="Porrentruy" data-type="Maison" data-rooms="6.5" data-surface="180" data-price="950000" data-tags="Jardin,Double garage,Calme,Pompe à chaleur,Panneaux solaires,Cheminée">
+              <a class="listing-link" href="./bien.html?id=JU-POR-002" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1600&q=70" alt="Maison familiale 6,5 pièces avec jardin — Porrentruy" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison familiale 6,5 pièces avec jardin — Porrentruy</h3>
+                  <div class="meta">Jura — Porrentruy • Maison • 6,5 pièces • 180 m²</div>
+                  <p class="desc">Maison familiale avec cheminée, grand jardin, garage double et prestations modernes. Quartier calme.</p>
+                  <div class="chipRow">
+                    <span class="tag">Cheminée</span><span class="tag">Jardin</span><span class="tag">Double garage</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 950’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="sale" data-region="Jura" data-locality="Porrentruy" data-type="Maison" data-rooms="6.5" data-surface="185" data-price="945000" data-tags="Rénové,Terrasse,Buanderie,Cave">
+              <a class="listing-link" href="./bien.html?id=JU-POR-M002" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?auto=format&fit=crop&w=1600&q=70" alt="Maison rénovée 6,5 pièces — Porrentruy" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison rénovée 6,5 pièces — Porrentruy</h3>
+                  <div class="meta">Jura — Porrentruy • Maison • 6,5 pièces • 185 m²</div>
+                  <p class="desc">Volumes généreux, cuisine ouverte, terrasse, 5 chambres, 2 salles de bains, buanderie et caves.</p>
+                  <div class="chipRow">
+                    <span class="tag">Rénové</span><span class="tag">Terrasse</span><span class="tag">Buanderie</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 945’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="sale" data-region="Jura bernois" data-locality="Moutier" data-type="Maison" data-rooms="5.5" data-surface="150" data-price="680000" data-tags="Places extérieures,Sous-sol,Lumineux">
+              <a class="listing-link" href="./bien.html?id=JUB-MOU-M003" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=70" alt="Maison individuelle 5,5 pièces — Moutier" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison individuelle 5,5 pièces — Moutier</h3>
+                  <div class="meta">Jura bernois — Moutier • Maison • 5,5 pièces • 150 m²</div>
+                  <p class="desc">Maison bien entretenue, séjour lumineux, 4 chambres, sous-sol et places extérieures. Proche nature.</p>
+                  <div class="chipRow">
+                    <span class="tag">Lumineux</span><span class="tag">Sous-sol</span><span class="tag">Calme</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 680’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="sale" data-region="Jura bernois" data-locality="Tramelan" data-type="Maison" data-rooms="4.5" data-surface="128" data-price="540000" data-tags="Terrasse,Place couverte,Cave">
+              <a class="listing-link" href="./bien.html?id=JUB-TRM-M004" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1600&q=70" alt="Maison mitoyenne 4,5 pièces — Tramelan" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison mitoyenne 4,5 pièces — Tramelan</h3>
+                  <div class="meta">Jura bernois — Tramelan • Maison • 4,5 pièces • 128 m²</div>
+                  <p class="desc">Mitoyenne bien distribuée, séjour avec accès terrasse, 3 chambres, cave et place couverte. Quartier calme.</p>
+                  <div class="chipRow">
+                    <span class="tag">Terrasse</span><span class="tag">Place couverte</span><span class="tag">Cave</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 540’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="sale" data-region="Jura bernois" data-locality="Tavannes" data-type="Maison" data-rooms="7.5" data-surface="230" data-price="595000" data-tags="Dépendances,Combles,Jardin">
+              <a class="listing-link" href="./bien.html?id=JUB-TAV-M005" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=70" alt="Grande maison de village 7,5 pièces — Tavannes" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Grande maison de village 7,5 pièces — Tavannes</h3>
+                  <div class="meta">Jura bernois — Tavannes • Maison • 7,5 pièces • 230 m²</div>
+                  <p class="desc">Nombreuses pièces et potentiel d’aménagement. Jardin, cour et stationnement. Toutes commodités à pied.</p>
+                  <div class="chipRow">
+                    <span class="tag">Jardin</span><span class="tag">Dépendances</span><span class="tag">Combles</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 595’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          </div>
+        </div>
+
+        <div class="section" id="louer" style="padding:22px 0 0">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <h2 style="margin:0">À louer</h2>
+            <div class="pill">
+              <strong>Résultats</strong>
+              <span data-biens-rent-count>0 biens</span>
+            </div>
+          </div>
+          <div class="grid cols-3" style="margin-top:14px" data-biens-rent-grid>
+            <article class="card listing" data-category="rent" data-region="Jura" data-locality="Delémont" data-type="Maison" data-rooms="4.5" data-surface="120" data-price="2150" data-tags="Terrasse,Cave,Place extérieure,Calme">
+              <a class="listing-link" href="./bien.html?id=JU-DEL-M006" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1600&q=70" alt="Maison 4,5 pièces à louer — Delémont" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison 4,5 pièces à louer — Delémont</h3>
+                  <div class="meta">Jura — Delémont • Maison • 4,5 pièces • 120 m²</div>
+                  <p class="desc">Cuisine ouverte, séjour avec accès terrasse, 3 chambres, cave et buanderie. Quartier calme.</p>
+                  <div class="chipRow">
+                    <span class="tag">Terrasse</span><span class="tag">Cave</span><span class="tag">Calme</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’150 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="rent" data-region="Jura" data-locality="Porrentruy" data-type="Maison" data-rooms="5" data-surface="140" data-price="2250" data-tags="Jardin,Terrasse,Buanderie">
+              <a class="listing-link" href="./bien.html?id=JU-POR-M007" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=70" alt="Maison 5 pièces avec jardin — Porrentruy" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison 5 pièces avec jardin — Porrentruy</h3>
+                  <div class="meta">Jura — Porrentruy • Maison • 5 pièces • 140 m²</div>
+                  <p class="desc">Cuisine équipée, séjour lumineux, 4 chambres, buanderie. Jardin clos et terrasse.</p>
+                  <div class="chipRow">
+                    <span class="tag">Jardin</span><span class="tag">Terrasse</span><span class="tag">Buanderie</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’250 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="rent" data-region="Jura bernois" data-locality="Biel/Bienne" data-type="Maison" data-rooms="4.5" data-surface="115" data-price="2350" data-tags="Cour,Proche gare,Moderne">
+              <a class="listing-link" href="./bien.html?id=JUB-BIE-M008" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1600&q=70" alt="Maison urbaine 4,5 pièces — Bienne" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison urbaine 4,5 pièces — Bienne</h3>
+                  <div class="meta">Jura bernois — Biel/Bienne • Maison • 4,5 pièces • 115 m²</div>
+                  <p class="desc">Maison de ville, cuisine moderne, 3 chambres, buanderie. Petite cour/terrasse. Proche gare.</p>
+                  <div class="chipRow">
+                    <span class="tag">Proche gare</span><span class="tag">Moderne</span><span class="tag">Cour</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’350 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="rent" data-region="Jura bernois" data-locality="Tramelan" data-type="Maison" data-rooms="5.5" data-surface="150" data-price="2180" data-tags="Terrasse,Sous-sol,Place couverte">
+              <a class="listing-link" href="./bien.html?id=JUB-TRM-M009" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1600&q=70" alt="Maison jumelle 5,5 pièces — Tramelan" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison jumelle 5,5 pièces — Tramelan</h3>
+                  <div class="meta">Jura bernois — Tramelan • Maison • 5,5 pièces • 150 m²</div>
+                  <p class="desc">Séjour ouvrant sur terrasse, cuisine agencée, 4 chambres, 2 salles d’eau, sous-sol et place couverte.</p>
+                  <div class="chipRow">
+                    <span class="tag">Terrasse</span><span class="tag">Sous-sol</span><span class="tag">Place couverte</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’180 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing" data-category="rent" data-region="Jura bernois" data-locality="Tavannes" data-type="Maison" data-rooms="6" data-surface="170" data-price="2050" data-tags="Centre,Grenier,Cave">
+              <a class="listing-link" href="./bien.html?id=JUB-TAV-M010" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1600&q=70" alt="Maison de village 6 pièces — Tavannes" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison de village 6 pièces — Tavannes</h3>
+                  <div class="meta">Jura bernois — Tavannes • Maison • 6 pièces • 170 m²</div>
+                  <p class="desc">Maison de village, pièces spacieuses, cave et grenier. Petit espace extérieur. Commodités à pied.</p>
+                  <div class="chipRow">
+                    <span class="tag">Centre</span><span class="tag">Grenier</span><span class="tag">Cave</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’050 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <section class="section" id="contact" style="padding-top:0">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="panel">
+            <div class="inner">
+              <h2 style="margin-top:0">Contact</h2>
+              <p class="lead" style="margin-top:0">Deniz Demirci — Impasse de la Basilique, 2852 Courtételle — <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a></p>
+              <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
+                <iframe
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse&output=embed"
+                  title="Impasse de la Basilique, Courtételle"
+                  allowfullscreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="inner">
+              <h2 style="margin-top:0">Demande de visite</h2>
+              <form class="form" data-demo-form="Demande de visite">
+                <div class="field">
+                  <span class="label">Nom</span>
+                  <input class="control" required placeholder="Nom Prénom" />
+                </div>
+                <div class="field">
+                  <span class="label">Email</span>
+                  <input class="control" type="email" required placeholder="vous@exemple.ch" />
+                </div>
+                <div class="field">
+                  <span class="label">Référence (optionnel)</span>
+                  <input class="control" placeholder="ex : JU-DEL-001" />
+                </div>
+                <div class="field">
+                  <span class="label">Objet</span>
+                  <select class="control" required>
+                    <option>Demande de visite</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <span class="label">Message</span>
+                  <textarea class="control" rows="4" required placeholder="Vos disponibilités, bien concerné…"></textarea>
+                </div>
+                <div class="actions">
+                  <button class="btn primary" type="submit">Envoyer</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <img src="./assets/1.jpg" alt="DCKImmo" />
+            <div class="footer-desc">
+              Propriétés à vendre et à louer dans le Jura & Jura bernois. Contact direct, transparence et accompagnement.
+            </div>
+            <div class="footer-social">
+              <a class="social-btn" href="#" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-cols">
+            <div class="footer-col">
+              <div class="k">Navigation</div>
+              <a href="./biens.html">Biens</a>
+              <a href="./index.html#recherche-rapide">Recherche</a>
+              <a href="./contact.html">Contact</a>
+              <a href="./dossier.html">Demande de dossier</a>
+            </div>
+            <div class="footer-col">
+              <div class="k">Contact</div>
+              <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
+              <a href="tel:+41787338717">+41 78 733 87 17</a>
+              <div class="fine" style="margin-top:8px">Courtételle — Jura</div>
+            </div>
+            <div class="footer-col">
+              <div class="k">Rester informé</div>
+              <form class="footer-form" data-demo-form="Newsletter">
+                <input class="control" placeholder="Nom Prénom" />
+                <input class="control" type="email" placeholder="Email" />
+                <button class="btn primary" type="submit">S’inscrire</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="fine">© <span id="y"></span> DCKImmo — Deniz Demirci</div>
+          <div class="fine">Mentions légales • Politique de confidentialité</div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast" data-toast></div>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+    <script>
+      (function () {
+        const normalize = (value) =>
+          String(value || "")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase();
+
+        const toNumber = (v) => {
+          const s = String(v ?? "").trim();
+          if (!s) return null;
+          const n = Number(s.replace(",", ".").replace(/[^\d.]/g, ""));
+          return Number.isFinite(n) ? n : null;
+        };
+
+        const toInt = (v) => {
+          const s = String(v ?? "").trim();
+          if (!s) return null;
+          const n = Number(s.replace(/[^\d]/g, ""));
+          return Number.isFinite(n) ? n : null;
+        };
+
+        const qp = new URLSearchParams(window.location.search);
+        const cat = qp.get("cat") || (qp.get("sale") === "1" ? "sale" : qp.get("rent") === "1" ? "rent" : "");
+        const qRaw = qp.get("q") || "";
+        const qTokens = normalize(qRaw)
+          .split(/\s+/)
+          .map((t) => t.trim())
+          .filter(Boolean);
+        const region = normalize(qp.get("region") || "");
+        const locality = normalize(qp.get("locality") || "");
+        const type = normalize(qp.get("type") || "");
+        const minPrice = toInt(qp.get("minPrice"));
+        const maxPrice = toInt(qp.get("maxPrice"));
+        const minRooms = toNumber(qp.get("minRooms"));
+        const minSurface = toInt(qp.get("minSurface"));
+        const tags = qp
+          .getAll("tags")
+          .flatMap((v) => String(v || "").split(","))
+          .map((s) => normalize(s.trim()))
+          .filter(Boolean);
+
+        const saleSection = document.getElementById("vendre");
+        const rentSection = document.getElementById("louer");
+        if (saleSection) saleSection.style.display = cat && cat !== "sale" ? "none" : "";
+        if (rentSection) rentSection.style.display = cat && cat !== "rent" ? "none" : "";
+
+        const saleBtn = document.querySelector("[data-cat-sale]");
+        const rentBtn = document.querySelector("[data-cat-rent]");
+        if (saleBtn) {
+          const p = new URLSearchParams(qp);
+          p.set("cat", "sale");
+          saleBtn.setAttribute("href", `./biens.html?${p.toString()}#vendre`);
+        }
+        if (rentBtn) {
+          const p = new URLSearchParams(qp);
+          p.set("cat", "rent");
+          rentBtn.setAttribute("href", `./biens.html?${p.toString()}#louer`);
+        }
+
+        const items = Array.from(document.querySelectorAll("article.card.listing"));
+
+        const parseItem = (el) => {
+          const ds = el.dataset || {};
+          const pillEl = el.querySelector(".pill");
+          const pillText = normalize((pillEl && pillEl.textContent) || "");
+          const category = normalize(ds.category) || (pillText.includes("a vendre") ? "sale" : "rent");
+          const regionTxt = normalize(ds.region);
+          const localityTxt = normalize(ds.locality);
+          const typeTxt = normalize(ds.type);
+          const h3El = el.querySelector("h3");
+          const metaEl = el.querySelector(".meta");
+          const descEl = el.querySelector(".desc");
+          const chipEl = el.querySelector(".chipRow");
+          const title = normalize((h3El && h3El.textContent) || "");
+          const meta = normalize((metaEl && metaEl.textContent) || "");
+          const desc = normalize((descEl && descEl.textContent) || "");
+          const tagsTxt = normalize(`${ds.tags || ""} ${(chipEl && chipEl.textContent) || ""}`);
+          const hay = `${title} ${meta} ${desc} ${tagsTxt} ${regionTxt} ${localityTxt} ${typeTxt}`;
+
+          const priceEl = el.querySelector(".price");
+          const price = toInt(ds.price) ?? toInt((priceEl && priceEl.textContent) || "") ?? 0;
+
+          const rooms = toNumber(ds.rooms) ??
+            (() => {
+              const roomsMatch = (((metaEl && metaEl.textContent) || "")).match(/(\d+(?:[.,]\d+)?)\s*pi[eè]ces/i);
+              return roomsMatch ? toNumber(roomsMatch[1]) : null;
+            })();
+
+          const surface = toInt(ds.surface) ??
+            (() => {
+              const m = (((metaEl && metaEl.textContent) || "")).match(/(\d+)\s*m²/i);
+              return m ? toInt(m[1]) : null;
+            })();
+
+          return { category, region: regionTxt, locality: localityTxt, type: typeTxt, hay, price, rooms, surface, tagsTxt };
+        };
+
+        let totalVisible = 0;
+        let saleVisible = 0;
+        let rentVisible = 0;
+
+        for (const el of items) {
+          const info = parseItem(el);
+          let ok = true;
+
+          if (cat && info.category !== cat) ok = false;
+          if (ok && region && info.region !== region) ok = false;
+          if (ok && locality && info.locality !== locality) ok = false;
+          if (ok && type && info.type !== type) ok = false;
+          if (ok && qTokens.length) {
+            for (const t of qTokens) {
+              if (!info.hay.includes(t)) {
+                ok = false;
+                break;
+              }
+            }
+          }
+          if (ok && minPrice != null && info.price < minPrice) ok = false;
+          if (ok && maxPrice != null && info.price && info.price > maxPrice) ok = false;
+          if (ok && minRooms != null && info.rooms != null && info.rooms < minRooms) ok = false;
+          if (ok && minSurface != null && info.surface != null && info.surface < minSurface) ok = false;
+          if (ok && tags.length) {
+            for (const t of tags) {
+              if (!info.tagsTxt.includes(t)) {
+                ok = false;
+                break;
+              }
+            }
+          }
+
+          el.style.display = ok ? "" : "none";
+
+          if (ok) {
+            totalVisible += 1;
+            if (info.category === "sale") saleVisible += 1;
+            if (info.category === "rent") rentVisible += 1;
+          }
+        }
+
+        const totalEl = document.querySelector("[data-biens-count]");
+        const saleEl = document.querySelector("[data-biens-sale-count]");
+        const rentEl = document.querySelector("[data-biens-rent-count]");
+        if (totalEl) totalEl.textContent = `${totalVisible} bien${totalVisible > 1 ? "s" : ""}`;
+        if (saleEl) saleEl.textContent = `${saleVisible} bien${saleVisible > 1 ? "s" : ""}`;
+        if (rentEl) rentEl.textContent = `${rentVisible} bien${rentVisible > 1 ? "s" : ""}`;
+      })();
+    </script>
+  </body>
+</html>

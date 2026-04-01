@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demande de dossier — DCKImmo</title>
+    <meta name="description" content="Demande de dossier de location/achat pour DCKImmo." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body data-page="dossier">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="./index.html" aria-label="Aller à l’accueil">
+          <img src="./assets/1.jpg" alt="DCKImmo" />
+        </a>
+        <nav class="nav" data-nav>
+          <a href="./biens.html">Biens</a>
+          <a href="./index.html#recherche-rapide">Recherche</a>
+          <a href="./dossier.html">Demande de dossier</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="grid cols-2">
+          <div class="panel">
+            <div class="inner">
+              <h2 style="margin-top:0">Demande de dossier</h2>
+              <p class="lead" style="margin-top:0">
+                Cette page sert à demander un dossier (achat ou location).
+              </p>
+              <div class="grid cols-2" style="gap:12px">
+                <div class="pill">
+                  <strong>Contact</strong>
+                  <span>Deniz Demirci</span>
+                </div>
+                <div class="pill">
+                  <strong>Adresse</strong>
+                  <span>Impasse de la Basilique, 2852 Courtételle</span>
+                </div>
+                <div class="pill">
+                  <strong>Email</strong>
+                  <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
+                </div>
+              </div>
+              <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
+                <iframe
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse&output=embed"
+                  title="Impasse de la Basilique, Courtételle"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div style="margin-top:14px" class="card">
+                <div class="body">
+                  <h3 style="margin-top:0">Exemples de pièces demandées</h3>
+                  <div class="meta" style="margin-top:10px">
+                    <span class="tag">Pièce d’identité</span>
+                    <span class="tag">3 dernières fiches de salaire</span>
+                    <span class="tag">Attestation poursuites</span>
+                    <span class="tag">Lettre de motivation</span>
+                    <span class="tag">Coordonnées</span>
+                  </div>
+                  <p class="fine" style="margin:12px 0 0">
+                    À adapter selon vos procédures et exigences légales.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="inner">
+              <h2 style="margin-top:0">Formulaire</h2>
+              <form class="form" data-demo-form="Demande de dossier">
+                <div class="field">
+                  <span class="label">Nom</span>
+                  <input class="control" name="name" required placeholder="Nom Prénom" />
+                </div>
+                <div class="field">
+                  <span class="label">Email</span>
+                  <input class="control" name="email" type="email" required placeholder="vous@exemple.ch" />
+                </div>
+                <div class="field">
+                  <span class="label">Téléphone</span>
+                  <input class="control" name="phone" placeholder="+41 …" />
+                </div>
+                <div class="field">
+                  <span class="label">Type de demande</span>
+                  <select class="control" name="type" required>
+                    <option value="Location">Location</option>
+                    <option value="Achat">Achat</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <span class="label">Bien concerné (référence optionnelle)</span>
+                  <input class="control" name="ref" placeholder="ex : JUB-TRM-008" />
+                </div>
+                <div class="field full">
+                  <span class="label">Message</span>
+                  <textarea class="control" name="message" rows="5" required placeholder="Informations utiles, composition du ménage, délai…"></textarea>
+                </div>
+                <div class="actions">
+                  <button class="btn primary" type="submit">Envoyer la demande</button>
+                  <a class="btn" href="./index.html#recherche-rapide">Rechercher un bien</a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <img src="./assets/dckimmo-logo.svg" alt="DCKImmo" />
+            <div class="footer-desc">
+              Propriétés à vendre et à louer dans le Jura & Jura bernois. Contact direct, transparence et accompagnement.
+            </div>
+            <div class="footer-social">
+              <a class="social-btn" href="#" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-cols">
+            <div class="footer-col">
+              <div class="k">Navigation</div>
+              <a href="./biens.html">Biens</a>
+              <a href="./index.html#recherche-rapide">Recherche</a>
+              <a href="./contact.html">Contact</a>
+              <a href="./dossier.html">Demande de dossier</a>
+            </div>
+            <div class="footer-col">
+              <div class="k">Contact</div>
+              <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
+              <a href="tel:+41787338717">+41 78 733 87 17</a>
+              <div class="fine" style="margin-top:8px">Courtételle — Jura</div>
+            </div>
+            <div class="footer-col">
+              <div class="k">Rester informé</div>
+              <form class="footer-form" data-demo-form="Newsletter">
+                <input class="control" placeholder="Nom Prénom" />
+                <input class="control" type="email" placeholder="Email" />
+                <button class="btn primary" type="submit">S’inscrire</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="fine">© <span id="y"></span> DCKImmo — Deniz Demirci</div>
+          <div class="fine">Mentions légales • Politique de confidentialité</div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast" data-toast></div>
+    <script type="module" src="./scripts/app.js"></script>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+      (function () {
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get("type");
+        const id = params.get("id");
+        const typeEl = document.querySelector("select[name='type']");
+        const refEl = document.querySelector("input[name='ref']");
+        if (typeEl && (type === "Location" || type === "Achat")) typeEl.value = type;
+        if (refEl && id) refEl.value = id;
+      })();
+    </script>
+  </body>
+</html>

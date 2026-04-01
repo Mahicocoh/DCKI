@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DCKImmo — Immobilier</title>
+    <meta name="description" content="DCKImmo — immobilier : à vendre, à louer, recherche avec filtres, demande de dossier et contact." />
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body data-page="home">
+    <a id="top"></a>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="#top" aria-label="Remonter en haut">
+          <img src="./assets/1.jpg" alt="DCKImmo" />
+        </a>
+        <nav class="nav" data-nav>
+          <a href="./biens.html">Biens</a>
+          <a href="#recherche-rapide">Recherche</a>
+          <a href="./contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture>
+          <source src="./assets/190.mp4" type="video/mp4" />
+          <source src="./assets/14.mp4" type="video/mp4" />
+          <source src="./assets/12.mp4" type="video/mp4" />
+        </video>
+        <div class="overlay"></div>
+
+        <div class="container hero-content">
+          <h1>Propriétés à vendre et à louer dans le Jura & Jura bernois</h1>
+          
+          <div class="pill" style="margin:14px 0 18px">
+            <strong>Ventes</strong>
+            <span style="opacity:.65">•</span>
+            <strong>Locations</strong>
+            <span style="opacity:.65">•</span>
+            <strong>Estimation</strong>
+            <span style="opacity:.65">•</span>
+            <strong>Accompagnement</strong>
+          </div>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#recherche-rapide">Rechercher un bien</a>
+            <a class="btn primary" href="#exemples-biens">Voir les biens</a>
+          </div>
+        </div>
+      </section>
+
+      <script>
+        (function () {
+          const hero = document.querySelector(".hero");
+          const v = document.querySelector(".hero .hero-video");
+          if (!hero || !v) return;
+
+          let failed = false;
+          const markFailed = () => {
+            if (failed) return;
+            failed = true;
+            hero.classList.add("video-failed");
+            hero.classList.remove("video-ready");
+          };
+
+          const markReady = () => {
+            hero.classList.add("video-ready");
+            hero.classList.remove("video-failed");
+          };
+
+          const configure = () => {
+            v.autoplay = true;
+            v.loop = true;
+            v.muted = true;
+            v.defaultMuted = true;
+            v.playsInline = true;
+            v.setAttribute("autoplay", "");
+            v.setAttribute("loop", "");
+            v.setAttribute("muted", "");
+            v.setAttribute("playsinline", "");
+            v.setAttribute("webkit-playsinline", "");
+            v.setAttribute("disableremoteplayback", "");
+            v.setAttribute("disablepictureinpicture", "");
+            v.removeAttribute("controls");
+          };
+
+          const tryPlay = async () => {
+            try {
+              configure();
+              const p = v.play();
+              if (p && typeof p.then === "function") await p;
+              markReady();
+              return true;
+            } catch {
+              return false;
+            }
+          };
+
+          const runAttempts = () => {
+            let n = 0;
+            const step = async () => {
+              n += 1;
+              const ok = await tryPlay();
+              if (ok) return;
+              if (n >= 3) {
+                markFailed();
+                return;
+              }
+              window.setTimeout(step, 1400 * n);
+            };
+            step();
+          };
+
+          v.addEventListener("playing", markReady);
+          v.addEventListener("error", markFailed, { once: true });
+          v.addEventListener("stalled", () => window.setTimeout(markFailed, 3500), { once: true });
+
+          document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) runAttempts();
+          });
+
+          const onGesture = () => runAttempts();
+          document.addEventListener("touchstart", onGesture, { once: true, passive: true });
+          document.addEventListener("click", onGesture, { once: true });
+
+          runAttempts();
+        })();
+      </script>
+
+      <section class="section quick-search" id="recherche-rapide">
+        <div class="container">
+          <div class="is24-search">
+            <form data-home-search method="GET" action="./biens.html" id="home-search-form">
+              <div class="is24-tabs">
+                <input class="is24-tab-radio" type="radio" name="cat" value="" id="home-cat-all" checked />
+                <label class="is24-tab" for="home-cat-all">Tous</label>
+                <input class="is24-tab-radio" type="radio" name="cat" value="rent" id="home-cat-rent" />
+                <label class="is24-tab" for="home-cat-rent">Louer</label>
+                <input class="is24-tab-radio" type="radio" name="cat" value="sale" id="home-cat-sale" />
+                <label class="is24-tab" for="home-cat-sale">Acheter</label>
+              </div>
+
+              <div class="is24-body">
+                <div class="is24-field large">
+                  <span class="is24-label">Où?</span>
+                  <div class="autocomplete-wrapper">
+                    <input class="is24-control" name="q" id="home-q" list="localities-list" autocomplete="off" placeholder="Localité, NPA, Canton..." />
+                    <div class="autocomplete-list" id="home-autocomplete"></div>
+                  </div>
+                </div>
+                
+                <div class="is24-field">
+                  <span class="is24-label">Prix de</span>
+                  <input class="is24-control" name="minPrice" inputmode="numeric" placeholder="min" />
+                </div>
+                
+                <div class="is24-field">
+                  <span class="is24-label">à</span>
+                  <input class="is24-control" name="maxPrice" inputmode="numeric" placeholder="max" />
+                </div>
+
+                <div class="is24-field">
+                  <span class="is24-label">Pièces de</span>
+                  <select class="is24-control" name="minRooms">
+                    <option value="">indiff.</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                  </select>
+                </div>
+
+                <details class="is24-more">
+                  <summary class="is24-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                    Plus de filtres
+                  </summary>
+                  <div class="panel" style="margin-top:10px">
+                    <div class="inner">
+                      <div class="form">
+                        <div class="field">
+                          <span class="label">Région</span>
+                          <select class="control" name="region">
+                            <option value="">Toutes</option>
+                            <option value="Jura">Jura</option>
+                            <option value="Jura bernois">Jura bernois</option>
+                          </select>
+                        </div>
+                        <div class="field">
+                          <span class="label">Type</span>
+                          <select class="control" name="type">
+                            <option value="">Tous</option>
+                            <option value="Appartement">Appartement</option>
+                            <option value="Maison">Maison</option>
+                            <option value="Villa">Villa</option>
+                          </select>
+                        </div>
+                        <div class="field">
+                          <span class="label">Surface min (m²)</span>
+                          <input class="control" name="minSurface" inputmode="numeric" placeholder="ex : 70" />
+                        </div>
+                        <div class="field">
+                          <span class="label">Commune (exacte)</span>
+                          <input class="control" name="locality" placeholder="ex : Tavannes" />
+                        </div>
+                        <div class="field full">
+                          <span class="label">Caractéristiques</span>
+                          <div class="filter-chips">
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Cheminée"><span>Cheminée</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Jardin"><span>Jardin</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Terrasse"><span>Terrasse</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Balcon"><span>Balcon</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Garage"><span>Garage</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Ascenseur"><span>Ascenseur</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Calme"><span>Calme</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Rénové"><span>Rénové</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Neuf"><span>Neuf</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="tags" value="Proche gare"><span>Proche gare</span></label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+
+                <div class="is24-field" style="min-width:160px">
+                  <span class="is24-label" style="visibility:hidden">Action</span>
+                  <button type="submit" class="is24-btn primary" style="width:100%">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    Rechercher
+                  </button>
+                </div>
+                
+                <datalist id="localities-list">
+                  <option value="Delémont"></option>
+                  <option value="Porrentruy"></option>
+                  <option value="Saignelégier"></option>
+                  <option value="Courtételle"></option>
+                  <option value="Bassecourt"></option>
+                  <option value="Courroux"></option>
+                  <option value="Vicques"></option>
+                  <option value="Fontenais"></option>
+                  <option value="Alle"></option>
+                  <option value="Cornol"></option>
+                  <option value="Noirmont"></option>
+                  <option value="Moutier"></option>
+                  <option value="Biel/Bienne"></option>
+                  <option value="Tramelan"></option>
+                  <option value="Tavannes"></option>
+                  <option value="Sonceboz-Sombeval"></option>
+                  <option value="Saint-Imier"></option>
+                  <option value="Reconvilier"></option>
+                  <option value="Bévilard"></option>
+                  <option value="La Neuveville"></option>
+                </datalist>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="bonnes-affaires">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="margin:0">Bonnes affaires</h2>
+              <p class="lead" style="margin:8px 0 0">Prix attractifs, biens à saisir et opportunités du moment.</p>
+            </div>
+            <a class="btn primary" href="./biens.html">Tout voir</a>
+          </div>
+
+          <div class="hscroll" aria-label="Bonnes affaires">
+            <article class="card listing compact">
+              <a class="listing-link" href="./bien.html?id=JU-POR-002" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1600&q=70" alt="Maison familiale 6,5 pièces — Porrentruy" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <div class="deal-badge">Baisse de prix</div>
+                  <h3>Maison familiale 6,5 pièces — Porrentruy</h3>
+                  <div class="meta">Jura — Porrentruy • 6,5 pièces • 180 m²</div>
+                  <div class="chipRow">
+                    <span class="tag">Cheminée</span><span class="tag">Jardin</span><span class="tag">Garage</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 950’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing compact">
+              <a class="listing-link" href="./bien.html?id=JUB-TAV-M010" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=70" alt="Maison de village 6 pièces — Tavannes" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <div class="deal-badge blue">Charges incluses</div>
+                  <h3>Maison de village 6 pièces — Tavannes</h3>
+                  <div class="meta">Jura bernois — Tavannes • 6 pièces • 170 m²</div>
+                  <div class="chipRow">
+                    <span class="tag">Centre</span><span class="tag">Grenier</span><span class="tag">Cave</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’050 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing compact">
+              <a class="listing-link" href="./bien.html?id=JU-DEL-M001" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=70" alt="Maison 5,5 pièces — Delémont" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <div class="deal-badge">Coup de cœur</div>
+                  <h3>Maison 5,5 pièces — Delémont</h3>
+                  <div class="meta">Jura — Delémont • 5,5 pièces • 160 m²</div>
+                  <div class="chipRow">
+                    <span class="tag">Jardin</span><span class="tag">Garage</span><span class="tag">Terrasse</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 825’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing compact">
+              <a class="listing-link" href="./bien.html?id=JU-POR-M007" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1600&q=70" alt="Maison 5 pièces avec jardin — Porrentruy" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <div class="deal-badge blue">Disponible de suite</div>
+                  <h3>Maison 5 pièces avec jardin — Porrentruy</h3>
+                  <div class="meta">Jura — Porrentruy • 5 pièces • 140 m²</div>
+                  <div class="chipRow">
+                    <span class="tag">Jardin</span><span class="tag">Terrasse</span><span class="tag">Buanderie</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’250 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing compact">
+              <a class="listing-link" href="./bien.html?id=JUB-MOU-M003" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=70" alt="Maison individuelle 5,5 pièces — Moutier" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison individuelle 5,5 pièces — Moutier</h3>
+                  <div class="meta">Jura bernois — Moutier • 5,5 pièces • 150 m²</div>
+                  <div class="chipRow">
+                    <span class="tag">Lumineux</span><span class="tag">Sous-sol</span><span class="tag">Parking</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 680’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing compact">
+              <a class="listing-link" href="./bien.html?id=JUB-BIE-M008" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1600&q=70" alt="Maison urbaine 4,5 pièces — Biel/Bienne" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison urbaine 4,5 pièces — Biel/Bienne</h3>
+                  <div class="meta">Jura bernois — Biel/Bienne • 4,5 pièces • 115 m²</div>
+                  <div class="chipRow">
+                    <span class="tag">Proche gare</span><span class="tag">Moderne</span><span class="tag">Cour</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’350 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="exemples-biens">
+        <div class="container">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div>
+              <h2 style="margin:0">Biens</h2>
+              <p class="lead" style="margin:8px 0 0">Découvrez une sélection de biens à vendre et à louer.</p>
+            </div>
+            <a class="btn primary" href="./biens.html">Voir tous les biens</a>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:14px">
+            <article class="card listing">
+              <a class="listing-link" href="./bien.html?id=JU-DEL-M001" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=70" alt="Maison 5,5 pièces avec jardin et garage — Delémont" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(200,161,74,.95)"></span>
+                    <span style="font-size:13px">À vendre</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison 5,5 pièces avec jardin et garage — Delémont</h3>
+                  <div class="meta">Jura — Delémont • Maison • 5,5 pièces • 160 m²</div>
+                  <p class="desc">Maison familiale lumineuse, séjour traversant, cuisine équipée, 4 chambres, sous-sol et garage. Jardin plat et terrasse.</p>
+                  <div class="chipRow">
+                    <span class="tag">Jardin</span><span class="tag">Garage</span><span class="tag">Terrasse</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 825’000</div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing">
+              <a class="listing-link" href="./bien.html?id=JUB-TAV-M010" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=70" alt="Maison de village 6 pièces — Tavannes" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Maison</span>
+                  </div>
+                  <h3>Maison de village 6 pièces — Tavannes</h3>
+                  <div class="meta">Jura bernois — Tavannes • Maison • 6 pièces • 170 m²</div>
+                  <p class="desc">Maison de village, pièces spacieuses, cave et grenier. Petit espace extérieur. Commodités à pied.</p>
+                  <div class="chipRow">
+                    <span class="tag">Centre</span><span class="tag">Grenier</span><span class="tag">Cave</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 2’050 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+
+            <article class="card listing">
+              <a class="listing-link" href="./bien.html?id=JUB-BIE-003" aria-label="Ouvrir le détail du bien">
+                <div class="media">
+                  <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1600&q=70" alt="Appartement neuf 3,5 pièces — Biel/Bienne" loading="lazy" />
+                </div>
+                <div class="body">
+                  <div class="pill" style="margin-bottom:10px">
+                    <span style="width:8px;height:8px;border-radius:999px;background:rgba(120,210,255,.85)"></span>
+                    <span style="font-size:13px">À louer</span>
+                    <span style="opacity:.65;font-size:13px">•</span>
+                    <span style="opacity:.88;font-size:13px">Appartement</span>
+                  </div>
+                  <h3>Appartement neuf et moderne — Biel/Bienne</h3>
+                  <div class="meta">Jura bernois — Biel/Bienne • Appartement • 3,5 pièces • 82 m²</div>
+                  <p class="desc">Appartement moderne, loggia, ascenseur et finitions soignées. Proche transports et commerces.</p>
+                  <div class="chipRow">
+                    <span class="tag">Neuf</span><span class="tag">Loggia</span><span class="tag">Ascenseur</span>
+                  </div>
+                  <div class="listing-bottom">
+                    <div class="price">CHF 1’750 <span>/mois</span></div>
+                    <span class="btn small primary" style="pointer-events:none">Détails</span>
+                  </div>
+                </div>
+              </a>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="a-propos">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="margin:0">Qui sommes-nous ?</h2>
+              <p class="lead" style="margin:8px 0 0">
+                Je propose mes propres biens à vendre et à louer, avec un contact direct et sans intermédiaire. Mon objectif est de vous offrir transparence, réactivité et un accompagnement simple pour chaque demande, que ce soit pour visiter, acheter ou louer un bien.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid cols-2" style="margin-top:14px">
+            <div class="panel">
+              <div class="inner">
+                <h3 style="margin:0">À propos</h3>
+                <p class="lead" style="margin:10px 0 0">
+                  Actuellement, nous présentons nos propres biens à la vente et à la location, avec transparence et sérieux.
+                </p>
+              </div>
+            </div>
+            <div class="panel">
+              <div class="inner">
+                <h3 style="margin:0">Notre équipe</h3>
+                <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
+                  <a href="./contact.html#deniz-demirci" aria-label="Voir Deniz Demirci" style="display:flex;align-items:center;gap:12px;flex:1 1 260px">
+                    <div style="width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg, rgba(200,161,74,.35), rgba(11,42,58,.14));border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800">DD</div>
+                    <div>
+                      <div style="font-weight:800;letter-spacing:-0.01em">Deniz Demirci</div>
+                      <div class="fine">Conseiller immobilier — Courtételle</div>
+                    </div>
+                  </a>
+                  <a class="btn small primary" href="./contact.html#deniz-demirci" aria-label="Contacter Deniz Demirci">Contacter</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-subhead">
+            <h3 style="margin:0">Nos services</h3>
+          </div>
+          <div class="grid cols-3 why-grid">
+            <div class="card">
+              <div class="body">
+                <h3>Estimation juste</h3>
+                <p class="desc">Analyse locale et comparaison de biens pour positionner votre prix au plus près du marché.</p>
+                <a class="btn primary" href="./contact.html#formulaire">Demander une estimation</a>
+              </div>
+            </div>
+            <div class="card">
+              <div class="body">
+                <h3>Dossier complet</h3>
+                <p class="desc">Photos, plans, caractéristiques, visite virtuelle et filtrage des dossiers pour gagner du temps.</p>
+                <a class="btn primary" href="./dossier.html">Obtenir un dossier</a>
+              </div>
+            </div>
+            <div class="card">
+              <div class="body">
+                <h3>Visites 7j/7</h3>
+                <p class="desc">Créneaux élargis et suivi précis des demandes pour maximiser les chances de concrétiser.</p>
+                <a class="btn primary" href="./contact.html#formulaire">Demander une visite</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="confiance">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="margin:0">Confiance & transparence</h2>
+              <p class="lead" style="margin:8px 0 0">Une expérience premium, du premier contact jusqu’à la remise des clés.</p>
+            </div>
+            <a class="btn primary" href="./contact.html#deniz-demirci">Parler à un conseiller</a>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="k">Délai de réponse</div>
+              <div class="v">&lt; 24 h</div>
+              <div class="d">Retour rapide sur vos demandes, visites et dossiers.</div>
+            </div>
+            <div class="stat-card">
+              <div class="k">Accompagnement</div>
+              <div class="v">7j/7</div>
+              <div class="d">Créneaux élargis et suivi précis des visites.</div>
+            </div>
+            <div class="stat-card">
+              <div class="k">Marché local</div>
+              <div class="v">Jura + Jura bernois</div>
+              <div class="d">Expertise locale, estimation au prix juste.</div>
+            </div>
+            <div class="stat-card">
+              <div class="k">Dossiers</div>
+              <div class="v">Complets</div>
+              <div class="d">Photos, caractéristiques, documents et suivi centralisé.</div>
+            </div>
+          </div>
+
+          <div class="section-subhead">
+            <h3 style="margin:0">Avis clients</h3>
+            <div class="fine">Exemples de retours (démo)</div>
+          </div>
+
+          <div class="grid cols-3 testimonials">
+            <div class="card quote-card">
+              <div class="body">
+                <div class="quote">“Visite rapide, réponses claires et dossier parfaitement préparé. Très pro.”</div>
+                <div class="who">— Client achat, Delémont</div>
+              </div>
+            </div>
+            <div class="card quote-card">
+              <div class="body">
+                <div class="quote">“On a trouvé exactement ce qu’on cherchait. Suivi 7j/7 et très disponible.”</div>
+                <div class="who">— Client location, Tavannes</div>
+              </div>
+            </div>
+            <div class="card quote-card">
+              <div class="body">
+                <div class="quote">“Estimation précise et mise en valeur du bien. Photos + annonce top.”</div>
+                <div class="who">— Vendeur, Porrentruy</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <div class="container">
+          <div class="footer-grid">
+            <div class="panel">
+              <div class="inner">
+                <h2 style="margin-top:0">Contact</h2>
+                <p class="lead" style="margin-top:0">
+                  Une question, une demande de visite ou un dossier ? Utilisez le formulaire ci-contre.
+                </p>
+                <div class="contact-cards">
+                  <div class="contact-card">
+                    <div class="k">Contact</div>
+                    <div class="v">Deniz Demirci</div>
+                  </div>
+                  <div class="contact-card">
+                    <div class="k">Adresse</div>
+                    <div class="v">Courtételle</div>
+                  </div>
+                  <div class="contact-card">
+                    <div class="k">Email</div>
+                    <div class="v"><a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a></div>
+                  </div>
+                  <div class="contact-card">
+                    <div class="k">Téléphone</div>
+                    <div class="v"><a href="tel:+41787338717">+41 78 733 87 17</a></div>
+                  </div>
+                </div>
+                <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
+                  <iframe
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse&output=embed"
+                    title="Courtételle"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+                  <a class="btn primary" href="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
+                </div>
+                <p class="fine" style="margin:14px 0 0">Courtételle — Jura</p>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="inner">
+                <h2 style="margin-top:0">Formulaire</h2>
+                <form class="form" data-demo-form="Formulaire de contact">
+                  <div class="field">
+                    <span class="label">Votre nom</span>
+                    <input class="control" required placeholder="Nom Prénom" />
+                  </div>
+                  <div class="field">
+                    <span class="label">Email</span>
+                    <input class="control" type="email" required placeholder="vous@exemple.ch" />
+                  </div>
+                  <div class="field">
+                    <span class="label">Téléphone (optionnel)</span>
+                    <input class="control" placeholder="+41 …" />
+                  </div>
+                  <div class="field">
+                    <span class="label">Objet</span>
+                    <select class="control" required>
+                      <option>Demande de visite</option>
+                      <option>Question</option>
+                    </select>
+                  </div>
+                  <div class="field full">
+                    <span class="label">Message</span>
+                    <textarea class="control" rows="12" placeholder="Précisez le bien, la commune, vos disponibilités…" required></textarea>
+                  </div>
+                  <div class="actions">
+                    <button class="btn primary" type="submit">Envoyer</button>
+                    <a class="btn" href="./dossier.html">Demande de dossier</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div class="footer-brand">
+            <img src="./assets/1.jpg" alt="DCKImmo" />
+            <div class="footer-desc">
+              Propriétés à vendre et à louer dans le Jura & Jura bernois. Contact direct, transparence et accompagnement.
+            </div>
+            <div class="footer-social">
+              <a class="social-btn" href="#" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </a>
+              <a class="social-btn" href="#" aria-label="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-cols">
+            <div class="footer-col">
+              <div class="k">Navigation</div>
+              <a href="./biens.html">Biens</a>
+              <a href="./index.html#recherche-rapide">Recherche</a>
+              <a href="./contact.html">Contact</a>
+              <a href="./dossier.html">Demande de dossier</a>
+            </div>
+            <div class="footer-col">
+              <div class="k">Contact</div>
+              <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
+              <a href="tel:+41787338717">+41 78 733 87 17</a>
+              <div class="fine" style="margin-top:8px">Courtételle — Jura</div>
+            </div>
+            <div class="footer-col">
+              <div class="k">Rester informé</div>
+              <form class="footer-form" data-demo-form="Newsletter">
+                <input class="control" placeholder="Nom Prénom" />
+                <input class="control" type="email" placeholder="Email" />
+                <button class="btn primary" type="submit">S’inscrire</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="fine">© <span id="y"></span> DCKImmo — Deniz Demirci</div>
+          <div class="fine">Mentions légales • Politique de confidentialité</div>
+        </div>
+      </div>
+    </footer>
+
+    <div class="toast" data-toast></div>
+    <script type="module" src="./scripts/app.js"></script>
+    <script>
+      document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+  </body>
+</html>
