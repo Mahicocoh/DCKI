@@ -34,12 +34,30 @@
 
         <div class="section" style="padding:18px 0 0">
           <div class="listing-page">
-            <div class="listing-gallery card" data-gallery>
-              <div class="media">
-                <img data-gallery-img alt="" src="./assets/1.jpg" />
-                <button class="nav prev" type="button" aria-label="Photo précédente" data-gallery-prev>‹</button>
-                <button class="nav next" type="button" aria-label="Photo suivante" data-gallery-next>›</button>
-                <div class="count" data-gallery-count></div>
+            <div>
+              <div class="listing-gallery card" data-gallery>
+                <div class="media">
+                  <img data-gallery-img alt="" src="./assets/1.jpg" />
+                  <button class="nav prev" type="button" aria-label="Photo précédente" data-gallery-prev>‹</button>
+                  <button class="nav next" type="button" aria-label="Photo suivante" data-gallery-next>›</button>
+                  <div class="count" data-gallery-count></div>
+                </div>
+              </div>
+
+              <div style="margin-top:12px">
+                <div class="map" aria-label="Carte Google Maps du bien">
+                  <iframe
+                    data-listing-map-iframe
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    src="https://www.google.com/maps?q=Suisse&output=embed"
+                    title="Carte"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+                  <a class="btn primary" data-listing-open-maps href="https://www.google.com/maps?q=Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
+                </div>
               </div>
             </div>
 
@@ -82,19 +100,6 @@
                     <div class="v">Courtételle</div>
                   </div>
                 </div>
-                <div style="margin-top:12px" class="map" aria-label="Carte Google Maps">
-                  <iframe
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse&output=embed"
-                    title="Courtételle"
-                    allowfullscreen
-                  ></iframe>
-                </div>
-                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-                  <a class="btn primary" href="https://www.google.com/maps?q=Impasse%20de%20la%20Basilique%2C%202852%20Courte%CC%81telle%2C%20Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
-                  <a class="btn" href="tel:+41787338717">Appeler</a>
-                </div>
 
                 <h3 style="margin:18px 0 8px">Demande de visite</h3>
                 <form class="form" data-demo-form="Demande de visite">
@@ -109,6 +114,15 @@
                   <div class="field">
                     <span class="label">Téléphone</span>
                     <input class="control" required placeholder="+41 …" />
+                  </div>
+                  <div class="field">
+                    <span class="label">Type de demande</span>
+                    <select class="control" required>
+                      <option>Demande de visite</option>
+                      <option>Demande de dossier</option>
+                      <option>Estimation</option>
+                      <option>Question</option>
+                    </select>
                   </div>
                   <div class="field full">
                     <span class="label">Message</span>
@@ -491,6 +505,16 @@
           const type = listing.category === "sale" ? "Achat" : "Location";
           dossierBtn.setAttribute("href", `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`);
         }
+
+        const mapIframe = document.querySelector("[data-listing-map-iframe]");
+        const openMaps = document.querySelector("[data-listing-open-maps]");
+        const mapQuery = `${listing.locality}, ${listing.region}, Suisse`;
+        const mapQ = encodeURIComponent(mapQuery);
+        if (mapIframe) {
+          mapIframe.src = `https://www.google.com/maps?q=${mapQ}&output=embed`;
+          mapIframe.title = mapQuery;
+        }
+        if (openMaps) openMaps.href = `https://www.google.com/maps?q=${mapQ}`;
 
         const photos = Array.isArray(listing.photos) && listing.photos.length ? listing.photos : ["./assets/1.jpg"];
         let idx = 0;

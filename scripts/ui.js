@@ -94,3 +94,25 @@ export function initAutocomplete(inputId, listId) {
     }
   });
 }
+
+export function mountWhatsAppFab() {
+  if (document.querySelector(".whatsapp-fab")) return;
+
+  const telHref = document.querySelector("a[href^='tel:']")?.getAttribute("href") || "";
+  const raw = (telHref.startsWith("tel:") ? telHref.slice(4) : telHref).trim();
+  const fallback = "+41787338717";
+  const phone = raw || fallback;
+  const waPhone = phone.replace(/[^\d]/g, "");
+  if (!waPhone) return;
+
+  const a = document.createElement("a");
+  a.className = "whatsapp-fab";
+  a.href = `https://wa.me/${waPhone}`;
+  a.target = "_blank";
+  a.rel = "noreferrer";
+  a.setAttribute("aria-label", "WhatsApp");
+  a.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"><path d="M19.11 17.23c-.23-.12-1.34-.66-1.55-.74-.21-.08-.37-.12-.53.12-.16.23-.61.74-.75.89-.14.16-.28.18-.51.06-.23-.12-.99-.36-1.89-1.14-.7-.62-1.17-1.39-1.31-1.62-.14-.23-.01-.35.11-.47.11-.11.23-.28.35-.42.12-.14.16-.23.23-.39.08-.16.04-.3-.02-.42-.06-.12-.53-1.28-.73-1.75-.19-.45-.38-.39-.53-.39h-.45c-.16 0-.42.06-.64.3-.21.23-.83.81-.83 1.98 0 1.16.85 2.29.97 2.45.12.16 1.67 2.55 4.04 3.58.56.24 1 .38 1.34.49.56.18 1.07.15 1.48.09.45-.07 1.34-.55 1.53-1.08.19-.53.19-.98.13-1.08-.06-.1-.21-.16-.44-.28z"/><path d="M16 3C8.83 3 3 8.58 3 15.45c0 2.41.73 4.76 2.1 6.78L4 29l7.02-1.82c1.88 1.01 4 1.55 5.98 1.55 7.17 0 13-5.58 13-12.45S23.17 3 16 3zm0 23.52c-1.86 0-3.63-.52-5.14-1.5l-.37-.24-4.17 1.08 1.12-4.03-.25-.39a10.6 10.6 0 0 1-1.75-5.99C5.44 9.83 10.23 5.6 16 5.6c5.77 0 10.56 4.23 10.56 9.85 0 5.62-4.79 10.07-10.56 10.07z"/></svg>';
+
+  document.body.appendChild(a);
+}

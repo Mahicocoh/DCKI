@@ -34,6 +34,8 @@ function render(listing) {
   const factsEl = document.querySelector("[data-listing-facts]");
   const desc = document.querySelector("[data-listing-desc]");
   const featuresEl = document.querySelector("[data-listing-features]");
+  const mapIframe = document.querySelector("[data-listing-map-iframe]");
+  const openMaps = document.querySelector("[data-listing-open-maps]");
 
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   if (pill) {
@@ -73,6 +75,14 @@ function render(listing) {
 
   const features = getListingFeatures(listing, 36);
   if (featuresEl) featuresEl.innerHTML = features.map((f) => `<span class="tag">${escapeHtml(f)}</span>`).join("");
+
+  const mapQuery = `${listing.locality}, ${listing.region}, Suisse`;
+  const mapQ = encodeURIComponent(mapQuery);
+  if (mapIframe) {
+    mapIframe.src = `https://www.google.com/maps?q=${mapQ}&output=embed`;
+    mapIframe.title = mapQuery;
+  }
+  if (openMaps) openMaps.href = `https://www.google.com/maps?q=${mapQ}`;
 
   state.photos = getListingPhotos(listing, 10);
   setPhoto(0);
