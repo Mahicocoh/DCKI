@@ -2,6 +2,7 @@ import { CATEGORY_LABEL, getListingFacts } from "./listings-data.js";
 import { formatCHF, formatRooms } from "./ui.js";
 
 export function listingCard(listing) {
+  const statusLabel = listing.status === "sold" ? "Vendu" : listing.status === "rented" ? "Loué" : "";
   const tags = (listing.tags || []).slice(0, 3).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
   const price = `${formatCHF(listing.price)}${listing.priceSuffix ? ` <span>${escapeHtml(listing.priceSuffix)}</span>` : ""}`;
   const desc = listing.description ? clampText(listing.description, 130) : "";
@@ -15,10 +16,11 @@ export function listingCard(listing) {
   const href = `./bien.html?id=${encodeURIComponent(listing.id)}`;
 
   return `
-    <article class="card listing" data-id="${escapeHtml(listing.id)}">
+    <article class="card listing ${statusLabel ? "is-unavailable" : ""}" data-id="${escapeHtml(listing.id)}">
       <a class="listing-link" href="${escapeAttr(href)}" aria-label="Ouvrir le détail du bien">
         <div class="media">
           <img src="${escapeAttr(listing.image)}" alt="${escapeAttr(listing.title)}" loading="lazy" />
+          ${statusLabel ? `<div class="listing-status-overlay">${escapeHtml(statusLabel)}</div>` : ""}
         </div>
         <div class="body">
           <div class="pill" style="margin-bottom:10px">
@@ -26,6 +28,7 @@ export function listingCard(listing) {
             <span style="font-size:13px">${escapeHtml(CATEGORY_LABEL[listing.category] || "")}</span>
             <span style="opacity:.65;font-size:13px">•</span>
             <span style="opacity:.88;font-size:13px">${escapeHtml(listing.propertyType)}</span>
+            ${statusLabel ? `<span class="status-badge">${escapeHtml(statusLabel)}</span>` : ""}
           </div>
           <h3>${escapeHtml(listing.title)}</h3>
           <div class="meta">${escapeHtml(meta)}</div>

@@ -116,3 +116,28 @@ export function mountWhatsAppFab() {
 
   document.body.appendChild(a);
 }
+
+export function mountToTopFab() {
+  if (document.querySelector(".to-top-fab")) return;
+
+  const a = document.createElement("a");
+  a.className = "to-top-fab";
+  a.href = "#";
+  a.setAttribute("aria-label", "Remonter en haut");
+  a.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>';
+
+  const update = () => {
+    const show = window.scrollY > 500;
+    a.classList.toggle("show", show);
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  update();
+
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  document.body.appendChild(a);
+}

@@ -2,6 +2,7 @@ const SEED_LISTINGS = [
   {
     id: "JU-DEL-001",
     category: "rent",
+    status: "rented",
     propertyType: "Appartement",
     title: "Magnifique appartement de 4.5 pièces au centre de Delémont",
     description: "Ce superbe appartement de 4.5 pièces situé au cœur de Delémont vous séduira par ses volumes généreux et sa luminosité exceptionnelle. Entièrement rénové en 2023, il offre un cadre de vie moderne tout en conservant un charme authentique. La cuisine ouverte, entièrement agencée avec des appareils électroménagers de haute qualité (four à vapeur, plaque à induction, lave-vaisselle silencieux), s'ouvre sur un vaste séjour baigné de lumière donnant accès à un grand balcon orienté plein sud. Les trois chambres à coucher sont spacieuses, avec un magnifique parquet en chêne massif. La salle de bain principale dispose d'une baignoire et d'une douche à l'italienne, avec une colonne de lavage privative (lave-linge et sèche-linge). Une cave privative et une place de parc couverte complètent ce bien d'exception. Idéal pour une famille ou un couple recherchant le confort à proximité immédiate des commerces, des écoles et de la gare.",
@@ -17,6 +18,7 @@ const SEED_LISTINGS = [
   {
     id: "JU-POR-002",
     category: "sale",
+    status: "sold",
     propertyType: "Maison",
     title: "Maison familiale individuelle de 6.5 pièces avec grand jardin arboré",
     description: "Découvrez cette splendide maison individuelle de 6.5 pièces située dans un quartier résidentiel très prisé de Porrentruy. Construite sur une parcelle de plus de 800 m², cette propriété offre un cadre de vie idyllique, calme et sans vis-à-vis. Au rez-de-chaussée, vous trouverez un hall d'entrée accueillant, un WC visiteurs, ainsi qu'une vaste pièce à vivre comprenant un salon avec cheminée, une salle à manger et une cuisine moderne fermée mais ouvrable. De grandes baies vitrées permettent d'accéder directement à la terrasse couverte et au jardin magnifiquement arboré et clôturé. À l'étage, l'espace nuit se compose de quatre grandes chambres, dont une suite parentale avec dressing et salle de douche privative. Une grande salle de bain familiale avec double vasque complète ce niveau. Le sous-sol est entièrement excavé avec un grand garage double, un atelier, une buanderie et une cave à vin. Chauffage par pompe à chaleur et panneaux solaires photovoltaïques. Une opportunité rare sur le marché !",
@@ -496,6 +498,7 @@ export const LOCALITIES = [
   { name: "Courtedoux", region: "Jura", zip: "2905" },
   { name: "Courtételle", region: "Jura", zip: "2852" },
   { name: "Bassecourt", region: "Jura", zip: "2854" },
+  { name: "Glovelier", region: "Jura", zip: "2855" },
   { name: "Courroux", region: "Jura", zip: "2822" },
   { name: "Vicques", region: "Jura", zip: "2824" },
   { name: "Fontenais", region: "Jura", zip: "2902" },

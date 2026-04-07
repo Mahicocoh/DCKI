@@ -37,6 +37,7 @@ function render(listing) {
   const mapIframe = document.querySelector("[data-listing-map-iframe]");
   const openMaps = document.querySelector("[data-listing-open-maps]");
 
+  const statusLabel = listing.status === "sold" ? "Vendu" : listing.status === "rented" ? "Loué" : "";
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   if (pill) {
     pill.innerHTML = `
@@ -46,6 +47,7 @@ function render(listing) {
       <span style="opacity:.85">${escapeHtml(listing.propertyType)}</span>
       <span style="opacity:.65">•</span>
       <span style="opacity:.85">${escapeHtml(listing.id)}</span>
+      ${statusLabel ? `<span style="opacity:.65">•</span><span style="opacity:.95">${escapeHtml(statusLabel)}</span>` : ""}
     `;
   }
 
