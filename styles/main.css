@@ -1,5 +1,5 @@
 :root{
-  --bg:#f6f7fb;
+  --bg:#ffffff;
   --surface:#ffffff;
   --card:#ffffff;
   --text:#0f1720;
@@ -22,9 +22,7 @@ body{
   margin:0;
   font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   color:var(--text);
-  background:radial-gradient(1000px 650px at 12% 0%, rgba(11,42,58,.12), transparent 62%),
-             radial-gradient(900px 600px at 88% 10%, rgba(200,161,74,.16), transparent 58%),
-             linear-gradient(180deg, #f6f7fb, #ffffff 55%, #f6f7fb);
+  background:#ffffff;
 }
 
 #recherche-rapide,#exemples-biens,#contact,#deniz-demirci,#formulaire{scroll-margin-top:120px}
@@ -202,9 +200,7 @@ button,input,select,textarea{font:inherit}
 .section h2{margin:0 0 12px;font-size:28px;letter-spacing:-0.015em}
 .section .lead{margin:0 0 22px;color:rgba(15,23,32,.72);max-width:840px;line-height:1.6}
 .section.alt{
-  background:radial-gradient(800px 380px at 12% 0%, rgba(255,45,109,.10), transparent 55%),
-             radial-gradient(720px 360px at 88% 20%, rgba(200,161,74,.14), transparent 58%),
-             linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.86));
+  background:#ffffff;
   border-top:1px solid rgba(15,23,32,.08);
   border-bottom:1px solid rgba(15,23,32,.08);
 }
@@ -478,7 +474,7 @@ button,input,select,textarea{font:inherit}
   padding: 16px 32px;
   font-size: 16px;
   font-weight: 600;
-  background: #f6f7fb;
+  background: #ffffff;
   border: none;
   border-right: 1px solid var(--line);
   color: var(--muted);
@@ -574,7 +570,7 @@ button,input,select,textarea{font:inherit}
   border-bottom: none;
 }
 .autocomplete-item:hover, .autocomplete-item.active {
-  background: #f6f7fb;
+  background: #ffffff;
   color: var(--accent);
 }
 .autocomplete-item .region {
@@ -601,7 +597,7 @@ button,input,select,textarea{font:inherit}
   white-space: nowrap;
 }
 .is24-btn:hover{
-  background: #f6f7fb;
+  background: #ffffff;
 }
 .is24-btn.primary{
   background: linear-gradient(90deg, var(--accent), var(--accent2));
@@ -727,9 +723,7 @@ button,input,select,textarea{font:inherit}
 
 .loader{
   position:fixed;inset:0;z-index:100;
-  background:radial-gradient(900px 520px at 18% 0%, rgba(11,42,58,.10), transparent 62%),
-             radial-gradient(900px 520px at 82% 10%, rgba(200,161,74,.14), transparent 58%),
-             linear-gradient(180deg, #ffffff, #f6f7fb);
+  background:#ffffff;
   display:flex;align-items:center;justify-content:center;
 }
 .loader .box{
@@ -780,7 +774,7 @@ button,input,select,textarea{font:inherit}
   .about-grid{grid-template-columns:1fr}
 }
 @media (max-width: 640px){
-  body{background:#f6f7fb}
+  body{background:#ffffff}
   .grid.cols-3,.grid.cols-2{grid-template-columns:1fr}
   .field{grid-column:1 / -1}
   .hero{min-height:58vh;padding:26px 0 20px;align-items:center}
