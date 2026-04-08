@@ -86,7 +86,7 @@ button,input,select,textarea{font:inherit}
 
 .hero{
   position:relative;
-  min-height:72vh;
+  min-height:100vh;
   display:flex;
   align-items:flex-end;
   padding:46px 0 34px;
@@ -94,6 +94,11 @@ button,input,select,textarea{font:inherit}
   border-bottom:1px solid var(--line);
   color:#ffffff;
   background:#070b10 url("https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=2000&q=70") center/cover no-repeat;
+}
+.hero-content{animation:hero-content-in .9s cubic-bezier(.2,.8,.2,1) .05s both}
+@keyframes hero-content-in{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:translateY(0)}
 }
 .bns-pill{
   display:inline-flex;
@@ -239,8 +244,8 @@ button,input,select,textarea{font:inherit}
   .team-photo {flex:1;margin-top:0}
 }
 
-.quick-search{padding-top:0}
-.quick-search .panel{margin-top:-56px}
+.quick-search{padding-top:24px}
+.quick-search .panel{margin-top:0}
 
 .section{padding:44px 0}
 .section h2{margin:0 0 12px;font-size:28px;letter-spacing:-0.015em}
@@ -322,6 +327,10 @@ button,input,select,textarea{font:inherit}
 
 .quote-card .quote{font-size:14.5px;line-height:1.6;color:rgba(15,23,32,.86)}
 .quote-card .who{margin-top:12px;color:rgba(15,23,32,.65);font-size:13px;font-weight:650}
+ .trust-content .testimonials .quote-card{height:100%}
+ .trust-content .testimonials .quote-card .body{padding:18px 18px 18px;display:flex;flex-direction:column;min-height:200px}
+ .trust-content .testimonials .quote-card .quote{font-size:16px;line-height:1.7;font-weight:650}
+ .trust-content .testimonials .quote-card .who{margin-top:auto;font-size:13.5px;font-weight:750}
 
 .grid{display:grid;gap:16px}
 .grid.cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}
@@ -862,7 +871,7 @@ button,input,select,textarea{font:inherit}
   body{background:#ffffff}
   .grid.cols-3,.grid.cols-2{grid-template-columns:1fr}
   .field{grid-column:1 / -1}
-  .hero{min-height:58vh;padding:26px 0 20px;align-items:center}
+  .hero{min-height:100vh;padding:26px 0 22px;align-items:flex-end}
   .hero h1{font-size:28px;line-height:1.1}
   .hero .overlay{background:linear-gradient(180deg, rgba(7,11,16,.18), rgba(7,11,16,.46) 62%, rgba(7,11,16,.62))}
   .brand img{height:56px}
@@ -877,10 +886,17 @@ button,input,select,textarea{font:inherit}
   .hero .pill{justify-content:center;flex-wrap:wrap;gap:6px;padding:7px 10px}
   .hero-actions{justify-content:center;flex-direction:column;align-items:stretch}
   .hero-actions .btn{width:100%}
-  .quick-search .panel{margin-top:-36px}
+  .quick-search .panel{margin-top:0}
   .page-hero{min-height:44vh;padding:30px 0 22px;align-items:flex-end}
   .page-hero h1{font-size:30px}
   .footer-cols{grid-template-columns:1fr}
+}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.is-visible{opacity:1;transform:translateY(0)}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .hero-content{animation:none}
 }
 
  .hero-services{

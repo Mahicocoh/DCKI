@@ -233,3 +233,25 @@ export function mountCardGalleries() {
     setIndex(0);
   }
 }
+
+export function mountReveals() {
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const targets = document.querySelectorAll("main > section:not(.hero)");
+  if (!targets.length) return;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add("is-visible");
+        io.unobserve(e.target);
+      }
+    },
+    { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
+  );
+
+  for (const el of targets) {
+    el.classList.add("reveal");
+    io.observe(el);
+  }
+}
