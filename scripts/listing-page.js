@@ -76,7 +76,8 @@ function render(listing) {
   if (desc) desc.textContent = listing.description || "";
 
   const features = getListingFeatures(listing, 36);
-  if (featuresEl) featuresEl.innerHTML = features.map((f) => `<span class="tag">${escapeHtml(f)}</span>`).join("");
+  const outFeatures = statusLabel ? [statusLabel, ...features.filter((f) => f !== statusLabel)] : features;
+  if (featuresEl) featuresEl.innerHTML = outFeatures.map((f) => `<span class="tag">${escapeHtml(f)}</span>`).join("");
 
   const mapQuery = `${listing.locality}, ${listing.region}, Suisse`;
   const mapQ = encodeURIComponent(mapQuery);
