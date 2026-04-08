@@ -1,5 +1,5 @@
 import { CATEGORY_LABEL, getListingFacts } from "./listings-data.js";
-import { formatCHF, formatRooms } from "./ui.js";
+import { formatCHF, formatRooms, mountCardGalleries } from "./ui.js";
 
 export function listingCard(listing) {
   const statusLabel = listing.status === "sold" ? "Vendu" : listing.status === "rented" ? "Loué" : "";
@@ -46,6 +46,7 @@ export function listingCard(listing) {
 
 export function renderListings(target, listings) {
   target.innerHTML = listings.map(listingCard).join("");
+  mountCardGalleries();
 }
 
 export function escapeHtml(s) {

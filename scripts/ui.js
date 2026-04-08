@@ -1,4 +1,4 @@
-import { LOCALITIES, normalizeForSearch } from "./listings-data.js";
+import { LOCALITIES, normalizeForSearch, LISTINGS, getListingPhotos } from "./listings-data.js";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -140,4 +140,96 @@ export function mountToTopFab() {
   });
 
   document.body.appendChild(a);
+}
+
+function getListingIdFromHref(href) {
+  try {
+    const u = new URL(href, window.location.href);
+    const id = u.searchParams.get("id");
+    return id ? String(id) : "";
+  } catch {
+    return "";
+  }
+}
+
+function getCardListingId(card) {
+  const fromData = card?.getAttribute("data-id") || "";
+  if (fromData) return fromData;
+  const href = card?.querySelector("a[href*='bien.html']")?.getAttribute("href") || "";
+  return getListingIdFromHref(href);
+}
+
+function getCardPhotos(card) {
+  const img = card.querySelector(".media img");
+  const fallback = img?.getAttribute("src") ? [img.getAttribute("src")] : [];
+  const id = getCardListingId(card);
+  if (!id) return fallback;
+  const listing = LISTINGS.find((l) => l.id === id);
+  if (!listing) return fallback;
+  return getListingPhotos(listing, 10);
+}
+
+export function mountCardGalleries() {
+  for (const card of document.querySelectorAll(".card.listing")) {
+    const media = card.querySelector(".media");
+    const img = media?.querySelector("img");
+    if (!media || !img) continue;
+    if (media.querySelector("[data-card-prev]")) continue;
+
+    const photos = getCardPhotos(card);
+    if (!photos || photos.length <= 1) continue;
+
+    let idx = 0;
+    const count = document.createElement("span");
+    count.className = "card-gallery-count";
+    count.setAttribute("data-card-count", "");
+
+    const prev = document.createElement("span");
+    prev.className = "card-gallery-nav prev";
+    prev.setAttribute("role", "button");
+    prev.setAttribute("tabindex", "0");
+    prev.setAttribute("aria-label", "Photo précédente");
+    prev.setAttribute("data-card-prev", "");
+    prev.textContent = "‹";
+
+    const next = document.createElement("span");
+    next.className = "card-gallery-nav next";
+    next.setAttribute("role", "button");
+    next.setAttribute("tabindex", "0");
+    next.setAttribute("aria-label", "Photo suivante");
+    next.setAttribute("data-card-next", "");
+    next.textContent = "›";
+
+    const setIndex = (n) => {
+      const len = photos.length;
+      idx = ((n % len) + len) % len;
+      img.src = photos[idx];
+      count.textContent = `${idx + 1} / ${len}`;
+    };
+
+    const onPrev = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIndex(idx - 1);
+    };
+    const onNext = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIndex(idx + 1);
+    };
+
+    prev.addEventListener("click", onPrev);
+    next.addEventListener("click", onNext);
+    prev.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") onPrev(e);
+    });
+    next.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") onNext(e);
+    });
+
+    media.appendChild(prev);
+    media.appendChild(next);
+    media.appendChild(count);
+    setIndex(0);
+  }
 }
