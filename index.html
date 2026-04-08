@@ -35,91 +35,20 @@
         <div class="container hero-content">
           <h1>Immobilier Jura &amp; Jura bernois</h1>
           <p style="margin:0 0 18px">Louer ou acheter dans le Jura, simplement.</p>
-          <a
-            class="bns-pill"
-            href="https://www.snb.ch/fr/the-snb/mandates-goals/statistics/statistics-pub/current_interest_exchange_rates"
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Voir le taux directeur sur le site de la BNS"
-          >
-            <span class="bns-k">Taux directeur BNS</span>
-            <span class="sep">•</span>
-            <span class="bns-v">0,00%</span>
-            <span class="sep">•</span>
-            <span class="bns-d">depuis 20.06.2025</span>
-          </a>
-          
-          <div class="pill" style="margin:14px 0 18px">
-            <strong>Ventes</strong>
-            <span style="opacity:.65">•</span>
-            <strong>Locations</strong>
-            <span style="opacity:.65">•</span>
-            <strong>Estimation</strong>
-            <span style="opacity:.65">•</span>
-            <strong>Accompagnement</strong>
-          </div>
 
+          <div class="hero-services" aria-label="Services">
+            <span>Vente</span>
+            <span class="dot">•</span>
+            <span>Location</span>
+            <span class="dot">•</span>
+            <span>Estimation</span>
+            <span class="dot">•</span>
+            <span>Accompagnement</span>
+          </div>
+          
           <div class="hero-actions">
             <a class="btn primary" href="#recherche-rapide">Rechercher un bien</a>
             <a class="btn primary" href="#exemples-biens">Voir les biens</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="actus">
-        <div class="container">
-          <div class="section-head">
-            <div>
-              <h2 style="margin:0">Actualités immobilières</h2>
-              <p class="lead" style="margin:8px 0 0">Tendances du marché suisse.</p>
-            </div>
-            <a class="btn primary" href="https://www.ubs.com/ch/fr/services/guide/mortgages-and-financing/articles/real-estate-market-and-prices.html" target="_blank" rel="noreferrer">Lire l’analyse UBS</a>
-          </div>
-
-          <div class="news-strip" aria-label="Actualités immobilières">
-            <div class="news-track">
-              <div class="news-card">
-                <div class="k">Perspectives 2026</div>
-                <div class="t">Les prix des logements en propriété devraient augmenter d’environ 3% en 2026.</div>
-              </div>
-              <div class="news-card">
-                <div class="k">Marché 2025</div>
-                <div class="t">Les prix des logements en propriété ont augmenté de 4,1% sur un an.</div>
-              </div>
-              <div class="news-card">
-                <div class="k">Location</div>
-                <div class="t">Les loyers proposés sont supérieurs d’environ 1,2% à ceux de l’année précédente.</div>
-              </div>
-              <div class="news-card">
-                <div class="k">Risque</div>
-                <div class="t">L’UBS Swiss Real Estate Bubble Index indique un risque de bulle modéré.</div>
-              </div>
-              <div class="news-card">
-                <div class="k">Conseil</div>
-                <div class="t">Anticipez les dossiers: documents prêts, financement validé et visites rapides.</div>
-              </div>
-
-              <div class="news-card" aria-hidden="true">
-                <div class="k">Perspectives 2026</div>
-                <div class="t">Les prix des logements en propriété devraient augmenter d’environ 3% en 2026.</div>
-              </div>
-              <div class="news-card" aria-hidden="true">
-                <div class="k">Marché 2025</div>
-                <div class="t">Les prix des logements en propriété ont augmenté de 4,1% sur un an.</div>
-              </div>
-              <div class="news-card" aria-hidden="true">
-                <div class="k">Location</div>
-                <div class="t">Les loyers proposés sont supérieurs d’environ 1,2% à ceux de l’année précédente.</div>
-              </div>
-              <div class="news-card" aria-hidden="true">
-                <div class="k">Risque</div>
-                <div class="t">L’UBS Swiss Real Estate Bubble Index indique un risque de bulle modéré.</div>
-              </div>
-              <div class="news-card" aria-hidden="true">
-                <div class="k">Conseil</div>
-                <div class="t">Anticipez les dossiers: documents prêts, financement validé et visites rapides.</div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -164,7 +93,6 @@
               configure();
               const p = v.play();
               if (p && typeof p.then === "function") await p;
-              markReady();
               return true;
             } catch {
               return false;
@@ -186,9 +114,9 @@
             step();
           };
 
+          v.addEventListener("timeupdate", markReady, { once: true });
           v.addEventListener("playing", markReady);
           v.addEventListener("error", markFailed, { once: true });
-          v.addEventListener("stalled", () => window.setTimeout(markFailed, 3500), { once: true });
 
           document.addEventListener("visibilitychange", () => {
             if (!document.hidden) runAttempts();
@@ -595,6 +523,67 @@
                 </div>
               </a>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="actus">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="margin:0">Actualités immobilières</h2>
+              <p class="lead" style="margin:8px 0 0">Tendances du marché suisse.</p>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <a class="btn" href="https://www.snb.ch/fr/the-snb/mandates-goals/statistics/statistics-pub/current_interest_exchange_rates" target="_blank" rel="noreferrer">Taux BNS 0,00%</a>
+              <a class="btn primary" href="https://www.ubs.com/ch/fr/services/guide/mortgages-and-financing/articles/real-estate-market-and-prices.html" target="_blank" rel="noreferrer">Lire l’analyse UBS</a>
+            </div>
+          </div>
+
+          <div class="news-strip" aria-label="Actualités immobilières">
+            <div class="news-track">
+              <div class="news-card">
+                <div class="k">Perspectives 2026</div>
+                <div class="t">Les prix des logements en propriété devraient augmenter d’environ 3% en 2026.</div>
+              </div>
+              <div class="news-card">
+                <div class="k">Marché 2025</div>
+                <div class="t">Les prix des logements en propriété ont augmenté de 4,1% sur un an.</div>
+              </div>
+              <div class="news-card">
+                <div class="k">Location</div>
+                <div class="t">Les loyers proposés sont supérieurs d’environ 1,2% à ceux de l’année précédente.</div>
+              </div>
+              <div class="news-card">
+                <div class="k">Risque</div>
+                <div class="t">L’UBS Swiss Real Estate Bubble Index indique un risque de bulle modéré.</div>
+              </div>
+              <div class="news-card">
+                <div class="k">Conseil</div>
+                <div class="t">Anticipez les dossiers: documents prêts, financement validé et visites rapides.</div>
+              </div>
+
+              <div class="news-card" aria-hidden="true">
+                <div class="k">Perspectives 2026</div>
+                <div class="t">Les prix des logements en propriété devraient augmenter d’environ 3% en 2026.</div>
+              </div>
+              <div class="news-card" aria-hidden="true">
+                <div class="k">Marché 2025</div>
+                <div class="t">Les prix des logements en propriété ont augmenté de 4,1% sur un an.</div>
+              </div>
+              <div class="news-card" aria-hidden="true">
+                <div class="k">Location</div>
+                <div class="t">Les loyers proposés sont supérieurs d’environ 1,2% à ceux de l’année précédente.</div>
+              </div>
+              <div class="news-card" aria-hidden="true">
+                <div class="k">Risque</div>
+                <div class="t">L’UBS Swiss Real Estate Bubble Index indique un risque de bulle modéré.</div>
+              </div>
+              <div class="news-card" aria-hidden="true">
+                <div class="k">Conseil</div>
+                <div class="t">Anticipez les dossiers: documents prêts, financement validé et visites rapides.</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
