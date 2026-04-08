@@ -1,5 +1,5 @@
 import { mountLoader } from "./loader.js";
-import { setActiveNav, wireForms, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountReveals } from "./ui.js";
+import { setActiveNav, wireForms, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountReveals, mountHeroTopbar } from "./ui.js";
 import { initRecherche } from "./recherche.js";
 import { initBiens } from "./biens.js";
 import { initHome } from "./home.js";
@@ -16,6 +16,7 @@ window.addEventListener("DOMContentLoaded", () => {
   mountToTopFab();
   mountCardGalleries();
   mountReveals();
+  mountHeroTopbar();
 
   const page = document.body.getAttribute("data-page");
   if (page === "home") initHome();

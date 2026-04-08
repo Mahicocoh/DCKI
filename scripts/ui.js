@@ -255,3 +255,32 @@ export function mountReveals() {
     io.observe(el);
   }
 }
+
+export function mountHeroTopbar() {
+  if (document.body.getAttribute("data-page") !== "home") return;
+  const hero = document.querySelector(".hero");
+  const title = document.querySelector("[data-topbar-title]");
+  const cta = document.querySelector("[data-topbar-cta]");
+  if (!hero || !title) return;
+
+  const set = (past) => {
+    document.body.classList.toggle("hero-past", past);
+    if (cta) cta.classList.toggle("show", past);
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    const onScroll = () => set(window.scrollY > 120);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      const e = entries[0];
+      set(!e.isIntersecting || e.intersectionRatio < 0.35);
+    },
+    { threshold: [0, 0.35, 0.7] }
+  );
+  io.observe(hero);
+}
