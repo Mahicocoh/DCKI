@@ -36,6 +36,7 @@ function render(listing) {
   const featuresEl = document.querySelector("[data-listing-features]");
   const mapIframe = document.querySelector("[data-listing-map-iframe]");
   const openMaps = document.querySelector("[data-listing-open-maps]");
+  const statusRibbon = document.querySelector("[data-listing-status-ribbon]");
 
   const statusLabel = listing.status === "sold" ? "Vendu" : listing.status === "rented" ? "Loué" : "";
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
@@ -92,6 +93,10 @@ function render(listing) {
 
   const img = document.querySelector("[data-gallery-img]");
   if (img) img.alt = listing.title;
+  if (statusRibbon) {
+    statusRibbon.textContent = statusLabel;
+    statusRibbon.style.display = statusLabel ? "" : "none";
+  }
 
   const prev = document.querySelector("[data-gallery-prev]");
   const next = document.querySelector("[data-gallery-next]");

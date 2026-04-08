@@ -20,7 +20,7 @@ export function listingCard(listing) {
       <a class="listing-link" href="${escapeAttr(href)}" aria-label="Ouvrir le détail du bien">
         <div class="media">
           <img src="${escapeAttr(listing.image)}" alt="${escapeAttr(listing.title)}" loading="lazy" />
-          ${statusLabel ? `<div class="listing-status-overlay">${escapeHtml(statusLabel)}</div>` : ""}
+          ${statusLabel ? `<div class="status-ribbon">${escapeHtml(statusLabel)}</div>` : ""}
         </div>
         <div class="body">
           <div class="pill" style="margin-bottom:10px">
@@ -28,7 +28,6 @@ export function listingCard(listing) {
             <span style="font-size:13px">${escapeHtml(CATEGORY_LABEL[listing.category] || "")}</span>
             <span style="opacity:.65;font-size:13px">•</span>
             <span style="opacity:.88;font-size:13px">${escapeHtml(listing.propertyType)}</span>
-            ${statusLabel ? `<span class="status-badge">${escapeHtml(statusLabel)}</span>` : ""}
           </div>
           <h3>${escapeHtml(listing.title)}</h3>
           <div class="meta">${escapeHtml(meta)}</div>

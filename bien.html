@@ -38,6 +38,7 @@
               <div class="listing-gallery card" data-gallery>
                 <div class="media">
                   <img data-gallery-img alt="" src="./assets/1.jpg" />
+                  <div class="status-ribbon" data-listing-status-ribbon style="display:none"></div>
                   <button class="nav prev" type="button" aria-label="Photo précédente" data-gallery-prev>‹</button>
                   <button class="nav next" type="button" aria-label="Photo suivante" data-gallery-next>›</button>
                   <div class="count" data-gallery-count></div>
@@ -207,6 +208,7 @@
     </script>
     <script>
       (function () {
+        if (window.location.protocol !== "file:") return;
         const titleEl = document.querySelector("[data-listing-title]");
         if (!titleEl) return;
         if (String(titleEl.textContent || "").trim()) return;
