@@ -471,6 +471,11 @@
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
+    <script type="module">
+      import { mountToTopFab, mountWhatsAppFab } from "./scripts/ui.js";
+      mountWhatsAppFab();
+      mountToTopFab();
+    </script>
     <script>
       (function () {
         const normalize = (value) =>
