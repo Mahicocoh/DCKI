@@ -105,7 +105,7 @@ body.hero-past .topbar-cta{display:inline-flex}
   position:relative;
   min-height:100vh;
   display:flex;
-  align-items:flex-end;
+  align-items:center;
   padding:46px 0 54px;
   overflow:hidden;
   border-bottom:1px solid var(--line);
@@ -900,8 +900,8 @@ body.hero-past .topbar-cta{display:inline-flex}
   body{background:#ffffff}
   .grid.cols-3,.grid.cols-2{grid-template-columns:1fr}
   .field{grid-column:1 / -1}
-  .hero{min-height:100vh;padding:26px 0 22px;align-items:flex-end}
-  .hero h1{font-size:32px;line-height:1.1}
+  .hero{min-height:100vh;padding:26px 0 22px;align-items:center}
+  .hero h1{font-size:38px;line-height:1.1}
   .hero p{font-size:16px;margin-left:auto;margin-right:auto}
   .hero .overlay{background:linear-gradient(180deg, rgba(7,11,16,.18), rgba(7,11,16,.46) 62%, rgba(7,11,16,.62))}
   .brand img{height:56px}
