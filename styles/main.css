@@ -78,9 +78,9 @@ body.hero-past .topbar-cta{display:inline-flex}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{height:92px;width:auto}
 .topbar .nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.topbar .nav a{padding:10px 12px;border-radius:12px;color:var(--muted);border:1px solid transparent}
+.topbar .nav a{padding:10px 12px;border-radius:12px;color:var(--muted);border:1px solid transparent;font-weight:800}
 .topbar .nav a:hover{color:var(--text);border-color:var(--line);background:rgba(255,255,255,.95)}
-.topbar .nav a.active{color:var(--text);border-color:rgba(200,161,74,.55);background:rgba(255,255,255,.95)}
+.topbar .nav a.active{color:var(--text);border-color:rgba(200,161,74,.55);background:rgba(255,255,255,.95);font-weight:950}
 
 @media (max-width: 880px){
   .topbar-inner{flex-wrap:nowrap;justify-content:space-between}
@@ -276,7 +276,7 @@ body.hero-past .topbar-cta{display:inline-flex}
 .section h2{margin:0 0 12px;font-size:28px;letter-spacing:-0.015em}
 .section .lead{margin:0 0 22px;color:rgba(15,23,32,.72);max-width:840px;line-height:1.6}
 .section.alt{
-  background:#ffffff;
+  background:#f6f7fb;
   border-top:1px solid rgba(15,23,32,.08);
   border-bottom:1px solid rgba(15,23,32,.08);
 }
@@ -752,6 +752,7 @@ body.hero-past .topbar-cta{display:inline-flex}
 
 .footer{
   border-top:1px solid var(--line);
+  background:#f6f7fb;
   padding:26px 0 46px;
   color:rgba(15,23,32,.70);
 }
@@ -761,9 +762,12 @@ body.hero-past .topbar-cta{display:inline-flex}
 .footer-social{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
 .social-btn{width:40px;height:40px;border-radius:999px;border:1px solid rgba(15,23,32,.14);background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:rgba(15,23,32,.78);font-weight:850;text-decoration:none;transition:all .3s ease}
 .social-btn svg{width:18px;height:18px;transition:all .3s ease}
-.social-btn:hover{border-color:rgba(200,161,74,.55);color:rgba(200,161,74,1);transform:translateY(-2px)}
+.social-btn[aria-label="Instagram"]{color:#E4405F;border-color:rgba(228,64,95,.28)}
+.social-btn[aria-label="Facebook"]{color:#1877F2;border-color:rgba(24,119,242,.28)}
+.social-btn[aria-label="LinkedIn"]{color:#0A66C2;border-color:rgba(10,102,194,.28)}
+.social-btn:hover{transform:translateY(-2px);filter:saturate(1.08)}
 .footer-cols{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:14px}
-.footer-col .k{font-size:12px;color:rgba(15,23,32,.60);font-weight:800;letter-spacing:.02em;text-transform:uppercase;margin-bottom:8px}
+.footer-col .k{font-size:12px;color:rgba(15,23,32,.72);font-weight:950;letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px}
 .footer-col a{display:block;color:rgba(15,23,32,.78);text-decoration:none;padding:6px 0}
 .footer-col a:hover{color:rgba(15,23,32,.92)}
 .footer-form{display:grid;gap:10px}
