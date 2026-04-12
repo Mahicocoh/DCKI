@@ -35,17 +35,24 @@
         <div class="overlay"></div>
 
         <div class="container hero-content">
-          <h1>DCKI immobilier</h1>
+          <h1>DCKI IMMOBILIER</h1>
           <p style="margin:0 0 18px">Trouver le bien idéal, près de chez vous.</p>
 
-   <div class="hero-services" aria-label="Services">
-            <span>Ventes</span>
-            <span class="dot">•</span>
-            <span>Locations</span>
-            <span class="dot">•</span>
-            <span>Conseils</span>
-            <span class="dot">•</span>
-            <span>Accompagnement</span>
+          <div class="hero-services-wrapper" id="services-dropdown">
+            <button class="hero-services-toggle" aria-expanded="false" onclick="document.getElementById('services-dropdown').classList.toggle('active')">
+              <span>Nos services</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="19" cy="12" r="1"></circle>
+                <circle cx="5" cy="12" r="1"></circle>
+              </svg>
+            </button>
+            <div class="hero-services-menu">
+              <span>Ventes</span>
+              <span>Locations</span>
+              <span>Conseils</span>
+              <span>Accompagnement</span>
+            </div>
           </div>
           
           <div class="hero-actions">
