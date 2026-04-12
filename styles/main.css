@@ -343,12 +343,33 @@ body.hero-past .topbar-cta{display:inline-flex}
 .section{padding:44px 0}
 .section h2{margin:0 0 12px;font-size:28px;letter-spacing:-0.015em}
 .section .lead{margin:0 0 22px;color:rgba(15,23,32,.72);max-width:840px;line-height:1.6}
+.section-title{margin:0 0 12px}
+.title-pill{
+  display:inline-flex;
+  align-items:center;
+  padding:10px 16px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,32,.10);
+  background:rgba(255,255,255,.92);
+  box-shadow:0 14px 38px rgba(15,23,32,.10);
+  font-family:var(--fontDisplay);
+  font-weight:900;
+  color:rgba(15,23,32,.92);
+}
+.title-pill::before{
+  content:"";
+  width:10px;height:10px;
+  border-radius:999px;
+  background:linear-gradient(135deg, var(--brand), rgba(255,159,28,.95));
+  box-shadow:0 0 0 4px rgba(200,161,74,.18);
+  margin-right:10px;
+}
 .section.alt{
   background:#f6f7fb;
   border-top:1px solid rgba(15,23,32,.08);
   border-bottom:1px solid rgba(15,23,32,.08);
 }
-.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.section-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .section-subhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:20px 0 10px}
 
 .hscroll{
