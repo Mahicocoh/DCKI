@@ -587,7 +587,7 @@ body.hero-past .topbar-cta{display:inline-flex}
 
 .why-grid .body{display:flex;flex-direction:column;height:100%}
 .why-grid .desc{margin:10px 0 18px}
-.why-grid .btn{margin-top:auto;align-self:flex-start}
+.why-grid .btn{margin-top:auto;align-self:stretch;justify-content:center}
 
 .contact-cards{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:12px;margin-top:12px}
 .contact-card{border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.9);display:flex;flex-direction:column;gap:6px}
