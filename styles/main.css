@@ -99,11 +99,62 @@ body.hero-past .topbar-cta{display:inline-flex}
 .topbar .nav a:hover{color:var(--text);border-color:var(--line);background:rgba(255,255,255,.95)}
 .topbar .nav a.active{color:var(--text);border-color:rgba(200,161,74,.55);background:rgba(255,255,255,.95);font-weight:950}
 
+.topbar-menu{position:relative;display:inline-flex;align-items:center}
+.topbar-menu-btn{
+  width:42px;height:40px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.92);
+  color:rgba(15,23,32,.78);
+  display:inline-flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:transform .12s ease, border-color .12s ease, background .12s ease;
+}
+.topbar-menu-btn:hover{transform:translateY(-1px);border-color:rgba(200,161,74,.45);background:rgba(255,255,255,.98);color:rgba(15,23,32,.9)}
+.topbar-menu-btn:active{transform:translateY(0)}
+.topbar-menu-panel{
+  position:absolute;
+  top:calc(100% + 10px);
+  right:0;
+  min-width:220px;
+  padding:8px;
+  border-radius:16px;
+  border:1px solid rgba(15,23,32,.10);
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(14px);
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(-6px) scale(.98);
+  transition:opacity .18s ease, transform .22s cubic-bezier(.2,.8,.2,1), visibility .18s ease;
+  z-index:60;
+}
+.topbar-menu.open .topbar-menu-panel{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0) scale(1);
+}
+.topbar-menu-panel a{
+  padding:10px 12px;
+  border-radius:12px;
+  color:var(--muted);
+  border:1px solid transparent;
+  font-weight:850;
+  text-decoration:none;
+}
+.topbar-menu-panel a:hover{color:var(--text);border-color:var(--line);background:rgba(255,255,255,.98)}
+.topbar-menu-panel a.active{color:var(--text);border-color:rgba(200,161,74,.55);background:rgba(255,255,255,.98);font-weight:950}
+
 @media (max-width: 880px){
   .topbar-inner{flex-wrap:nowrap;justify-content:space-between}
   .topbar .nav{width:auto;flex-wrap:nowrap;overflow:auto;-webkit-overflow-scrolling:touch}
   .topbar .nav a{white-space:nowrap;padding:8px 10px;border-radius:10px;font-size:13px}
   .topbar .nav::-webkit-scrollbar{height:0}
+  .topbar-menu-btn{width:40px;height:38px;border-radius:11px}
+  .topbar-menu-panel{min-width:200px}
 }
 
 .listing-link{display:block}

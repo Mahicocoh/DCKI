@@ -1,5 +1,5 @@
 import { mountLoader } from "./loader.js";
-import { setActiveNav, wireForms, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountReveals, mountHeroTopbar } from "./ui.js";
+import { setActiveNav, wireForms, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountReveals, mountHeroTopbar, mountTopbarMenu } from "./ui.js";
 import { initRecherche } from "./recherche.js";
 import { initBiens } from "./biens.js";
 import { initHome } from "./home.js";
@@ -10,6 +10,7 @@ mountLoader();
 
 window.addEventListener("DOMContentLoaded", () => {
   setActiveNav();
+  mountTopbarMenu();
   wireForms();
   initVideoFallbacks();
   mountWhatsAppFab();

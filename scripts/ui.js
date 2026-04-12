@@ -10,6 +10,58 @@ export function setActiveNav() {
   }
 }
 
+export function mountTopbarMenu() {
+  const menus = Array.from(document.querySelectorAll("[data-topbar-menu]"));
+  if (!menus.length) return;
+
+  const getButton = (menu) => menu.querySelector("[data-topbar-menu-btn]");
+
+  const close = (menu) => {
+    menu.classList.remove("open");
+    const btn = getButton(menu);
+    if (btn) btn.setAttribute("aria-expanded", "false");
+  };
+
+  const closeAll = (except) => {
+    for (const menu of menus) {
+      if (except && menu === except) continue;
+      close(menu);
+    }
+  };
+
+  for (const menu of menus) {
+    const btn = getButton(menu);
+    if (!btn || btn.dataset.bound === "1") continue;
+    btn.dataset.bound = "1";
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isOpen = menu.classList.contains("open");
+      closeAll();
+      if (!isOpen) {
+        menu.classList.add("open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+
+    for (const a of menu.querySelectorAll("[data-nav] a")) {
+      a.addEventListener("click", () => close(menu));
+    }
+  }
+
+  document.addEventListener("click", (e) => {
+    for (const menu of menus) {
+      if (menu.contains(e.target)) return;
+    }
+    closeAll();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
+  });
+}
+
 export function formatCHF(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "";

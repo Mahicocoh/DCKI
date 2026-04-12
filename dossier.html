@@ -16,12 +16,21 @@
         <a class="brand" href="./index.html" aria-label="Aller à l’accueil">
           <img src="./assets/1.jpg" alt="DCKImmo" />
         </a>
-        <nav class="nav" data-nav>
-          <a href="./biens.html">Nos biens</a>
-          <a href="./index.html#recherche-rapide">Recherche</a>
-          <a href="./dossier.html">Demande de dossier</a>
-          <a href="./contact.html">Contact</a>
-        </nav>
+        <div class="topbar-menu" data-topbar-menu>
+          <button class="topbar-menu-btn" type="button" aria-label="Menu" aria-expanded="false" data-topbar-menu-btn>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="12" cy="12" r="1.6"></circle>
+              <circle cx="19" cy="12" r="1.6"></circle>
+              <circle cx="5" cy="12" r="1.6"></circle>
+            </svg>
+          </button>
+          <nav class="topbar-menu-panel" data-nav>
+            <a href="./biens.html">Nos biens</a>
+            <a href="./index.html#recherche-rapide">Recherche</a>
+            <a href="./dossier.html">Demande de dossier</a>
+            <a href="./contact.html">Contact</a>
+          </nav>
+        </div>
       </div>
     </header>
 

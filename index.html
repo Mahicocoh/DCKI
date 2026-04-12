@@ -18,11 +18,20 @@
           <img src="./assets/1.jpg" alt="DCKImmo" />
         </a>
         <div class="topbar-title" data-topbar-title>DCKImmo</div>
-        <nav class="nav" data-nav>
-          <a href="./biens.html">Nos biens</a>
-          <a href="#recherche-rapide">Recherche</a>
-          <a href="./contact.html">Contact</a>
-        </nav>
+        <div class="topbar-menu" data-topbar-menu>
+          <button class="topbar-menu-btn" type="button" aria-label="Menu" aria-expanded="false" data-topbar-menu-btn>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <circle cx="12" cy="12" r="1.6"></circle>
+              <circle cx="19" cy="12" r="1.6"></circle>
+              <circle cx="5" cy="12" r="1.6"></circle>
+            </svg>
+          </button>
+          <nav class="topbar-menu-panel" data-nav>
+            <a href="./biens.html">Nos biens</a>
+            <a href="#recherche-rapide">Recherche</a>
+            <a href="./contact.html">Contact</a>
+          </nav>
+        </div>
         <a class="btn small primary topbar-cta" data-topbar-cta href="./biens.html">Voir les biens</a>
       </div>
     </header>
