@@ -148,6 +148,48 @@ body.hero-past .topbar-cta{display:inline-flex}
 .topbar-menu-panel a:hover{color:var(--text);border-color:var(--line);background:rgba(255,255,255,.98)}
 .topbar-menu-panel a.active{color:var(--text);border-color:rgba(200,161,74,.55);background:rgba(255,255,255,.98);font-weight:950}
 
+body[data-page="home"]:not(.hero-past) .topbar{
+  background:transparent;
+  border-bottom:0;
+  backdrop-filter:none;
+}
+body[data-page="home"]:not(.hero-past) .topbar-inner{
+  padding:16px 0;
+  justify-content:center;
+  position:relative;
+}
+body[data-page="home"]:not(.hero-past) .brand{
+  position:absolute;
+  left:0;
+}
+body[data-page="home"]:not(.hero-past) .topbar-menu{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+}
+body[data-page="home"]:not(.hero-past) .topbar-menu-btn{
+  width:56px;
+  height:48px;
+  border-radius:999px;
+  border:0;
+  background:transparent;
+  color:var(--brand);
+  backdrop-filter:none;
+}
+body[data-page="home"]:not(.hero-past) .topbar-menu-btn:hover{
+  transform:none;
+  border-color:transparent;
+  background:transparent;
+  color:var(--brand);
+}
+body[data-page="home"]:not(.hero-past) .topbar-menu-panel{
+  right:50%;
+  transform:translate(50%, -6px) scale(.98);
+}
+body[data-page="home"]:not(.hero-past) .topbar-menu.open .topbar-menu-panel{
+  transform:translate(50%, 0) scale(1);
+}
+
 @media (max-width: 880px){
   .topbar-inner{flex-wrap:nowrap;justify-content:space-between}
   .topbar .nav{width:auto;flex-wrap:nowrap;overflow:auto;-webkit-overflow-scrolling:touch}
