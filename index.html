@@ -29,8 +29,8 @@
 
     <main>
       <section class="hero">
-        <video class="hero-video" autoplay muted playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture>
-          <source src="./assets/1.mp4" type="video/mp4" />
+        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture>
+          <source src="./assets/178.mp4" type="video/mp4" />
         </video>
         <div class="overlay"></div>
 
@@ -74,27 +74,14 @@
             hero.classList.remove("video-failed");
           };
 
-          const source = v.querySelector("source");
-          const playlist = ["./assets/1.mp4", "./assets/3.mp4"];
-          let currentIndex = 0;
-          let errorSkips = 0;
-
-          const setVideo = (index) => {
-            currentIndex = ((index % playlist.length) + playlist.length) % playlist.length;
-            const src = playlist[currentIndex];
-            if (source) source.src = src;
-            else v.src = src;
-            v.load();
-          };
-
           const configure = () => {
             v.autoplay = true;
-            v.loop = false;
+            v.loop = true;
             v.muted = true;
             v.defaultMuted = true;
             v.playsInline = true;
             v.setAttribute("autoplay", "");
-            v.removeAttribute("loop");
+            v.setAttribute("loop", "");
             v.setAttribute("muted", "");
             v.setAttribute("playsinline", "");
             v.setAttribute("webkit-playsinline", "");
@@ -131,20 +118,7 @@
 
           v.addEventListener("timeupdate", markReady, { once: true });
           v.addEventListener("playing", markReady);
-          v.addEventListener("ended", () => {
-            errorSkips = 0;
-            setVideo(currentIndex + 1);
-            runAttempts();
-          });
-          v.addEventListener("error", () => {
-            errorSkips += 1;
-            if (errorSkips >= playlist.length) {
-              markFailed();
-              return;
-            }
-            setVideo(currentIndex + 1);
-            runAttempts();
-          });
+          v.addEventListener("error", markFailed, { once: true });
 
           document.addEventListener("visibilitychange", () => {
             if (!document.hidden) runAttempts();
@@ -154,7 +128,6 @@
           document.addEventListener("touchstart", onGesture, { once: true, passive: true });
           document.addEventListener("click", onGesture, { once: true });
 
-          setVideo(0);
           runAttempts();
         })();
       </script>
