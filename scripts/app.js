@@ -8,20 +8,18 @@ import { initListingPage } from "./listing-page.js";
 
 mountLoader();
 
-window.addEventListener("DOMContentLoaded", () => {
-  setActiveNav();
-  mountTopbarMenu();
-  wireForms();
-  initVideoFallbacks();
-  mountWhatsAppFab();
-  mountToTopFab();
-  mountCardGalleries();
-  mountReveals();
-  mountHeroTopbar();
+setActiveNav();
+mountTopbarMenu();
+wireForms();
+initVideoFallbacks();
+mountWhatsAppFab();
+mountToTopFab();
+mountCardGalleries();
+mountReveals();
+mountHeroTopbar();
 
-  const page = document.body.getAttribute("data-page");
-  if (page === "home") initHome();
-  if (page === "recherche") initRecherche();
-  if (page === "biens") initBiens();
-  if (page === "listing") initListingPage();
-});
+const page = document.body.getAttribute("data-page");
+if (page === "home") initHome();
+if (page === "recherche") initRecherche();
+if (page === "biens") initBiens();
+if (page === "listing") initListingPage();
