@@ -44,8 +44,8 @@ body{
   background: rgba(15,23,32,.4);
 }
 
-h1,h2{font-family:var(--fontDisplay)}
-.hero h1,.page-hero h1{font-family:var(--fontDisplay)}
+h1,h2{font-family:var(--fontText)}
+.hero h1{font-family:var(--fontDisplay)}
 
 #recherche-rapide,#exemples-biens,#contact,#deniz-demirci,#formulaire{scroll-margin-top:120px}
 
@@ -883,27 +883,142 @@ button,input,select,textarea{font:inherit}
 
 .footer{
   border-top:1px solid var(--line);
-  background:#f6f7fb;
-  padding:26px 0 46px;
-  color:rgba(15,23,32,.70);
+  background:linear-gradient(180deg, rgba(11,42,58,.96) 0%, rgba(7,22,32,.98) 100%);
+  padding:54px 0 44px;
+  color:rgba(255,255,255,.74);
+  position:relative;
+  overflow:hidden;
 }
-.footer-top{display:grid;grid-template-columns:1fr 1.4fr;gap:18px;align-items:start}
-.footer-brand img{height:clamp(44px, 4vw, 58px);width:auto;display:block}
-.footer-desc{margin-top:10px;color:rgba(15,23,32,.68);line-height:1.55;max-width:520px}
-.footer-social{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
-.social-btn{width:40px;height:40px;border-radius:999px;border:1px solid rgba(15,23,32,.14);background:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:center;color:rgba(15,23,32,.78);font-weight:850;text-decoration:none;transition:all .3s ease}
-.social-btn svg{width:18px;height:18px;transition:all .3s ease}
-.social-btn[aria-label="Instagram"]{color:#E4405F;border-color:rgba(228,64,95,.28)}
-.social-btn[aria-label="Facebook"]{color:#1877F2;border-color:rgba(24,119,242,.28)}
-.social-btn[aria-label="LinkedIn"]{color:#0A66C2;border-color:rgba(10,102,194,.28)}
-.social-btn:hover{transform:translateY(-2px);filter:saturate(1.08)}
-.footer-cols{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:14px}
-.footer-col .k{font-size:12px;color:rgba(15,23,32,.72);font-weight:950;letter-spacing:.10em;text-transform:uppercase;margin-bottom:10px}
-.footer-col a{display:block;color:rgba(15,23,32,.78);text-decoration:none;padding:6px 0}
-.footer-col a:hover{color:rgba(15,23,32,.92)}
-.footer-form{display:grid;gap:10px}
-.footer-form .control{padding:10px 12px}
-.footer-bottom{margin-top:18px;padding-top:14px;border-top:1px solid rgba(15,23,32,.10);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.footer::before{
+  content:"";
+  position:absolute;
+  left:0;right:0;top:0;
+  height:3px;
+  background:linear-gradient(90deg, rgba(11,42,58,.95), rgba(200,161,74,.95), rgba(255,45,109,.95), rgba(255,159,28,.95));
+  opacity:.85;
+}
+.footer::after{
+  content:"";
+  position:absolute;
+  inset:-40% -20% auto -20%;
+  height:420px;
+  background:
+    radial-gradient(closest-side, rgba(200,161,74,.18), transparent 60%),
+    radial-gradient(closest-side, rgba(255,45,109,.14), transparent 60%),
+    radial-gradient(closest-side, rgba(255,159,28,.14), transparent 60%);
+  filter:blur(18px);
+  pointer-events:none;
+  opacity:.75;
+}
+.footer-top{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:start;position:relative;z-index:1}
+.footer-brand{max-width:520px}
+.footer-brand img{
+  height:clamp(44px, 4vw, 58px);
+  width:auto;
+  display:block;
+  background:transparent;
+  border-radius:0;
+  padding:0;
+  border:0;
+  opacity:.92;
+  filter:brightness(.88) contrast(1.05) saturate(.92) drop-shadow(0 8px 20px rgba(0,0,0,.28));
+}
+.footer-desc{margin-top:12px;color:rgba(255,255,255,.68);line-height:1.65;max-width:520px}
+.footer-social{
+  margin-top:16px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+.footer-social .k{
+  display:none;
+}
+.social-btn{
+  width:44px;
+  height:44px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  box-shadow:0 16px 46px rgba(0,0,0,.22);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(255,255,255,.90);
+  text-decoration:none;
+  transition:transform .16s ease, border-color .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease;
+}
+.social-btn svg{width:20px;height:20px}
+.social-btn:hover{
+  transform:translateY(-2px);
+  border-color:transparent;
+  background:linear-gradient(135deg, rgba(255,45,109,.95), rgba(255,159,28,.95));
+  color:#ffffff;
+  box-shadow:0 22px 54px rgba(255,45,109,.18);
+}
+.footer-cols{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:46px;position:relative;z-index:1}
+.footer-col{
+  border:0;
+  background:transparent;
+  backdrop-filter:none;
+  border-radius:0;
+  padding:0;
+  box-shadow:none;
+}
+.footer-col .k{font-size:12px;color:rgba(255,255,255,.72);font-weight:950;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+.footer-col a{display:block;color:rgba(255,255,255,.78);text-decoration:none;padding:7px 0}
+.footer-col a:hover{color:rgba(200,161,74,.95)}
+.footer-note{margin:2px 0 14px;max-width:44ch}
+.footer-newsletter{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 10px 10px 18px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  box-shadow:0 18px 52px rgba(0,0,0,.22);
+  width:100%;
+  max-width:520px;
+}
+.footer-newsletter .control{
+  border:0;
+  background:transparent;
+  padding:0;
+  height:48px;
+  min-width:220px;
+  flex:1 1 auto;
+  font-size:15px;
+}
+.footer-newsletter .control:focus{box-shadow:none}
+.footer-newsletter .btn{
+  height:48px;
+  padding:0 20px;
+  border-radius:999px;
+  white-space:nowrap;
+  min-width:132px;
+}
+.footer-form{display:block}
+.footer-form .control{
+  padding:11px 12px;
+  border-color:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.92);
+}
+.footer-form .control::placeholder{color:rgba(255,255,255,.55)}
+.footer-form .control:focus{border-color:rgba(200,161,74,.65);box-shadow:0 0 0 3px rgba(200,161,74,.16)}
+.footer-legal{margin-top:10px}
+.footer-bottom{
+  margin-top:26px;
+  padding-top:16px;
+  border-top:1px solid rgba(255,255,255,.12);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap
+}
+.footer .fine{color:rgba(255,255,255,.58)}
 .footer-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch}
 .footer-grid .panel{height:100%}
 .footer-grid .panel .inner{height:100%;display:flex;flex-direction:column}
