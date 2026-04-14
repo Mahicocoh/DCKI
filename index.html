@@ -542,68 +542,117 @@
 
       <section class="section" id="a-propos">
         <div class="container">
-          <div class="section-head">
-            <div>
-              <h2 style="margin:0">Qui sommes-nous ?</h2>
-              <p class="lead" style="margin:8px 0 0">
-                Nous présentons des biens immobiliers à la vente et à la location, avec une approche simple, directe et transparente.
-              </p>
-              <p class="lead" style="margin:10px 0 0">
-                Les informations sont mises en valeur avec soin afin de faciliter leur découverte.
-              </p>
-              <p class="lead" style="margin:10px 0 0">
-                Les échanges et la découverte des biens se font directement selon les disponibilités.
-              </p>
+          <div class="about-showcase">
+            <div class="about-showcase-bg" aria-hidden="true">
+              <video class="about-showcase-video" autoplay muted loop playsinline preload="metadata">
+                <source src="./assets/3.mp4" type="video/mp4" />
+              </video>
+              <video class="about-showcase-video about-showcase-video--mirror" autoplay muted loop playsinline preload="metadata">
+                <source src="./assets/3.mp4" type="video/mp4" />
+              </video>
             </div>
-          </div>
-
-          <div class="grid cols-2" style="margin-top:14px">
-            <div class="panel">
-              <div class="inner">
-                <h3 style="margin:0">À propos</h3>
-                <p class="lead" style="margin:10px 0 0">
-                  Chaque bien est structuré et présenté avec attention afin de mettre en avant ses caractéristiques essentielles. L’objectif est de proposer une information claire et lisible pour permettre une prise de décision rapide et efficace.
+            <div class="about-showcase-head" data-reveal>
+              <h2>Qui sommes-nous ?</h2>
+              <div class="about-copy">
+                <p>
+                  Nous présentons des biens immobiliers à la vente et à la location, avec une approche simple, directe et transparente.
+                </p>
+                <p>
+                  Les informations sont mises en valeur avec soin afin de faciliter leur découverte.
+                </p>
+                <p>
+                  Les échanges et la découverte des biens se font directement selon les disponibilités.
                 </p>
               </div>
             </div>
-            <div class="panel">
-              <div class="inner">
-                <h3 style="margin:0">Notre équipe</h3>
-                <div style="display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap">
-                  <a href="./contact.html#deniz-demirci" aria-label="Voir Deniz Demirci" style="display:flex;align-items:center;gap:12px;flex:1 1 260px">
-                    <div style="width:46px;height:46px;border-radius:999px;background:linear-gradient(135deg, rgba(200,161,74,.35), rgba(11,42,58,.14));border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800">DD</div>
+
+            <div class="about-top-grid">
+              <article class="about-block">
+                <h3>À propos</h3>
+                <p>
+                  Chaque bien est structuré et présenté avec attention afin de mettre en avant ses caractéristiques essentielles. L’objectif est de proposer une information claire et lisible pour permettre une prise de décision rapide et efficace.
+                </p>
+              </article>
+
+              <article class="about-block">
+                <h3>Notre équipe</h3>
+                <div class="about-team-row">
+                  <a href="./contact.html#deniz-demirci" aria-label="Voir Deniz Demirci" class="about-team-link">
+                    <div class="about-avatar">DD</div>
                     <div>
-                      <div style="font-weight:800;letter-spacing:-0.01em">Deniz Demirci</div>
-                      <div class="fine">Conseiller immobilier — Courtételle</div>
+                      <div class="about-name">Deniz Demirci</div>
+                      <div class="fine">Référent immobilier — Courtételle</div>
                     </div>
                   </a>
-                  <a class="btn small primary" href="./contact.html#deniz-demirci" aria-label="Contacter Deniz Demirci">Contacter</a>
+                  <a class="btn primary about-contact-btn" href="./contact.html#deniz-demirci" aria-label="Contacter Deniz Demirci">Contacter</a>
                 </div>
-              </div>
+              </article>
             </div>
-          </div>
 
-          <div class="section-subhead">
-            <h3 style="margin:0">Nos services</h3>
-          </div>
-          <div class="grid cols-2 why-grid">
-            <div class="card">
-              <div class="body">
-                <h3>Dossier complet</h3>
-                <p class="desc">Photos, plans, caractéristiques, visite virtuelle et filtrage des dossiers pour gagner du temps.</p>
-                <a class="btn primary" href="./dossier.html">Obtenir un dossier</a>
+            <div class="about-services-wrap">
+              <div class="section-subhead about-services-head">
+                <h3>Nos services</h3>
               </div>
-            </div>
-            <div class="card">
-              <div class="body">
-                <h3>Visites 7j/7</h3>
-                <p class="desc">Créneaux élargis et suivi précis des demandes pour maximiser les chances de concrétiser.</p>
-                <a class="btn primary" href="./contact.html#formulaire">Demander une visite</a>
+              <div class="grid cols-2 why-grid about-services-grid">
+                <div class="card about-service-card">
+                  <div class="body">
+                    <div class="about-service-head">
+                      <div class="about-service-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <defs>
+                            <linearGradient id="g-dossier" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                              <stop stop-color="#ff2d6d"/>
+                              <stop offset="1" stop-color="#ff9f1c"/>
+                            </linearGradient>
+                          </defs>
+                          <path d="M7.5 3.5h6.2l3.8 3.8V20a1.8 1.8 0 0 1-1.8 1.8H7.5A1.8 1.8 0 0 1 5.7 20V5.3A1.8 1.8 0 0 1 7.5 3.5Z" stroke="url(#g-dossier)" stroke-width="1.8" stroke-linejoin="round"/>
+                          <path d="M13.7 3.5V7a1.6 1.6 0 0 0 1.6 1.6h3.5" stroke="url(#g-dossier)" stroke-width="1.8" stroke-linejoin="round"/>
+                          <path d="M8.3 11.1h6.9M8.3 14.5h7.8M8.3 17.9h6.1" stroke="url(#g-dossier)" stroke-width="1.8" stroke-linecap="round"/>
+                          <path d="M17.4 12.2l.55 1.2 1.24.16-.92.86.24 1.23-1.11-.62-1.11.62.24-1.23-.92-.86 1.24-.16.55-1.2Z" fill="url(#g-dossier)" opacity=".9"/>
+                        </svg>
+                      </div>
+                      <h3>Dossier complet</h3>
+                    </div>
+                    <p class="desc">Photos, plans, caractéristiques, visite virtuelle et filtrage des dossiers pour gagner du temps.</p>
+                    <a class="btn primary" href="./dossier.html">Obtenir un dossier</a>
+                  </div>
+                </div>
+                <div class="card about-service-card">
+                  <div class="body">
+                    <div class="about-service-head">
+                      <div class="about-service-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <defs>
+                            <linearGradient id="g-dispo" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+                              <stop stop-color="#0b2a3a"/>
+                              <stop offset=".55" stop-color="#c8a14a"/>
+                              <stop offset="1" stop-color="#ff9f1c"/>
+                            </linearGradient>
+                          </defs>
+                          <path d="M7.2 3.9v2.4M16.8 3.9v2.4" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linecap="round"/>
+                          <path d="M6.6 6.3h10.8c1.7 0 3 1.3 3 3v9.6c0 1.7-1.3 3-3 3H6.6c-1.7 0-3-1.3-3-3V9.3c0-1.7 1.3-3 3-3Z" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linejoin="round"/>
+                          <path d="M3.6 10.2h16.8" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linecap="round"/>
+                          <path d="M12 13v3.7l2.4 1.4" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                          <path d="M18.7 11.7l.42.9.93.12-.69.64.18.92-.84-.47-.84.47.18-.92-.69-.64.93-.12.42-.9Z" fill="url(#g-dispo)" opacity=".9"/>
+                        </svg>
+                      </div>
+                      <h3>Disponibilité flexible</h3>
+                    </div>
+                    <p class="desc">Créneaux adaptés à votre agenda et suivi réactif des demandes pour faciliter chaque visite.</p>
+                    <a class="btn primary" href="./contact.html#formulaire">Demander une visite</a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="section-divider reveal" aria-hidden="true">
+        <svg class="section-divider-svg" viewBox="0 0 1440 140" preserveAspectRatio="none">
+          <path d="M0,64 C220,118 420,118 720,68 C980,26 1220,18 1440,56 L1440,140 L0,140 Z" fill="rgba(255,255,255,.92)"></path>
+        </svg>
+      </div>
 
       <section class="section" id="actus">
         <div class="container">
@@ -628,26 +677,26 @@
 
           <div class="news-strip" aria-label="Actualités immobilières" style="margin-top:14px">
             <div class="news-track">
-              <div class="news-card">
+              <a class="news-card" href="https://www.ubs.com/ch/fr/services/guide/mortgages-and-financing/articles/real-estate-market-and-prices.html" target="_blank" rel="noreferrer" aria-label="Lire: Perspectives 2026">
                 <div class="k">Perspectives 2026</div>
                 <div class="t">Les prix des logements en propriété devraient augmenter d’environ 3% en 2026.</div>
-              </div>
-              <div class="news-card">
+              </a>
+              <a class="news-card" href="https://www.ubs.com/ch/fr/services/guide/mortgages-and-financing/articles/real-estate-market-and-prices.html" target="_blank" rel="noreferrer" aria-label="Lire: Marché 2025">
                 <div class="k">Marché 2025</div>
                 <div class="t">Les prix des logements en propriété ont augmenté de 4,1% sur un an.</div>
-              </div>
-              <div class="news-card">
+              </a>
+              <a class="news-card" href="https://www.ubs.com/ch/fr/services/guide/mortgages-and-financing/articles/real-estate-market-and-prices.html" target="_blank" rel="noreferrer" aria-label="Lire: Location">
                 <div class="k">Location</div>
                 <div class="t">Les loyers proposés sont supérieurs d’environ 1,2% à ceux de l’année précédente.</div>
-              </div>
-              <div class="news-card">
+              </a>
+              <a class="news-card" href="https://www.ubs.com/ch/fr/services/guide/mortgages-and-financing/articles/real-estate-market-and-prices.html" target="_blank" rel="noreferrer" aria-label="Lire: Risque">
                 <div class="k">Risque</div>
                 <div class="t">L’UBS Swiss Real Estate Bubble Index indique un risque de bulle modéré.</div>
-              </div>
-              <div class="news-card">
+              </a>
+              <a class="news-card" href="./dossier.html" aria-label="Conseil: anticiper les dossiers">
                 <div class="k">Conseil</div>
                 <div class="t">Anticipez les dossiers: documents prêts, financement validé et visites rapides.</div>
-              </div>
+              </a>
 
               <div class="news-card" aria-hidden="true">
                 <div class="k">Perspectives 2026</div>
@@ -686,7 +735,7 @@
 
           <div class="trust-grid">
             <div class="trust-visual" aria-label="Confiance et transparence">
-              <img src="./assets/219.jpg" alt="" loading="lazy" />
+              <img src="./assets/1257" alt="" loading="lazy" onerror="this.onerror=null;this.src='./assets/219.jpg';" />
               <div class="trust-overlay" aria-hidden="true"></div>
               <div class="trust-copy">
                 <div class="trust-k">Confiance</div>
@@ -744,113 +793,50 @@
             </div>
           </div>
 
-          <div class="section-subhead">
-            <h3 style="margin:0">Avis clients</h3>
-           
-          </div>
-
-          <div class="grid cols-3 testimonials trust-testimonials">
-            <div class="card quote-card">
-              <div class="body">
-                <div class="quote">“Visite rapide, réponses claires et dossier parfaitement préparé. Très pro.”</div>
-                <div class="who">— Client achat, Delémont</div>
-              </div>
-            </div>
-            <div class="card quote-card">
-              <div class="body">
-                <div class="quote">“On a trouvé exactement ce qu’on cherchait. Suivi 7j/7 et très disponible.”</div>
-                <div class="who">— Client location, Tavannes</div>
-              </div>
-            </div>
-            <div class="card quote-card">
-              <div class="body">
-                <div class="quote">“Estimation précise et mise en valeur du bien. Photos + annonce top.”</div>
-                <div class="who">— Vendeur, Porrentruy</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="contact">
-        <div class="container">
-          <div class="footer-grid">
-            <div class="panel">
-              <div class="inner">
-                <h2 style="margin-top:0">Contact</h2>
-                <p class="lead" style="margin-top:0">
-                  Une question, une demande de visite ou un dossier ? Utilisez le formulaire ci-contre.
-                </p>
-                <div class="contact-cards">
-                  <div class="contact-card">
-                    <div class="k">Contact</div>
-                    <div class="v">Deniz Demirci</div>
-                  </div>
-                  <div class="contact-card">
-                    <div class="k">Adresse</div>
-                    <div class="v">Courtételle</div>
-                  </div>
-                  <div class="contact-card">
-                    <div class="k">Email</div>
-                    <div class="v"><a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a></div>
-                  </div>
-                  <div class="contact-card">
-                    <div class="k">Téléphone</div>
-                    <div class="v"><a href="tel:+41787338717">+41 78 733 87 17</a></div>
-                  </div>
-                </div>
-                <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
-                  <iframe
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps?q=Courtetelle%2C%20Suisse&output=embed"
-                    title="Courtételle"
-                    allowfullscreen
-                  ></iframe>
-                </div>
-                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-                  <a class="btn primary" href="https://www.google.com/maps?q=Courtetelle%2C%20Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
-                </div>
-                <p class="fine" style="margin:14px 0 0">Courtételle — Jura</p>
-              </div>
+          <div class="testimonials" data-testimonials>
+            <div class="testimonials-head">
+              <h2>Avis clients</h2>
+              <span class="testimonials-line" aria-hidden="true"></span>
             </div>
 
-            <div class="panel">
-              <div class="inner">
-                <h2 style="margin-top:0">Formulaire</h2>
-                <form class="form" data-demo-form="Formulaire de contact">
-                  <div class="field">
-                    <span class="label">Votre nom</span>
-                    <input class="control" required placeholder="Nom Prénom" />
-                  </div>
-                  <div class="field">
-                    <span class="label">Email</span>
-                    <input class="control" type="email" required placeholder="vous@exemple.ch" />
-                  </div>
-                  <div class="field">
-                    <span class="label">Téléphone (optionnel)</span>
-                    <input class="control" placeholder="+41 …" />
-                  </div>
-                  <div class="field">
-                    <span class="label">Objet</span>
-                    <select class="control" required>
-                      <option>Demande de visite</option>
-                      <option>Demande de dossier</option>
-                      <option>Estimation</option>
-                      <option>Vendre un bien</option>
-                      <option>Louer un bien</option>
-                      <option>Question</option>
-                    </select>
-                  </div>
-                  <div class="field full">
-                    <span class="label">Message</span>
-                    <textarea class="control" rows="12" placeholder="Précisez le bien, la commune, vos disponibilités…" required></textarea>
-                  </div>
-                  <div class="actions">
-                    <button class="btn primary" type="submit">Envoyer</button>
-                    <a class="btn" href="./dossier.html">Demande de dossier</a>
-                  </div>
-                </form>
+            <div class="testimonials-shell">
+              <div class="testimonials-frame">
+                <div class="testimonials-track" data-testimonials-track>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">J’ai fait appel à DCKImmo pour la vente d’un bien. Le dossier était clair et parfaitement préparé, et la communication très réactive.</div>
+                    <div class="testimonials-who">Client vente, Courrendlin</div>
+                  </article>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">Visite rapide, réponses claires et dossier parfaitement préparé. Très pro.</div>
+                    <div class="testimonials-who">Client achat, Moutier</div>
+                  </article>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">On a trouvé exactement ce qu’on cherchait. Suivi 7j/7 et très disponible.</div>
+                    <div class="testimonials-who">Client location, Courrendlin</div>
+                  </article>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">Estimation précise et mise en valeur du bien. Photos + annonce top.</div>
+                    <div class="testimonials-who">Client location, Courtételle</div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="testimonials-nav" aria-label="Navigation des avis">
+                <button class="testimonials-arrow" type="button" aria-label="Avis précédent" data-testimonials-prev>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M15 18l-6-6 6-6"></path>
+                  </svg>
+                </button>
+                <div class="testimonials-dots" data-testimonials-dots aria-label="Sélecteur d’avis"></div>
+                <button class="testimonials-arrow" type="button" aria-label="Avis suivant" data-testimonials-next>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9 18l6-6-6-6"></path>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>

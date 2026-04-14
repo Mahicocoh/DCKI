@@ -288,7 +288,10 @@ export function mountCardGalleries() {
 
 export function mountReveals() {
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const targets = document.querySelectorAll("main > section:not(.hero)");
+  const targets = [
+    ...document.querySelectorAll("main > section:not(.hero)"),
+    ...document.querySelectorAll("[data-reveal]"),
+  ];
   if (!targets.length) return;
 
   const io = new IntersectionObserver(
@@ -302,9 +305,178 @@ export function mountReveals() {
     { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
   );
 
-  for (const el of targets) {
+  const unique = new Set(targets);
+  for (const el of unique) {
     el.classList.add("reveal");
     io.observe(el);
+  }
+}
+
+export function mountCountUps() {
+  const els = [...document.querySelectorAll("[data-count-to]")];
+  if (!els.length) return;
+
+  const reduced =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const format = (n, decimals) => {
+    const nf = new Intl.NumberFormat("fr-FR", {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals,
+    });
+    return nf.format(n);
+  };
+
+  const setText = (el, n) => {
+    const to = Number(el.getAttribute("data-count-to") || "0");
+    const decimals = Number(el.getAttribute("data-count-decimals") || (Number.isInteger(to) ? 0 : 1));
+    const prefix = el.getAttribute("data-count-prefix") || "";
+    const suffix = el.getAttribute("data-count-suffix") || "";
+    const value = decimals === 0 ? Math.round(n) : Number(n.toFixed(decimals));
+    el.textContent = `${prefix}${format(value, decimals)}${suffix}`;
+  };
+
+  for (const el of els) setText(el, 0);
+
+  const animate = (el) => {
+    const to = Number(el.getAttribute("data-count-to") || "0");
+    const duration = Number(el.getAttribute("data-count-duration") || "1200");
+    if (!Number.isFinite(to)) return;
+    if (reduced) {
+      setText(el, to);
+      return;
+    }
+
+    const start = performance.now();
+    const from = 0;
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / duration);
+      const v = from + (to - from) * easeOutCubic(p);
+      setText(el, v);
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const started = new WeakSet();
+
+  if (!("IntersectionObserver" in window)) {
+    for (const el of els) animate(el);
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        if (started.has(e.target)) continue;
+        started.add(e.target);
+        animate(e.target);
+        io.unobserve(e.target);
+      }
+    },
+    { threshold: 0.35 }
+  );
+
+  for (const el of els) io.observe(el);
+}
+
+export function mountTestimonials() {
+  const roots = [...document.querySelectorAll("[data-testimonials]")];
+  if (!roots.length) return;
+
+  const reduced =
+    window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  for (const root of roots) {
+    if (root.dataset.bound === "1") continue;
+    root.dataset.bound = "1";
+
+    const track = root.querySelector("[data-testimonials-track]");
+    const dotsWrap = root.querySelector("[data-testimonials-dots]");
+    const prev = root.querySelector("[data-testimonials-prev]");
+    const next = root.querySelector("[data-testimonials-next]");
+    if (!track || !dotsWrap) continue;
+
+    const slides = [...track.children].filter((n) => n.nodeType === 1);
+    if (!slides.length) continue;
+
+    let idx = 0;
+    let timer = null;
+    let paused = false;
+
+    const setIndex = (n) => {
+      const len = slides.length;
+      idx = ((n % len) + len) % len;
+      track.style.transform = `translateX(${-idx * 100}%)`;
+      for (let i = 0; i < dotsWrap.children.length; i += 1) {
+        dotsWrap.children[i].classList.toggle("active", i === idx);
+      }
+    };
+
+    dotsWrap.innerHTML = "";
+    for (let i = 0; i < slides.length; i += 1) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "testimonials-dot";
+      b.setAttribute("aria-label", `Aller à l’avis ${i + 1}`);
+      b.addEventListener("click", () => {
+        setIndex(i);
+        restart();
+      });
+      dotsWrap.appendChild(b);
+    }
+
+    const stop = () => {
+      if (timer) window.clearInterval(timer);
+      timer = null;
+    };
+
+    const start = () => {
+      if (reduced) return;
+      if (timer || paused) return;
+      timer = window.setInterval(() => setIndex(idx + 1), 4500);
+    };
+
+    const restart = () => {
+      stop();
+      start();
+    };
+
+    if (prev) {
+      prev.addEventListener("click", () => {
+        setIndex(idx - 1);
+        restart();
+      });
+    }
+    if (next) {
+      next.addEventListener("click", () => {
+        setIndex(idx + 1);
+        restart();
+      });
+    }
+
+    root.addEventListener("pointerenter", () => {
+      paused = true;
+      stop();
+    });
+    root.addEventListener("pointerleave", () => {
+      paused = false;
+      start();
+    });
+    root.addEventListener("focusin", () => {
+      paused = true;
+      stop();
+    });
+    root.addEventListener("focusout", () => {
+      paused = false;
+      start();
+    });
+
+    setIndex(0);
+    start();
   }
 }
 
