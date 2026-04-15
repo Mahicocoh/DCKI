@@ -329,6 +329,42 @@ function createServer() {
       return;
     }
 
+    if (p === "/api/admin/listing" && (req.method === "PUT" || req.method === "DELETE")) {
+      if (!requireAuth(req, res)) return;
+      (async () => {
+        const u = new URL(url, "http://localhost");
+        const id = String(u.searchParams.get("id") || "");
+        if (!id) {
+          json(res, 400, { ok: false, error: "id manquant." });
+          return;
+        }
+        const listings = await readListings();
+        const idx = listings.findIndex((l) => l.id === id);
+        if (idx === -1) {
+          json(res, 404, { ok: false, error: "Bien introuvable." });
+          return;
+        }
+        if (req.method === "DELETE") {
+          const removed = listings.splice(idx, 1)[0];
+          await writeListings(listings);
+          json(res, 200, { ok: true, listing: removed });
+          return;
+        }
+        const raw = await readBody(req);
+        const payload = JSON.parse(raw.toString("utf8") || "{}");
+        const listing = normalizeListingPayload({ ...payload, id });
+        const errMsg = validateListing(listing);
+        if (errMsg) {
+          json(res, 400, { ok: false, error: errMsg });
+          return;
+        }
+        listings[idx] = listing;
+        await writeListings(listings);
+        json(res, 200, { ok: true, listing });
+      })().catch((err) => json(res, 500, { ok: false, error: err?.message || "Erreur serveur." }));
+      return;
+    }
+
     if (p.startsWith("/api/admin/listings/") && (req.method === "PUT" || req.method === "DELETE")) {
       if (!requireAuth(req, res)) return;
       (async () => {

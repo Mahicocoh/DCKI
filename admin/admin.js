@@ -303,7 +303,7 @@ btnSave?.addEventListener("click", async () => {
       showToast("Bien créé.");
       return;
     }
-    await api(`/api/admin/listings/${encodeURIComponent(draft.id)}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(draft) });
+    await api(`/api/admin/listing?id=${encodeURIComponent(draft.id)}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(draft) });
     selectedId = draft.id;
     await load();
     showToast("Bien enregistré.");
@@ -318,7 +318,7 @@ btnDelete?.addEventListener("click", async () => {
     if (!draft.id) return;
     const ok = window.confirm(`Supprimer ${draft.id} ?`);
     if (!ok) return;
-    await api(`/api/admin/listings/${encodeURIComponent(draft.id)}`, { method: "DELETE" });
+    await api(`/api/admin/listing?id=${encodeURIComponent(draft.id)}`, { method: "DELETE" });
     selectedId = "";
     await load();
     showToast("Bien supprimé.");

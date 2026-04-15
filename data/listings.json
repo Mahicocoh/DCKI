@@ -563,6 +563,7 @@
   {
     "id": "JUB-TAV-M010",
     "category": "rent",
+    "status": "",
     "propertyType": "Maison",
     "title": "Maison de village 6 pièces — Tavannes",
     "description": "Maison de village 6 pièces au cœur de Tavannes. Pièces spacieuses, cuisine habitable, salle de bain et douche, cave et grenier. Petit espace extérieur. Toutes commodités à pied.",
@@ -581,7 +582,6 @@
     "gallery": [
       "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
       "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
-      "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1800&q=70",
       "https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1800&q=70"
     ]
   }
