@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin — Biens</title>
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="../assets/1.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="../assets/1.jpg" />
+    <link rel="stylesheet" href="../styles/main.css" />
+  </head>
+  <body data-page="admin">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="../index.html" aria-label="Aller à l’accueil">
+          <img src="../assets/1.jpg" alt="DCKImmo" />
+        </a>
+        <div class="topbar-title">Administration</div>
+        <nav class="nav" data-nav>
+          <a href="../index.html">Accueil</a>
+          <a href="../biens.html">Nos biens</a>
+          <a href="../contact.html">Contact</a>
+          <a href="./index.html">Admin</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="grid cols-2 admin-layout" style="grid-template-columns: 0.9fr 1.1fr;align-items:start">
+          <div class="panel">
+            <div class="inner">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+                <h2 style="margin:0">Biens</h2>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <button class="btn small" type="button" data-admin-new>Nouveau</button>
+                  <button class="btn small" type="button" data-admin-refresh>Rafraîchir</button>
+                </div>
+              </div>
+
+              <div class="field full" style="margin-top:12px">
+                <span class="label">Recherche</span>
+                <input class="control" placeholder="Référence, titre, localité…" data-admin-q />
+              </div>
+
+              <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                <div class="pill"><strong>Total</strong><span data-admin-count>0</span></div>
+                <button class="btn small" type="button" data-admin-logout>Déconnexion</button>
+              </div>
+
+              <div style="margin-top:12px;display:grid;gap:10px" data-admin-list></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="inner">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+                <div>
+                  <h2 style="margin:0">Éditeur</h2>
+                  <p class="lead" style="margin:8px 0 0">Modifie un bien, enregistre, et c’est visible sur le site.</p>
+                </div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap">
+                  <button class="btn small" type="button" data-admin-save>Enregistrer</button>
+                  <button class="btn small" type="button" data-admin-delete>Supprimer</button>
+                </div>
+              </div>
+
+              <form class="form" data-admin-form style="margin-top:12px">
+                <div class="field">
+                  <span class="label">Référence (id)</span>
+                  <input class="control" name="id" placeholder="JU-DEL-001" required />
+                </div>
+                <div class="field">
+                  <span class="label">Catégorie</span>
+                  <select class="control" name="category" required>
+                    <option value="sale">À vendre</option>
+                    <option value="rent">À louer</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <span class="label">Statut</span>
+                  <select class="control" name="status">
+                    <option value="">Disponible</option>
+                    <option value="sold">Vendu</option>
+                    <option value="rented">Loué</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <span class="label">Type</span>
+                  <input class="control" name="propertyType" placeholder="Appartement / Maison / Villa" required />
+                </div>
+
+                <div class="field full">
+                  <span class="label">Titre</span>
+                  <input class="control" name="title" required />
+                </div>
+
+                <div class="field full">
+                  <span class="label">Description</span>
+                  <textarea class="control" name="description" rows="7"></textarea>
+                </div>
+
+                <div class="field">
+                  <span class="label">Région</span>
+                  <input class="control" name="region" placeholder="Jura / Jura bernois" required />
+                </div>
+                <div class="field">
+                  <span class="label">Localité</span>
+                  <input class="control" name="locality" required />
+                </div>
+                <div class="field">
+                  <span class="label">Pièces</span>
+                  <input class="control" name="rooms" inputmode="decimal" required />
+                </div>
+                <div class="field">
+                  <span class="label">Surface (m²)</span>
+                  <input class="control" name="surface" inputmode="numeric" required />
+                </div>
+                <div class="field">
+                  <span class="label">Prix</span>
+                  <input class="control" name="price" inputmode="numeric" required />
+                </div>
+                <div class="field">
+                  <span class="label">Suffixe prix</span>
+                  <input class="control" name="priceSuffix" placeholder="/mois" />
+                </div>
+
+                <div class="field full">
+                  <span class="label">Tags</span>
+                  <div>
+                    <div class="chipRow" data-admin-tags></div>
+                    <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap">
+                      <input class="control" style="flex:1 1 220px" placeholder="Ajouter un tag…" list="admin-tags-suggest" data-admin-tag-input />
+                      <button class="btn small" type="button" data-admin-tag-add>Ajouter</button>
+                    </div>
+                    <datalist id="admin-tags-suggest" data-admin-tag-suggest></datalist>
+                    <input type="hidden" name="tags" data-admin-tags-hidden />
+                  </div>
+                </div>
+
+                <div class="field full">
+                  <span class="label">Image principale (URL)</span>
+                  <input class="control" name="image" placeholder="https://..." required data-admin-image-url />
+                  <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                    <input class="control" type="file" accept="image/png,image/jpeg,image/webp" data-admin-image-upload />
+                    <button class="btn small" type="button" data-admin-image-upload-btn>Uploader</button>
+                  </div>
+                </div>
+
+                <div class="field full">
+                  <span class="label">Galerie</span>
+                  <div class="admin-dropzone" data-admin-dropzone>Glisser-déposer des images ici, ou utiliser l’upload.</div>
+                  <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                    <input class="control" type="file" accept="image/png,image/jpeg,image/webp" multiple data-admin-gallery-upload />
+                    <button class="btn small" type="button" data-admin-gallery-upload-btn>Uploader</button>
+                  </div>
+                  <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+                    <input class="control" style="flex:1 1 260px" placeholder="Ajouter une URL…" data-admin-gallery-url />
+                    <button class="btn small" type="button" data-admin-gallery-url-add>Ajouter</button>
+                  </div>
+                  <div class="admin-gallery" style="margin-top:12px" data-admin-gallery></div>
+                </div>
+
+                <div class="field full">
+                  <span class="label">Aperçu</span>
+                  <div class="card">
+                    <div class="media" style="aspect-ratio:16/10;background:#e9edf3">
+                      <img data-admin-preview-img alt="" />
+                    </div>
+                    <div class="body">
+                      <h3 data-admin-preview-title style="margin:0 0 6px"></h3>
+                      <div class="meta" data-admin-preview-meta></div>
+                      <p class="desc" data-admin-preview-desc style="margin-top:10px"></p>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="toast" data-toast></div>
+    <script type="module" src="./admin.js"></script>
+  </body>
+</html>

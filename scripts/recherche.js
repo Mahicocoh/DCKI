@@ -1,6 +1,7 @@
-import { LISTINGS, getListingSearchText, normalizeForSearch, getListingFeatures, getAllTags } from "./listings-data.js";
+import { getListingSearchText, normalizeForSearch, getListingFeatures, getAllTags } from "./listings-data.js";
 import { renderListings } from "./listings-ui.js";
 import { getQueryParams, initAutocomplete } from "./ui.js";
+import { loadListings } from "./listings-store.js";
 
 function getSelectedCategories(form) {
   const cat = form.cat?.value;
@@ -74,10 +75,10 @@ function sortListings(list, mode) {
   return out;
 }
 
-function hydrateLocalities(region) {
+function hydrateLocalities(listings, region) {
   const el = document.querySelector("[data-locality]");
   if (!el) return;
-  const base = LISTINGS.filter((l) => !region || l.region === region).map((l) => l.locality);
+  const base = listings.filter((l) => !region || l.region === region).map((l) => l.locality);
   const unique = [...new Set(base)].sort((a, b) => a.localeCompare(b, "fr"));
   el.innerHTML = `<option value="">Toutes</option>` + unique.map((v) => `<option value="${escapeAttr(v)}">${escapeHtml(v)}</option>`).join("");
 }
@@ -95,7 +96,7 @@ function escapeAttr(s) {
   return escapeHtml(s).replaceAll("\n", " ");
 }
 
-export function initRecherche() {
+export async function initRecherche() {
   const form = document.querySelector("[data-search-form]");
   const grid = document.querySelector("[data-results]");
   const count = document.querySelector("[data-count]");
@@ -103,6 +104,8 @@ export function initRecherche() {
   const maxPriceQuick = form?.querySelector("select[name='maxPriceQuick']");
 
   if (!form || !grid) return;
+
+  const LISTINGS = await loadListings();
 
   initAutocomplete("search-q", "search-autocomplete");
 
@@ -124,7 +127,7 @@ export function initRecherche() {
   };
 
   setIf("region", qp.region ?? "");
-  hydrateLocalities(form.querySelector("[name='region']")?.value || "");
+  hydrateLocalities(LISTINGS, form.querySelector("[name='region']")?.value || "");
   setIf("locality", qp.locality ?? "");
   setIf("propertyType", qp.type ?? "");
   setIf("minPrice", qp.minPrice ?? "");
@@ -226,7 +229,7 @@ export function initRecherche() {
   form.addEventListener("input", (e) => {
     const t = e.target;
     if (t && t.name === "region") {
-      hydrateLocalities(form.region?.value || "");
+      hydrateLocalities(LISTINGS, form.region?.value || "");
       if (form.locality) form.locality.value = "";
     }
     update();

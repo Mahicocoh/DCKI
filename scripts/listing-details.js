@@ -1,5 +1,6 @@
-import { LISTINGS, CATEGORY_LABEL, getListingFeatures, getListingPhotos, getListingFacts } from "./listings-data.js";
+import { CATEGORY_LABEL, getListingFeatures, getListingPhotos, getListingFacts } from "./listings-data.js";
 import { formatCHF, formatRooms, showToast } from "./ui.js";
+import { loadListings } from "./listings-store.js";
 
 function escapeHtml(s) {
   return String(s)
@@ -157,6 +158,12 @@ function closeModal() {
 
 export function initListingDetails() {
   ensureModal();
+  let listingsCache = null;
+  const getListings = async () => {
+    if (listingsCache) return listingsCache;
+    listingsCache = await loadListings();
+    return listingsCache;
+  };
 
   document.addEventListener("click", (e) => {
     const t = e.target;
@@ -185,10 +192,13 @@ export function initListingDetails() {
     if (!card) return;
 
     const id = card.getAttribute("data-id") || "";
-    const listing = LISTINGS.find((l) => l.id === id);
-    if (!listing) return;
-
-    openModal(listing);
+    if (!id) return;
+    (async () => {
+      const listings = await getListings();
+      const listing = listings.find((l) => l.id === id);
+      if (!listing) return;
+      openModal(listing);
+    })();
   });
 
   document.addEventListener("keydown", (e) => {
@@ -214,8 +224,12 @@ export function initListingDetails() {
     e.preventDefault();
 
     const id = card.getAttribute("data-id") || "";
-    const listing = LISTINGS.find((l) => l.id === id);
-    if (!listing) return;
-    openModal(listing);
+    if (!id) return;
+    (async () => {
+      const listings = await getListings();
+      const listing = listings.find((l) => l.id === id);
+      if (!listing) return;
+      openModal(listing);
+    })();
   });
 }

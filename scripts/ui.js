@@ -1,4 +1,5 @@
-import { LOCALITIES, normalizeForSearch, LISTINGS, getListingPhotos } from "./listings-data.js";
+import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
+import { loadListings } from "./listings-store.js";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -216,74 +217,87 @@ function getCardPhotos(card) {
   const fallback = img?.getAttribute("src") ? [img.getAttribute("src")] : [];
   const id = getCardListingId(card);
   if (!id) return fallback;
-  const listing = LISTINGS.find((l) => l.id === id);
+  const listing = stateListings?.get(id);
   if (!listing) return fallback;
   return getListingPhotos(listing, 10);
 }
 
+let stateListings = null;
+
 export function mountCardGalleries() {
-  for (const card of document.querySelectorAll(".card.listing")) {
-    const media = card.querySelector(".media");
-    const img = media?.querySelector("img");
-    if (!media || !img) continue;
-    if (media.querySelector("[data-card-prev]")) continue;
+  (async () => {
+    if (!stateListings) {
+      try {
+        const listings = await loadListings();
+        stateListings = new Map(listings.map((l) => [l.id, l]));
+      } catch {
+        stateListings = new Map();
+      }
+    }
 
-    const photos = getCardPhotos(card);
-    if (!photos || photos.length <= 1) continue;
+    for (const card of document.querySelectorAll(".card.listing")) {
+      const media = card.querySelector(".media");
+      const img = media?.querySelector("img");
+      if (!media || !img) continue;
+      if (media.querySelector("[data-card-prev]")) continue;
 
-    let idx = 0;
-    const count = document.createElement("span");
-    count.className = "card-gallery-count";
-    count.setAttribute("data-card-count", "");
+      const photos = getCardPhotos(card);
+      if (!photos || photos.length <= 1) continue;
 
-    const prev = document.createElement("span");
-    prev.className = "card-gallery-nav prev";
-    prev.setAttribute("role", "button");
-    prev.setAttribute("tabindex", "0");
-    prev.setAttribute("aria-label", "Photo précédente");
-    prev.setAttribute("data-card-prev", "");
-    prev.textContent = "‹";
+      let idx = 0;
+      const count = document.createElement("span");
+      count.className = "card-gallery-count";
+      count.setAttribute("data-card-count", "");
 
-    const next = document.createElement("span");
-    next.className = "card-gallery-nav next";
-    next.setAttribute("role", "button");
-    next.setAttribute("tabindex", "0");
-    next.setAttribute("aria-label", "Photo suivante");
-    next.setAttribute("data-card-next", "");
-    next.textContent = "›";
+      const prev = document.createElement("span");
+      prev.className = "card-gallery-nav prev";
+      prev.setAttribute("role", "button");
+      prev.setAttribute("tabindex", "0");
+      prev.setAttribute("aria-label", "Photo précédente");
+      prev.setAttribute("data-card-prev", "");
+      prev.textContent = "‹";
 
-    const setIndex = (n) => {
-      const len = photos.length;
-      idx = ((n % len) + len) % len;
-      img.src = photos[idx];
-      count.textContent = `${idx + 1} / ${len}`;
-    };
+      const next = document.createElement("span");
+      next.className = "card-gallery-nav next";
+      next.setAttribute("role", "button");
+      next.setAttribute("tabindex", "0");
+      next.setAttribute("aria-label", "Photo suivante");
+      next.setAttribute("data-card-next", "");
+      next.textContent = "›";
 
-    const onPrev = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIndex(idx - 1);
-    };
-    const onNext = (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      setIndex(idx + 1);
-    };
+      const setIndex = (n) => {
+        const len = photos.length;
+        idx = ((n % len) + len) % len;
+        img.src = photos[idx];
+        count.textContent = `${idx + 1} / ${len}`;
+      };
 
-    prev.addEventListener("click", onPrev);
-    next.addEventListener("click", onNext);
-    prev.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") onPrev(e);
-    });
-    next.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") onNext(e);
-    });
+      const onPrev = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIndex(idx - 1);
+      };
+      const onNext = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setIndex(idx + 1);
+      };
 
-    media.appendChild(prev);
-    media.appendChild(next);
-    media.appendChild(count);
-    setIndex(0);
-  }
+      prev.addEventListener("click", onPrev);
+      next.addEventListener("click", onNext);
+      prev.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") onPrev(e);
+      });
+      next.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") onNext(e);
+      });
+
+      media.appendChild(prev);
+      media.appendChild(next);
+      media.appendChild(count);
+      setIndex(0);
+    }
+  })();
 }
 
 export function mountReveals() {

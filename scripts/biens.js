@@ -1,5 +1,6 @@
-import { LISTINGS, getListingSearchText, normalizeForSearch, getListingFeatures } from "./listings-data.js";
+import { getListingSearchText, normalizeForSearch, getListingFeatures } from "./listings-data.js";
 import { renderListings } from "./listings-ui.js";
+import { loadListings } from "./listings-store.js";
 
 function toNumber(v) {
   const n = Number(String(v ?? "").replace(",", "."));
@@ -48,7 +49,7 @@ function sortListings(list, mode) {
   return out;
 }
 
-export function initBiens() {
+export async function initBiens() {
   const count = document.querySelector("[data-biens-count]");
   const saleGrid = document.querySelector("[data-biens-sale-grid]");
   const rentGrid = document.querySelector("[data-biens-rent-grid]");
@@ -58,6 +59,8 @@ export function initBiens() {
   const rentSection = document.querySelector("#louer");
 
   if (!saleGrid || !rentGrid) return;
+
+  const LISTINGS = await loadListings();
 
   const qp = new URLSearchParams(window.location.search);
   const categories = [];

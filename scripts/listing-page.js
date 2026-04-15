@@ -1,5 +1,6 @@
-import { LISTINGS, CATEGORY_LABEL, getListingFacts, getListingFeatures, getListingPhotos } from "./listings-data.js";
+import { CATEGORY_LABEL, getListingFacts, getListingFeatures, getListingPhotos } from "./listings-data.js";
 import { formatCHF, formatRooms, showToast, getQueryParams } from "./ui.js";
+import { loadListings } from "./listings-store.js";
 
 function escapeHtml(s) {
   return String(s)
@@ -148,9 +149,10 @@ function render(listing) {
   });
 }
 
-export function initListingPage() {
+export async function initListingPage() {
   const qp = getQueryParams();
   const id = qp.id || "";
+  const LISTINGS = await loadListings();
   const listing = LISTINGS.find((l) => l.id === id);
   if (!listing) {
     showToast("Bien introuvable.");

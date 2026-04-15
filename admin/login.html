@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion — Admin</title>
+    <meta name="theme-color" content="#ffffff" />
+    <link rel="icon" href="../assets/1.jpg" type="image/jpeg" />
+    <link rel="apple-touch-icon" href="../assets/1.jpg" />
+    <link rel="stylesheet" href="../styles/main.css" />
+  </head>
+  <body data-page="admin-login">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="../index.html" aria-label="Aller à l’accueil">
+          <img src="../assets/1.jpg" alt="DCKImmo" />
+        </a>
+        <div class="topbar-title">Administration</div>
+        <nav class="nav" data-nav>
+          <a href="../index.html">Accueil</a>
+          <a href="../biens.html">Nos biens</a>
+          <a href="../contact.html">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="section">
+      <div class="container">
+        <div class="panel" style="max-width:520px;margin:0 auto">
+          <div class="inner">
+            <h2 style="margin:0">Connexion</h2>
+            <p class="lead" style="margin:10px 0 0">Accès réservé à l’administration.</p>
+
+            <form class="form" data-admin-login style="margin-top:14px">
+              <div class="field full">
+                <span class="label">Utilisateur</span>
+                <input class="control" name="user" autocomplete="username" required />
+              </div>
+              <div class="field full">
+                <span class="label">Mot de passe</span>
+                <input class="control" name="password" type="password" autocomplete="current-password" required />
+              </div>
+              <div class="actions">
+                <button class="btn primary" type="submit">Se connecter</button>
+                <a class="btn" href="../index.html">Retour</a>
+              </div>
+            </form>
+            <div class="fine" style="margin-top:12px" data-admin-login-hint></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="toast" data-toast></div>
+    <script type="module" src="./login.js"></script>
+  </body>
+</html>
