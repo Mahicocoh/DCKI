@@ -573,7 +573,8 @@ async function startServer() {
       const url = `http://localhost:${actualPort}`;
       console.log(`DCKImmo: ${url}`);
       openInBrowser(url);
-      return;
+      globalThis.__DCKI_SERVER__ = server;
+      await new Promise(() => {});
     } catch (err) {
       try {
         server.close();
