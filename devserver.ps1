@@ -4,13 +4,16 @@ param(
 )
 
 $rootPath = (Resolve-Path $Root).Path.TrimEnd('\')
-$prefix = "http://localhost:$Port/"
+$prefixLocalhost = "http://localhost:$Port/"
+$prefixLoopback = "http://127.0.0.1:$Port/"
 
 $listener = [System.Net.HttpListener]::new()
-$listener.Prefixes.Add($prefix)
+$listener.Prefixes.Add($prefixLocalhost)
+$listener.Prefixes.Add($prefixLoopback)
 $listener.Start()
 
-Write-Host "Serving $rootPath at $prefix"
+Write-Host "Serving $rootPath at $prefixLocalhost"
+Write-Host "Serving $rootPath at $prefixLoopback"
 
 function Get-ContentType([string]$path) {
   $ext = [System.IO.Path]::GetExtension($path).ToLowerInvariant()
