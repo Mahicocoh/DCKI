@@ -94,6 +94,114 @@ export function wireForms() {
   }
 }
 
+export function mountAppointmentPlanner() {
+  const triggers = Array.from(document.querySelectorAll("[data-open-appointment]"));
+  if (!triggers.length) return;
+
+  const form = document.getElementById("contact-form");
+  const planner = document.querySelector("[data-appointment-planner]");
+  const dateInput = document.querySelector("[data-appointment-date]");
+  const timeInput = document.querySelector("[data-appointment-time]");
+  const messageInput = document.getElementById("contact-message");
+  const requestType = document.getElementById("contact-request-type");
+
+  if (!(form instanceof HTMLFormElement)) return;
+  if (!(planner instanceof HTMLElement)) return;
+  if (!(dateInput instanceof HTMLInputElement)) return;
+  if (!(timeInput instanceof HTMLInputElement)) return;
+  if (!(messageInput instanceof HTMLTextAreaElement)) return;
+
+  let openedByUser = false;
+
+  const today = new Date();
+  const yyyy = String(today.getFullYear());
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+  const formatDate = (raw) => {
+    const [y, m, d] = raw.split("-").map(Number);
+    if (!y || !m || !d) return "";
+    const dd = String(d).padStart(2, "0");
+    const mm = String(m).padStart(2, "0");
+    return `${dd}.${mm}`;
+  };
+
+  const clearAutoMessage = () => {
+    const prev = messageInput.dataset.autoRdvMsg || "";
+    if (!prev) return;
+    const cleaned = messageInput.value
+      .replace(prev, "")
+      .replace(/\n{3,}/g, "\n\n")
+      .trimEnd();
+    messageInput.value = cleaned;
+    delete messageInput.dataset.autoRdvMsg;
+  };
+
+  const isVisitRequest = () => {
+    if (!(requestType instanceof HTMLSelectElement)) return true;
+    return requestType.value === "Demande de visite";
+  };
+
+  const hidePlanner = () => {
+    planner.hidden = true;
+    planner.classList.remove("is-open");
+    clearAutoMessage();
+    dateInput.value = "";
+    timeInput.value = "";
+  };
+
+  const applyAutoMessage = () => {
+    clearAutoMessage();
+    if (!openedByUser) return;
+    if (!isVisitRequest()) return;
+    if (!dateInput.value || !timeInput.value) return;
+
+    const dateLabel = formatDate(dateInput.value);
+    const msg = `Je suis disponible pour une visite le ${dateLabel} à ${timeInput.value}.`;
+    const base = messageInput.value.trimEnd();
+    messageInput.value = base ? `${base}\n\n${msg}` : msg;
+    messageInput.dataset.autoRdvMsg = msg;
+  };
+
+  const openPlanner = () => {
+    openedByUser = true;
+    planner.hidden = false;
+    planner.classList.add("is-open");
+    if (requestType instanceof HTMLSelectElement) {
+      requestType.value = "Demande de visite";
+    }
+    if (!dateInput.value) dateInput.value = dateInput.min || "";
+    if (!timeInput.value) timeInput.value = "10:00";
+    applyAutoMessage();
+    window.setTimeout(() => dateInput.focus(), 120);
+  };
+
+  for (const trigger of triggers) {
+    trigger.addEventListener("click", () => {
+      openPlanner();
+    });
+  }
+
+  dateInput.addEventListener("change", applyAutoMessage);
+  timeInput.addEventListener("change", applyAutoMessage);
+
+  if (requestType instanceof HTMLSelectElement) {
+    requestType.addEventListener("change", () => {
+      if (!openedByUser) return;
+      if (!isVisitRequest()) hidePlanner();
+      else applyAutoMessage();
+    });
+  }
+
+  form.addEventListener("reset", () => {
+    window.setTimeout(() => {
+      openedByUser = false;
+      hidePlanner();
+    }, 0);
+  });
+}
+
 export function getQueryParams() {
   const p = new URLSearchParams(window.location.search);
   const out = {};
@@ -333,6 +441,42 @@ export function mountCountUps() {
   const reduced =
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  const animateRing = (valueEl) => {
+    const ring = valueEl.parentElement?.querySelector?.(".kpi-ring");
+    if (!ring) return;
+    const fg = ring.querySelector(".kpi-fg");
+    if (!(fg instanceof SVGCircleElement)) return;
+
+    const raw = ring.getAttribute("data-kpi-progress");
+    const progress = Math.max(0, Math.min(100, Number(raw ?? "100")));
+    if (!Number.isFinite(progress)) return;
+
+    const valueDuration = Number(valueEl.getAttribute("data-count-duration") || "1200");
+    const ringDuration = Number(ring.getAttribute("data-kpi-duration") || String(valueDuration * 1.8));
+    const duration = Number.isFinite(ringDuration) ? ringDuration : valueDuration;
+
+    const len = fg.getTotalLength();
+    fg.style.strokeDasharray = `${len}`;
+
+    const to = len * (1 - progress / 100);
+    if (reduced) {
+      fg.style.strokeDashoffset = `${to}`;
+      return;
+    }
+
+    const start = performance.now();
+    const from = len;
+    const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+
+    const tick = (now) => {
+      const p = Math.min(1, (now - start) / duration);
+      const v = from + (to - from) * easeOutCubic(p);
+      fg.style.strokeDashoffset = `${v}`;
+      if (p < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+
   const format = (n, decimals) => {
     const nf = new Intl.NumberFormat("fr-FR", {
       minimumFractionDigits: decimals,
@@ -358,6 +502,7 @@ export function mountCountUps() {
     if (!Number.isFinite(to)) return;
     if (reduced) {
       setText(el, to);
+      animateRing(el);
       return;
     }
 
@@ -372,6 +517,7 @@ export function mountCountUps() {
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
+    animateRing(el);
   };
 
   const started = new WeakSet();
@@ -420,6 +566,7 @@ export function mountTestimonials() {
     let idx = 0;
     let timer = null;
     let paused = false;
+    const AUTOPLAY_MS = 3800;
 
     const setIndex = (n) => {
       const len = slides.length;
@@ -451,11 +598,23 @@ export function mountTestimonials() {
     const start = () => {
       if (reduced) return;
       if (timer || paused) return;
-      timer = window.setInterval(() => setIndex(idx + 1), 4500);
+      timer = window.setInterval(() => setIndex(idx + 1), AUTOPLAY_MS);
     };
 
     const restart = () => {
       stop();
+      start();
+    };
+
+    const pause = () => {
+      paused = true;
+      root.classList.add("is-paused");
+      stop();
+    };
+
+    const resume = () => {
+      paused = false;
+      root.classList.remove("is-paused");
       start();
     };
 
@@ -472,22 +631,11 @@ export function mountTestimonials() {
       });
     }
 
-    root.addEventListener("pointerenter", () => {
-      paused = true;
-      stop();
-    });
-    root.addEventListener("pointerleave", () => {
-      paused = false;
-      start();
-    });
-    root.addEventListener("focusin", () => {
-      paused = true;
-      stop();
-    });
-    root.addEventListener("focusout", () => {
-      paused = false;
-      start();
-    });
+    root.addEventListener("pointerenter", pause);
+    root.addEventListener("pointerleave", resume);
+    root.addEventListener("pointerdown", pause);
+    root.addEventListener("focusin", pause);
+    root.addEventListener("focusout", resume);
 
     setIndex(0);
     start();

@@ -233,6 +233,7 @@
   {
     "id": "JU-POR-011",
     "category": "rent",
+    "status": "",
     "propertyType": "Appartement",
     "title": "Appartement de standing 4.5 pièces au centre historique",
     "description": "Situé en plein cœur de la vieille ville de Porrentruy, dans un immeuble historique classé et entièrement réhabilité en 2024, ce magnifique appartement de 4.5 pièces offre des prestations haut de gamme. D'une surface de 135 m², il se caractérise par de hauts plafonds ornés de moulures d'époque, de superbes parquets à chevrons restaurés et de grandes fenêtres offrant une belle clarté. La cuisine est moderne, ouverte sur un grand séjour de 50 m². L'appartement compte trois chambres spacieuses, dont une suite avec salle de douche privative. Une salle de bain principale avec baignoire et colonne de lavage, ainsi qu'un WC visiteurs complètent le bien. Ascenseur dans l'immeuble. Vous vivrez à deux pas des commerces, des restaurants et du château. Une place de parc dans un parking souterrain à 100m est disponible en option.",
@@ -248,7 +249,19 @@
       "Haut standing",
       "Parquet chevron"
     ],
-    "image": "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1600&q=70"
+    "image": "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+    "gallery": [
+      "https://images.unsplash.com/photo-1560185009-5bf9f2849488?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1501183638710-841dd1904471?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1493809842364-78817add7ffb?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1800&q=70",
+      "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?auto=format&fit=crop&w=1800&q=70"
+    ]
   },
   {
     "id": "JUB-SON-012",

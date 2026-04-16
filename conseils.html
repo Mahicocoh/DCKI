@@ -1,16 +1,15 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demande de dossier — DCKImmo</title>
-    <meta name="description" content="Demande de dossier de location/achat pour DCKImmo." />
-    <meta name="theme-color" content="#ffffff" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conseils — DCKImmo</title>
+    <meta name="description" content="Conseils immobiliers : devenir propriétaire, investir et préparer son projet." />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
     <link rel="stylesheet" href="./styles/main.css" />
   </head>
-  <body data-page="dossier">
+  <body data-page="conseils">
     <header class="topbar">
       <div class="container topbar-inner">
         <a class="brand" href="./index.html" aria-label="Aller à l’accueil">
@@ -30,7 +29,6 @@
               <a href="./biens.html">Nos biens</a>
               <a href="./index.html#recherche-rapide">Recherche</a>
               <a href="./conseils.html">Conseils</a>
-              <a href="./dossier.html">Demande de dossier</a>
               <a href="./contact.html">Contact</a>
               <a href="./admin/login.html">Admin</a>
             </nav>
@@ -45,96 +43,51 @@
       </div>
     </header>
 
-    <main class="section">
-      <div class="container">
-        <div class="grid cols-2 dossier-grid">
-          <div class="panel dossier-panel">
-            <div class="inner">
-              <h2 style="margin-top:0">Demande de dossier</h2>
-              <p class="lead" style="margin-top:0">
-                Cette page sert à demander un dossier (achat ou location).
-              </p>
-              <div class="grid cols-2" style="gap:12px">
-                <div class="pill">
-                  <strong>Contact</strong>
-                  <span>Deniz Demirci</span>
-                </div>
-                <div class="pill">
-                  <strong>Adresse</strong>
-                  <span>Courtételle</span>
-                </div>
-                <div class="pill">
-                  <strong>Email</strong>
-                  <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
-                </div>
-              </div>
-              <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
-                <iframe
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  src="https://www.google.com/maps?q=Courtetelle%2C%20Suisse&output=embed"
-                  title="Courtételle"
-                  allowfullscreen
-                ></iframe>
-              </div>
-              <div style="margin-top:14px" class="card">
-                <div class="body">
-                  <h3 style="margin-top:0">Exemples de pièces demandées</h3>
-                  <div class="meta" style="margin-top:10px">
-                    <span class="tag">Pièce d’identité</span>
-                    <span class="tag">3 dernières fiches de salaire</span>
-                    <span class="tag">Attestation poursuites</span>
-                    <span class="tag">Lettre de motivation</span>
-                    <span class="tag">Coordonnées</span>
-                  </div>
-                  <p class="fine" style="margin:12px 0 0">
-                    À adapter selon vos procédures et exigences légales.
-                  </p>
-                </div>
-              </div>
+    <main>
+      <section class="page-hero">
+        <video class="page-hero-bg" autoplay muted loop playsinline preload="metadata" poster="./assets/1257.png" aria-hidden="true">
+          <source src="./assets/2.mp4" type="video/mp4" />
+        </video>
+        <div class="page-hero-overlay"></div>
+        <div class="container page-hero-content">
+          <h1>Conseils</h1>
+        </div>
+      </section>
+
+      <section class="section" id="devenir-proprietaire">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="margin:0">Devenir propriétaire</h2>
+              <p class="advice-sub" style="margin:8px 0 0">3 avantages à devenir propriétaire d’un bien immobilier aujourd’hui.</p>
             </div>
           </div>
 
-          <div class="panel dossier-panel">
-            <div class="inner">
-              <h2 style="margin-top:0">Formulaire</h2>
-              <form class="form" data-demo-form="Demande de dossier">
-                <div class="field">
-                  <span class="label">Nom</span>
-                  <input class="control" name="name" required placeholder="Nom Prénom" />
-                </div>
-                <div class="field">
-                  <span class="label">Email</span>
-                  <input class="control" name="email" type="email" required placeholder="vous@exemple.ch" />
-                </div>
-                <div class="field">
-                  <span class="label">Téléphone</span>
-                  <input class="control" name="phone" placeholder="+41 …" />
-                </div>
-                <div class="field">
-                  <span class="label">Type de demande</span>
-                  <select class="control" name="type" required>
-                    <option value="Location">Location</option>
-                    <option value="Achat">Achat</option>
-                  </select>
-                </div>
-                <div class="field full">
-                  <span class="label">Bien concerné (référence optionnelle)</span>
-                  <input class="control" name="ref" placeholder="ex : JUB-TRM-008" />
-                </div>
-                <div class="field full">
-                  <span class="label">Message</span>
-                  <textarea class="control" name="message" rows="5" required placeholder="Informations utiles, composition du ménage, délai…"></textarea>
-                </div>
-                <div class="actions">
-                  <button class="btn primary" type="submit">Envoyer la demande</button>
-                  <a class="btn" href="./index.html#recherche-rapide">Rechercher un bien</a>
-                </div>
-              </form>
-            </div>
+          <div class="advice-article">
+            <p class="lead" style="margin:0 0 14px">
+              L’acquisition d’un bien immobilier, pour le louer ou y résider, amène souvent à se demander si investir dans la pierre peut sécuriser l’avenir. Dans un contexte où les caisses de pension peinent à garantir un futur serein, il est légitime de réfléchir à la manière de pérenniser un revenu.
+            </p>
+            <p style="margin:0 0 14px;color:rgba(15,23,32,.72);line-height:1.7">
+              Il existe de nombreux avantages à acquérir un bien immobilier en Suisse. Au-delà des aspects émotionnels — comme le sentiment d’accomplissement que procure l’accession à la propriété — voici trois avantages concrets.
+            </p>
+
+            <h3 style="margin:18px 0 8px">Sécurité du logement</h3>
+            <p style="margin:0;color:rgba(15,23,32,.72);line-height:1.7">
+              Être propriétaire permet de se soustraire à la dure loi du marché locatif, dans une région qui connaît une pénurie depuis plusieurs décennies.
+            </p>
+
+            <h3 style="margin:18px 0 8px">Placement financier</h3>
+            <p style="margin:0;color:rgba(15,23,32,.72);line-height:1.7">
+              Soutenue par une demande constante, l’offre immobilière s’apprécie naturellement. De nombreuses acquisitions deviennent ainsi des placements, avec une plus-value potentielle lors de la revente.
+            </p>
+
+            <h3 style="margin:18px 0 8px">Patrimoine transmissible</h3>
+            <p style="margin:0;color:rgba(15,23,32,.72);line-height:1.7">
+              Un bien immobilier est souvent plus stable que des fonds ou des titres cotés. Ce capital représente une protection financière sur le long terme et peut être transmis à ses enfants.
+            </p>
           </div>
         </div>
-      </div>
+      </section>
     </main>
 
     <footer class="footer">
@@ -143,7 +96,7 @@
           <div class="footer-brand">
             <img src="./assets/1.jpg" alt="DCKImmo" />
             <div class="footer-desc">
-              Propriétés à vendre et à louer dans le Jura & Jura bernois. Contact direct, transparence et accompagnement.
+              Propriétés à vendre et à louer dans le Jura &amp; Jura bernois. Contact direct, transparence et accompagnement.
             </div>
             <div class="footer-social">
               <a class="social-btn" href="#" aria-label="Instagram">
@@ -163,6 +116,7 @@
               <div class="k">Navigation</div>
               <a href="./biens.html">Nos biens</a>
               <a href="./index.html#recherche-rapide">Recherche</a>
+              <a href="./conseils.html">Conseils</a>
               <a href="./contact.html">Contact</a>
               <a href="./dossier.html">Demande de dossier</a>
             </div>
@@ -170,7 +124,7 @@
               <div class="k">Contact</div>
               <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
               <a href="tel:+41787338717">+41 78 733 87 17</a>
-              <div class="fine" style="margin-top:8px">Courtételle — Jura</div>
+              <div class="fine" style="margin-top:8px">Courtételle — Jura</div>
             </div>
             <div class="footer-col">
               <div class="k">Newsletter</div>
@@ -192,18 +146,9 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
-      (function () {
-        const params = new URLSearchParams(window.location.search);
-        const type = params.get("type");
-        const id = params.get("id");
-        const typeEl = document.querySelector("select[name='type']");
-        const refEl = document.querySelector("input[name='ref']");
-        if (typeEl && (type === "Location" || type === "Achat")) typeEl.value = type;
-        if (refEl && id) refEl.value = id;
-      })();
     </script>
+    <script type="module" src="./scripts/app.js"></script>
   </body>
 </html>

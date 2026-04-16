@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -31,6 +31,7 @@
               <a href="./index.html">Accueil</a>
               <a href="./biens.html">Nos biens</a>
               <a href="#recherche-rapide">Recherche</a>
+              <a href="./conseils.html">Conseils</a>
               <a href="./contact.html">Contact</a>
               <a href="./admin/login.html">Admin</a>
             </nav>
@@ -552,15 +553,33 @@
       <div class="kpi-divider" data-reveal aria-label="Indicateurs">
         <div class="kpi-divider-inner">
           <div class="kpi-item">
-            <div class="kpi-value" data-count-to="4" data-count-prefix="+">0</div>
+            <div class="kpi-ring" data-kpi-progress="86" data-kpi-duration="2600" aria-hidden="true">
+              <svg viewBox="0 0 100 100" class="kpi-svg">
+                <circle class="kpi-bg" cx="50" cy="50" r="42"></circle>
+                <circle class="kpi-fg" cx="50" cy="50" r="42"></circle>
+              </svg>
+            </div>
+            <div class="kpi-value" data-count-to="4" data-count-duration="1400" data-count-prefix="+">0</div>
             <div class="kpi-label">Biens vendus</div>
           </div>
           <div class="kpi-item">
-            <div class="kpi-value" data-count-to="9" data-count-prefix="+">0</div>
+            <div class="kpi-ring" data-kpi-progress="88" data-kpi-duration="2600" aria-hidden="true">
+              <svg viewBox="0 0 100 100" class="kpi-svg">
+                <circle class="kpi-bg" cx="50" cy="50" r="42"></circle>
+                <circle class="kpi-fg" cx="50" cy="50" r="42"></circle>
+              </svg>
+            </div>
+            <div class="kpi-value" data-count-to="9" data-count-duration="1400" data-count-prefix="+">0</div>
             <div class="kpi-label">Biens loués</div>
           </div>
           <div class="kpi-item">
-            <div class="kpi-value" data-count-to="98" data-count-prefix="+" data-count-suffix="%">0</div>
+            <div class="kpi-ring" data-kpi-progress="92" data-kpi-duration="2600" aria-hidden="true">
+              <svg viewBox="0 0 100 100" class="kpi-svg">
+                <circle class="kpi-bg" cx="50" cy="50" r="42"></circle>
+                <circle class="kpi-fg" cx="50" cy="50" r="42"></circle>
+              </svg>
+            </div>
+            <div class="kpi-value" data-count-to="98" data-count-duration="1400" data-count-prefix="+" data-count-suffix="%">0</div>
             <div class="kpi-label">Satisfaction</div>
           </div>
         </div>
@@ -586,7 +605,7 @@
               <h2 style="margin:0">Actualités immobilières</h2>
               <p class="lead" style="margin:8px 0 0">Tendances du marché suisse.</p>
             </div>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <div class="actus-actions" style="display:flex;gap:10px;flex-wrap:wrap">
               <a class="btn" href="https://www.snb.ch/fr/the-snb/mandates-goals/statistics/statistics-pub/current_interest_exchange_rates" target="_blank" rel="noreferrer">Taux BNS 0,00%</a>
               <a class="btn primary" href="https://www.ubs.com/ch/fr/services/guide/mortgages-and-financing/articles/real-estate-market-and-prices.html" target="_blank" rel="noreferrer">Lire l’analyse UBS</a>
             </div>
@@ -646,167 +665,118 @@
             </div>
           </div>
 
-          <div class="team-inline" aria-label="Notre équipe" style="margin-top:18px">
-            <div class="team-inline-head">
-              <div class="team-inline-title">Notre équipe</div>
-              <div class="team-inline-sub">Une équipe locale, disponible et engagée.</div>
-              <div class="team-inline-cta">
-                <a class="btn primary" href="./contact.html#formulaire">Contacter</a>
-              </div>
-            </div>
+          <section class="section" style="padding:18px 0 10px">
+            <h3 style="margin:0 0 10px;font-size:28px;letter-spacing:-0.02em">Nos services</h3>
+            <p class="lead" style="margin:0 0 18px">Accompagnement pour la vente, la location et la préparation de votre dossier.</p>
 
-            <div class="team-inline-grid">
-              <article class="team-member">
-                <div class="team-member-photo" aria-hidden="true">
-                  <img class="team-member-img" src="./assets/219.jpg" alt="" loading="lazy" onerror="this.style.display='none';" />
-                  <div class="team-member-initials">DD</div>
-                </div>
-                <div class="team-member-name">Deniz Demirci</div>
-                <div class="team-member-role">Directeur</div>
-                <div class="team-member-actions">
-                  <a class="team-member-ico" href="#" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                  </a>
-                  <a class="team-member-ico" href="#" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                  </a>
-                  <a class="team-member-ico" href="#" aria-label="LinkedIn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect x="2" y="9" width="4" height="12"></rect>
-                      <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                  </a>
-                </div>
-              </article>
-
-              <article class="team-member">
-                <div class="team-member-photo" aria-hidden="true">
-                  <img class="team-member-img" src="./assets/219.jpg" alt="" loading="lazy" onerror="this.style.display='none';" />
-                  <div class="team-member-initials">AL</div>
-                </div>
-                <div class="team-member-name">Aline Lemaire</div>
-                <div class="team-member-role">Conseillère</div>
-                <div class="team-member-actions">
-                  <a class="team-member-ico" href="#" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                  </a>
-                  <a class="team-member-ico" href="#" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                  </a>
-                  <a class="team-member-ico" href="#" aria-label="LinkedIn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect x="2" y="9" width="4" height="12"></rect>
-                      <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                  </a>
-                </div>
-              </article>
-
-              <article class="team-member">
-                <div class="team-member-photo" aria-hidden="true">
-                  <img class="team-member-img" src="./assets/219.jpg" alt="" loading="lazy" onerror="this.style.display='none';" />
-                  <div class="team-member-initials">MS</div>
-                </div>
-                <div class="team-member-name">Marc Steiner</div>
-                <div class="team-member-role">Assistant</div>
-                <div class="team-member-actions">
-                  <a class="team-member-ico" href="#" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                  </a>
-                  <a class="team-member-ico" href="#" aria-label="Facebook">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                    </svg>
-                  </a>
-                  <a class="team-member-ico" href="#" aria-label="LinkedIn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect x="2" y="9" width="4" height="12"></rect>
-                      <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                  </a>
-                </div>
-              </article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="services">
-        <div class="container">
-          <div class="section-subhead about-services-head">
-            <h3>Nos services</h3>
-          </div>
-
-          <div class="grid cols-2 why-grid about-services-grid home-services-grid">
-            <div class="card about-service-card">
-              <div class="body">
-                <div class="about-service-head">
-                  <div class="about-service-icon" aria-hidden="true">
+            <div class="grid cols-4 why-grid dossier-services" data-reveal>
+              <a class="card dossier-service-card" href="./biens.html?cat=sale#vendre">
+                <div class="body">
+                  <div class="dossier-service-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none">
-                      <defs>
-                        <linearGradient id="g-dossier" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
-                          <stop stop-color="#ff2d6d"/>
-                          <stop offset="1" stop-color="#ff9f1c"/>
-                        </linearGradient>
-                      </defs>
-                      <path d="M7.5 3.5h6.2l3.8 3.8V20a1.8 1.8 0 0 1-1.8 1.8H7.5A1.8 1.8 0 0 1 5.7 20V5.3A1.8 1.8 0 0 1 7.5 3.5Z" stroke="url(#g-dossier)" stroke-width="1.8" stroke-linejoin="round"/>
-                      <path d="M13.7 3.5V7a1.6 1.6 0 0 0 1.6 1.6h3.5" stroke="url(#g-dossier)" stroke-width="1.8" stroke-linejoin="round"/>
-                      <path d="M8.3 11.1h6.9M8.3 14.5h7.8M8.3 17.9h6.1" stroke="url(#g-dossier)" stroke-width="1.8" stroke-linecap="round"/>
-                      <path d="M17.4 12.2l.55 1.2 1.24.16-.92.86.24 1.23-1.11-.62-1.11.62.24-1.23-.92-.86 1.24-.16.55-1.2Z" fill="url(#g-dossier)" opacity=".9"/>
+                      <path d="M4 11.5 11.5 4 19 11.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M6.5 10.5V19h9V10.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
+                      <path d="M10 19v-4.2h4V19" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
                     </svg>
                   </div>
-                  <h3>Dossier complet</h3>
+                  <h2 class="dossier-service-title">Vente de biens</h2>
+                  <p class="dossier-service-text">Biens disponibles à l’achat.</p>
                 </div>
-                <p class="desc">Photos, plans, caractéristiques, visite virtuelle et filtrage des dossiers pour gagner du temps.</p>
-                <a class="btn primary" href="./dossier.html">Obtenir un dossier</a>
-              </div>
-            </div>
+              </a>
 
-            <div class="card about-service-card">
-              <div class="body">
-                <div class="about-service-head">
-                  <div class="about-service-icon" aria-hidden="true">
+              <a class="card dossier-service-card" href="./biens.html?cat=rent#louer">
+                <div class="body">
+                  <div class="dossier-service-icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none">
-                      <defs>
-                        <linearGradient id="g-dispo" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
-                          <stop stop-color="#0b2a3a"/>
-                          <stop offset=".55" stop-color="#c8a14a"/>
-                          <stop offset="1" stop-color="#ff9f1c"/>
-                        </linearGradient>
-                      </defs>
-                      <path d="M7.2 3.9v2.4M16.8 3.9v2.4" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linecap="round"/>
-                      <path d="M6.6 6.3h10.8c1.7 0 3 1.3 3 3v9.6c0 1.7-1.3 3-3 3H6.6c-1.7 0-3-1.3-3-3V9.3c0-1.7 1.3-3 3-3Z" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linejoin="round"/>
-                      <path d="M3.6 10.2h16.8" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linecap="round"/>
-                      <path d="M12 13v3.7l2.4 1.4" stroke="url(#g-dispo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M18.7 11.7l.42.9.93.12-.69.64.18.92-.84-.47-.84.47.18-.92-.69-.64.93-.12.42-.9Z" fill="url(#g-dispo)" opacity=".9"/>
+                      <path d="M6 10a4 4 0 1 1 6.5 3.1" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M5 19.5 11.5 13 14 15.5l-6.5 6.5H5v-2.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M17 7.5h2.5V10" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="m14 10 5.5-5.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   </div>
-                  <h3>Disponibilité flexible</h3>
+                  <h2 class="dossier-service-title">Location de biens</h2>
+                  <p class="dossier-service-text">Biens disponibles à louer.</p>
                 </div>
-                <p class="desc">Créneaux adaptés à votre agenda et suivi réactif des demandes pour faciliter chaque visite.</p>
-                <a class="btn primary" href="./contact.html#formulaire">Demander une visite</a>
+              </a>
+
+              <a class="card dossier-service-card" href="./contact.html#formulaire">
+                <div class="body">
+                  <div class="dossier-service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M6.5 4.5h7L17.5 8v11a1.8 1.8 0 0 1-1.8 1.8H6.5A1.8 1.8 0 0 1 4.7 19V6.3A1.8 1.8 0 0 1 6.5 4.5Z" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
+                      <path d="M13.5 4.5V8a1.6 1.6 0 0 0 1.6 1.6h3.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
+                      <path d="M8 12h6.4M8 15h5.2" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <h2 class="dossier-service-title">Dossier complet</h2>
+                  <p class="dossier-service-text">Un dossier clair et prêt à être présenté.</p>
+                </div>
+              </a>
+
+              <a class="card dossier-service-card" href="./contact.html#formulaire">
+                <div class="body">
+                  <div class="dossier-service-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <rect x="3.5" y="4" width="17" height="17" rx="2.2" stroke="#0b2a3a" stroke-width="1.8"/>
+                      <path d="M8 4v3M16 4v3M4 10h16" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round"/>
+                      <path d="M12 12.5v4l2.6 1.4" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </div>
+                  <h2 class="dossier-service-title">Organisation des visites</h2>
+                  <p class="dossier-service-text">Gestion simple et efficace des visites.</p>
+                </div>
+              </a>
+            </div>
+          </section>
+
+          <div class="testimonials" data-testimonials style="margin-top:18px">
+            <div class="testimonials-head">
+              <h2>Avis clients</h2>
+              <span class="testimonials-line" aria-hidden="true"></span>
+            </div>
+
+            <div class="testimonials-shell">
+              <div class="testimonials-frame">
+                <div class="testimonials-track" data-testimonials-track>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">J’ai fait appel à DCKImmo pour la vente d’un bien. Le dossier était clair et parfaitement préparé, et la communication très réactive.</div>
+                    <div class="testimonials-who">Client vente, Courrendlin</div>
+                  </article>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">Visite rapide, réponses claires et dossier parfaitement préparé. Très pro.</div>
+                    <div class="testimonials-who">Client achat, Moutier</div>
+                  </article>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">On a trouvé exactement ce qu’on cherchait. Suivi 7j/7 et très disponible.</div>
+                    <div class="testimonials-who">Client location, Courrendlin</div>
+                  </article>
+                  <article class="testimonials-slide">
+                    <div class="testimonials-stars" aria-hidden="true">★★★★★</div>
+                    <div class="testimonials-quote">Estimation précise et mise en valeur du bien. Photos + annonce top.</div>
+                    <div class="testimonials-who">Client, Courtételle</div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="testimonials-nav" aria-label="Navigation des avis">
+                <button class="testimonials-arrow" type="button" aria-label="Avis précédent" data-testimonials-prev>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M15 18l-6-6 6-6"></path>
+                  </svg>
+                </button>
+                <div class="testimonials-dots" data-testimonials-dots aria-label="Sélecteur d’avis"></div>
+                <button class="testimonials-arrow" type="button" aria-label="Avis suivant" data-testimonials-next>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M9 18l6-6-6-6"></path>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
+
         </div>
       </section>
 
@@ -865,7 +835,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <div class="fine">© <span id="y"></span> DCKImmo — Deniz Demirci</div>
+          <div class="fine">© <span id="y"></span> DCKImmo</div>
           <div class="fine">Mentions légales • Politique de confidentialité</div>
         </div>
       </div>

@@ -27,6 +27,7 @@
               <a href="./index.html">Accueil</a>
               <a href="./biens.html">Nos biens</a>
               <a href="./index.html#recherche-rapide">Recherche</a>
+              <a href="./conseils.html">Conseils</a>
               <a href="./contact.html">Contact</a>
               <a href="./admin/login.html">Admin</a>
             </nav>
@@ -42,82 +43,70 @@
     </header>
 
     <main>
-      <section class="page-hero">
-        <img
-          class="page-hero-bg"
-          src="./assets/219.jpg"
-          alt=""
-          loading="eager"
-        />
-        <div class="page-hero-overlay"></div>
-        <div class="container page-hero-content">
-          <h1>Contact</h1>
-          <p>Confiez-nous votre projet immobilier, nous vous accompagnons avec transparence et engagement à chaque étape.</p>
-          <div class="hero-actions">
-            <a class="btn primary" href="tel:+41787338717">Appeler</a>
-            <a class="btn primary" href="#formulaire">Envoyer un message</a>
-            <a class="btn primary" href="./dossier.html">Demande de dossier</a>
+      <section class="contact-hero">
+        <div class="container contact-hero-grid">
+          <div class="contact-hero-copy">
+            <div class="contact-hero-k">Contact</div>
+            <h1 class="contact-hero-title">Parlons de votre projet</h1>
+            <p class="contact-hero-lead">Contact direct, réponse rapide et accompagnement transparent à chaque étape.</p>
+            <div class="contact-hero-actions">
+              <a class="btn" href="#formulaire">Envoyer un message</a>
+              <a class="btn" href="./dossier.html">Demande de dossier</a>
+            </div>
+          </div>
+          <div class="contact-hero-visual" aria-hidden="true">
+            <img src="./assets/1257.png" alt="" loading="eager" />
           </div>
         </div>
       </section>
 
-      <section class="section" id="a-propos">
+      <section class="section contact-who" id="qui-sommes-nous">
+        <div class="container">
+          <h2 class="contact-who-title">Qui sommes-nous&nbsp;?</h2>
+          <div class="contact-who-text">
+            <p>Nous présentons des biens immobiliers à la vente et à la location, avec une approche simple, directe et transparente.</p>
+            <p>Chaque bien est mis en valeur avec soin, pour faciliter sa découverte et vous permettre de vous projeter rapidement.</p>
+            <p>Les échanges se font en contact direct, et les visites sont organisées selon vos disponibilités.</p>
+          </div>
+
+          <div class="contact-commit">
+            <div class="contact-commit-k">Notre engagement</div>
+            <div class="contact-commit-list" aria-label="Nos engagements">
+              <span class="contact-commit-pill">Proximité</span>
+              <span class="contact-commit-pill">Transparence</span>
+              <span class="contact-commit-pill">Qualité</span>
+              <span class="contact-commit-pill">Réactivité</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-team-showcase" id="equipe">
         <div class="container">
           <div class="section-head">
             <div>
-              <h2 style="margin:0">À propos de DCKImmo</h2>
-              <p class="lead" style="margin:8px 0 0">
-                Nous proposons nos biens immobiliers à la vente et à la location, sans intermédiaire, pour garantir transparence, simplicité et contact direct. Notre objectif : vous accompagner efficacement dans votre projet, en toute confiance.
-              </p>
+              <h2 style="margin:0">Notre équipe</h2>
+              <p class="lead" style="margin:8px 0 0">Un interlocuteur unique, disponible et réactif.</p>
             </div>
           </div>
 
-          <div class="about-grid">
-            <div class="panel">
-              <div class="inner">
-                <h3 style="margin:0">Notre engagement</h3>
-                <p class="lead" style="margin:10px 0 0">
-                  Nous sélectionnons et présentons nos biens avec sérieux, en privilégiant une approche transparente, humaine et professionnelle.
-                </p>
-                <div class="values">
-                  <div class="value">
-                    <div class="k">Proximité</div>
-                    <div class="d">Présence locale dans le Jura et le Jura bernois, avec réactivité.</div>
-                  </div>
-                  <div class="value">
-                    <div class="k">Transparence</div>
-                    <div class="d">Informations claires et accompagnement honnête à chaque étape.</div>
-                  </div>
-                  <div class="value">
-                    <div class="k">Qualité</div>
-                    <div class="d">Mise en valeur soignée des biens et suivi rigoureux des demandes.</div>
+          <div class="panel team-panel">
+            <div class="inner">
+              <div class="team-showcase">
+                <div class="team-info">
+                  <div class="team-role">Référent immobilier</div>
+                  <h3 class="team-name" id="deniz-demirci">Deniz Demirci</h3>
+                  <p class="team-desc">
+                    Contact direct, conseils clairs et organisation des visites selon vos disponibilités.
+                  </p>
+                  <div class="team-proof">Réponse sous 24 heures • Visites 7/7</div>
+                  <div class="team-contact">
+                    <a href="tel:+41787338717" class="btn primary">Appeler maintenant</a>
+                    <a href="#formulaire" class="btn">Envoyer un message</a>
+                    <a href="#formulaire" class="btn" data-open-appointment>Prendre rendez-vous</a>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            <div class="panel">
-              <div class="inner">
-                <div class="team-showcase">
-                  <div class="team-info">
-                    <div class="team-role">VOTRE CONSEILLER</div>
-                    <h3 class="team-name" id="deniz-demirci">Deniz Demirci</h3>
-                    <div class="team-role" style="color:rgba(15,23,32,.6); margin-top:-4px">RÉFÉRENT IMMOBILIER</div>
-                    <p class="team-desc">
-                      Nous mettons un point d’honneur à offrir un accompagnement personnalisé. Échangeons ensemble pour concrétiser vos projets immobiliers.
-                    </p>
-                    <div class="team-contact">
-                      <a href="tel:+41787338717" class="btn primary">Appeler maintenant</a>
-                    </div>
-                  </div>
-                  <div class="team-photo">
-                    <img
-                      src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=70"
-                      alt="Conseiller immobilier"
-                      loading="lazy"
-                    />
-                  </div>
-                </div>
+                <div class="team-photo is-silhouette" aria-hidden="true"></div>
               </div>
             </div>
           </div>
@@ -171,7 +160,7 @@
             <div class="panel" id="formulaire">
               <div class="inner">
                 <h2 style="margin-top:0">Formulaire</h2>
-                <form class="form" data-demo-form="Formulaire de contact">
+                <form class="form" data-demo-form="Formulaire de contact" id="contact-form">
                   <div class="field">
                     <span class="label">Nom</span>
                     <input class="control" required placeholder="Nom Prénom" />
@@ -186,18 +175,25 @@
                   </div>
                   <div class="field">
                     <span class="label">Type de demande</span>
-                    <select class="control" required>
+                    <select class="control" required id="contact-request-type">
                       <option>Demande de visite</option>
                       <option>Demande de dossier</option>
-                      <option>Estimation</option>
-                      <option>Vendre un bien</option>
                       <option>Louer un bien</option>
+                      <option>Acheter un bien</option>
+                      <option>Conseils</option>
                       <option>Question</option>
                     </select>
                   </div>
+                  <div class="field full appointment-planner" data-appointment-planner hidden>
+                    <span class="label">Disponibilités pour la visite</span>
+                    <div class="appointment-grid">
+                      <input class="control" type="date" id="appointment-date" data-appointment-date />
+                      <input class="control" type="time" id="appointment-time" data-appointment-time />
+                    </div>
+                  </div>
                   <div class="field full">
                     <span class="label">Message</span>
-                    <textarea class="control" rows="6" required placeholder="Précisez votre demande…"></textarea>
+                    <textarea class="control" rows="6" required placeholder="Précisez votre demande…" id="contact-message"></textarea>
                   </div>
                   <div class="actions">
                     <button class="btn primary" type="submit">Envoyer</button>
@@ -259,7 +255,7 @@
           </div>
         </div>
         <div class="footer-bottom">
-          <div class="fine">© <span id="y"></span> DCKImmo — Deniz Demirci</div>
+          <div class="fine">© <span id="y"></span> DCKImmo</div>
           <div class="fine">Mentions légales • Politique de confidentialité</div>
         </div>
       </div>
