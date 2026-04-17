@@ -16,11 +16,19 @@ export function mountTopbarMenu() {
   if (!menus.length) return;
 
   const getButton = (menu) => menu.querySelector("[data-topbar-menu-btn]");
+  const getOverlay = (menu) => menu.querySelector("[data-topbar-menu-overlay]");
+  const getPanel = (menu) => menu.querySelector(".topbar-menu-panel");
+
+  const syncBodyLock = () => {
+    const anyOpen = menus.some((m) => m.classList.contains("open"));
+    document.body.classList.toggle("menu-open", anyOpen);
+  };
 
   const close = (menu) => {
     menu.classList.remove("open");
     const btn = getButton(menu);
     if (btn) btn.setAttribute("aria-expanded", "false");
+    syncBodyLock();
   };
 
   const closeAll = (except) => {
@@ -28,6 +36,7 @@ export function mountTopbarMenu() {
       if (except && menu === except) continue;
       close(menu);
     }
+    syncBodyLock();
   };
 
   for (const menu of menus) {
@@ -43,11 +52,58 @@ export function mountTopbarMenu() {
       if (!isOpen) {
         menu.classList.add("open");
         btn.setAttribute("aria-expanded", "true");
+        syncBodyLock();
       }
     });
 
     for (const a of menu.querySelectorAll("[data-nav] a")) {
       a.addEventListener("click", () => close(menu));
+    }
+
+    const overlay = getOverlay(menu);
+    if (overlay instanceof HTMLElement) {
+      overlay.addEventListener("click", () => close(menu));
+    }
+
+    const panel = getPanel(menu);
+    if (panel instanceof HTMLElement && panel.dataset.swipeBound !== "1") {
+      panel.dataset.swipeBound = "1";
+      let startX = 0;
+      let startY = 0;
+      let dxEnd = 0;
+
+      panel.addEventListener(
+        "touchstart",
+        (e) => {
+          const t = e.touches && e.touches[0];
+          if (!t) return;
+          startX = t.clientX;
+          startY = t.clientY;
+          dxEnd = 0;
+        },
+        { passive: true }
+      );
+
+      panel.addEventListener(
+        "touchmove",
+        (e) => {
+          const t = e.touches && e.touches[0];
+          if (!t) return;
+          const dx = t.clientX - startX;
+          const dy = t.clientY - startY;
+          if (Math.abs(dy) > 18) return;
+          dxEnd = dx;
+        },
+        { passive: true }
+      );
+
+      panel.addEventListener(
+        "touchend",
+        () => {
+          if (dxEnd > 80) close(menu);
+        },
+        { passive: true }
+      );
     }
   }
 
@@ -61,6 +117,87 @@ export function mountTopbarMenu() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeAll();
   });
+}
+
+export function mountAdviceNav() {
+  const nav = document.querySelector(".advice-nav-inner");
+  if (!(nav instanceof HTMLElement)) return;
+
+  const chips = Array.from(nav.querySelectorAll("a.advice-chip[href^=\"#\"]"));
+  if (!chips.length) return;
+
+  const topbar = document.querySelector(".topbar");
+  const getOffset = () => {
+    if (topbar instanceof HTMLElement) {
+      return Math.ceil(topbar.getBoundingClientRect().height + 14);
+    }
+    return 110;
+  };
+
+  const getTargets = () => {
+    const items = [];
+    for (const chip of chips) {
+      const hash = chip.getAttribute("href") || "";
+      const id = hash.startsWith("#") ? hash.slice(1) : "";
+      if (!id) continue;
+      const el = document.getElementById(id);
+      if (!el) continue;
+      items.push({ id, el, chip });
+    }
+    return items;
+  };
+
+  const setActive = (id) => {
+    for (const chip of chips) {
+      const hash = chip.getAttribute("href") || "";
+      const chipId = hash.startsWith("#") ? hash.slice(1) : "";
+      chip.classList.toggle("is-active", chipId === id);
+    }
+  };
+
+  const scrollToId = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const offset = getOffset();
+    const top = window.scrollY + el.getBoundingClientRect().top - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    setActive(id);
+  };
+
+  for (const chip of chips) {
+    const hash = chip.getAttribute("href") || "";
+    const id = hash.startsWith("#") ? hash.slice(1) : "";
+    if (!id) continue;
+    chip.addEventListener("click", (e) => {
+      e.preventDefault();
+      scrollToId(id);
+    });
+  }
+
+  let ticking = false;
+  const updateActiveOnScroll = () => {
+    ticking = false;
+    const targets = getTargets();
+    if (!targets.length) return;
+    const offset = getOffset();
+    const pos = window.scrollY + offset + 1;
+    let current = targets[0];
+    for (const t of targets) {
+      const tTop = window.scrollY + t.el.getBoundingClientRect().top;
+      if (tTop <= pos) current = t;
+    }
+    setActive(current.id);
+  };
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(updateActiveOnScroll);
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  updateActiveOnScroll();
 }
 
 export function formatCHF(value) {

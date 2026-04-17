@@ -24,13 +24,65 @@
                 <line x1="10" y1="17" x2="20" y2="17"></line>
               </svg>
             </button>
+            <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
             <nav class="topbar-menu-panel" data-nav>
-              <a href="./index.html">Accueil</a>
-              <a href="./biens.html">Nos biens</a>
-              <a href="./index.html#recherche-rapide">Recherche</a>
-              <a href="./conseils.html">Conseils</a>
-              <a href="./contact.html">Contact</a>
-              <a href="./admin/login.html">Admin</a>
+              <a href="./index.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 10.5 12 4l8 6.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9.5Z"></path>
+                    <path d="M9.5 22v-7h5v7"></path>
+                  </svg>
+                </span>
+                <span>Accueil</span>
+              </a>
+              <a href="./biens.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 22h18"></path>
+                    <path d="M6 22V5a2 2 0 0 1 2-2h3v19"></path>
+                    <path d="M11 22V7h7a2 2 0 0 1 2 2v13"></path>
+                    <path d="M8.5 9h.01M8.5 12h.01M8.5 15h.01"></path>
+                    <path d="M14.5 11h.01M14.5 14h.01M14.5 17h.01"></path>
+                  </svg>
+                </span>
+                <span>Nos biens</span>
+              </a>
+              <a href="./index.html#recherche-rapide">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                </span>
+                <span>Recherche</span>
+              </a>
+              <a href="./conseils.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                    <path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 3H9.5c0-1-.5-2-1.5-3Z"></path>
+                  </svg>
+                </span>
+                <span>Conseils</span>
+              </a>
+              <a href="./contact.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.9v2a2 2 0 0 1-2.2 2 20 20 0 0 1-8.7-3.1 19.6 19.6 0 0 1-6-6A20 20 0 0 1 2 4.2 2 2 0 0 1 4 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.45 2.1L7.4 9.6a16 16 0 0 0 7 7l1.1-1.1a2 2 0 0 1 2.1-.45c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9Z"></path>
+                  </svg>
+                </span>
+                <span>Contact</span>
+              </a>
+              <a href="./admin/login.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <span>Admin</span>
+              </a>
             </nav>
           </div>
           <a class="btn small" href="./admin/login.html" aria-label="Administration">
@@ -54,36 +106,128 @@
         </div>
       </section>
 
-      <section class="section" id="devenir-proprietaire">
+      <section class="advice-nav" aria-label="Navigation conseils">
+        <div class="container">
+          <div class="advice-nav-inner">
+            <a class="advice-chip" href="#devenir-proprietaire">Propriétaire</a>
+            <a class="advice-chip" href="#conseils-locataires">Locataire</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section advice-section">
         <div class="container">
           <div class="section-head">
             <div>
-              <h2 style="margin:0">Devenir propriétaire</h2>
-              <p class="advice-sub" style="margin:8px 0 0">3 avantages à devenir propriétaire d’un bien immobilier aujourd’hui.</p>
+              <h2 id="devenir-proprietaire">Conseils pour devenir propriétaire</h2>
+              <p class="advice-sub">Budget, comparaison, emplacement et vision à long terme.</p>
             </div>
           </div>
 
           <div class="advice-article">
-            <p class="lead" style="margin:0 0 14px">
-              L’acquisition d’un bien immobilier, pour le louer ou y résider, amène souvent à se demander si investir dans la pierre peut sécuriser l’avenir. Dans un contexte où les caisses de pension peinent à garantir un futur serein, il est légitime de réfléchir à la manière de pérenniser un revenu.
-            </p>
-            <p style="margin:0 0 14px;color:rgba(15,23,32,.72);line-height:1.7">
-              Il existe de nombreux avantages à acquérir un bien immobilier en Suisse. Au-delà des aspects émotionnels — comme le sentiment d’accomplissement que procure l’accession à la propriété — voici trois avantages concrets.
+            <p class="lead">
+              Devenir propriétaire est une étape importante qui nécessite une bonne préparation et une vision à long terme. Un achat immobilier ne se fait pas uniquement sur un coup de cœur, mais repose sur une analyse réfléchie de plusieurs critères essentiels.
             </p>
 
-            <h3 style="margin:18px 0 8px">Sécurité du logement</h3>
-            <p style="margin:0;color:rgba(15,23,32,.72);line-height:1.7">
-              Être propriétaire permet de se soustraire à la dure loi du marché locatif, dans une région qui connaît une pénurie depuis plusieurs décennies.
+            <h3>Définir clairement son budget</h3>
+            <p>
+              Avant toute chose, il est important de définir clairement son budget. Cela implique d’évaluer sa capacité d’emprunt, de prévoir un éventuel apport personnel, d’intégrer les frais liés à l’achat comme les frais de notaire, de financement ou de travaux, et de conserver une marge de sécurité pour faire face aux imprévus.
             </p>
 
-            <h3 style="margin:18px 0 8px">Placement financier</h3>
-            <p style="margin:0;color:rgba(15,23,32,.72);line-height:1.7">
-              Soutenue par une demande constante, l’offre immobilière s’apprécie naturellement. De nombreuses acquisitions deviennent ainsi des placements, avec une plus-value potentielle lors de la revente.
+            <h3>Comparer plusieurs biens</h3>
+            <p>
+              Il est recommandé de comparer plusieurs biens avant de prendre une décision. Analyser différentes offres permet de mieux comprendre le marché, de vérifier la cohérence des prix dans une même région et d’identifier les meilleures opportunités en fonction du rapport qualité/prix.
             </p>
 
-            <h3 style="margin:18px 0 8px">Patrimoine transmissible</h3>
-            <p style="margin:0;color:rgba(15,23,32,.72);line-height:1.7">
-              Un bien immobilier est souvent plus stable que des fonds ou des titres cotés. Ce capital représente une protection financière sur le long terme et peut être transmis à ses enfants.
+            <h3>Choisir l’emplacement</h3>
+            <p>
+              L’emplacement reste un critère déterminant. Un logement bien situé, proche des transports, des services et des infrastructures, offre un meilleur confort de vie et dispose généralement d’un meilleur potentiel de valorisation à long terme.
+            </p>
+
+            <h3>Évaluer l’état du bien</h3>
+            <p>
+              L’état du bien doit être examiné avec attention. Il est essentiel de vérifier la qualité générale du bâtiment, l’isolation, la performance énergétique ainsi que les éventuels travaux à prévoir avant ou après l’achat.
+            </p>
+
+            <h3>Optimiser le financement</h3>
+            <p>
+              Le financement est une étape clé du processus. Comparer plusieurs offres de crédit, analyser les taux d’intérêt et comprendre les conditions de remboursement permet d’optimiser son investissement et de sécuriser son projet.
+            </p>
+
+            <h3>Anticiper les frais annexes</h3>
+            <p>
+              Il est important d’anticiper les frais annexes liés à l’achat, tels que les frais de notaire, l’assurance hypothécaire, l’entretien du bien ou encore les charges de copropriété.
+            </p>
+
+            <h3>Penser à la revente future</h3>
+            <p>
+              Même si l’achat est souvent motivé par une envie de stabilité, il est essentiel de penser à la revente future. L’évolution du quartier, le potentiel de plus-value et la demande locative sont des éléments à prendre en compte dès le départ.
+            </p>
+
+            <h3>Prendre le temps de la réflexion</h3>
+            <p>
+              Prendre le temps de la réflexion reste indispensable. Visiter plusieurs fois le bien, comparer différentes options et éviter les décisions précipitées permet de sécuriser son achat et de faire un choix durable.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section advice-section" id="conseils-locataires">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2>Conseils pour les locataires</h2>
+              <p class="advice-sub">Préparation, réactivité et lecture attentive du bail.</p>
+            </div>
+          </div>
+
+          <div class="advice-article">
+            <p class="lead">
+              Trouver un logement peut être rapide, à condition d’être bien préparé et réactif. Les bonnes pratiques suivantes permettent d’augmenter fortement vos chances de réussite.
+            </p>
+            <h3>Préparer un dossier complet</h3>
+            <p>
+              La première étape consiste à constituer un dossier complet et prêt à être envoyé à tout moment. Les propriétaires privilégient les candidatures sérieuses et organisées. Un dossier comprenant une pièce d’identité, des justificatifs de revenus, un contrat de travail et une attestation de non-poursuite est souvent indispensable.
+            </p>
+
+            <h3>Être réactif</h3>
+            <p>
+              La réactivité est essentielle. Les biens attractifs restent rarement disponibles longtemps. Il est donc recommandé de réagir rapidement dès qu’une annonce correspond à vos critères.
+            </p>
+
+            <h3>Évaluer son budget</h3>
+            <p>
+              Il est important d’évaluer correctement son budget. En règle générale, le loyer ne devrait pas dépasser un tiers des revenus. Il faut également prendre en compte les charges, l’assurance et les éventuels frais de transport.
+            </p>
+
+            <h3>Observer lors des visites</h3>
+            <p>
+              Lors des visites, une observation attentive du logement est recommandée. Il convient de vérifier l’état général, l’isolation, la luminosité et les équipements, et de prendre des notes ou des photos pour comparer les biens.
+            </p>
+
+            <h3>Comprendre les charges</h3>
+            <p>
+              Le détail des charges doit être vérifié avec attention. Elles peuvent inclure le chauffage, l’eau chaude, l’eau froide, l’électricité des parties communes, ainsi que l’entretien des parties communes de l’immeuble, la conciergerie ou l’ascenseur selon les cas. Une bonne compréhension des charges permet d’éviter les mauvaises surprises sur le budget mensuel.
+            </p>
+
+            <h3>Lire le bail attentivement</h3>
+            <p>
+              Avant de signer un bail, il est essentiel de le lire attentivement. Les conditions de résiliation, la durée du contrat et les règles spécifiques doivent être bien comprises. En cas de doute, il est possible de se renseigner auprès de <a href="https://www.asloca.ch/" target="_blank" rel="noreferrer">l’ASLOCA</a>.
+            </p>
+
+            <h3>Anticiper la garantie de loyer</h3>
+            <p>
+              La garantie de loyer doit être anticipée. Elle correspond généralement à deux ou trois mois de loyer et peut être déposée sur un compte bloqué ou remplacée par une solution sans dépôt comme <a href="https://www.swisscaution.ch" target="_blank" rel="noreferrer">SwissCaution</a>.
+            </p>
+
+            <h3>Choisir un emplacement adapté</h3>
+            <p>
+              Le choix de l’emplacement joue un rôle important dans le confort quotidien, notamment grâce à la proximité des transports.
+            </p>
+
+            <h3>Soigner la présentation</h3>
+            <p>
+              Enfin, la présentation du dossier peut faire la différence. Un message clair, structuré et professionnel renforce la crédibilité de la candidature face aux autres locataires.
             </p>
           </div>
         </div>

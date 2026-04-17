@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -27,13 +27,65 @@
                 <line x1="10" y1="17" x2="20" y2="17"></line>
               </svg>
             </button>
+            <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
             <nav class="topbar-menu-panel" data-nav>
-              <a href="./index.html">Accueil</a>
-              <a href="./biens.html">Nos biens</a>
-              <a href="#recherche-rapide">Recherche</a>
-              <a href="./conseils.html">Conseils</a>
-              <a href="./contact.html">Contact</a>
-              <a href="./admin/login.html">Admin</a>
+              <a href="./index.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 10.5 12 4l8 6.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9.5Z"></path>
+                    <path d="M9.5 22v-7h5v7"></path>
+                  </svg>
+                </span>
+                <span>Accueil</span>
+              </a>
+              <a href="./biens.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 22h18"></path>
+                    <path d="M6 22V5a2 2 0 0 1 2-2h3v19"></path>
+                    <path d="M11 22V7h7a2 2 0 0 1 2 2v13"></path>
+                    <path d="M8.5 9h.01M8.5 12h.01M8.5 15h.01"></path>
+                    <path d="M14.5 11h.01M14.5 14h.01M14.5 17h.01"></path>
+                  </svg>
+                </span>
+                <span>Nos biens</span>
+              </a>
+              <a href="#recherche-rapide">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                </span>
+                <span>Recherche</span>
+              </a>
+              <a href="./conseils.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                    <path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 3H9.5c0-1-.5-2-1.5-3Z"></path>
+                  </svg>
+                </span>
+                <span>Conseils</span>
+              </a>
+              <a href="./contact.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.9v2a2 2 0 0 1-2.2 2 20 20 0 0 1-8.7-3.1 19.6 19.6 0 0 1-6-6A20 20 0 0 1 2 4.2 2 2 0 0 1 4 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.45 2.1L7.4 9.6a16 16 0 0 0 7 7l1.1-1.1a2 2 0 0 1 2.1-.45c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9Z"></path>
+                  </svg>
+                </span>
+                <span>Contact</span>
+              </a>
+              <a href="./admin/login.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <span>Admin</span>
+              </a>
             </nav>
           </div>
           <a class="btn small" href="./admin/login.html" aria-label="Administration">
@@ -552,32 +604,51 @@
 
       <div class="kpi-divider" data-reveal aria-label="Indicateurs">
         <div class="kpi-divider-inner">
-          <div class="kpi-item">
+          <div class="kpi-item kpi-item--sale">
             <div class="kpi-ring" data-kpi-progress="86" data-kpi-duration="2600" aria-hidden="true">
               <svg viewBox="0 0 100 100" class="kpi-svg">
                 <circle class="kpi-bg" cx="50" cy="50" r="42"></circle>
                 <circle class="kpi-fg" cx="50" cy="50" r="42"></circle>
               </svg>
+              <span class="kpi-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 10.5 12 4l8 6.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9.5Z"></path>
+                  <path d="M9.5 22v-7h5v7"></path>
+                </svg>
+              </span>
             </div>
             <div class="kpi-value" data-count-to="4" data-count-duration="1400" data-count-prefix="+">0</div>
             <div class="kpi-label">Biens vendus</div>
           </div>
-          <div class="kpi-item">
+          <div class="kpi-item kpi-item--rent">
             <div class="kpi-ring" data-kpi-progress="88" data-kpi-duration="2600" aria-hidden="true">
               <svg viewBox="0 0 100 100" class="kpi-svg">
                 <circle class="kpi-bg" cx="50" cy="50" r="42"></circle>
                 <circle class="kpi-fg" cx="50" cy="50" r="42"></circle>
               </svg>
+              <span class="kpi-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="7.5" cy="16.5" r="3"></circle>
+                  <path d="M10.5 13.5 20 4"></path>
+                  <path d="M18 6h2v2"></path>
+                  <path d="M16 8h2v2"></path>
+                </svg>
+              </span>
             </div>
             <div class="kpi-value" data-count-to="9" data-count-duration="1400" data-count-prefix="+">0</div>
             <div class="kpi-label">Biens loués</div>
           </div>
-          <div class="kpi-item">
+          <div class="kpi-item kpi-item--sat">
             <div class="kpi-ring" data-kpi-progress="92" data-kpi-duration="2600" aria-hidden="true">
               <svg viewBox="0 0 100 100" class="kpi-svg">
                 <circle class="kpi-bg" cx="50" cy="50" r="42"></circle>
                 <circle class="kpi-fg" cx="50" cy="50" r="42"></circle>
               </svg>
+              <span class="kpi-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m12 3 2.7 5.6 6.2.9-4.5 4.4 1.1 6.1-5.5-2.9-5.5 2.9 1.1-6.1-4.5-4.4 6.2-.9L12 3Z"></path>
+                </svg>
+              </span>
             </div>
             <div class="kpi-value" data-count-to="98" data-count-duration="1400" data-count-prefix="+" data-count-suffix="%">0</div>
             <div class="kpi-label">Satisfaction</div>
@@ -665,67 +736,87 @@
             </div>
           </div>
 
-          <section class="section" style="padding:18px 0 10px">
-            <h3 style="margin:0 0 10px;font-size:28px;letter-spacing:-0.02em">Nos services</h3>
-            <p class="lead" style="margin:0 0 18px">Accompagnement pour la vente, la location et la préparation de votre dossier.</p>
+          <section class="section services-section" style="padding:18px 0 10px">
+            <div class="services-head">
+              <h2 class="services-title">Nos services</h2>
+              <p class="services-intro">
+                Vente, location, dossier et visites — une approche simple et transparente pour gagner du temps à chaque étape.
+              </p>
+            </div>
 
             <div class="grid cols-4 why-grid dossier-services" data-reveal>
               <a class="card dossier-service-card" href="./biens.html?cat=sale#vendre">
                 <div class="body">
-                  <div class="dossier-service-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M4 11.5 11.5 4 19 11.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M6.5 10.5V19h9V10.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
-                      <path d="M10 19v-4.2h4V19" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
+                  <span class="dossier-service-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 10.5 12 4l8 6.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9.5Z"></path>
+                      <path d="M9.5 22v-7h5v7"></path>
                     </svg>
-                  </div>
+                  </span>
                   <h2 class="dossier-service-title">Vente de biens</h2>
-                  <p class="dossier-service-text">Biens disponibles à l’achat.</p>
+                  <p class="dossier-service-text">
+                    Biens sélectionnés, informations essentielles, présentation claire.
+                  </p>
                 </div>
               </a>
 
               <a class="card dossier-service-card" href="./biens.html?cat=rent#louer">
                 <div class="body">
-                  <div class="dossier-service-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M6 10a4 4 0 1 1 6.5 3.1" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M5 19.5 11.5 13 14 15.5l-6.5 6.5H5v-2.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M17 7.5h2.5V10" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="m14 10 5.5-5.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <span class="dossier-service-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 12a4.5 4.5 0 1 1 7 3.6"></path>
+                      <path d="M5 20.5 12 13.5l2.6 2.6-7 7H5v-2.6Z"></path>
+                      <path d="M14.2 8.8 19.5 3.5"></path>
                     </svg>
-                  </div>
+                  </span>
                   <h2 class="dossier-service-title">Location de biens</h2>
-                  <p class="dossier-service-text">Biens disponibles à louer.</p>
+                  <p class="dossier-service-text">
+                    Annonces à jour, détails complets, démarche simple et rapide.
+                  </p>
                 </div>
               </a>
 
               <a class="card dossier-service-card" href="./contact.html#formulaire">
                 <div class="body">
-                  <div class="dossier-service-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <path d="M6.5 4.5h7L17.5 8v11a1.8 1.8 0 0 1-1.8 1.8H6.5A1.8 1.8 0 0 1 4.7 19V6.3A1.8 1.8 0 0 1 6.5 4.5Z" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
-                      <path d="M13.5 4.5V8a1.6 1.6 0 0 0 1.6 1.6h3.5" stroke="#0b2a3a" stroke-width="1.8" stroke-linejoin="round"/>
-                      <path d="M8 12h6.4M8 15h5.2" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round"/>
+                  <span class="dossier-service-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M6 4.5h8l4 4V20a1.8 1.8 0 0 1-1.8 1.8H6A1.8 1.8 0 0 1 4.2 20V6.3A1.8 1.8 0 0 1 6 4.5Z"></path>
+                      <path d="M14 4.5V8a1.5 1.5 0 0 0 1.5 1.5H19"></path>
+                      <path d="M8 13h8M8 16h6"></path>
                     </svg>
-                  </div>
-                  <h2 class="dossier-service-title">Dossier complet</h2>
-                  <p class="dossier-service-text">Un dossier clair et prêt à être présenté.</p>
+                  </span>
+                  <h2 class="dossier-service-title">Préparation de dossier</h2>
+                  <p class="dossier-service-text">
+                    Dossier structuré et prêt à l’envoi pour accélérer le traitement.
+                  </p>
                 </div>
               </a>
 
               <a class="card dossier-service-card" href="./contact.html#formulaire">
                 <div class="body">
-                  <div class="dossier-service-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none">
-                      <rect x="3.5" y="4" width="17" height="17" rx="2.2" stroke="#0b2a3a" stroke-width="1.8"/>
-                      <path d="M8 4v3M16 4v3M4 10h16" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round"/>
-                      <path d="M12 12.5v4l2.6 1.4" stroke="#0b2a3a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  <span class="dossier-service-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="3.5" y="4" width="17" height="17" rx="2.2"></rect>
+                      <path d="M8 4v3M16 4v3M4 10h16"></path>
+                      <path d="M12 12.5v4l2.6 1.4"></path>
                     </svg>
-                  </div>
+                  </span>
                   <h2 class="dossier-service-title">Organisation des visites</h2>
-                  <p class="dossier-service-text">Gestion simple et efficace des visites.</p>
+                  <p class="dossier-service-text">
+                    Visites planifiées selon vos disponibilités, contact direct.
+                  </p>
                 </div>
               </a>
+            </div>
+
+            <div class="services-approach">
+              <div class="services-approach-k">Notre approche</div>
+              <div class="services-approach-pills" aria-label="Notre approche">
+                <span class="pill">Contact direct</span>
+                <span class="pill">Transparence</span>
+                <span class="pill">Présentation soignée</span>
+                <span class="pill">Réactivité</span>
+              </div>
             </div>
           </section>
 

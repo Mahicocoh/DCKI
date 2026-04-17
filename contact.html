@@ -23,13 +23,65 @@
                 <line x1="10" y1="17" x2="20" y2="17"></line>
               </svg>
             </button>
+            <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
             <nav class="topbar-menu-panel" data-nav>
-              <a href="./index.html">Accueil</a>
-              <a href="./biens.html">Nos biens</a>
-              <a href="./index.html#recherche-rapide">Recherche</a>
-              <a href="./conseils.html">Conseils</a>
-              <a href="./contact.html">Contact</a>
-              <a href="./admin/login.html">Admin</a>
+              <a href="./index.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 10.5 12 4l8 6.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9.5Z"></path>
+                    <path d="M9.5 22v-7h5v7"></path>
+                  </svg>
+                </span>
+                <span>Accueil</span>
+              </a>
+              <a href="./biens.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 22h18"></path>
+                    <path d="M6 22V5a2 2 0 0 1 2-2h3v19"></path>
+                    <path d="M11 22V7h7a2 2 0 0 1 2 2v13"></path>
+                    <path d="M8.5 9h.01M8.5 12h.01M8.5 15h.01"></path>
+                    <path d="M14.5 11h.01M14.5 14h.01M14.5 17h.01"></path>
+                  </svg>
+                </span>
+                <span>Nos biens</span>
+              </a>
+              <a href="./index.html#recherche-rapide">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="M20 20l-3.5-3.5"></path>
+                  </svg>
+                </span>
+                <span>Recherche</span>
+              </a>
+              <a href="./conseils.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18h6"></path>
+                    <path d="M10 22h4"></path>
+                    <path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 3H9.5c0-1-.5-2-1.5-3Z"></path>
+                  </svg>
+                </span>
+                <span>Conseils</span>
+              </a>
+              <a href="./contact.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.9v2a2 2 0 0 1-2.2 2 20 20 0 0 1-8.7-3.1 19.6 19.6 0 0 1-6-6A20 20 0 0 1 2 4.2 2 2 0 0 1 4 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.45 2.1L7.4 9.6a16 16 0 0 0 7 7l1.1-1.1a2 2 0 0 1 2.1-.45c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9Z"></path>
+                  </svg>
+                </span>
+                <span>Contact</span>
+              </a>
+              <a href="./admin/login.html">
+                <span class="nav-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                </span>
+                <span>Admin</span>
+              </a>
             </nav>
           </div>
           <a class="btn small" href="./admin/login.html" aria-label="Administration">
@@ -46,11 +98,16 @@
       <section class="contact-hero">
         <div class="container contact-hero-grid">
           <div class="contact-hero-copy">
-            <div class="contact-hero-k">Contact</div>
+            <div class="contact-hero-k">Vente • Location • Dossier</div>
             <h1 class="contact-hero-title">Parlons de votre projet</h1>
-            <p class="contact-hero-lead">Contact direct, réponse rapide et accompagnement transparent à chaque étape.</p>
+            <p class="contact-hero-lead">
+              Nous vous accompagnons dans la vente et la location de biens immobiliers, ainsi que dans la préparation de votre dossier, avec une approche simple, transparente et efficace.
+            </p>
+            <p class="contact-hero-sub">
+              Contactez-nous directement pour obtenir des informations ou organiser une visite. Nous répondons rapidement et vous accompagnons à chaque étape de votre projet.
+            </p>
             <div class="contact-hero-actions">
-              <a class="btn" href="#formulaire">Envoyer un message</a>
+              <a class="btn" href="#formulaire">Prendre contact</a>
               <a class="btn" href="./dossier.html">Demande de dossier</a>
             </div>
           </div>
@@ -64,19 +121,28 @@
         <div class="container">
           <h2 class="contact-who-title">Qui sommes-nous&nbsp;?</h2>
           <div class="contact-who-text">
-            <p>Nous présentons des biens immobiliers à la vente et à la location, avec une approche simple, directe et transparente.</p>
-            <p>Chaque bien est mis en valeur avec soin, pour faciliter sa découverte et vous permettre de vous projeter rapidement.</p>
-            <p>Les échanges se font en contact direct, et les visites sont organisées selon vos disponibilités.</p>
+            <p>Nous présentons des biens immobiliers à la vente et à la location avec une approche claire et transparente.</p>
+            <p>Chaque bien est soigneusement mis en valeur afin de faciliter sa découverte et de permettre une projection rapide.</p>
+            <p>Les échanges se font en direct, sans intermédiaire inutile, et les visites sont organisées selon vos disponibilités.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section contact-values-section">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="margin:0">Nos valeurs</h2>
+            </div>
           </div>
 
-          <div class="contact-commit">
-            <div class="contact-commit-k">Notre engagement</div>
-            <div class="contact-commit-list" aria-label="Nos engagements">
-              <span class="contact-commit-pill">Proximité</span>
-              <span class="contact-commit-pill">Transparence</span>
-              <span class="contact-commit-pill">Qualité</span>
-              <span class="contact-commit-pill">Réactivité</span>
-            </div>
+          <div class="contact-values" data-reveal>
+            <ul class="contact-values-list" aria-label="Nos valeurs">
+              <li>Proximité avec nos clients</li>
+              <li>Transparence dans chaque échange</li>
+              <li>Qualité dans la présentation des biens</li>
+              <li>Réactivité dans le traitement des demandes</li>
+            </ul>
           </div>
         </div>
       </section>
@@ -86,7 +152,7 @@
           <div class="section-head">
             <div>
               <h2 style="margin:0">Notre équipe</h2>
-              <p class="lead" style="margin:8px 0 0">Un interlocuteur unique, disponible et réactif.</p>
+              <p class="lead" style="margin:8px 0 0">Un interlocuteur unique vous accompagne tout au long de votre démarche, avec disponibilité et réactivité.</p>
             </div>
           </div>
 
@@ -113,7 +179,7 @@
         </div>
       </section>
 
-      <section class="section alt" id="contact">
+      <section class="section" id="contact">
         <div class="container">
           <div class="section-head">
             <div>
