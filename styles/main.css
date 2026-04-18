@@ -2428,6 +2428,25 @@ body[data-page="conseils"] .page-hero-bg{filter:saturate(1.02) contrast(1.03) br
   .services-section .services-intro{font-size:15.5px}
 }
 
+@media (max-width: 640px){
+  .services-showcase{gap:14px}
+  .service-feature{
+    grid-template-columns:1fr;
+    min-height:0;
+  }
+  .service-feature:nth-child(even){grid-template-columns:1fr}
+  .service-feature:nth-child(even) .service-feature-copy{order:2}
+  .service-feature:nth-child(even) .service-feature-media{order:1}
+  .service-feature-media{min-height:220px}
+  .service-feature-copy{padding:18px 18px 18px}
+  .service-feature-copy h3{font-size:28px}
+  .service-feature-lead{font-size:16px;max-width:none}
+  .service-feature-steps li{font-size:15.5px}
+  .service-feature-steps li strong{font-size:15.5px}
+  .service-feature-steps li p{font-size:13.5px}
+  .service-feature-cta{width:100%}
+}
+
 
 .section{padding:44px 0}
 .section h2{margin:0 0 12px;font-size:28px;letter-spacing:-0.015em}
