@@ -20,8 +20,8 @@
             <button class="topbar-menu-btn" type="button" aria-label="Menu" aria-expanded="false" data-topbar-menu-btn>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="4" y1="7" x2="20" y2="7"></line>
-                <line x1="7" y1="12" x2="20" y2="12"></line>
-                <line x1="10" y1="17" x2="20" y2="17"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <line x1="4" y1="17" x2="20" y2="17"></line>
               </svg>
             </button>
             <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
@@ -83,6 +83,22 @@
                 </span>
                 <span>Admin</span>
               </a>
+              <div class="topbar-menu-footer">
+                <div class="topbar-menu-footer-block">
+                  <div class="topbar-menu-footer-k">Réseaux</div>
+                  <div class="topbar-menu-footer-social">
+                    <a class="social-btn" href="#" aria-label="Instagram">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </a>
+                    <a class="social-btn" href="#" aria-label="Facebook">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                    </a>
+                    <a class="social-btn" href="#" aria-label="LinkedIn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </nav>
           </div>
           <a class="btn small" href="./admin/login.html" aria-label="Administration">
@@ -97,138 +113,581 @@
 
     <main>
       <section class="page-hero">
-        <video class="page-hero-bg" autoplay muted loop playsinline preload="metadata" poster="./assets/1257.png" aria-hidden="true">
+        <video class="page-hero-bg" autoplay muted loop playsinline preload="metadata" aria-hidden="true" disablepictureinpicture disableremoteplayback>
           <source src="./assets/2.mp4" type="video/mp4" />
         </video>
         <div class="page-hero-overlay"></div>
         <div class="container page-hero-content">
           <h1>Conseils</h1>
+          <p class="hero-type-text">Les bonnes décisions aujourd’hui pour un projet serein demain.</p>
+          <span class="advice-hero-line" aria-hidden="true"></span>
         </div>
       </section>
 
-      <section class="advice-nav" aria-label="Navigation conseils">
+      <section class="advice-tabs" aria-label="Catégories de conseils">
         <div class="container">
-          <div class="advice-nav-inner">
-            <a class="advice-chip" href="#devenir-proprietaire">Propriétaire</a>
-            <a class="advice-chip" href="#conseils-locataires">Locataire</a>
+          <div class="advice-tabs-inner">
+            <a class="advice-tab" href="#devenir-proprietaire">
+              <span class="advice-tab-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 10.5 12 4l8 6.5V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-9.5Z"></path>
+                  <path d="M9.5 22v-7h5v7"></path>
+                </svg>
+              </span>
+              <span class="advice-tab-text">
+                <span class="advice-tab-title">Propriétaire</span>
+                <span class="advice-tab-sub">Acheter en toute confiance</span>
+              </span>
+            </a>
+            <a class="advice-tab" href="#conseils-locataires">
+              <span class="advice-tab-ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 11V7a4 4 0 1 1 8 0v4"></path>
+                  <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+                </svg>
+              </span>
+              <span class="advice-tab-text">
+                <span class="advice-tab-title">Locataire</span>
+                <span class="advice-tab-sub">Louer en toute sérénité</span>
+              </span>
+            </a>
           </div>
         </div>
       </section>
 
-      <section class="section advice-section">
+      <section class="section advice-block" id="devenir-proprietaire">
         <div class="container">
-          <div class="section-head">
-            <div>
-              <h2 id="devenir-proprietaire">Conseils pour devenir propriétaire</h2>
-              <p class="advice-sub">Budget, comparaison, emplacement et vision à long terme.</p>
+          <div class="advice-head">
+            <h2>Conseils pour devenir propriétaire</h2>
+            <p class="advice-sub">Budget, analyse et vision long terme.</p>
+          </div>
+
+          <div class="advice-intro">
+            <div class="advice-intro-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18h6"></path>
+                <path d="M10 22h4"></path>
+                <path d="M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 3H9.5c0-1-.5-2-1.5-3Z"></path>
+              </svg>
+            </div>
+            <div class="advice-intro-text">
+              <div class="advice-intro-title">Devenir propriétaire ne s’improvise pas.</div>
+              <div class="advice-intro-desc">
+                Acheter sereinement, ça se prépare.<br />
+                Budget, analyse et vision long terme sont essentiels.
+              </div>
             </div>
           </div>
 
-          <div class="advice-article">
-            <p class="lead">
-              Devenir propriétaire est une étape importante qui nécessite une bonne préparation et une vision à long terme. Un achat immobilier ne se fait pas uniquement sur un coup de cœur, mais repose sur une analyse réfléchie de plusieurs critères essentiels.
-            </p>
+          <div class="advice-steps-head">
+            <h3 class="advice-steps-title">Les étapes clés de votre projet</h3>
+            <p class="advice-steps-sub">Une approche claire pour avancer sereinement</p>
+          </div>
 
-            <h3>Définir clairement son budget</h3>
-            <p>
-              Avant toute chose, il est important de définir clairement son budget. Cela implique d’évaluer sa capacité d’emprunt, de prévoir un éventuel apport personnel, d’intégrer les frais liés à l’achat comme les frais de notaire, de financement ou de travaux, et de conserver une marge de sécurité pour faire face aux imprévus.
-            </p>
-
-            <h3>Comparer plusieurs biens</h3>
-            <p>
-              Il est recommandé de comparer plusieurs biens avant de prendre une décision. Analyser différentes offres permet de mieux comprendre le marché, de vérifier la cohérence des prix dans une même région et d’identifier les meilleures opportunités en fonction du rapport qualité/prix.
-            </p>
-
-            <h3>Choisir l’emplacement</h3>
-            <p>
-              L’emplacement reste un critère déterminant. Un logement bien situé, proche des transports, des services et des infrastructures, offre un meilleur confort de vie et dispose généralement d’un meilleur potentiel de valorisation à long terme.
-            </p>
-
-            <h3>Évaluer l’état du bien</h3>
-            <p>
-              L’état du bien doit être examiné avec attention. Il est essentiel de vérifier la qualité générale du bâtiment, l’isolation, la performance énergétique ainsi que les éventuels travaux à prévoir avant ou après l’achat.
-            </p>
-
-            <h3>Optimiser le financement</h3>
-            <p>
-              Le financement est une étape clé du processus. Comparer plusieurs offres de crédit, analyser les taux d’intérêt et comprendre les conditions de remboursement permet d’optimiser son investissement et de sécuriser son projet.
-            </p>
-
-            <h3>Anticiper les frais annexes</h3>
-            <p>
-              Il est important d’anticiper les frais annexes liés à l’achat, tels que les frais de notaire, l’assurance hypothécaire, l’entretien du bien ou encore les charges de copropriété.
-            </p>
-
-            <h3>Penser à la revente future</h3>
-            <p>
-              Même si l’achat est souvent motivé par une envie de stabilité, il est essentiel de penser à la revente future. L’évolution du quartier, le potentiel de plus-value et la demande locative sont des éléments à prendre en compte dès le départ.
-            </p>
-
-            <h3>Prendre le temps de la réflexion</h3>
-            <p>
-              Prendre le temps de la réflexion reste indispensable. Visiter plusieurs fois le bien, comparer différentes options et éviter les décisions précipitées permet de sécuriser son achat et de faire un choix durable.
-            </p>
+          <div class="advice-steps-grid">
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <button class="advice-step-ico advice-step-ico-btn" type="button" aria-label="Ouvrir la calculatrice budget" data-budget-calc-toggle>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="6" y="2.8" width="12" height="18.4" rx="2"></rect>
+                    <path d="M8.5 7h7"></path>
+                    <path d="M8.5 11h.01M12 11h.01M15.5 11h.01"></path>
+                    <path d="M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01"></path>
+                    <path d="M8.5 18h7"></path>
+                  </svg>
+                </button>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 01</div>
+                  <h4>Définir son budget</h4>
+                </div>
+              </div>
+              <div class="advice-calc" data-budget-calc hidden>
+                <div class="advice-calc-shell" data-inline-calc>
+                  <div class="advice-calc-display">
+                    <input type="text" inputmode="none" readonly value="0" aria-label="Calculatrice" data-inline-calc-display />
+                  </div>
+                  <div class="advice-calc-keys" role="group" aria-label="Touches calculatrice">
+                    <button type="button" class="k util" data-inline-calc-key="CE">CE</button>
+                    <button type="button" class="k util" data-inline-calc-key="C">C</button>
+                    <button type="button" class="k util" data-inline-calc-key="⌫">⌫</button>
+                    <button type="button" class="k op" data-inline-calc-key="÷">÷</button>
+                    <button type="button" class="k" data-inline-calc-key="7">7</button>
+                    <button type="button" class="k" data-inline-calc-key="8">8</button>
+                    <button type="button" class="k" data-inline-calc-key="9">9</button>
+                    <button type="button" class="k op" data-inline-calc-key="×">×</button>
+                    <button type="button" class="k" data-inline-calc-key="4">4</button>
+                    <button type="button" class="k" data-inline-calc-key="5">5</button>
+                    <button type="button" class="k" data-inline-calc-key="6">6</button>
+                    <button type="button" class="k op" data-inline-calc-key="-">−</button>
+                    <button type="button" class="k" data-inline-calc-key="1">1</button>
+                    <button type="button" class="k" data-inline-calc-key="2">2</button>
+                    <button type="button" class="k" data-inline-calc-key="3">3</button>
+                    <button type="button" class="k" data-inline-calc-key="0">0</button>
+                    <button type="button" class="k" data-inline-calc-key="00">00</button>
+                    <button type="button" class="k" data-inline-calc-key=".">.</button>
+                    <button type="button" class="k op" data-inline-calc-key="+">+</button>
+                    <button type="button" class="k eq" data-inline-calc-key="=">=</button>
+                  </div>
+                </div>
+              </div>
+              <ul>
+                <li>Capacité d’emprunt</li>
+                <li>Apport personnel</li>
+                <li>Frais de notaire</li>
+                <li>Travaux éventuels</li>
+                <li>Marge de sécurité</li>
+              </ul>
+              <button class="advice-calc-trigger advice-calc-trigger--corner" type="button" data-budget-calc-toggle>Calculatrice</button>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="6"></circle>
+                    <path d="m20 20-3.5-3.5"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 02</div>
+                  <h4>Comparer les biens</h4>
+                </div>
+              </div>
+              <div class="advice-calc" data-m2-calc hidden>
+                <div class="advice-calc-grid">
+                  <label>
+                    Prix du bien (CHF)
+                    <input type="number" min="0" step="1000" placeholder="520000" data-m2-price />
+                  </label>
+                  <label>
+                    Surface (m²)
+                    <input type="number" min="0" step="1" placeholder="110" data-m2-surface />
+                  </label>
+                  <label>
+                    Référence commune (CHF/m²)
+                    <input type="number" min="0" step="50" placeholder="3500" data-m2-ref />
+                  </label>
+                </div>
+                <div class="advice-calc-out">Prix au m²: <strong data-m2-result>—</strong></div>
+                <div class="advice-calc-note">
+                  Compare uniquement des biens similaires (même commune/quartier + même type). Utilise idéalement la surface habitable pour une comparaison cohérente.
+                </div>
+              </div>
+              <ul>
+                <li>Prix au m²</li>
+                <li>Rapport qualité / prix</li>
+                <li>Analyse du marché</li>
+                <li>Opportunités locales</li>
+              </ul>
+              <button class="advice-calc-trigger advice-calc-trigger--corner" type="button" data-m2-calc-toggle>Prix/m²</button>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 21s7-4.3 7-11a7 7 0 0 0-14 0c0 6.7 7 11 7 11Z"></path>
+                    <circle cx="12" cy="10" r="2.4"></circle>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 03</div>
+                  <h4>Choisir l’emplacement</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Proximité transports</li>
+                <li>Commerces &amp; services</li>
+                <li>Quartier &amp; environnement</li>
+                <li>Potentiel de valorisation</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 3h6l2 2h3v16H4V5h3z"></path>
+                    <path d="M9 3v4h6V3"></path>
+                    <path d="M8.5 13h7"></path>
+                    <path d="M8.5 16.5h7"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 04</div>
+                  <h4>Évaluer le bien</h4>
+                </div>
+              </div>
+              <ul>
+                <li>État général</li>
+                <li>Isolation</li>
+                <li>Performance énergétique</li>
+                <li>Travaux à prévoir</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 7h18v10H3z"></path>
+                    <path d="M3 10h18"></path>
+                    <path d="M7 14h4"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 05</div>
+                  <h4>Optimiser le financement</h4>
+                </div>
+              </div>
+              <div class="advice-calc" data-mortgage-calc hidden>
+                <div class="advice-calc-grid">
+                  <label>
+                    Montant hypothèque (CHF)
+                    <input type="number" min="0" step="1000" placeholder="400000" data-mortgage-amount />
+                  </label>
+                  <label>
+                    Taux hypothécaire annuel (%)
+                    <input type="number" min="0" step="0.05" placeholder="1.80" data-mortgage-rate />
+                  </label>
+                  <label>
+                    Amortissement (% ou CHF/an)
+                    <input type="number" min="0" step="0.1" placeholder="1.0 ou 4000" value="1.0" data-mortgage-amort-chf />
+                  </label>
+                  <label>
+                    Charges &amp; entretien (%)
+                    <input type="number" min="0" step="0.1" placeholder="1.00" value="1.0" data-mortgage-maint />
+                  </label>
+                  <label>
+                    Revenu mensuel (CHF)
+                    <input type="number" min="0" step="100" placeholder="9000" data-mortgage-income />
+                  </label>
+                </div>
+                <div class="advice-calc-out">
+                  Intérêts: <strong data-mortgage-interest-month>—</strong>/mois • Amortissement: <strong data-mortgage-amort-month>—</strong>/mois • Charges: <strong data-mortgage-maint-month>—</strong>/mois
+                </div>
+                <div class="advice-calc-out">
+                  Total logement: <strong data-mortgage-total-month>—</strong>/mois • Taux d’effort: <strong data-mortgage-ratio>—</strong>
+                </div>
+                <div class="advice-calc-note">Estimation simple (intérêts + amortissement + charges). À valider avec votre banque.</div>
+              </div>
+              <ul>
+                <li>Comparer les crédits</li>
+                <li>Taux d’intérêt</li>
+                <li>Conditions de remboursement</li>
+                <li>Simulation bancaire</li>
+              </ul>
+              <button class="advice-calc-trigger advice-calc-trigger--corner" type="button" data-mortgage-calc-toggle>Calculateur de taux</button>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 3h10v18H7z"></path>
+                    <path d="M9.5 7h5"></path>
+                    <path d="M9.5 11h5"></path>
+                    <path d="M9.5 15h3.2"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 06</div>
+                  <h4>Anticiper les frais</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Frais de notaire</li>
+                <li>Assurance</li>
+                <li>Charges copropriété</li>
+                <li>Entretien</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19V5"></path>
+                    <path d="M4 19h16"></path>
+                    <path d="m7 14 4-4 3 3 5-6"></path>
+                    <path d="M19 7h-4"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 07</div>
+                  <h4>Penser à la revente</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Évolution du quartier</li>
+                <li>Plus-value potentielle</li>
+                <li>Demande locative</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"></circle>
+                    <path d="M12 8v4l2.6 1.6"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 08</div>
+                  <h4>Prendre le temps</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Visites multiples</li>
+                <li>Comparaison</li>
+                <li>Décision réfléchie</li>
+              </ul>
+            </article>
           </div>
         </div>
       </section>
 
-      <section class="section advice-section" id="conseils-locataires">
+      <section class="advice-divider" aria-hidden="true">
         <div class="container">
-          <div class="section-head">
-            <div>
-              <h2>Conseils pour les locataires</h2>
-              <p class="advice-sub">Préparation, réactivité et lecture attentive du bail.</p>
+          <div class="advice-divider-line">
+            <span>Conseils locataires</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="section advice-block" id="conseils-locataires">
+        <div class="container">
+          <div class="advice-head">
+            <h2>Conseils pour les locataires</h2>
+            <p class="advice-sub">Préparation, réactivité et dossier efficace</p>
+          </div>
+
+          <div class="advice-intro">
+            <div class="advice-intro-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="6"></circle>
+                <path d="m20 20-3.5-3.5"></path>
+              </svg>
+            </div>
+            <div class="advice-intro-text">
+              <div class="advice-intro-title">Trouver un logement rapidement, ça se prépare.</div>
+              <div class="advice-intro-desc">
+                Préparation + réactivité = la différence.
+              </div>
             </div>
           </div>
 
-          <div class="advice-article">
-            <p class="lead">
-              Trouver un logement peut être rapide, à condition d’être bien préparé et réactif. Les bonnes pratiques suivantes permettent d’augmenter fortement vos chances de réussite.
-            </p>
-            <h3>Préparer un dossier complet</h3>
-            <p>
-              La première étape consiste à constituer un dossier complet et prêt à être envoyé à tout moment. Les propriétaires privilégient les candidatures sérieuses et organisées. Un dossier comprenant une pièce d’identité, des justificatifs de revenus, un contrat de travail et une attestation de non-poursuite est souvent indispensable.
-            </p>
+          <div class="advice-steps-head">
+            <h3 class="advice-steps-title">Les bonnes pratiques pour sécuriser sa location</h3>
+          </div>
 
-            <h3>Être réactif</h3>
-            <p>
-              La réactivité est essentielle. Les biens attractifs restent rarement disponibles longtemps. Il est donc recommandé de réagir rapidement dès qu’une annonce correspond à vos critères.
-            </p>
+          <div class="advice-steps-grid">
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 7h6l2 2h8v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"></path>
+                    <path d="M4 7V5a2 2 0 0 1 2-2h4l2 2h6"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 01</div>
+                  <h4>Préparer son dossier</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Pièce d’identité</li>
+                <li>Revenus</li>
+                <li>Contrat de travail</li>
+                <li>Dossier prêt à envoyer</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M13 2 3 14h8l-1 8 10-12h-8Z"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 02</div>
+                  <h4>Être réactif</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Alertes activées</li>
+                <li>Réponse rapide</li>
+                <li>Disponibilité visites</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="8"></circle>
+                    <path d="M9.5 10.2c.2-1 1.1-1.7 2.5-1.7 1.6 0 2.6.8 2.6 1.9 0 1.2-1 1.7-2.6 1.9-1.6.2-2.6.7-2.6 1.9 0 1.1 1 1.9 2.6 1.9 1.4 0 2.3-.7 2.5-1.7"></path>
+                    <path d="M12 7.8v8.4"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 03</div>
+                  <h4>Évaluer son budget</h4>
+                </div>
+              </div>
+              <div class="advice-calc" data-rent-calc hidden>
+                <div class="advice-calc-grid">
+                  <label>
+                    Revenu mensuel (CHF)
+                    <input type="number" min="0" step="100" placeholder="6000" data-rent-income />
+                  </label>
+                  <label>
+                    Loyer max conseillé
+                    <input type="text" readonly value="—" data-rent-result />
+                  </label>
+                </div>
+                <div class="advice-calc-out">Règle simple: <strong>≈ 1/3</strong> du revenu</div>
+              </div>
+              <ul>
+                <li>Loyer ≤ 1/3 revenus</li>
+                <li>Charges</li>
+                <li>Assurance</li>
+                <li>Transport</li>
+              </ul>
+              <button class="advice-calc-trigger advice-calc-trigger--corner" type="button" data-rent-calc-toggle>Loyer max</button>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>
+                    <circle cx="12" cy="12" r="2.6"></circle>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 04</div>
+                  <h4>Observer le bien</h4>
+                </div>
+              </div>
+              <ul>
+                <li>État général</li>
+                <li>Isolation</li>
+                <li>Luminosité</li>
+                <li>Équipements</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 3h10v18H7z"></path>
+                    <path d="M9.5 7h5"></path>
+                    <path d="M9.5 11h5"></path>
+                    <path d="M9.5 15h5"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 05</div>
+                  <h4>Comprendre les charges</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Chauffage</li>
+                <li>Eau</li>
+                <li>Électricité commune</li>
+                <li>Entretien immeuble</li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7 3h7l5 5v13H7z"></path>
+                    <path d="M14 3v5h5"></path>
+                    <path d="M9.5 13h5"></path>
+                    <path d="M9.5 16.5h5"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 06</div>
+                  <h4>Lire le bail</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Durée</li>
+                <li>Conditions</li>
+                <li>Résiliation</li>
+                <li>Règles spécifiques — <strong><a href="https://www.asloca.ch/" target="_blank" rel="noreferrer">ASLOCA</a></strong></li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M8 11V8a4 4 0 1 1 8 0v3"></path>
+                    <rect x="6" y="11" width="12" height="10" rx="2"></rect>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 07</div>
+                  <h4>Anticiper la garantie</h4>
+                </div>
+              </div>
+              <ul>
+                <li>2–3 mois de loyer</li>
+                <li>Compte bloqué</li>
+                <li>Alternatives — <strong><a href="https://www.swisscaution.ch" target="_blank" rel="noreferrer">SwissCaution</a></strong></li>
+              </ul>
+            </article>
+            <article class="advice-step">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 21s7-4.3 7-11a7 7 0 0 0-14 0c0 6.7 7 11 7 11Z"></path>
+                    <circle cx="12" cy="10" r="2.4"></circle>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 08</div>
+                  <h4>Choisir l’emplacement</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Transports</li>
+                <li>Proximité travail</li>
+                <li>Qualité de vie</li>
+              </ul>
+            </article>
+            <article class="advice-step is-last">
+              <div class="advice-step-top">
+                <span class="advice-step-ico" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m12 3 2.1 5.1 5.4.4-4.1 3.5 1.3 5.2L12 14.9 7.3 17.2 8.6 12 4.5 8.5l5.4-.4L12 3Z"></path>
+                  </svg>
+                </span>
+                <div class="advice-step-top-text">
+                  <div class="advice-step-k">ÉTAPE 09</div>
+                  <h4>Soigner sa présentation</h4>
+                </div>
+              </div>
+              <ul>
+                <li>Message clair</li>
+                <li>Dossier propre</li>
+                <li>Attitude professionnelle</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
 
-            <h3>Évaluer son budget</h3>
-            <p>
-              Il est important d’évaluer correctement son budget. En règle générale, le loyer ne devrait pas dépasser un tiers des revenus. Il faut également prendre en compte les charges, l’assurance et les éventuels frais de transport.
-            </p>
-
-            <h3>Observer lors des visites</h3>
-            <p>
-              Lors des visites, une observation attentive du logement est recommandée. Il convient de vérifier l’état général, l’isolation, la luminosité et les équipements, et de prendre des notes ou des photos pour comparer les biens.
-            </p>
-
-            <h3>Comprendre les charges</h3>
-            <p>
-              Le détail des charges doit être vérifié avec attention. Elles peuvent inclure le chauffage, l’eau chaude, l’eau froide, l’électricité des parties communes, ainsi que l’entretien des parties communes de l’immeuble, la conciergerie ou l’ascenseur selon les cas. Une bonne compréhension des charges permet d’éviter les mauvaises surprises sur le budget mensuel.
-            </p>
-
-            <h3>Lire le bail attentivement</h3>
-            <p>
-              Avant de signer un bail, il est essentiel de le lire attentivement. Les conditions de résiliation, la durée du contrat et les règles spécifiques doivent être bien comprises. En cas de doute, il est possible de se renseigner auprès de <a href="https://www.asloca.ch/" target="_blank" rel="noreferrer">l’ASLOCA</a>.
-            </p>
-
-            <h3>Anticiper la garantie de loyer</h3>
-            <p>
-              La garantie de loyer doit être anticipée. Elle correspond généralement à deux ou trois mois de loyer et peut être déposée sur un compte bloqué ou remplacée par une solution sans dépôt comme <a href="https://www.swisscaution.ch" target="_blank" rel="noreferrer">SwissCaution</a>.
-            </p>
-
-            <h3>Choisir un emplacement adapté</h3>
-            <p>
-              Le choix de l’emplacement joue un rôle important dans le confort quotidien, notamment grâce à la proximité des transports.
-            </p>
-
-            <h3>Soigner la présentation</h3>
-            <p>
-              Enfin, la présentation du dossier peut faire la différence. Un message clair, structuré et professionnel renforce la crédibilité de la candidature face aux autres locataires.
-            </p>
+      <section class="section advice-cta">
+        <div class="container">
+          <div class="advice-cta-card">
+            <div class="advice-cta-copy">
+              <div class="advice-cta-k">Vous avez un projet ?</div>
+              <h3>Parlons-en ensemble</h3>
+              <p>Notre équipe est à votre écoute pour vous conseiller et vous accompagner à chaque étape.</p>
+              <div class="advice-cta-actions">
+                <a class="btn primary" href="./contact.html#formulaire">Nous contacter</a>
+                <a class="btn" href="./contact.html#formulaire" data-rdv-link>Prendre rendez-vous</a>
+              </div>
+            </div>
+            <div class="advice-cta-media" aria-hidden="true">
+              <img src="./assets/signature-bail-location.jpg" alt="" loading="lazy" />
+            </div>
           </div>
         </div>
       </section>

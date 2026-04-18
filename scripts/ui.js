@@ -200,6 +200,478 @@ export function mountAdviceNav() {
   updateActiveOnScroll();
 }
 
+export function mountBudgetCalculator() {
+  const steps = Array.from(document.querySelectorAll("[data-budget-calc]"));
+  if (!steps.length) return;
+
+  if (!window.__dckiAdviceCalcDelegated) {
+    window.__dckiAdviceCalcDelegated = true;
+    document.addEventListener("click", (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+
+      const budgetBtn = t.closest("[data-budget-calc-toggle]");
+      if (budgetBtn) {
+        const step = budgetBtn.closest(".advice-step");
+        const panel = step?.querySelector?.("[data-budget-calc]");
+        if (panel instanceof HTMLElement) {
+          panel.hidden = !panel.hidden;
+          if (!panel.hidden) {
+            const display = panel.querySelector("[data-inline-calc-display]");
+            if (display instanceof HTMLInputElement && typeof display.focus === "function") {
+              window.setTimeout(() => display.focus(), 0);
+            }
+          }
+        }
+      }
+
+      const mortBtn = t.closest("[data-mortgage-calc-toggle]");
+      if (mortBtn) {
+        const step = mortBtn.closest(".advice-step");
+        const panel = step?.querySelector?.("[data-mortgage-calc]");
+        if (panel instanceof HTMLElement) {
+          panel.hidden = !panel.hidden;
+          if (!panel.hidden) {
+            const amount = panel.querySelector("[data-mortgage-amount]");
+            if (amount instanceof HTMLInputElement && typeof amount.focus === "function") {
+              window.setTimeout(() => amount.focus(), 80);
+            }
+          }
+        }
+      }
+
+      const m2Btn = t.closest("[data-m2-calc-toggle]");
+      if (m2Btn) {
+        const step = m2Btn.closest(".advice-step");
+        const panel = step?.querySelector?.("[data-m2-calc]");
+        if (panel instanceof HTMLElement) {
+          panel.hidden = !panel.hidden;
+          if (!panel.hidden) {
+            const price = panel.querySelector("[data-m2-price]");
+            if (price instanceof HTMLInputElement && typeof price.focus === "function") {
+              window.setTimeout(() => price.focus(), 80);
+            }
+          }
+        }
+      }
+
+      const rentBtn = t.closest("[data-rent-calc-toggle]");
+      if (rentBtn) {
+        const step = rentBtn.closest(".advice-step");
+        const panel = step?.querySelector?.("[data-rent-calc]");
+        if (panel instanceof HTMLElement) {
+          panel.hidden = !panel.hidden;
+          if (!panel.hidden) {
+            const inc = panel.querySelector("[data-rent-income]");
+            if (inc instanceof HTMLInputElement && typeof inc.focus === "function") {
+              window.setTimeout(() => inc.focus(), 80);
+            }
+          }
+        }
+      }
+    });
+  }
+
+  for (const panel of steps) {
+    if (!(panel instanceof HTMLElement)) continue;
+    const step = panel.closest(".advice-step");
+    if (!(step instanceof HTMLElement)) continue;
+
+    const display = panel.querySelector("[data-inline-calc-display]");
+    const keys = Array.from(panel.querySelectorAll("[data-inline-calc-key]"));
+    if (!(display instanceof HTMLInputElement)) continue;
+    if (!keys.length) continue;
+
+    let entry = "0";
+    let left = null;
+    let op = null;
+    let justEvaluated = false;
+
+    const opLabel = (o) => {
+      if (o === "-") return "−";
+      return o;
+    };
+
+    const render = () => {
+      if (op && left !== null) {
+        const base = `${left} ${opLabel(op)}`;
+        display.value = entry === "" ? base : `${base} ${entry}`;
+        return;
+      }
+      display.value = entry === "" ? "0" : entry;
+    };
+
+    const asNumber = (v) => {
+      const n = Number(String(v).replace(",", "."));
+      return Number.isFinite(n) ? n : NaN;
+    };
+
+    const addDigit = (d) => {
+      if (justEvaluated) {
+        left = null;
+        op = null;
+        justEvaluated = false;
+        entry = "";
+      }
+      if (entry === "") entry = "0";
+      if (d === ".") {
+        if (entry.includes(".")) return;
+        entry = `${entry}.`;
+        render();
+        return;
+      }
+      if (d === "00") {
+        if (entry === "0") return;
+        entry = `${entry}00`;
+        render();
+        return;
+      }
+      if (entry === "0") entry = d;
+      else entry = `${entry}${d}`;
+      render();
+    };
+
+    const compute = (a, b, o) => {
+      if (o === "+") return a + b;
+      if (o === "-" || o === "−") return a - b;
+      if (o === "×") return a * b;
+      if (o === "÷") return b === 0 ? NaN : a / b;
+      return b;
+    };
+
+    const applyOp = (nextOp) => {
+      if (justEvaluated) justEvaluated = false;
+      const num = entry === "" ? NaN : asNumber(entry);
+      if (entry !== "" && !Number.isFinite(num)) return;
+
+      if (left === null) {
+        if (!Number.isFinite(num)) return;
+        left = num;
+      } else if (op && entry !== "") {
+        const out = compute(left, num, op);
+        if (!Number.isFinite(out)) {
+          display.value = "Erreur";
+          entry = "0";
+          left = null;
+          op = null;
+          justEvaluated = true;
+          return;
+        }
+        left = out;
+      }
+
+      op = nextOp;
+      entry = "";
+      render();
+    };
+
+    const clearEntry = () => {
+      if (justEvaluated) {
+        entry = "0";
+        left = null;
+        op = null;
+        justEvaluated = false;
+        render();
+        return;
+      }
+      entry = "0";
+      render();
+    };
+
+    const backspace = () => {
+      if (justEvaluated) return;
+      if (entry === "") return;
+      if (entry.length <= 1) entry = "0";
+      else entry = entry.slice(0, -1);
+      render();
+    };
+
+    const clearAll = () => {
+      entry = "0";
+      left = null;
+      op = null;
+      justEvaluated = false;
+      render();
+    };
+
+    const equals = () => {
+      const num = entry === "" ? NaN : asNumber(entry);
+      if (left === null || !op || !Number.isFinite(num)) return;
+      const out = compute(left, num, op);
+      if (!Number.isFinite(out)) {
+        display.value = "Erreur";
+        entry = "0";
+        left = null;
+        op = null;
+        justEvaluated = true;
+        return;
+      }
+      display.value = `${left} ${opLabel(op)} ${entry} = ${out}`;
+      entry = String(out);
+      left = null;
+      op = null;
+      justEvaluated = true;
+    };
+
+    const onKey = (k) => {
+      if (/^\d$/.test(k) || k === "." || k === "00") return addDigit(k);
+      if (k === "CE") return clearEntry();
+      if (k === "C") return clearAll();
+      if (k === "⌫") return backspace();
+      if (k === "=") return equals();
+      if (k === "+" || k === "-" || k === "×" || k === "÷") return applyOp(k);
+    };
+
+    for (const key of keys) {
+      if (!(key instanceof HTMLButtonElement)) continue;
+      key.addEventListener("click", () => {
+        const k = key.getAttribute("data-inline-calc-key") || "";
+        if (!k) return;
+        onKey(k);
+      });
+    }
+
+    panel.addEventListener("keydown", (e) => {
+      if (panel.hidden) return;
+      const k = e.key;
+      if (/^\d$/.test(k)) {
+        e.preventDefault();
+        onKey(k);
+        return;
+      }
+      if (k === "." || k === ",") {
+        e.preventDefault();
+        onKey(".");
+        return;
+      }
+      if (k === "Backspace") {
+        e.preventDefault();
+        onKey("⌫");
+        return;
+      }
+      if (k === "Enter" || k === "=") {
+        e.preventDefault();
+        onKey("=");
+        return;
+      }
+      if (k === "+" || k === "-") {
+        e.preventDefault();
+        onKey(k);
+        return;
+      }
+      if (k === "*" ) {
+        e.preventDefault();
+        onKey("×");
+        return;
+      }
+      if (k === "/") {
+        e.preventDefault();
+        onKey("÷");
+        return;
+      }
+      if (k === "Escape") {
+        e.preventDefault();
+        panel.hidden = true;
+      }
+      if (k.toLowerCase() === "c") {
+        e.preventDefault();
+        onKey("C");
+      }
+    });
+
+    render();
+  }
+}
+
+export function mountM2Calculator() {
+  const panels = Array.from(document.querySelectorAll("[data-m2-calc]"));
+  if (!panels.length) return;
+
+  const formatCHF0 = (n) =>
+    new Intl.NumberFormat("fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
+
+  for (const panel of panels) {
+    if (!(panel instanceof HTMLElement)) continue;
+    const step = panel.closest(".advice-step");
+    if (!(step instanceof HTMLElement)) continue;
+
+    const price = panel.querySelector("[data-m2-price]");
+    const surface = panel.querySelector("[data-m2-surface]");
+    const out = panel.querySelector("[data-m2-result]");
+    const ref = panel.querySelector("[data-m2-ref]");
+    if (!(price instanceof HTMLInputElement)) continue;
+    if (!(surface instanceof HTMLInputElement)) continue;
+    if (!(out instanceof HTMLElement)) continue;
+    if (!(ref instanceof HTMLInputElement)) continue;
+
+    const recompute = () => {
+      const p = Math.max(0, Number(price.value || 0));
+      const s = Math.max(0, Number(surface.value || 0));
+      if (!p || !s) {
+        out.textContent = "—";
+        return;
+      }
+      const m2 = p / s;
+      out.textContent = `${formatCHF0(m2)}/m²`;
+    };
+
+    price.addEventListener("input", recompute);
+    surface.addEventListener("input", recompute);
+    price.addEventListener("focus", recompute);
+    surface.addEventListener("focus", recompute);
+    recompute();
+  }
+}
+
+export function mountRentMaxCalculator() {
+  const panels = Array.from(document.querySelectorAll("[data-rent-calc]"));
+  if (!panels.length) return;
+
+  const formatCHF0 = (n) =>
+    new Intl.NumberFormat("fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
+
+  for (const panel of panels) {
+    if (!(panel instanceof HTMLElement)) continue;
+    const step = panel.closest(".advice-step");
+    if (!(step instanceof HTMLElement)) continue;
+
+    const income = panel.querySelector("[data-rent-income]");
+    const out = panel.querySelector("[data-rent-result]");
+    if (!(income instanceof HTMLInputElement)) continue;
+    if (!(out instanceof HTMLInputElement)) continue;
+
+    const recompute = () => {
+      const inc = Math.max(0, Number(income.value || 0));
+      if (!inc) {
+        out.value = "—";
+        return;
+      }
+      const max = inc * 0.33;
+      out.value = `${formatCHF0(max)}/mois`;
+    };
+
+    income.addEventListener("input", recompute);
+    income.addEventListener("focus", recompute);
+    recompute();
+  }
+}
+
+export function mountRateCalculator() {
+  const panels = Array.from(document.querySelectorAll("[data-mortgage-calc]"));
+  if (!panels.length) return;
+
+  const formatCHF0 = (n) =>
+    new Intl.NumberFormat("fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
+  const formatPct1 = (n) => new Intl.NumberFormat("fr-CH", { style: "percent", maximumFractionDigits: 1 }).format(n);
+  const toMoneyNumber = (raw) => {
+    const src = String(raw ?? "").trim().replace(/\s/g, "").replace(/'/g, "");
+    if (!src) return 0;
+    let normalized = src;
+    const hasComma = normalized.includes(",");
+    const hasDot = normalized.includes(".");
+    if (hasComma && hasDot) {
+      if (normalized.lastIndexOf(",") > normalized.lastIndexOf(".")) {
+        normalized = normalized.replace(/\./g, "").replace(",", ".");
+      } else {
+        normalized = normalized.replace(/,/g, "");
+      }
+    } else if (hasComma) {
+      normalized = /,\d{1,2}$/.test(normalized) ? normalized.replace(",", ".") : normalized.replace(/,/g, "");
+    } else if (hasDot) {
+      normalized = /\.\d{1,2}$/.test(normalized) ? normalized : normalized.replace(/\./g, "");
+    }
+    const n = Number(normalized);
+    return Number.isFinite(n) ? n : 0;
+  };
+  const toRateNumber = (raw) => {
+    const normalized = String(raw ?? "").trim().replace(/\s/g, "").replace(/'/g, "").replace(",", ".");
+    const n = Number(normalized);
+    return Number.isFinite(n) ? n : 0;
+  };
+
+  for (const panel of panels) {
+    if (!(panel instanceof HTMLElement)) continue;
+    const step = panel.closest(".advice-step");
+    if (!(step instanceof HTMLElement)) continue;
+
+    const amount = panel.querySelector("[data-mortgage-amount]");
+    const rate = panel.querySelector("[data-mortgage-rate]");
+    const outMonth = panel.querySelector("[data-mortgage-interest-month]");
+    const outYear = panel.querySelector("[data-mortgage-interest-year]");
+    const amortChf = panel.querySelector("[data-mortgage-amort-chf]");
+    const maint = panel.querySelector("[data-mortgage-maint]");
+    const income = panel.querySelector("[data-mortgage-income]");
+    const outAmortMonth = panel.querySelector("[data-mortgage-amort-month]");
+    const outMaintMonth = panel.querySelector("[data-mortgage-maint-month]");
+    const outTotalMonth = panel.querySelector("[data-mortgage-total-month]");
+    const outRatio = panel.querySelector("[data-mortgage-ratio]");
+    if (!(amount instanceof HTMLInputElement)) continue;
+    if (!(rate instanceof HTMLInputElement)) continue;
+    if (!(outMonth instanceof HTMLElement)) continue;
+    const outYearEl = outYear instanceof HTMLElement ? outYear : null;
+    if (!(amortChf instanceof HTMLInputElement)) continue;
+    if (!(maint instanceof HTMLInputElement)) continue;
+    if (!(income instanceof HTMLInputElement)) continue;
+    if (!(outAmortMonth instanceof HTMLElement)) continue;
+    if (!(outMaintMonth instanceof HTMLElement)) continue;
+    if (!(outTotalMonth instanceof HTMLElement)) continue;
+    if (!(outRatio instanceof HTMLElement)) continue;
+
+    const recompute = () => {
+      const P = Math.max(0, toMoneyNumber(amount.value));
+      const rYear = Math.max(0, toRateNumber(rate.value)) / 100;
+      const amortRaw = Math.max(0, toRateNumber(amortChf.value));
+      const mYear = Math.max(0, toRateNumber(maint.value)) / 100;
+      const inc = Math.max(0, toMoneyNumber(income.value));
+      if (!P || !Number.isFinite(rYear)) {
+        outMonth.textContent = "—";
+        if (outYearEl) outYearEl.textContent = "—";
+        outAmortMonth.textContent = "—";
+        outMaintMonth.textContent = "—";
+        outTotalMonth.textContent = "—";
+        outRatio.textContent = "—";
+        return;
+      }
+      const interestYear = P * rYear;
+      // Flexible input:
+      // - if value <= 15 => interpreted as annual % of mortgage amount
+      // - if value > 15  => interpreted as yearly CHF amount
+      const amortYear = amortRaw <= 15 ? P * (amortRaw / 100) : amortRaw;
+      const maintYear = P * (Number.isFinite(mYear) ? mYear : 0);
+
+      // Round each monthly component first so displayed parts always match displayed total.
+      const interestMonth = Math.round(interestYear / 12);
+      const amortMonth = Math.round(amortYear / 12);
+      const maintMonth = Math.round(maintYear / 12);
+      const totalMonth = interestMonth + amortMonth + maintMonth;
+
+      outMonth.textContent = formatCHF0(interestMonth);
+      if (outYearEl) outYearEl.textContent = formatCHF0(interestYear);
+      outAmortMonth.textContent = formatCHF0(amortMonth);
+      outMaintMonth.textContent = formatCHF0(maintMonth);
+      outTotalMonth.textContent = formatCHF0(totalMonth);
+
+      if (!inc) {
+        outRatio.textContent = "—";
+      } else {
+        outRatio.textContent = formatPct1(totalMonth / inc);
+      }
+    };
+
+    amount.addEventListener("input", recompute);
+    rate.addEventListener("input", recompute);
+    amortChf.addEventListener("input", recompute);
+    maint.addEventListener("input", recompute);
+    income.addEventListener("input", recompute);
+    amount.addEventListener("focus", recompute);
+    rate.addEventListener("focus", recompute);
+    amortChf.addEventListener("focus", recompute);
+    maint.addEventListener("focus", recompute);
+    income.addEventListener("focus", recompute);
+    recompute();
+  }
+}
+
 export function formatCHF(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "";
@@ -232,6 +704,41 @@ export function wireForms() {
 }
 
 export function mountAppointmentPlanner() {
+  const SWISS_TZ = "Europe/Zurich";
+
+  const getSwissParts = (d) => {
+    const fmt = new Intl.DateTimeFormat("en-CA", {
+      timeZone: SWISS_TZ,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23"
+    });
+    const parts = fmt.formatToParts(d);
+    const get = (type) => parts.find((p) => p.type === type)?.value || "";
+    return {
+      year: get("year"),
+      month: get("month"),
+      day: get("day"),
+      hour: get("hour"),
+      minute: get("minute")
+    };
+  };
+
+  const rdvLinks = Array.from(document.querySelectorAll("[data-rdv-link]"));
+  for (const link of rdvLinks) {
+    if (!(link instanceof HTMLAnchorElement)) continue;
+    link.addEventListener("click", () => {
+      const rawHref = link.getAttribute("href");
+      if (!rawHref) return;
+      const target = new URL(rawHref, window.location.href);
+      target.searchParams.set("rdvts", String(Date.now()));
+      link.setAttribute("href", target.toString());
+    });
+  }
+
   const triggers = Array.from(document.querySelectorAll("[data-open-appointment]"));
   if (!triggers.length) return;
 
@@ -250,11 +757,8 @@ export function mountAppointmentPlanner() {
 
   let openedByUser = false;
 
-  const today = new Date();
-  const yyyy = String(today.getFullYear());
-  const mm = String(today.getMonth() + 1).padStart(2, "0");
-  const dd = String(today.getDate()).padStart(2, "0");
-  dateInput.min = `${yyyy}-${mm}-${dd}`;
+  const todaySwiss = getSwissParts(new Date());
+  dateInput.min = `${todaySwiss.year}-${todaySwiss.month}-${todaySwiss.day}`;
 
   const formatDate = (raw) => {
     const [y, m, d] = raw.split("-").map(Number);
@@ -262,6 +766,16 @@ export function mountAppointmentPlanner() {
     const dd = String(d).padStart(2, "0");
     const mm = String(m).padStart(2, "0");
     return `${dd}.${mm}`;
+  };
+
+  const toSwissDateValue = (d) => {
+    const p = getSwissParts(d);
+    return `${p.year}-${p.month}-${p.day}`;
+  };
+
+  const toSwissTimeValue = (d) => {
+    const p = getSwissParts(d);
+    return `${p.hour}:${p.minute}`;
   };
 
   const clearAutoMessage = () => {
@@ -308,8 +822,9 @@ export function mountAppointmentPlanner() {
     if (requestType instanceof HTMLSelectElement) {
       requestType.value = "Demande de visite";
     }
-    if (!dateInput.value) dateInput.value = dateInput.min || "";
-    if (!timeInput.value) timeInput.value = "10:00";
+    const now = new Date();
+    if (!dateInput.value) dateInput.value = toSwissDateValue(now);
+    if (!timeInput.value) timeInput.value = toSwissTimeValue(now);
     applyAutoMessage();
     window.setTimeout(() => dateInput.focus(), 120);
   };
@@ -337,6 +852,23 @@ export function mountAppointmentPlanner() {
       hidePlanner();
     }, 0);
   });
+
+  const rdvTs = new URLSearchParams(window.location.search).get("rdvts");
+  if (rdvTs) {
+    const stamp = Number(rdvTs);
+    const clickedAt = Number.isFinite(stamp) && stamp > 0 ? new Date(stamp) : new Date(rdvTs);
+    if (!Number.isNaN(clickedAt.getTime())) {
+      openedByUser = true;
+      planner.hidden = false;
+      planner.classList.add("is-open");
+      if (requestType instanceof HTMLSelectElement) {
+        requestType.value = "Demande de visite";
+      }
+      dateInput.value = toSwissDateValue(clickedAt);
+      timeInput.value = toSwissTimeValue(clickedAt);
+      applyAutoMessage();
+    }
+  }
 }
 
 export function getQueryParams() {
