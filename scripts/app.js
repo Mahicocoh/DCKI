@@ -6,21 +6,7 @@ import { initHome } from "./home.js";
 import { initVideoFallbacks } from "./video-fallback.js";
 import { initListingPage } from "./listing-page.js";
 
-function mountMobileAppMode() {
-  const apply = () => {
-    const mobile = window.matchMedia("(max-width: 820px)").matches;
-    document.body.classList.toggle("mobile-app-mode", mobile);
-  };
-  apply();
-  window.addEventListener("resize", apply);
-  const standalone =
-    window.matchMedia("(display-mode: standalone)").matches ||
-    window.navigator.standalone === true;
-  if (standalone) document.body.classList.add("standalone-app");
-}
-
 mountLoader();
-mountMobileAppMode();
 
 setActiveNav();
 mountTopbarMenu();
