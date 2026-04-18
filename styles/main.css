@@ -2440,9 +2440,8 @@ body[data-page="conseils"] .page-hero-bg{filter:saturate(1.02) contrast(1.03) br
     min-height:0;
   }
   .service-feature-copy{order:2;padding:18px 18px 18px}
-  .service-feature-media{order:1;min-height:clamp(240px, 42vw, 360px)}
-  .service-feature:nth-child(2) .service-feature-media{min-height:clamp(220px, 36vw, 320px)}
-  .service-feature:nth-child(2) .service-feature-media img{object-position:50% 45%}
+  .service-feature-media{order:1;min-height:clamp(260px, 52vw, 420px)}
+  .service-feature-media img{transform:none;object-position:50% 50%}
   .service-feature-copy h3{font-size:28px}
   .service-feature-lead{font-size:16px;max-width:none}
   .service-feature-steps li{font-size:15.5px}
