@@ -218,6 +218,11 @@ body.menu-open{overflow:hidden}
   border-top:1px solid rgba(15,23,32,.10);
   display:grid;
   gap:14px;
+  position:sticky;
+  bottom:0;
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(10px);
+  padding-bottom:max(6px, env(safe-area-inset-bottom));
 }
 .topbar-menu-footer-block{display:grid;gap:10px}
 .topbar-menu-footer-k{
@@ -2436,12 +2441,39 @@ body[data-page="conseils"] .page-hero-bg{filter:saturate(1.02) contrast(1.03) br
   }
   .service-feature-copy{order:2;padding:18px 18px 18px}
   .service-feature-media{order:1;min-height:clamp(240px, 42vw, 360px)}
+  .service-feature:nth-child(2) .service-feature-media{min-height:clamp(220px, 36vw, 320px)}
+  .service-feature:nth-child(2) .service-feature-media img{object-position:50% 45%}
   .service-feature-copy h3{font-size:28px}
   .service-feature-lead{font-size:16px;max-width:none}
   .service-feature-steps li{font-size:15.5px}
   .service-feature-steps li strong{font-size:15.5px}
   .service-feature-steps li p{font-size:13.5px}
   .service-feature-cta{width:100%}
+}
+
+@media (hover: none) and (pointer: coarse){
+  .topbar-menu-btn:active svg line:nth-of-type(1){transform:translateX(2px)}
+  .topbar-menu-btn:active svg line:nth-of-type(2){transform:translateX(-2px)}
+  .topbar-menu-btn:active svg line:nth-of-type(3){transform:translateX(2px)}
+
+  .topbar-menu-footer-social .social-btn:active{
+    border-color:rgba(11,42,58,.28);
+    background:rgba(255,255,255,.98);
+    color:rgba(15,23,32,.92);
+    transform:translateY(0);
+  }
+
+  .advice-tab:active{
+    transform:translateY(0) scale(1.02);
+    border-color:rgba(200,161,74,.32);
+    box-shadow:0 16px 40px rgba(15,23,32,.10);
+  }
+  .advice-intro-ico{
+    background:linear-gradient(135deg, rgba(255,225,142,.55), rgba(200,161,74,.30));
+    border-color:rgba(200,161,74,.50);
+    color:rgba(184,129,28,.98);
+    box-shadow:0 0 0 6px rgba(200,161,74,.10), 0 8px 22px rgba(200,161,74,.24);
+  }
 }
 
 
