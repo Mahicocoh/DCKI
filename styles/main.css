@@ -2428,14 +2428,14 @@ body[data-page="conseils"] .page-hero-bg{filter:saturate(1.02) contrast(1.03) br
   .services-section .services-intro{font-size:15.5px}
 }
 
-@media (max-width: 640px){
+@media (max-width: 720px){
   .services-showcase{gap:14px}
   .service-feature{
     grid-template-columns:1fr;
     min-height:0;
   }
   .service-feature-copy{order:2;padding:18px 18px 18px}
-  .service-feature-media{order:1;min-height:300px}
+  .service-feature-media{order:1;min-height:clamp(240px, 42vw, 360px)}
   .service-feature-copy h3{font-size:28px}
   .service-feature-lead{font-size:16px;max-width:none}
   .service-feature-steps li{font-size:15.5px}
