@@ -1573,9 +1573,44 @@ body[data-page="conseils"] .page-hero-bg{filter:saturate(1.02) contrast(1.03) br
 }
 
 @media (max-width: 720px){
-  #actus .actus-actions{flex-wrap:nowrap !important;overflow:auto;-webkit-overflow-scrolling:touch}
-  #actus .actus-actions::-webkit-scrollbar{height:0}
+  #actus .actus-actions{
+    flex-wrap:wrap !important;
+    overflow:visible;
+    -webkit-overflow-scrolling:auto;
+  }
 }
+
+/* Contact page: keep mobile layout on all screen sizes */
+body[data-page="contact"] .contact-hero{padding:30px 0 18px}
+body[data-page="contact"] .contact-hero-grid{grid-template-columns:1fr;gap:14px}
+body[data-page="contact"] .contact-hero-copy{order:1}
+body[data-page="contact"] .contact-hero-visual{order:2}
+body[data-page="contact"] .contact-hero-title{font-size:32px}
+body[data-page="contact"] .contact-hero-actions{width:100%;flex-wrap:wrap;overflow:visible}
+body[data-page="contact"] .contact-hero-actions .btn{width:100%;white-space:normal;flex:1 1 100%}
+body[data-page="contact"] .contact-hero-visual img{height:240px}
+body[data-page="contact"] .contact-who{padding:30px 0 22px}
+body[data-page="contact"] .contact-who-title{font-size:34px}
+body[data-page="contact"] .contact-who-title::after{width:110px}
+body[data-page="contact"] .contact-who-text p{font-size:15.5px;line-height:1.7}
+body[data-page="contact"] .contact-values-section{padding:30px 0 22px}
+body[data-page="contact"] .contact-values-list{gap:10px;grid-template-columns:1fr}
+body[data-page="contact"] #contact .footer-grid{
+  grid-template-columns:1fr;
+  grid-auto-flow:row;
+  grid-auto-columns:minmax(0, 1fr);
+  overflow:visible;
+  -webkit-overflow-scrolling:auto;
+  scroll-snap-type:none;
+  padding-bottom:0;
+}
+body[data-page="contact"] #contact .footer-grid > .panel{scroll-snap-align:none}
+body[data-page="contact"] .contact-team-showcase .team-showcase{flex-direction:column;align-items:stretch;gap:14px}
+body[data-page="contact"] .contact-team-showcase .team-info{flex:1}
+body[data-page="contact"] .contact-team-showcase .team-photo{max-width:100%}
+body[data-page="contact"] .contact-team-showcase .team-name{font-size:26px}
+body[data-page="contact"] .contact-team-showcase .team-contact{flex-wrap:wrap;overflow:visible;-webkit-overflow-scrolling:auto}
+body[data-page="contact"] .contact-team-showcase .team-contact .btn{white-space:normal;flex:1 1 100%}
 
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .about-showcase{
@@ -2493,15 +2528,17 @@ body[data-page="conseils"] .page-hero-bg{filter:saturate(1.02) contrast(1.03) br
 .section-subhead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:20px 0 10px}
 
 @media (max-width: 640px){
-  #actus .section-head{flex-wrap:nowrap;align-items:flex-start}
+  #actus .section-head{flex-wrap:wrap;align-items:flex-start}
   #actus .actus-actions{
-    flex-wrap:nowrap !important;
-    overflow:auto;
-    -webkit-overflow-scrolling:touch;
+    flex-wrap:wrap !important;
+    overflow:visible;
+    -webkit-overflow-scrolling:auto;
     padding-bottom:2px;
   }
-  #actus .actus-actions .btn{white-space:nowrap}
-  #actus .actus-actions::-webkit-scrollbar{height:0}
+  #actus .actus-actions .btn{
+    white-space:normal;
+    width:100%;
+  }
 }
 
 .kpi-divider{
