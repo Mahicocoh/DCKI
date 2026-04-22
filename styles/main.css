@@ -393,7 +393,7 @@ body.menu-open{overflow:hidden}
     position:fixed;
     top:0;
     right:0;
-    height:100vh;
+    height:100dvh;
     width:80vw;
     min-width:0;
     padding:16px;
@@ -412,6 +412,9 @@ body.menu-open{overflow:hidden}
     pointer-events:none;
   }
   .topbar-menu.open .topbar-menu-panel{transform:translateX(0);pointer-events:auto}
+  .topbar-menu-footer{
+    padding-bottom:max(16px, env(safe-area-inset-bottom));
+  }
   .topbar-menu-panel > a{
     display:flex;
     align-items:center;
@@ -2485,16 +2488,6 @@ body[data-page="contact"] .contact-team-showcase .team-contact .btn{white-space:
 }
 .service-feature-media{min-height:340px}
 .service-feature-media img{width:100%;height:100%;object-fit:cover;display:block}
-.service-feature:nth-child(4) .service-feature-media{
-  background:transparent;
-}
-.service-feature:nth-child(4) .service-feature-media img{
-  object-position:50% 50%;
-  transform:none;
-}
-.service-feature:nth-child(4) .service-feature-copy h3{font-size:32px}
-.service-feature:nth-child(4) .service-feature-steps .ico{width:30px;height:30px}
-.service-feature:nth-child(4) .service-feature-steps .ico svg{width:14px;height:14px}
 @media (max-width: 920px){
   .service-feature{grid-template-columns:1.12fr .88fr}
   .service-feature-copy{padding:24px 26px 22px}
@@ -2504,7 +2497,6 @@ body[data-page="contact"] .contact-team-showcase .team-contact .btn{white-space:
   .service-feature-steps li strong{font-size:17px}
   .service-feature-cta{font-size:18px;padding:11px 18px}
   .service-feature-media{min-height:340px}
-  .service-feature:nth-child(4) .service-feature-media img{transform:scale(.88)}
 }
 @media (max-width: 720px){
   .services-section .services-intro{font-size:15.5px}
@@ -2604,10 +2596,10 @@ body[data-page="contact"] .contact-team-showcase .team-contact .btn{white-space:
   gap:14px;
   padding:22px 22px;
   border-radius:20px;
-  border:1px solid rgba(11,42,58,.08);
-  background:rgba(247,246,243,.92);
+  border:0;
+  background:transparent;
   backdrop-filter:none;
-  box-shadow:0 18px 55px rgba(15,23,32,.06);
+  box-shadow:none;
   position:relative;
   overflow:hidden;
 }
