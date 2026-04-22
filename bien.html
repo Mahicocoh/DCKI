@@ -168,6 +168,7 @@
 
                 <div class="cta" style="margin-top:18px">
                   <a class="btn primary" href="./dossier.html">Demande de dossier</a>
+                  <a class="btn" href="#demande-visite" data-open-appointment data-appointment-target="listing-form">Demander une visite</a>
                 </div>
 
                 <h3 style="margin:18px 0 8px">Contact</h3>
@@ -190,8 +191,8 @@
                   </div>
                 </div>
 
-                <h3 style="margin:18px 0 8px">Demande de visite</h3>
-                <form class="form" data-demo-form="Demande de visite">
+                <h3 style="margin:18px 0 8px" id="demande-visite">Demande de visite</h3>
+                <form class="form" data-demo-form="Demande de visite" id="listing-form">
                   <div class="field">
                     <span class="label">Nom</span>
                     <input class="control" required placeholder="Nom Prénom" />
@@ -206,16 +207,25 @@
                   </div>
                   <div class="field">
                     <span class="label">Type de demande</span>
-                    <select class="control" required>
+                    <select class="control" required data-appointment-request-type>
                       <option>Demande de visite</option>
                       <option>Demande de dossier</option>
-                      <option>Estimation</option>
+                      <option>Louer un bien</option>
+                      <option>Acheter un bien</option>
+                      <option>Conseils</option>
                       <option>Question</option>
                     </select>
                   </div>
+                  <div class="field full appointment-planner" data-appointment-planner hidden>
+                    <span class="label">Disponibilités pour la visite</span>
+                    <div class="appointment-grid">
+                      <input class="control" type="date" data-appointment-date />
+                      <input class="control" type="time" data-appointment-time />
+                    </div>
+                  </div>
                   <div class="field full">
                     <span class="label">Message</span>
-                    <textarea class="control" rows="4" required placeholder="Vos disponibilités, questions, informations…"></textarea>
+                    <textarea class="control" rows="4" required placeholder="Vos disponibilités, questions, informations…" data-appointment-message></textarea>
                   </div>
                   <div class="actions">
                     <button class="btn primary" type="submit">Envoyer</button>

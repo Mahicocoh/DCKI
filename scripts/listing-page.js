@@ -39,7 +39,14 @@ function render(listing) {
   const openMaps = document.querySelector("[data-listing-open-maps]");
   const statusRibbon = document.querySelector("[data-listing-status-ribbon]");
 
-  const statusLabel = listing.status === "sold" ? "Vendu" : listing.status === "rented" ? "Loué" : "";
+  const rawStatus = String(listing.status || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
+  const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+  const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   if (pill) {
     pill.innerHTML = `
@@ -114,6 +121,73 @@ function render(listing) {
       "href",
       `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(listing.id)}`
     );
+  }
+
+  const isUnavailable = Boolean(statusLabel);
+  if (isUnavailable) {
+    const cta = document.querySelector(".cta");
+    if (cta instanceof HTMLElement) {
+      const note = document.createElement("div");
+      note.className = "unavailable-note";
+      note.style.marginTop = "12px";
+      note.innerHTML = `
+        <div class="badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div class="t">
+          <div class="k">Indisponible</div>
+          <div class="v">Ce bien est ${escapeHtml(statusLabel)}. Les demandes sont désactivées.</div>
+        </div>
+      `;
+      cta.appendChild(note);
+    }
+
+    if (dossierBtn instanceof HTMLAnchorElement) {
+      dossierBtn.removeAttribute("href");
+      dossierBtn.setAttribute("aria-disabled", "true");
+      dossierBtn.tabIndex = -1;
+      dossierBtn.classList.add("is-disabled");
+    }
+
+    const visitBtn = document.querySelector(".cta a[data-open-appointment]");
+    if (visitBtn instanceof HTMLAnchorElement) {
+      visitBtn.removeAttribute("data-open-appointment");
+      visitBtn.removeAttribute("data-appointment-target");
+      visitBtn.removeAttribute("href");
+      visitBtn.setAttribute("aria-disabled", "true");
+      visitBtn.tabIndex = -1;
+      visitBtn.classList.add("is-disabled");
+    }
+  }
+
+  const visitForm = document.getElementById("listing-form");
+  const visitType = visitForm?.querySelector?.("[data-appointment-request-type]");
+  if (visitType instanceof HTMLSelectElement) {
+    const isSale = listing.category === "sale";
+    const desired = new Set([
+      "Demande de visite",
+      isSale ? "Acheter un bien" : "Louer un bien",
+      "Question",
+    ]);
+    for (const opt of Array.from(visitType.options)) {
+      const label = (opt.textContent || "").trim();
+      if (!desired.has(label)) opt.remove();
+    }
+    visitType.value = "Demande de visite";
+  }
+
+  if (isUnavailable && visitForm instanceof HTMLFormElement) {
+    visitForm.classList.add("is-disabled");
+    const controls = visitForm.querySelectorAll("input, select, textarea, button");
+    for (const el of Array.from(controls)) {
+      if (el instanceof HTMLInputElement) el.disabled = true;
+      else if (el instanceof HTMLSelectElement) el.disabled = true;
+      else if (el instanceof HTMLTextAreaElement) el.disabled = true;
+      else if (el instanceof HTMLButtonElement) el.disabled = true;
+    }
   }
 
   const lb = document.getElementById("photo-lightbox");

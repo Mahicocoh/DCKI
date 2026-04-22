@@ -1,5 +1,5 @@
 import { mountLoader } from "./loader.js";
-import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials } from "./ui.js";
+import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill } from "./ui.js";
 import { initRecherche } from "./recherche.js";
 import { initBiens } from "./biens.js";
 import { initHome } from "./home.js";
@@ -17,6 +17,8 @@ mountRentMaxCalculator();
 mountRateCalculator();
 wireForms();
 mountAppointmentPlanner();
+mountTypewriters();
+mountDossierPrefill();
 initVideoFallbacks();
 mountWhatsAppFab();
 mountToTopFab();

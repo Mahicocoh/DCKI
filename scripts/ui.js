@@ -739,27 +739,6 @@ export function mountAppointmentPlanner() {
     });
   }
 
-  const triggers = Array.from(document.querySelectorAll("[data-open-appointment]"));
-  if (!triggers.length) return;
-
-  const form = document.getElementById("contact-form");
-  const planner = document.querySelector("[data-appointment-planner]");
-  const dateInput = document.querySelector("[data-appointment-date]");
-  const timeInput = document.querySelector("[data-appointment-time]");
-  const messageInput = document.getElementById("contact-message");
-  const requestType = document.getElementById("contact-request-type");
-
-  if (!(form instanceof HTMLFormElement)) return;
-  if (!(planner instanceof HTMLElement)) return;
-  if (!(dateInput instanceof HTMLInputElement)) return;
-  if (!(timeInput instanceof HTMLInputElement)) return;
-  if (!(messageInput instanceof HTMLTextAreaElement)) return;
-
-  let openedByUser = false;
-
-  const todaySwiss = getSwissParts(new Date());
-  dateInput.min = `${todaySwiss.year}-${todaySwiss.month}-${todaySwiss.day}`;
-
   const formatDate = (raw) => {
     const [y, m, d] = raw.split("-").map(Number);
     if (!y || !m || !d) return "";
@@ -778,95 +757,146 @@ export function mountAppointmentPlanner() {
     return `${p.hour}:${p.minute}`;
   };
 
-  const clearAutoMessage = () => {
-    const prev = messageInput.dataset.autoRdvMsg || "";
-    if (!prev) return;
-    const cleaned = messageInput.value
-      .replace(prev, "")
-      .replace(/\n{3,}/g, "\n\n")
-      .trimEnd();
-    messageInput.value = cleaned;
-    delete messageInput.dataset.autoRdvMsg;
-  };
+  const todaySwiss = getSwissParts(new Date());
+  const minDate = `${todaySwiss.year}-${todaySwiss.month}-${todaySwiss.day}`;
 
-  const isVisitRequest = () => {
-    if (!(requestType instanceof HTMLSelectElement)) return true;
-    return requestType.value === "Demande de visite";
-  };
+  const contexts = [];
+  for (const form of document.querySelectorAll("form")) {
+    if (!(form instanceof HTMLFormElement)) continue;
+    const planner = form.querySelector("[data-appointment-planner]");
+    const dateInput = form.querySelector("[data-appointment-date]");
+    const timeInput = form.querySelector("[data-appointment-time]");
+    const messageInput = form.querySelector("[data-appointment-message]") || form.querySelector("#contact-message");
+    const requestType = form.querySelector("[data-appointment-request-type]") || form.querySelector("#contact-request-type");
+    if (!(planner instanceof HTMLElement)) continue;
+    if (!(dateInput instanceof HTMLInputElement)) continue;
+    if (!(timeInput instanceof HTMLInputElement)) continue;
+    if (!(messageInput instanceof HTMLTextAreaElement)) continue;
 
-  const hidePlanner = () => {
-    planner.hidden = true;
-    planner.classList.remove("is-open");
-    clearAutoMessage();
-    dateInput.value = "";
-    timeInput.value = "";
-  };
+    dateInput.min = minDate;
 
-  const applyAutoMessage = () => {
-    clearAutoMessage();
-    if (!openedByUser) return;
-    if (!isVisitRequest()) return;
-    if (!dateInput.value || !timeInput.value) return;
-
-    const dateLabel = formatDate(dateInput.value);
-    const msg = `Je suis disponible pour une visite le ${dateLabel} à ${timeInput.value}.`;
-    const base = messageInput.value.trimEnd();
-    messageInput.value = base ? `${base}\n\n${msg}` : msg;
-    messageInput.dataset.autoRdvMsg = msg;
-  };
-
-  const openPlanner = () => {
-    openedByUser = true;
-    planner.hidden = false;
-    planner.classList.add("is-open");
-    if (requestType instanceof HTMLSelectElement) {
-      requestType.value = "Demande de visite";
-    }
-    const now = new Date();
-    if (!dateInput.value) dateInput.value = toSwissDateValue(now);
-    if (!timeInput.value) timeInput.value = toSwissTimeValue(now);
-    applyAutoMessage();
-    window.setTimeout(() => dateInput.focus(), 120);
-  };
-
-  for (const trigger of triggers) {
-    trigger.addEventListener("click", () => {
-      openPlanner();
-    });
+    contexts.push({ form, planner, dateInput, timeInput, messageInput, requestType, openPlanner: null });
   }
 
-  dateInput.addEventListener("change", applyAutoMessage);
-  timeInput.addEventListener("change", applyAutoMessage);
+  if (!contexts.length) return;
 
-  if (requestType instanceof HTMLSelectElement) {
-    requestType.addEventListener("change", () => {
+  const getListingRef = () => {
+    const qp = new URLSearchParams(window.location.search);
+    const id = (qp.get("id") || "").trim();
+    if (id) return id;
+    return "";
+  };
+
+  const triggers = Array.from(document.querySelectorAll("[data-open-appointment]"));
+
+  for (const ctx of contexts) {
+    let openedByUser = false;
+
+    const clearAutoMessage = () => {
+      const prev = ctx.messageInput.dataset.autoRdvMsg || "";
+      if (!prev) return;
+      const cleaned = ctx.messageInput.value
+        .replace(prev, "")
+        .replace(/\n{3,}/g, "\n\n")
+        .trimEnd();
+      ctx.messageInput.value = cleaned;
+      delete ctx.messageInput.dataset.autoRdvMsg;
+    };
+
+    const isVisitRequest = () => {
+      if (!(ctx.requestType instanceof HTMLSelectElement)) return true;
+      return ctx.requestType.value === "Demande de visite";
+    };
+
+    const hidePlanner = () => {
+      ctx.planner.hidden = true;
+      ctx.planner.classList.remove("is-open");
+      clearAutoMessage();
+      ctx.dateInput.value = "";
+      ctx.timeInput.value = "";
+    };
+
+    const applyAutoMessage = () => {
+      clearAutoMessage();
       if (!openedByUser) return;
-      if (!isVisitRequest()) hidePlanner();
-      else applyAutoMessage();
+      if (!isVisitRequest()) return;
+      if (!ctx.dateInput.value || !ctx.timeInput.value) return;
+
+      const dateLabel = formatDate(ctx.dateInput.value);
+      const ref = getListingRef();
+      const refSuffix = ref ? ` (réf. ${ref})` : "";
+      const msg = `Je suis disponible pour une visite le ${dateLabel} à ${ctx.timeInput.value}.${refSuffix}`;
+      const base = ctx.messageInput.value.trimEnd();
+      ctx.messageInput.value = base ? `${base}\n\n${msg}` : msg;
+      ctx.messageInput.dataset.autoRdvMsg = msg;
+    };
+
+    const openPlanner = (when = new Date()) => {
+      openedByUser = true;
+      ctx.planner.hidden = false;
+      ctx.planner.classList.add("is-open");
+      if (ctx.requestType instanceof HTMLSelectElement) {
+        ctx.requestType.value = "Demande de visite";
+      }
+      ctx.dateInput.value = toSwissDateValue(when);
+      ctx.timeInput.value = toSwissTimeValue(when);
+      applyAutoMessage();
+      window.setTimeout(() => ctx.dateInput.focus(), 120);
+    };
+
+    ctx.openPlanner = openPlanner;
+
+    ctx.dateInput.addEventListener("change", applyAutoMessage);
+    ctx.timeInput.addEventListener("change", applyAutoMessage);
+
+    if (ctx.requestType instanceof HTMLSelectElement) {
+      ctx.requestType.addEventListener("change", () => {
+        if (!openedByUser) {
+          if (!isVisitRequest()) return;
+          openPlanner(new Date());
+          return;
+        }
+        if (!isVisitRequest()) hidePlanner();
+        else applyAutoMessage();
+      });
+    }
+
+    ctx.form.addEventListener("reset", () => {
+      window.setTimeout(() => {
+        openedByUser = false;
+        hidePlanner();
+      }, 0);
     });
+
+    ctx.form.addEventListener("submit", () => {
+      openedByUser = false;
+    });
+
+    const rdvTs = new URLSearchParams(window.location.search).get("rdvts");
+    if (rdvTs) {
+      const stamp = Number(rdvTs);
+      const clickedAt = Number.isFinite(stamp) && stamp > 0 ? new Date(stamp) : new Date(rdvTs);
+      if (!Number.isNaN(clickedAt.getTime())) {
+        openPlanner(clickedAt);
+      }
+    }
   }
 
-  form.addEventListener("reset", () => {
-    window.setTimeout(() => {
-      openedByUser = false;
-      hidePlanner();
-    }, 0);
-  });
+  if (triggers.length) {
+    for (const trigger of triggers) {
+      trigger.addEventListener("click", (e) => {
+        if (trigger instanceof HTMLAnchorElement) {
+          const href = trigger.getAttribute("href") || "";
+          if (href.startsWith("#")) {
+            e.preventDefault();
+            document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }
 
-  const rdvTs = new URLSearchParams(window.location.search).get("rdvts");
-  if (rdvTs) {
-    const stamp = Number(rdvTs);
-    const clickedAt = Number.isFinite(stamp) && stamp > 0 ? new Date(stamp) : new Date(rdvTs);
-    if (!Number.isNaN(clickedAt.getTime())) {
-      openedByUser = true;
-      planner.hidden = false;
-      planner.classList.add("is-open");
-      if (requestType instanceof HTMLSelectElement) {
-        requestType.value = "Demande de visite";
-      }
-      dateInput.value = toSwissDateValue(clickedAt);
-      timeInput.value = toSwissTimeValue(clickedAt);
-      applyAutoMessage();
+        const targetFormId = trigger.getAttribute("data-appointment-target") || "";
+        const targetCtx = targetFormId ? contexts.find((c) => c.form.id === targetFormId) : contexts[0];
+        targetCtx?.openPlanner?.(new Date());
+      });
     }
   }
 }
@@ -1100,6 +1130,142 @@ export function mountReveals() {
   for (const el of unique) {
     el.classList.add("reveal");
     io.observe(el);
+  }
+}
+
+export function mountTypewriters() {
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const els = Array.from(document.querySelectorAll("[data-typewriter]"));
+  if (!els.length) return;
+
+  const start = (el) => {
+    if (!(el instanceof HTMLElement)) return;
+    if (el.dataset.typewriterStarted === "1") return;
+    if (el.childElementCount > 0) return;
+    const full = String(el.textContent || "");
+    if (!full.trim()) return;
+
+    el.dataset.typewriterStarted = "1";
+
+    const rect = el.getBoundingClientRect();
+    const h = Math.ceil(rect.height);
+    if (h > 0) el.style.minHeight = `${h}px`;
+
+    const speed = Math.max(10, Number(el.getAttribute("data-typewriter-speed") || "26"));
+    const delay = Math.max(0, Number(el.getAttribute("data-typewriter-delay") || "120"));
+
+    el.textContent = "";
+    el.classList.add("typewriter", "is-typing");
+
+    let i = 0;
+    let timer = 0;
+    const tick = () => {
+      i += 1;
+      el.textContent = full.slice(0, i);
+      if (i >= full.length) {
+        window.clearInterval(timer);
+        el.classList.remove("is-typing");
+        window.setTimeout(() => {
+          el.style.minHeight = "";
+        }, 60);
+      }
+    };
+
+    const startTimer = () => {
+      timer = window.setInterval(tick, speed);
+    };
+
+    if (delay) window.setTimeout(startTimer, delay);
+    else startTimer();
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    for (const el of els) start(el);
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        start(e.target);
+        io.unobserve(e.target);
+      }
+    },
+    { threshold: 0.3, rootMargin: "0px 0px -12% 0px" }
+  );
+
+  for (const el of els) io.observe(el);
+}
+
+export function mountDossierPrefill() {
+  const form = document.querySelector("form[data-demo-form=\"Demande de dossier\"]");
+  if (!(form instanceof HTMLFormElement)) return;
+
+  const qp = new URLSearchParams(window.location.search);
+  const type = (qp.get("type") || "").trim();
+  const id = (qp.get("id") || "").trim();
+
+  const typeSelect = form.querySelector("select[name=\"type\"]");
+  const refInput = form.querySelector("input[name=\"ref\"]");
+
+  if (typeSelect instanceof HTMLSelectElement && type) {
+    const normalized = type.toLowerCase() === "achat" ? "Achat" : type.toLowerCase() === "location" ? "Location" : "";
+    if (normalized) {
+      typeSelect.value = normalized;
+      for (const opt of Array.from(typeSelect.options)) {
+        if (opt.value !== normalized) opt.remove();
+      }
+    }
+  }
+
+  if (refInput instanceof HTMLInputElement && id) {
+    if (!refInput.value) refInput.value = id;
+  }
+
+  if (id) {
+    (async () => {
+      try {
+        const listings = await loadListings();
+        const listing = listings.find((l) => l.id === id);
+        if (!listing) return;
+        const rawStatus = String(listing.status || "")
+          .trim()
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
+        const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+        const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
+        if (!statusLabel) return;
+
+        const note = document.createElement("div");
+        note.className = "unavailable-note";
+        note.style.marginBottom = "12px";
+        note.innerHTML = `
+          <div class="badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+          <div class="t">
+            <div class="k">Indisponible</div>
+            <div class="v">Ce bien est ${statusLabel}. Les demandes sont désactivées.</div>
+          </div>
+        `;
+        form.prepend(note);
+
+        form.classList.add("is-disabled");
+        const controls = form.querySelectorAll("input, select, textarea, button");
+        for (const el of Array.from(controls)) {
+          if (el instanceof HTMLInputElement) el.disabled = true;
+          else if (el instanceof HTMLSelectElement) el.disabled = true;
+          else if (el instanceof HTMLTextAreaElement) el.disabled = true;
+          else if (el instanceof HTMLButtonElement) el.disabled = true;
+        }
+      } catch {}
+    })();
   }
 }
 

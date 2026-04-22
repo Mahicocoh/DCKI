@@ -2,7 +2,14 @@ import { CATEGORY_LABEL, getListingFacts } from "./listings-data.js";
 import { formatCHF, formatRooms, mountCardGalleries } from "./ui.js";
 
 export function listingCard(listing) {
-  const statusLabel = listing.status === "sold" ? "Vendu" : listing.status === "rented" ? "Loué" : "";
+  const rawStatus = String(listing.status || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
+  const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+  const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
   const tags = (listing.tags || []).slice(0, 3).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
   const price = `${formatCHF(listing.price)}${listing.priceSuffix ? ` <span>${escapeHtml(listing.priceSuffix)}</span>` : ""}`;
   const desc = listing.description ? clampText(listing.description, 130) : "";
@@ -17,7 +24,7 @@ export function listingCard(listing) {
 
   return `
     <article class="card listing ${statusLabel ? "is-unavailable" : ""}" data-id="${escapeHtml(listing.id)}">
-      <a class="listing-link" href="${escapeAttr(href)}" aria-label="Ouvrir le détail du bien">
+      <a class="listing-link" data-rdv-link href="${escapeAttr(href)}" aria-label="Ouvrir le détail du bien">
         <div class="media">
           <img src="${escapeAttr(listing.image)}" alt="${escapeAttr(listing.title)}" loading="lazy" />
           ${statusLabel ? `<div class="status-ribbon">${escapeHtml(statusLabel)}</div>` : ""}

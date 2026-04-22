@@ -45,8 +45,8 @@ function ensureModal() {
           <div class="facts" data-modal-facts></div>
           <div class="features" data-modal-features></div>
           <div class="cta">
-            <a class="btn primary" href="./dossier.html">Demande de dossier</a>
-            <a class="btn" href="./index.html#contact">Demander une visite</a>
+            <a class="btn primary" href="./dossier.html" data-modal-cta-dossier>Demande de dossier</a>
+            <a class="btn" href="./index.html#contact" data-modal-cta-visit>Demander une visite</a>
             <button class="btn" type="button" data-copy-ref>Copier la référence</button>
           </div>
         </div>
@@ -91,6 +91,8 @@ function openModal(listing) {
   const facts = modal.querySelector("[data-modal-facts]");
   const features = modal.querySelector("[data-modal-features]");
   const copyBtn = modal.querySelector("[data-copy-ref]");
+  const dossierBtn = modal.querySelector("[data-modal-cta-dossier]");
+  const visitBtn = modal.querySelector("[data-modal-cta-visit]");
 
   img.alt = listing.title;
   state.listingId = listing.id;
@@ -98,6 +100,14 @@ function openModal(listing) {
   setPhoto(modal, 0);
 
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
+  const rawStatus = String(listing.status || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
+  const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+  const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
   pill.innerHTML = `
     <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
     <strong style="letter-spacing:.02em">${escapeHtml(CATEGORY_LABEL[listing.category] || "")}</strong>
@@ -105,6 +115,7 @@ function openModal(listing) {
     <span style="opacity:.85">${escapeHtml(listing.propertyType)}</span>
     <span style="opacity:.65">•</span>
     <span style="opacity:.85">${escapeHtml(listing.id)}</span>
+    ${statusLabel ? `<span style="opacity:.65">•</span><span style="opacity:.95">${escapeHtml(statusLabel)}</span>` : ""}
   `;
 
   title.textContent = listing.title;
@@ -129,6 +140,58 @@ function openModal(listing) {
 
   const list = getListingFeatures(listing, 36);
   features.innerHTML = list.map((f) => `<span class="tag">${escapeHtml(f)}</span>`).join("");
+
+  if (statusLabel) {
+    if (dossierBtn instanceof HTMLAnchorElement) {
+      dossierBtn.removeAttribute("href");
+      dossierBtn.setAttribute("aria-disabled", "true");
+      dossierBtn.tabIndex = -1;
+      dossierBtn.classList.add("is-disabled");
+    }
+    if (visitBtn instanceof HTMLAnchorElement) {
+      visitBtn.removeAttribute("href");
+      visitBtn.setAttribute("aria-disabled", "true");
+      visitBtn.tabIndex = -1;
+      visitBtn.classList.add("is-disabled");
+    }
+
+    const cta = modal.querySelector(".cta");
+    if (cta instanceof HTMLElement && !cta.querySelector(".unavailable-note")) {
+      const note = document.createElement("div");
+      note.className = "unavailable-note";
+      note.style.marginTop = "12px";
+      note.innerHTML = `
+        <div class="badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div class="t">
+          <div class="k">Indisponible</div>
+          <div class="v">Ce bien est ${escapeHtml(statusLabel)}. Les demandes sont désactivées.</div>
+        </div>
+      `;
+      cta.appendChild(note);
+    }
+  } else {
+    if (dossierBtn instanceof HTMLAnchorElement) {
+      const type = listing.category === "sale" ? "Achat" : "Location";
+      dossierBtn.setAttribute("href", `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(listing.id)}`);
+      dossierBtn.removeAttribute("aria-disabled");
+      dossierBtn.tabIndex = 0;
+      dossierBtn.classList.remove("is-disabled");
+    }
+    if (visitBtn instanceof HTMLAnchorElement) {
+      visitBtn.setAttribute("href", "./index.html#contact");
+      visitBtn.removeAttribute("aria-disabled");
+      visitBtn.tabIndex = 0;
+      visitBtn.classList.remove("is-disabled");
+    }
+
+    const note = modal.querySelector(".cta .unavailable-note");
+    note?.remove?.();
+  }
 
   copyBtn.onclick = async () => {
     try {
