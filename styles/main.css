@@ -1888,6 +1888,7 @@ body[data-page="home"] .advice-performance > .container::before{
   overflow:hidden;
 }
 .contact-hero-visual img{display:block;width:100%;height:360px;object-fit:cover;object-position:center}
+body[data-page="contact"] .contact-hero-visual img{object-position:50% 22%}
 
 .contact-who{padding:48px 0 34px;background:var(--bg)}
 .contact-who-title{
