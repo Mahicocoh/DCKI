@@ -1234,8 +1234,17 @@ export function mountDossierPrefill() {
           .toLowerCase()
           .normalize("NFD")
           .replace(/[\u0300-\u036f]/g, "");
-        const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
-        const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+        const isSold =
+          rawStatus === "sold" ||
+          rawStatus === "vendu" ||
+          rawStatus === "vendue" ||
+          rawStatus.includes("sold") ||
+          rawStatus.includes("vendu");
+        const isRented =
+          rawStatus === "rented" ||
+          rawStatus === "loue" ||
+          rawStatus === "louee" ||
+          rawStatus.includes("rented");
         const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
         if (!statusLabel) return;
 

@@ -3106,19 +3106,12 @@ body[data-page="contact"] .contact-team-showcase .team-contact .btn{white-space:
 }
 .catalog-hero-panel {
   position: relative;
-  background: linear-gradient(120deg, #ffffff, #fdfbf7, #fcf4e8, #ffffff);
-  background-size: 200% 200%;
-  animation: gradientMove 6s ease infinite;
-  border: 1px solid rgba(200, 161, 74, 0.3);
+  background:rgba(255,255,255,.86);
+  border:1px solid rgba(15,23,32,.10);
+  animation:none;
 }
 .catalog-hero-panel::before {
-  content: '';
-  position: absolute;
-  top: -2px; left: -2px; right: -2px; bottom: -2px;
-  background: linear-gradient(45deg, transparent, rgba(200, 161, 74, 0.1), transparent);
-  z-index: -1;
-  border-radius: inherit;
-  animation: shimmerSweep 5s infinite;
+  display:none;
 }
 
 .shiny-title {
@@ -3730,7 +3723,7 @@ body[data-page="contact"] .contact-team-showcase .team-contact .btn{white-space:
   .about-team-link .fine{font-size:14px}
 }
 @media (max-width: 640px){
-  body{background:#ffffff}
+  body{background:var(--bg)}
   .grid.cols-3,.grid.cols-2{grid-template-columns:1fr}
   .field{grid-column:1 / -1}
   .hero{min-height:100vh;padding:26px 0 22px;align-items:center}
@@ -3817,10 +3810,10 @@ body[data-page="contact"] .contact-team-showcase .team-contact .btn{white-space:
   padding:10px 12px;
   border-radius:14px;
   border:1px solid rgba(15,23,32,.10);
-  background:rgba(255,255,255,.92);
-  box-shadow:0 16px 44px rgba(15,23,32,.10);
-  color:rgba(15,23,32,.76);
-  font-weight:800;
+  background:rgba(247,246,243,.92);
+  box-shadow:none;
+  color:rgba(15,23,32,.74);
+  font-weight:850;
 }
 .trust-strip .dot{opacity:.55}
 .trust-strip .item{white-space:nowrap}

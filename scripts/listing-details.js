@@ -105,9 +105,19 @@ function openModal(listing) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
-  const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
-  const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+  const isSold =
+    rawStatus === "sold" ||
+    rawStatus === "vendu" ||
+    rawStatus === "vendue" ||
+    rawStatus.includes("sold") ||
+    rawStatus.includes("vendu");
+  const isRented =
+    rawStatus === "rented" ||
+    rawStatus === "loue" ||
+    rawStatus === "louee" ||
+    rawStatus.includes("rented");
   const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
+  const isUnavailable = isSold || isRented;
   pill.innerHTML = `
     <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
     <strong style="letter-spacing:.02em">${escapeHtml(CATEGORY_LABEL[listing.category] || "")}</strong>
@@ -141,7 +151,7 @@ function openModal(listing) {
   const list = getListingFeatures(listing, 36);
   features.innerHTML = list.map((f) => `<span class="tag">${escapeHtml(f)}</span>`).join("");
 
-  if (statusLabel) {
+  if (isUnavailable) {
     if (dossierBtn instanceof HTMLAnchorElement) {
       dossierBtn.removeAttribute("href");
       dossierBtn.setAttribute("aria-disabled", "true");

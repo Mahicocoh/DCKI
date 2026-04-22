@@ -7,8 +7,17 @@ export function listingCard(listing) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
-  const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
-  const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+  const isSold =
+    rawStatus === "sold" ||
+    rawStatus === "vendu" ||
+    rawStatus === "vendue" ||
+    rawStatus.includes("sold") ||
+    rawStatus.includes("vendu");
+  const isRented =
+    rawStatus === "rented" ||
+    rawStatus === "loue" ||
+    rawStatus === "louee" ||
+    rawStatus.includes("rented");
   const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
   const tags = (listing.tags || []).slice(0, 3).map((t) => `<span class="tag">${escapeHtml(t)}</span>`).join("");
   const price = `${formatCHF(listing.price)}${listing.priceSuffix ? ` <span>${escapeHtml(listing.priceSuffix)}</span>` : ""}`;

@@ -44,8 +44,17 @@ function render(listing) {
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
-  const isSold = rawStatus.includes("sold") || rawStatus.includes("vendu");
-  const isRented = rawStatus.includes("rent") || rawStatus.includes("loue");
+  const isSold =
+    rawStatus === "sold" ||
+    rawStatus === "vendu" ||
+    rawStatus === "vendue" ||
+    rawStatus.includes("sold") ||
+    rawStatus.includes("vendu");
+  const isRented =
+    rawStatus === "rented" ||
+    rawStatus === "loue" ||
+    rawStatus === "louee" ||
+    rawStatus.includes("rented");
   const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   if (pill) {
@@ -123,7 +132,7 @@ function render(listing) {
     );
   }
 
-  const isUnavailable = Boolean(statusLabel);
+  const isUnavailable = isSold || isRented;
   if (isUnavailable) {
     const cta = document.querySelector(".cta");
     if (cta instanceof HTMLElement) {
