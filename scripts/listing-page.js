@@ -37,6 +37,7 @@ function render(listing) {
   const featuresEl = document.querySelector("[data-listing-features]");
   const mapIframe = document.querySelector("[data-listing-map-iframe]");
   const openMaps = document.querySelector("[data-listing-open-maps]");
+  const openMaps3d = document.querySelector("[data-listing-open-maps-3d]");
   const statusRibbon = document.querySelector("[data-listing-status-ribbon]");
 
   const rawStatus = String(listing.status || "")
@@ -100,10 +101,11 @@ function render(listing) {
   const mapQuery = `${listing.locality}, ${listing.region}, Suisse`;
   const mapQ = encodeURIComponent(mapQuery);
   if (mapIframe) {
-    mapIframe.src = `https://www.google.com/maps?q=${mapQ}&output=embed`;
+    mapIframe.src = `https://www.google.com/maps?q=${mapQ}&t=k&z=19&output=embed`;
     mapIframe.title = mapQuery;
   }
   if (openMaps) openMaps.href = `https://www.google.com/maps?q=${mapQ}`;
+  if (openMaps3d) openMaps3d.href = `https://www.google.com/maps/search/?api=1&query=${mapQ}`;
 
   state.photos = getListingPhotos(listing, 10);
   setPhoto(0);

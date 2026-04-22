@@ -1286,7 +1286,9 @@ export function mountCountUps() {
     window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const animateRing = (valueEl) => {
-    const ring = valueEl.parentElement?.querySelector?.(".kpi-ring");
+    const ring =
+      valueEl.parentElement?.querySelector?.(".kpi-ring") ||
+      valueEl.closest?.(".kpi-item, .advice-kpi-item")?.querySelector?.(".kpi-ring");
     if (!ring) return;
     const fg = ring.querySelector(".kpi-fg");
     if (!(fg instanceof SVGCircleElement)) return;

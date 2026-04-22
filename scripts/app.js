@@ -4,7 +4,7 @@ import { initRecherche } from "./recherche.js";
 import { initBiens } from "./biens.js";
 import { initHome } from "./home.js";
 import { initVideoFallbacks } from "./video-fallback.js";
-import { initListingPage } from "./listing-page.js";
+import { initListingPage } from "./listing-page.js?v=202604222815";
 
 mountLoader();
 
