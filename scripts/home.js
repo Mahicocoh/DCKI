@@ -1,6 +1,8 @@
 export function initHome() {
   const map = document.querySelector(".area-img--map");
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const root = document.documentElement;
+  const isMobile = window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
 
   if (map) {
     if (reduced) {
@@ -22,9 +24,11 @@ export function initHome() {
     }
   }
 
-  if (reduced) return;
+  if (reduced || isMobile) {
+    root.style.setProperty("--forest-shift", "0px");
+    return;
+  }
 
-  const root = document.documentElement;
   let raf = 0;
 
   const apply = () => {
