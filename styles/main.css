@@ -3211,7 +3211,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
     box-shadow:0 12px 24px rgba(11,42,58,.26);
   }
 }
-.service-feature-media{min-height:340px}
+.service-feature-media{min-height:340px;background:rgba(11,42,58,.06)}
 .service-feature-media img{width:100%;height:100%;object-fit:cover;display:block}
 @media (max-width: 920px){
   .service-feature{grid-template-columns:1.12fr .88fr}
