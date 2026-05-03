@@ -6,7 +6,7 @@
     <title>Contact — DCKImmo</title>
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202605021620" />
+    <link rel="stylesheet" href="./styles/main.css?v=202605031900" />
   </head>
   <body data-page="contact">
     <header class="topbar">
@@ -149,7 +149,7 @@
             </div>
           </div>
           <div class="contact-hero-visual" aria-hidden="true">
-            <img src="./assets/agent immobilier.webp" alt="" loading="eager" />
+            <img src="./assets/photo contact haut.png" alt="" loading="eager" />
           </div>
         </div>
       </section>
@@ -263,22 +263,22 @@
             <div class="panel" id="formulaire">
               <div class="inner">
                 <h2 style="margin-top:0">Formulaire</h2>
-                <form class="form" data-demo-form="Formulaire de contact" id="contact-form">
+                <form class="form" data-demo-form="Formulaire de contact" id="contact-form" method="post" enctype="multipart/form-data" data-form-endpoint="">
                   <div class="field">
                     <span class="label">Nom</span>
-                    <input class="control" required placeholder="Nom Prénom" />
+                    <input class="control" name="name" required placeholder="Nom Prénom" />
                   </div>
                   <div class="field">
                     <span class="label">Email</span>
-                    <input class="control" type="email" required placeholder="vous@exemple.ch" />
+                    <input class="control" name="email" type="email" required placeholder="vous@exemple.ch" />
                   </div>
                   <div class="field">
                     <span class="label">Téléphone</span>
-                    <input class="control" placeholder="+41 …" />
+                    <input class="control" name="phone" placeholder="+41 …" />
                   </div>
                   <div class="field">
                     <span class="label">Type de demande</span>
-                    <select class="control" required id="contact-request-type">
+                    <select class="control" name="request_type" required id="contact-request-type">
                       <option>Demande de visite</option>
                       <option>Demande de dossier</option>
                       <option>Louer un bien</option>
@@ -292,17 +292,25 @@
                     <div class="appointment-grid">
                       <div class="appointment-field">
                         <div class="appointment-k">Calendrier</div>
-                        <input class="control" type="date" id="appointment-date" data-appointment-date />
+                        <input class="control" type="date" name="appointment_date" id="appointment-date" data-appointment-date />
                       </div>
                       <div class="appointment-field">
                         <div class="appointment-k">Horaires</div>
-                        <input class="control" type="time" id="appointment-time" data-appointment-time />
+                        <input class="control" type="time" name="appointment_time" id="appointment-time" data-appointment-time />
                       </div>
+                    </div>
+                  </div>
+                  <div class="field full" data-attachments-field hidden>
+                    <span class="label">Ajouter votre dossier (PDF / photos)</span>
+                    <div class="file-field" data-file-field>
+                      <input class="file-input" id="contact-files" type="file" name="attachments" accept="application/pdf,image/*" multiple />
+                      <label class="btn" for="contact-files">Choisir des fichiers</label>
+                      <span class="file-meta" data-file-label>Aucun fichier sélectionné</span>
                     </div>
                   </div>
                   <div class="field full">
                     <span class="label">Message</span>
-                    <textarea class="control" rows="6" required placeholder="Précisez votre demande…" id="contact-message"></textarea>
+                    <textarea class="control" name="message" rows="6" required placeholder="Précisez votre demande…" id="contact-message"></textarea>
                   </div>
                   <div class="actions">
                     <button class="btn primary" type="submit">Envoyer</button>
@@ -380,7 +388,7 @@
                     </svg>
                   </span>
                   <div class="footer-contact-text">
-                    <div class="footer-contact-k">Zone simplement pas couverte</div>
+                    <div class="footer-contact-k">Adresse</div>
                     <div class="footer-contact-v">Courtételle</div>
                   </div>
                 </div>
@@ -418,6 +426,6 @@
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
-    <script type="module" src="./scripts/app.js?v=202604224240"></script>
+    <script type="module" src="./scripts/app.js?v=202605032000"></script>
   </body>
 </html>

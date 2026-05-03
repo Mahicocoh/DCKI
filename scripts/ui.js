@@ -693,13 +693,82 @@ export function showToast(message) {
 }
 
 export function wireForms() {
+  const toggleContactAttachments = (form) => {
+    if (!(form instanceof HTMLFormElement)) return;
+    const requestType = form.querySelector("#contact-request-type");
+    const box = form.querySelector("[data-attachments-field]");
+    if (!(requestType instanceof HTMLSelectElement)) return;
+    if (!(box instanceof HTMLElement)) return;
+
+    const apply = () => {
+      const isDossier = requestType.value === "Demande de dossier";
+      box.hidden = !isDossier;
+    };
+
+    requestType.addEventListener("change", apply);
+    apply();
+  };
+
+  const mountFilePickers = (form) => {
+    if (!(form instanceof HTMLFormElement)) return;
+    const fields = Array.from(form.querySelectorAll("[data-file-field]"));
+    for (const field of fields) {
+      if (!(field instanceof HTMLElement)) continue;
+      const input = field.querySelector("input[type=\"file\"]");
+      const label = field.querySelector("[data-file-label]");
+      if (!(input instanceof HTMLInputElement)) continue;
+      if (!(label instanceof HTMLElement)) continue;
+
+      const render = () => {
+        const files = Array.from(input.files || []);
+        if (!files.length) {
+          label.textContent = "Aucun fichier sélectionné";
+          return;
+        }
+        if (files.length === 1) {
+          label.textContent = files[0]?.name || "1 fichier sélectionné";
+          return;
+        }
+        label.textContent = `${files.length} fichiers sélectionnés`;
+      };
+
+      input.addEventListener("change", render);
+      render();
+    }
+  };
+
   for (const form of document.querySelectorAll("form[data-demo-form]")) {
     form.addEventListener("submit", (e) => {
+      const endpoint = (form.getAttribute("data-form-endpoint") || "").trim();
+      if (endpoint) {
+        e.preventDefault();
+        const label = form.getAttribute("data-demo-form") || "Formulaire";
+        const submitBtn = form.querySelector("button[type=\"submit\"]");
+        if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = true;
+
+        const fd = new FormData(form);
+        fetch(endpoint, { method: "POST", body: fd })
+          .then((r) => {
+            if (!r.ok) throw new Error("Bad status");
+            showToast(`${label} envoyé.`);
+            form.reset();
+          })
+          .catch(() => {
+            showToast("Impossible d’envoyer. Réessayez.");
+          })
+          .finally(() => {
+            if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = false;
+          });
+        return;
+      }
+
       e.preventDefault();
       const label = form.getAttribute("data-demo-form") || "Formulaire";
-      showToast(`${label} envoyé.`);
-      form.reset();
+      showToast(`${label} prêt. Ajoutez un lien d’envoi pour recevoir les fichiers.`);
     });
+
+    toggleContactAttachments(form);
+    mountFilePickers(form);
   }
 }
 
@@ -831,7 +900,8 @@ export function mountAppointmentPlanner() {
       ctx.messageInput.dataset.autoRdvMsg = msg;
     };
 
-    const openPlanner = (when = new Date()) => {
+    const openPlanner = (when = new Date(), opts = {}) => {
+      const focus = opts && Object.prototype.hasOwnProperty.call(opts, "focus") ? Boolean(opts.focus) : true;
       openedByUser = true;
       ctx.planner.hidden = false;
       ctx.planner.classList.add("is-open");
@@ -841,7 +911,15 @@ export function mountAppointmentPlanner() {
       ctx.dateInput.value = toSwissDateValue(when);
       ctx.timeInput.value = toSwissTimeValue(when);
       applyAutoMessage();
-      window.setTimeout(() => ctx.dateInput.focus(), 120);
+      if (focus) {
+        window.setTimeout(() => {
+          try {
+            ctx.dateInput.focus({ preventScroll: true });
+          } catch {
+            ctx.dateInput.focus();
+          }
+        }, 120);
+      }
     };
 
     ctx.openPlanner = openPlanner;
@@ -877,7 +955,7 @@ export function mountAppointmentPlanner() {
       const stamp = Number(rdvTs);
       const clickedAt = Number.isFinite(stamp) && stamp > 0 ? new Date(stamp) : new Date(rdvTs);
       if (!Number.isNaN(clickedAt.getTime())) {
-        openPlanner(clickedAt);
+        openPlanner(clickedAt, { focus: false });
       }
     }
   }
@@ -1002,6 +1080,124 @@ export function mountToTopFab() {
   document.body.appendChild(a);
 }
 
+function normalizeKey(s) {
+  return String(s || "")
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function iconSvg(key) {
+  switch (key) {
+    case "floor":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 12 12 17 22 12"></polyline><polyline points="2 17 12 22 22 17"></polyline></svg>`;
+    case "bath":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"></path><path d="M5 12V7a3 3 0 0 1 3-3h3"></path><path d="M19 12v6a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-6"></path><path d="M8 4h3"></path></svg>`;
+    case "new":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.2 3.7L17 7l-3.8 1.3L12 12l-1.2-3.7L7 7l3.8-1.3L12 2Z"></path><path d="M19 13l.9 2.6L22 16l-2.1.4L19 19l-.9-2.6L16 16l2.1-.4L19 13Z"></path><path d="M5 14l.9 2.6L8 17l-2.1.4L5 20l-.9-2.6L2 17l2.1-.4L5 14Z"></path></svg>`;
+    case "parking":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l1.5-6h11L19 16"></path><path d="M7.5 10h9"></path><circle cx="7.5" cy="16.5" r="1.4"></circle><circle cx="16.5" cy="16.5" r="1.4"></circle></svg>`;
+    case "leaf":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c6-1 10-5 12-11"></path><path d="M7 17c-3-3-3-8 0-11 7 0 11 4 11 11-3 3-8 3-11 0Z"></path></svg>`;
+    case "tree":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c3.4 2 5.6 4.6 5.6 7.6a5.6 5.6 0 0 1-11.2 0C6.4 6.6 8.6 4 12 2Z"></path><path d="M12 15v7"></path><path d="M8.5 22h7"></path></svg>`;
+    case "kids":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="3.2"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.7"></path><path d="M16.6 3.3a3.2 3.2 0 0 1 0 6.2"></path></svg>`;
+    case "pin":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0Z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+    case "kitchen":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"></rect><path d="M4 10h16"></path><path d="M9 7h.01"></path><path d="M15 7h.01"></path><path d="M9 14h.01"></path><path d="M15 14h.01"></path><path d="M9.2 20v-6"></path><path d="M14.8 20v-6"></path></svg>`;
+    case "balcony":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="9" rx="2"></rect><path d="M5 14h14"></path><path d="M5 21h14"></path><path d="M7 14v7"></path><path d="M10 14v7"></path><path d="M14 14v7"></path><path d="M17 14v7"></path></svg>`;
+    case "garage":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11 12 5l8 6v10H4V11Z"></path><path d="M7 21v-6h10v6"></path><path d="M7 15h10"></path><path d="M10 15v6"></path><path d="M12 15v6"></path><path d="M14 15v6"></path></svg>`;
+    case "box":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4a2 2 0 0 0 1-1.7Z"></path><path d="M3.3 7.3 12 12l8.7-4.7"></path><path d="M12 22V12"></path></svg>`;
+    case "washer":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2.5" width="12" height="19" rx="3"></rect><circle cx="12" cy="13.2" r="3.6"></circle><path d="M9 6.2h6"></path><circle cx="9.2" cy="5.4" r=".55"></circle><circle cx="14.8" cy="5.4" r=".55"></circle></svg>`;
+    case "lift":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M8 6l4-4 4 4"></path><path d="M16 18l-4 4-4-4"></path></svg>`;
+    case "wifi":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.6a11 11 0 0 1 14 0"></path><path d="M8.5 15.6a6 6 0 0 1 7 0"></path><path d="M12 19.5h.01"></path></svg>`;
+    case "sun":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M4.2 4.2l1.4 1.4"></path><path d="M18.4 18.4l1.4 1.4"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M4.2 19.8l1.4-1.4"></path><path d="M18.4 5.6l1.4-1.4"></path></svg>`;
+    case "wind":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h10a3 3 0 1 0-3-3"></path><path d="M4 17h13a3 3 0 1 1-3 3"></path><path d="M2 7h9a3 3 0 1 1-3 3"></path></svg>`;
+    case "flame":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c4 0 7-3 7-7 0-4-3-6-4-8 0 2-2 3-3 4-1-1-2-2-2-4-3 3-5 5-5 8 0 4 3 7 7 7Z"></path></svg>`;
+    case "tool":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4.5 4.5 0 0 0-6.4 6.4L3 18l3 3 5.3-5.3a4.5 4.5 0 0 0 6.4-6.4l-2 2-3-3 2-2Z"></path></svg>`;
+    case "shield":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4Z"></path><path d="M9 12l2 2 4-4"></path></svg>`;
+    case "eye":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12Z"></path><circle cx="12" cy="12" r="3"></circle></svg>`;
+    case "mountain":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 19l7-10 4 6 3-4 4 8H3Z"></path><path d="M10 9l1.6 2.4"></path></svg>`;
+    case "bike":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6.5" cy="17.5" r="3"></circle><circle cx="17.5" cy="17.5" r="3"></circle><path d="M8 17.5l4-9h3l2 4"></path><path d="M12 8.5h-2"></path><path d="M14 8.5l-1.6 3.6"></path></svg>`;
+    case "paw":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2.2 0-4 1.6-4 3.6S9.8 20 12 20s4-1.4 4-4.4S14.2 12 12 12Z"></path><path d="M9 11c-1 0-2-.9-2-2s1-2 2-2 2 .9 2 2-1 2-2 2Z"></path><path d="M15 11c-1 0-2-.9-2-2s1-2 2-2 2 .9 2 2-1 2-2 2Z"></path><path d="M6.8 13.4c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"></path><path d="M17.2 13.4c-1 0-1.8-.9-1.8-2s.8-2 1.8-2 1.8.9 1.8 2-.8 2-1.8 2Z"></path></svg>`;
+    case "drop":
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6 7 6 12a6 6 0 0 1-12 0c0-5 6-12 6-12Z"></path></svg>`;
+    default:
+      return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>`;
+  }
+}
+
+function getTagIconKey(label) {
+  const k = normalizeKey(label);
+  if (!k) return "";
+
+  if (k.startsWith("etage")) return "floor";
+  if (k.includes("sdb") || k.includes("salle de bain") || k.includes("bain") || k.includes("douche")) return "bath";
+  if (k.includes("cuisine")) return "kitchen";
+  if (k.includes("cave") || k.includes("grenier") || k.includes("dressing") || k.includes("cellier")) return "box";
+  if (k.includes("balcon") || k.includes("terrasse") || k.includes("loggia") || k.includes("cour")) return "balcony";
+  if (k.includes("jardin") || k.includes("verdoyant")) return "tree";
+  if (k.includes("garage")) return "garage";
+  if (k.includes("parking") || k.includes("place de parc") || k.includes("place")) return "parking";
+  if (k.includes("local velo") || k.includes("velos")) return "bike";
+  if (k.includes("buanderie") || k.includes("laverie")) return "washer";
+  if (k.includes("ascenseur")) return "lift";
+  if (k.includes("fibre") || k.includes("wifi")) return "wifi";
+  if (k.includes("domotique")) return "wifi";
+  if (k.includes("panneaux") || k.includes("solaire")) return "sun";
+  if (k.includes("orientation sud") || k === "sud") return "sun";
+  if (k.includes("pompe a chaleur") || k.includes("pompe")) return "wind";
+  if (k.includes("cheminee")) return "flame";
+  if (k.includes("chauffage au sol") || k.includes("chauffage")) return "flame";
+  if (k.includes("renove") || k.includes("renovee") || k.includes("renovation")) return "tool";
+  if (k.includes("double vitrage") || k.includes("stores") || k.includes("portail")) return "tool";
+  if (k.includes("piscine") || k.includes("spa") || k.includes("jacuzzi")) return "drop";
+  if (k.includes("animaux")) return "paw";
+  if (k.includes("interphone") || k.includes("porte securisee") || k.includes("securisee") || k.includes("cameras") || k.includes("camera")) return "shield";
+  if (k.includes("vue degagee") || k.includes("vue montagne") || k.includes("vue campagne") || k.includes("panoram")) return "mountain";
+  if (k.includes("centre") || k.includes("proche") || k.includes("gare") || k.includes("ecoles") || k.includes("commerces")) return "pin";
+  if (k.includes("calme")) return "leaf";
+  if (k.includes("enfants")) return "kids";
+  if (k.includes("neuf") || k.includes("nouvelle construction") || k.includes("recent")) return "new";
+
+  return "";
+}
+
+export function mountTagIcons(root = document) {
+  const scope = root && typeof root.querySelectorAll === "function" ? root : document;
+  for (const el of Array.from(scope.querySelectorAll(".tag"))) {
+    if (!(el instanceof HTMLElement)) continue;
+    if (el.querySelector(".tag-ico")) continue;
+    const label = (el.textContent || "").trim();
+    const key = getTagIconKey(label);
+    if (!key) continue;
+
+    const span = document.createElement("span");
+    span.className = "tag-ico";
+    span.setAttribute("aria-hidden", "true");
+    span.innerHTML = iconSvg(key);
+    el.prepend(span);
+  }
+}
+
 function getListingIdFromHref(href) {
   try {
     const u = new URL(href, window.location.href);
@@ -1115,21 +1311,35 @@ export function mountReveals() {
   ];
   if (!targets.length) return;
 
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        e.target.classList.add("is-visible");
-        io.unobserve(e.target);
-      }
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
-  );
+  const unique = Array.from(new Set(targets));
 
-  const unique = new Set(targets);
+  if (!("IntersectionObserver" in window)) return;
+
+  let io = null;
+  try {
+    io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add("is-visible");
+          io.unobserve(e.target);
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
+    );
+  } catch {
+    return;
+  }
+
   for (const el of unique) {
     el.classList.add("reveal");
     io.observe(el);
+  }
+
+  if (window.matchMedia && window.matchMedia("(max-width: 720px)").matches) {
+    window.setTimeout(() => {
+      for (const el of unique) el.classList.add("is-visible");
+    }, 1200);
   }
 }
 

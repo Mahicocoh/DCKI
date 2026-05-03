@@ -1,5 +1,5 @@
 import { CATEGORY_LABEL, getListingFacts, getListingFeatures, getListingPhotos } from "./listings-data.js";
-import { formatCHF, formatRooms, showToast, getQueryParams } from "./ui.js";
+import { formatCHF, formatRooms, showToast, getQueryParams, mountTagIcons } from "./ui.js?v=202605032000";
 import { loadListings } from "./listings-store.js";
 
 function escapeHtml(s) {
@@ -15,6 +15,10 @@ const state = {
   photos: [],
   index: 0,
 };
+
+function tagHtml(label) {
+  return `<span class="tag">${escapeHtml(label)}</span>`;
+}
 
 function setPhoto(idx) {
   if (!state.photos.length) return;
@@ -81,12 +85,12 @@ function render(listing) {
 
   if (factsEl) {
     factsEl.innerHTML = [
-      facts.floor != null ? `<span class="tag">Étage ${escapeHtml(String(facts.floor))}</span>` : "",
-      facts.bathrooms != null ? `<span class="tag">${escapeHtml(String(facts.bathrooms))} sdb</span>` : "",
-      facts.newBuild ? `<span class="tag">Nouvelle construction</span>` : "",
-      facts.parking ? `<span class="tag">Place de parc</span>` : "",
-      facts.quietArea ? `<span class="tag">Quartier calme</span>` : "",
-      facts.childrenFriendly ? `<span class="tag">Adapté aux enfants</span>` : "",
+      facts.floor != null ? tagHtml(`Étage ${String(facts.floor)}`) : "",
+      facts.bathrooms != null ? tagHtml(`${String(facts.bathrooms)} sdb`) : "",
+      facts.newBuild ? tagHtml("Nouvelle construction") : "",
+      facts.parking ? tagHtml("Place de parc") : "",
+      facts.quietArea ? tagHtml("Quartier calme") : "",
+      facts.childrenFriendly ? tagHtml("Adapté aux enfants") : "",
     ]
       .filter(Boolean)
       .join("");
@@ -96,7 +100,9 @@ function render(listing) {
 
   const features = getListingFeatures(listing, 36);
   const outFeatures = statusLabel ? [statusLabel, ...features.filter((f) => f !== statusLabel)] : features;
-  if (featuresEl) featuresEl.innerHTML = outFeatures.map((f) => `<span class="tag">${escapeHtml(f)}</span>`).join("");
+  if (featuresEl) {
+    featuresEl.innerHTML = outFeatures.map((f) => tagHtml(f)).join("");
+  }
 
   const mapQuery = `${listing.locality}, ${listing.region}, Suisse`;
   const mapQ = encodeURIComponent(mapQuery);
@@ -246,6 +252,7 @@ export async function initListingPage() {
   }
 
   render(listing);
+  mountTagIcons();
 
   document.addEventListener("click", (e) => {
     const t = e.target;

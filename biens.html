@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202604232700" />
+    <link rel="stylesheet" href="./styles/main.css?v=202605031900" />
   </head>
   <body data-page="biens">
     <header class="topbar">
@@ -539,7 +539,7 @@
                     </svg>
                   </span>
                   <div class="footer-contact-text">
-                    <div class="footer-contact-k">Zone simplement pas couverte</div>
+                    <div class="footer-contact-k">Adresse</div>
                     <div class="footer-contact-v">Courtételle</div>
                   </div>
                 </div>
@@ -578,13 +578,14 @@
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
     <script type="module">
-      import { setActiveNav, mountTopbarMenu, wireForms, mountToTopFab, mountWhatsAppFab, mountCardGalleries, mountReveals } from "./scripts/ui.js?v=202604222955";
+      import { setActiveNav, mountTopbarMenu, wireForms, mountToTopFab, mountWhatsAppFab, mountCardGalleries, mountReveals, mountTagIcons } from "./scripts/ui.js?v=202605032000";
       setActiveNav();
       mountTopbarMenu();
       wireForms();
       mountWhatsAppFab();
       mountToTopFab();
       mountCardGalleries();
+      mountTagIcons();
       mountReveals();
     </script>
     <script>
