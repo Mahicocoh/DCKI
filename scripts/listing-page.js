@@ -1,5 +1,5 @@
 import { CATEGORY_LABEL, getListingFacts, getListingFeatures, getListingPhotos } from "./listings-data.js";
-import { formatCHF, formatRooms, showToast, getQueryParams, mountTagIcons } from "./ui.js?v=202605032000";
+import { formatCHF, formatRooms, showToast, getQueryParams, mountTagIcons } from "./ui.js?v=202605032030";
 import { loadListings } from "./listings-store.js";
 
 function escapeHtml(s) {

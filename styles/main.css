@@ -4777,6 +4777,9 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 
 .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease, transform .9s cubic-bezier(.2,.8,.2,1)}
 .reveal.is-visible{opacity:1;transform:translateY(0)}
+@media (max-width: 720px){
+  .reveal{opacity:1;transform:none;transition:none}
+}
 @media (prefers-reduced-motion: reduce){
   .reveal{opacity:1;transform:none;transition:none}
   .hero-content{animation:none}
