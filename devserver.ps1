@@ -47,7 +47,6 @@ while ($listener.IsListening) {
 
     $urlPath = $req.Url.AbsolutePath
     if ([string]::IsNullOrWhiteSpace($urlPath)) { $urlPath = "/" }
-
     $decodedPath = [System.Uri]::UnescapeDataString($urlPath)
     if ([string]::IsNullOrWhiteSpace($decodedPath)) { $decodedPath = "/" }
 

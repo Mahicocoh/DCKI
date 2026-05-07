@@ -499,6 +499,7 @@ body.menu-open{overflow:hidden}
 .listing-link{display:block}
 .listing-page{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}
 .listing-price{margin-top:12px;font-size:24px;font-weight:750;letter-spacing:-0.01em}
+.cta{display:flex;gap:10px;flex-wrap:wrap}
 @media (max-width: 980px){
   .listing-page{grid-template-columns:1fr}
 }
@@ -1132,9 +1133,6 @@ body[data-page="home"] .advice-performance > .container::before{
   display:grid;
   grid-template-columns:repeat(2, minmax(0,1fr));
   gap:18px;
-  background:#fff;
-  border-radius:22px;
-  padding:18px;
 }
 .advice-map-card{
   border:0;
@@ -2330,7 +2328,7 @@ body[data-page="contact"]::after{
   body[data-page="contact"] .contact-hero-visual{display:none}
   .contact-hero-title{font-size:32px}
   .contact-hero-actions{width:100%;flex-wrap:wrap;overflow:visible}
-  .contact-hero-actions .btn{width:100%;white-space:normal;flex:1 1 100%}
+  .contact-hero-actions .btn{width:100%;white-space:normal;flex:1 1 100%}      
   .contact-who{padding:30px 0 22px}
   .contact-who-title{font-size:34px}
   .contact-who-title::after{width:110px}
@@ -4523,7 +4521,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   word-break:normal;
   overflow-wrap:normal;
 }
-.footer-contact .footer-contact-text a[href^="mailto:"]{white-space:nowrap}
+.footer-contact .footer-contact-text a[href^="mailto:"]{white-space:normal;overflow-wrap:anywhere}
 @media (max-width: 420px){
   .footer-contact .footer-contact-text a[href^="mailto:"]{font-size:14px}
 }
