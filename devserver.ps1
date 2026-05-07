@@ -28,6 +28,7 @@ function Get-ContentType([string]$path) {
     ".jpg" { "image/jpeg" }
     ".jpeg" { "image/jpeg" }
     ".webp" { "image/webp" }
+    ".avif" { "image/avif" }
     ".gif" { "image/gif" }
     ".mp4" { "video/mp4" }
     ".pdf" { "application/pdf" }
@@ -46,13 +47,17 @@ while ($listener.IsListening) {
 
     $urlPath = $req.Url.AbsolutePath
     if ([string]::IsNullOrWhiteSpace($urlPath)) { $urlPath = "/" }
-    $rel = $urlPath.TrimStart("/") -replace "/", "\"
+
+    $decodedPath = [System.Uri]::UnescapeDataString($urlPath)
+    if ([string]::IsNullOrWhiteSpace($decodedPath)) { $decodedPath = "/" }
+
+    $rel = $decodedPath.TrimStart("/") -replace "/", "\"
     $filePath = Join-Path $rootPath $rel
 
     if ((Test-Path $filePath) -and (Get-Item $filePath).PSIsContainer) {
       $filePath = Join-Path $filePath "index.html"
     }
-    if ($urlPath -eq "/") {
+    if ($decodedPath -eq "/") {
       $filePath = Join-Path $rootPath "index.html"
     }
 
