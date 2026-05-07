@@ -82,6 +82,7 @@ button,input,select,textarea{font:inherit}
 
 .container{max-width:var(--container);margin:0 auto;padding:0 22px}
 .pill{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.78);backdrop-filter:blur(10px)}
+body[data-page="listing"] .pill{max-width:100%;flex-wrap:wrap;white-space:normal;overflow-wrap:anywhere}
 .tag{display:inline-flex;align-items:center;gap:7px;padding:6px 10px;border-radius:999px;border:1px solid rgba(11,42,58,.14);color:var(--muted);background:rgba(255,255,255,.90);font-size:13px;line-height:1.1}
 .tag-ico{
   width:19px;
@@ -1133,6 +1134,9 @@ body[data-page="home"] .advice-performance > .container::before{
   display:grid;
   grid-template-columns:repeat(2, minmax(0,1fr));
   gap:18px;
+  background:#fff;
+  border-radius:22px;
+  padding:18px;
 }
 .advice-map-card{
   border:0;
@@ -1157,6 +1161,14 @@ body[data-page="home"] .advice-performance > .container::before{
   grid-template-columns:minmax(0, 1fr) minmax(0, 1.25fr);
   gap:26px;
   align-items:center;
+}
+.advice-map-right{
+  background:#fff;
+  border-radius:14px;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 .advice-map-left{min-width:0;display:flex;flex-direction:column}
 .advice-map-icon{
