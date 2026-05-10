@@ -47,17 +47,24 @@ body{
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 12px;
+  height: 12px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg);
+  background: rgba(255,255,255,.85);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(15,23,32,.25);
-  border-radius: 10px;
+  background: rgba(11,42,58,.42);
+  border-radius: 999px;
+  border: 3px solid rgba(255,255,255,.85);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(15,23,32,.4);
+  background: rgba(11,42,58,.60);
+}
+
+html{
+  scrollbar-width:auto;
+  scrollbar-color: rgba(11,42,58,.55) rgba(255,255,255,.85);
 }
 
 h1,h2{font-family:var(--fontText)}
