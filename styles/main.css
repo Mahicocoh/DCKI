@@ -3836,6 +3836,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 .partner-pill::after{
   display:none;
 }
+.partners .partner-pill{display:none}
 .partner-ico{
   width:46px;
   height:46px;
@@ -5069,6 +5070,10 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   .page-hero{min-height:44vh;padding:30px 0 22px;align-items:flex-end}
   .page-hero h1{font-size:30px}
   .footer-cols{grid-template-columns:1fr}
+  .footer-cols{padding-left:0;border-left:0}
+  .footer-cols .footer-col + .footer-col{border-left:0}
+  .footer-contact-item + .footer-contact-item{border-top:0;padding-top:0}
+  .footer-bottom{border-top:0;padding-top:0}
   .footer-desc{max-width:none;overflow-wrap:anywhere}
   .about-showcase{padding:16px;border-radius:18px}
   .about-showcase-head h2{font-size:28px}
