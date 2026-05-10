@@ -143,7 +143,7 @@ function render(listing) {
   const isUnavailable = isSold || isRented;
   if (isUnavailable) {
     const cta = document.querySelector(".cta");
-    if (cta instanceof HTMLElement) {
+    if (cta instanceof HTMLElement && !cta.querySelector(".unavailable-note")) {
       const note = document.createElement("div");
       note.className = "unavailable-note";
       note.style.marginTop = "12px";
@@ -196,14 +196,24 @@ function render(listing) {
     visitType.value = "Demande de visite";
   }
 
-  if (isUnavailable && visitForm instanceof HTMLFormElement) {
-    visitForm.classList.add("is-disabled");
+  if (visitForm instanceof HTMLFormElement) {
     const controls = visitForm.querySelectorAll("input, select, textarea, button");
-    for (const el of Array.from(controls)) {
-      if (el instanceof HTMLInputElement) el.disabled = true;
-      else if (el instanceof HTMLSelectElement) el.disabled = true;
-      else if (el instanceof HTMLTextAreaElement) el.disabled = true;
-      else if (el instanceof HTMLButtonElement) el.disabled = true;
+    if (isUnavailable) {
+      visitForm.classList.add("is-disabled");
+      for (const el of Array.from(controls)) {
+        if (el instanceof HTMLInputElement) el.disabled = true;
+        else if (el instanceof HTMLSelectElement) el.disabled = true;
+        else if (el instanceof HTMLTextAreaElement) el.disabled = true;
+        else if (el instanceof HTMLButtonElement) el.disabled = true;
+      }
+    } else {
+      visitForm.classList.remove("is-disabled");
+      for (const el of Array.from(controls)) {
+        if (el instanceof HTMLInputElement) el.disabled = false;
+        else if (el instanceof HTMLSelectElement) el.disabled = false;
+        else if (el instanceof HTMLTextAreaElement) el.disabled = false;
+        else if (el instanceof HTMLButtonElement) el.disabled = false;
+      }
     }
   }
 

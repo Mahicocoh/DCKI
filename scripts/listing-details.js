@@ -164,26 +164,6 @@ function openModal(listing) {
       visitBtn.tabIndex = -1;
       visitBtn.classList.add("is-disabled");
     }
-
-    const cta = modal.querySelector(".cta");
-    if (cta instanceof HTMLElement && !cta.querySelector(".unavailable-note")) {
-      const note = document.createElement("div");
-      note.className = "unavailable-note";
-      note.style.marginTop = "12px";
-      note.innerHTML = `
-        <div class="badge" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2"></rect>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-          </svg>
-        </div>
-        <div class="t">
-          <div class="k">Indisponible</div>
-          <div class="v">Ce bien est ${escapeHtml(statusLabel)}. Les demandes sont désactivées.</div>
-        </div>
-      `;
-      cta.appendChild(note);
-    }
   } else {
     if (dossierBtn instanceof HTMLAnchorElement) {
       const type = listing.category === "sale" ? "Achat" : "Location";
@@ -198,9 +178,28 @@ function openModal(listing) {
       visitBtn.tabIndex = 0;
       visitBtn.classList.remove("is-disabled");
     }
+  }
 
-    const note = modal.querySelector(".cta .unavailable-note");
-    note?.remove?.();
+  const cta = modal.querySelector(".cta");
+  const existing = cta?.querySelector?.(".unavailable-note");
+  if (existing) existing.remove?.();
+  if (isUnavailable && cta instanceof HTMLElement) {
+    const note = document.createElement("div");
+    note.className = "unavailable-note";
+    note.style.marginTop = "12px";
+    note.innerHTML = `
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <div class="t">
+        <div class="k">Indisponible</div>
+        <div class="v">Ce bien est ${escapeHtml(statusLabel)}. Les demandes sont désactivées.</div>
+      </div>
+    `;
+    cta.appendChild(note);
   }
 
   copyBtn.onclick = async () => {

@@ -1335,12 +1335,6 @@ export function mountReveals() {
     el.classList.add("reveal");
     io.observe(el);
   }
-
-  if (window.matchMedia && window.matchMedia("(max-width: 720px)").matches) {
-    window.setTimeout(() => {
-      for (const el of unique) el.classList.add("is-visible");
-    }, 1200);
-  }
 }
 
 export function mountTypewriters() {
