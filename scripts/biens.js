@@ -71,6 +71,9 @@ export async function initBiens() {
 
   if (!saleGrid || !rentGrid) return;
 
+  const saleBackup = saleGrid.innerHTML;
+  const rentBackup = rentGrid.innerHTML;
+
   let LISTINGS = [];
   try {
     LISTINGS = await loadListings();
@@ -118,6 +121,17 @@ export async function initBiens() {
   const sorted = sortListings(filtered, filters.sort);
   const saleItems = sorted.filter((l) => l.category === "sale");
   const rentItems = sorted.filter((l) => l.category === "rent");
+
+  if (!saleItems.length && !rentItems.length) {
+    saleGrid.innerHTML = saleBackup;
+    rentGrid.innerHTML = rentBackup;
+    const saleExisting = saleGrid.querySelectorAll("article.card.listing").length;
+    const rentExisting = rentGrid.querySelectorAll("article.card.listing").length;
+    if (saleCount) saleCount.textContent = `${saleExisting} bien${saleExisting > 1 ? "s" : ""}`;
+    if (rentCount) rentCount.textContent = `${rentExisting} bien${rentExisting > 1 ? "s" : ""}`;
+    if (count) count.textContent = `${saleExisting + rentExisting} bien${saleExisting + rentExisting > 1 ? "s" : ""}`;
+    return;
+  }
 
   renderListings(saleGrid, saleItems);
   renderListings(rentGrid, rentItems);
