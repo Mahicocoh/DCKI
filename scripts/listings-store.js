@@ -41,7 +41,9 @@ export async function loadListings() {
       const payload = await tryFetch("/api/listings");
       const data = Array.isArray(payload?.listings) ? payload.listings : payload;
       if (!Array.isArray(data)) throw new Error("Format de données invalide.");
-      return data.map(normalizeListing).filter(Boolean);
+      const normalized = data.map(normalizeListing).filter(Boolean);
+      if (!normalized.length) throw new Error("empty_api");
+      return normalized;
     } catch {
       const data = await tryFetch("/data/listings.json");
       if (!Array.isArray(data)) throw new Error("Format de données invalide.");

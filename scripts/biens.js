@@ -72,6 +72,7 @@ export async function initBiens() {
   if (!saleGrid || !rentGrid) return;
 
   const LISTINGS = await loadListings();
+  if (!Array.isArray(LISTINGS) || !LISTINGS.length) return;
 
   const qp = new URLSearchParams(window.location.search);
   const categories = [];
