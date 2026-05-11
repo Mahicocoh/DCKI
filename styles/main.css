@@ -271,6 +271,8 @@ body[data-page="listing"] .pill{max-width:100%;flex-wrap:wrap;white-space:normal
 
 .topbar-menu{position:relative;display:inline-flex;align-items:center}
 body.menu-open{overflow:hidden}
+body.menu-open .topbar{backdrop-filter:none}
+body.menu-open .topbar::before{backdrop-filter:none}
 .topbar-menu-overlay{
   position:fixed;
   inset:0;
@@ -278,7 +280,7 @@ body.menu-open{overflow:hidden}
   opacity:0;
   visibility:hidden;
   transition:opacity .3s ease-in-out, visibility .3s ease-in-out;
-  z-index:98;
+  z-index:240;
 }
 .topbar-menu.open .topbar-menu-overlay{opacity:1;visibility:visible}
 .topbar-menu-btn{
@@ -503,7 +505,7 @@ body.menu-open{overflow:hidden}
     visibility:visible;
     transform:translateX(100%);
     transition:transform .3s ease-in-out;
-    z-index:99;
+    z-index:250;
     overflow:hidden;
     pointer-events:none;
   }
@@ -580,7 +582,7 @@ body.menu-open{overflow:hidden}
     visibility:visible;
     transform:translateX(100%);
     transition:transform .3s ease-in-out;
-    z-index:99;
+    z-index:250;
     overflow:hidden;
     pointer-events:none;
   }
