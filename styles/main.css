@@ -1176,6 +1176,13 @@ body[data-page="listing"]{
   background:transparent;
   isolation:isolate;
 }
+body[data-page="biens"] header.topbar,
+body[data-page="biens"] main,
+body[data-page="listing"] header.topbar,
+body[data-page="listing"] main{
+  position:relative;
+  z-index:1;
+}
 body[data-page="biens"]::before,
 body[data-page="listing"]::before{
   content:"";
