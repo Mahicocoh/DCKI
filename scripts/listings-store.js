@@ -45,9 +45,19 @@ export async function loadListings() {
       if (!normalized.length) throw new Error("empty_api");
       return normalized;
     } catch {
-      const data = await tryFetch("/data/listings.json");
-      if (!Array.isArray(data)) throw new Error("Format de données invalide.");
-      return data.map(normalizeListing).filter(Boolean);
+      try {
+        const data = await tryFetch("/data/listings.json");
+        if (!Array.isArray(data)) throw new Error("Format de données invalide.");
+        const normalized = data.map(normalizeListing).filter(Boolean);
+        if (!normalized.length) throw new Error("empty_data");
+        return normalized;
+      } catch {
+        const mod = await import("./listings-data.js");
+        const data = Array.isArray(mod?.LISTINGS) ? mod.LISTINGS : [];
+        const normalized = data.map(normalizeListing).filter(Boolean);
+        if (!normalized.length) throw new Error("empty_seed");
+        return normalized;
+      }
     }
   })();
 

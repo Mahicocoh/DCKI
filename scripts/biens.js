@@ -1,6 +1,6 @@
 import { getListingSearchText, normalizeForSearch, getListingFeatures } from "./listings-data.js";
 import { renderListings } from "./listings-ui.js";
-import { loadListings } from "./listings-store.js";
+import { loadListings } from "./listings-store.js?v=202606110009";
 
 let rerenderBound = false;
 let last = {
@@ -71,8 +71,20 @@ export async function initBiens() {
 
   if (!saleGrid || !rentGrid) return;
 
-  const LISTINGS = await loadListings();
-  if (!Array.isArray(LISTINGS) || !LISTINGS.length) return;
+  let LISTINGS = [];
+  try {
+    LISTINGS = await loadListings();
+  } catch {
+    LISTINGS = [];
+  }
+  if (!Array.isArray(LISTINGS) || !LISTINGS.length) {
+    const saleExisting = saleGrid.querySelectorAll("article.card.listing").length;
+    const rentExisting = rentGrid.querySelectorAll("article.card.listing").length;
+    if (saleCount) saleCount.textContent = `${saleExisting} bien${saleExisting > 1 ? "s" : ""}`;
+    if (rentCount) rentCount.textContent = `${rentExisting} bien${rentExisting > 1 ? "s" : ""}`;
+    if (count) count.textContent = `${saleExisting + rentExisting} bien${saleExisting + rentExisting > 1 ? "s" : ""}`;
+    return;
+  }
 
   const qp = new URLSearchParams(window.location.search);
   const categories = [];

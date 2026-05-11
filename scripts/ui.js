@@ -1,5 +1,5 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
-import { loadListings } from "./listings-store.js";
+import { loadListings } from "./listings-store.js?v=202606110009";
 import { getLang, t } from "./i18n.js?v=202606110006";
 
 export function setActiveNav() {
