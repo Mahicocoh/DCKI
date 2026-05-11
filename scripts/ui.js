@@ -1,5 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
 import { loadListings } from "./listings-store.js";
+import { getLang, t } from "./i18n.js?v=202606110006";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -675,12 +676,14 @@ export function mountRateCalculator() {
 export function formatCHF(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "";
-  return new Intl.NumberFormat("fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
+  const locale = getLang() === "en" ? "en-CH" : "fr-CH";
+  return new Intl.NumberFormat(locale, { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
 }
 
 export function formatRooms(value) {
   const n = Number(value);
   if (!Number.isFinite(n)) return "";
+  if (getLang() === "en") return `${n.toString()} rm`;
   return `${n.toString().replace(".", ",")} p.`;
 }
 
@@ -692,7 +695,49 @@ export function showToast(message) {
   window.setTimeout(() => el.classList.remove("show"), 3200);
 }
 
+export function mountConstructionToasts() {
+  const targets = Array.from(document.querySelectorAll("[data-construction-toast]"));
+  if (!targets.length) return;
+  for (const el of targets) {
+    if (!(el instanceof HTMLElement)) continue;
+    if (el.dataset.boundConstructionToast === "1") continue;
+    el.dataset.boundConstructionToast = "1";
+
+    const getMsg = () => {
+      const raw = (el.getAttribute("data-construction-toast") || "").trim();
+      if (!raw) return t("toast.construction");
+      if (getLang() === "en" && raw.toLowerCase() === "site en construction") return t("toast.construction");
+      return raw;
+    };
+    const fire = () => showToast(getMsg());
+
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      fire();
+    });
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        fire();
+      }
+    });
+  }
+}
+
 export function wireForms() {
+  const getDemoLabel = (form) => {
+    const raw = (form.getAttribute("data-demo-form") || "").trim();
+    if (getLang() === "en") {
+      if (raw === "Demande de dossier") return t("nav.dossier");
+      if (raw === "Newsletter") return t("footer.newsletter");
+      if (raw === "Contact") return t("nav.contact");
+      if (raw === "Formulaire") return "Form";
+      if (raw === "Formulaire de contact") return "Contact form";
+    }
+    return raw || "Formulaire";
+  };
+
   const toggleContactAttachments = (form) => {
     if (!(form instanceof HTMLFormElement)) return;
     const requestType = form.querySelector("#contact-request-type");
@@ -722,14 +767,14 @@ export function wireForms() {
       const render = () => {
         const files = Array.from(input.files || []);
         if (!files.length) {
-          label.textContent = "Aucun fichier sélectionné";
+          label.textContent = t("files.none");
           return;
         }
         if (files.length === 1) {
-          label.textContent = files[0]?.name || "1 fichier sélectionné";
+          label.textContent = files[0]?.name || t("files.one");
           return;
         }
-        label.textContent = `${files.length} fichiers sélectionnés`;
+        label.textContent = t("files.many", { count: files.length });
       };
 
       input.addEventListener("change", render);
@@ -742,7 +787,7 @@ export function wireForms() {
       const endpoint = (form.getAttribute("data-form-endpoint") || "").trim();
       if (endpoint) {
         e.preventDefault();
-        const label = form.getAttribute("data-demo-form") || "Formulaire";
+        const label = getDemoLabel(form);
         const submitBtn = form.querySelector("button[type=\"submit\"]");
         if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = true;
 
@@ -750,11 +795,11 @@ export function wireForms() {
         fetch(endpoint, { method: "POST", body: fd })
           .then((r) => {
             if (!r.ok) throw new Error("Bad status");
-            showToast(`${label} envoyé.`);
+            showToast(t("toast.form.sent", { label }));
             form.reset();
           })
           .catch(() => {
-            showToast("Impossible d’envoyer. Réessayez.");
+            showToast(t("toast.form.fail"));
           })
           .finally(() => {
             if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = false;
@@ -763,8 +808,8 @@ export function wireForms() {
       }
 
       e.preventDefault();
-      const label = form.getAttribute("data-demo-form") || "Formulaire";
-      showToast(`${label} prêt. Ajoutez un lien d’envoi pour recevoir les fichiers.`);
+      const label = getDemoLabel(form);
+      showToast(t("toast.form.demo", { label }));
     });
 
     toggleContactAttachments(form);
@@ -893,8 +938,8 @@ export function mountAppointmentPlanner() {
 
       const dateLabel = formatDate(ctx.dateInput.value);
       const ref = getListingRef();
-      const refSuffix = ref ? ` (réf. ${ref})` : "";
-      const msg = `Je suis disponible pour une visite le ${dateLabel} à ${ctx.timeInput.value}.${refSuffix}`;
+      const refSuffix = ref ? t("appointment.refSuffix", { ref }) : "";
+      const msg = t("appointment.autoVisitMsg", { date: dateLabel, time: ctx.timeInput.value, refSuffix });
       const base = ctx.messageInput.value.trimEnd();
       ctx.messageInput.value = base ? `${base}\n\n${msg}` : msg;
       ctx.messageInput.dataset.autoRdvMsg = msg;
@@ -1061,7 +1106,7 @@ export function mountToTopFab() {
   const a = document.createElement("a");
   a.className = "to-top-fab";
   a.href = "#";
-  a.setAttribute("aria-label", "Remonter en haut");
+  a.setAttribute("aria-label", t("top.backToTop"));
   a.innerHTML =
     '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>';
 
@@ -1149,34 +1194,182 @@ function getTagIconKey(label) {
   const k = normalizeKey(label);
   if (!k) return "";
 
-  if (k.startsWith("etage")) return "floor";
-  if (k.includes("sdb") || k.includes("salle de bain") || k.includes("bain") || k.includes("douche")) return "bath";
-  if (k.includes("cuisine")) return "kitchen";
-  if (k.includes("cave") || k.includes("grenier") || k.includes("dressing") || k.includes("cellier")) return "box";
-  if (k.includes("balcon") || k.includes("terrasse") || k.includes("loggia") || k.includes("cour")) return "balcony";
-  if (k.includes("jardin") || k.includes("verdoyant")) return "tree";
-  if (k.includes("garage")) return "garage";
-  if (k.includes("parking") || k.includes("place de parc") || k.includes("place")) return "parking";
-  if (k.includes("local velo") || k.includes("velos")) return "bike";
-  if (k.includes("buanderie") || k.includes("laverie")) return "washer";
-  if (k.includes("ascenseur")) return "lift";
-  if (k.includes("fibre") || k.includes("wifi")) return "wifi";
-  if (k.includes("domotique")) return "wifi";
-  if (k.includes("panneaux") || k.includes("solaire")) return "sun";
-  if (k.includes("orientation sud") || k === "sud") return "sun";
-  if (k.includes("pompe a chaleur") || k.includes("pompe")) return "wind";
-  if (k.includes("cheminee")) return "flame";
-  if (k.includes("chauffage au sol") || k.includes("chauffage")) return "flame";
-  if (k.includes("renove") || k.includes("renovee") || k.includes("renovation")) return "tool";
-  if (k.includes("double vitrage") || k.includes("stores") || k.includes("portail")) return "tool";
-  if (k.includes("piscine") || k.includes("spa") || k.includes("jacuzzi")) return "drop";
-  if (k.includes("animaux")) return "paw";
-  if (k.includes("interphone") || k.includes("porte securisee") || k.includes("securisee") || k.includes("cameras") || k.includes("camera")) return "shield";
-  if (k.includes("vue degagee") || k.includes("vue montagne") || k.includes("vue campagne") || k.includes("panoram")) return "mountain";
-  if (k.includes("centre") || k.includes("proche") || k.includes("gare") || k.includes("ecoles") || k.includes("commerces")) return "pin";
-  if (k.includes("calme")) return "leaf";
-  if (k.includes("enfants")) return "kids";
-  if (k.includes("neuf") || k.includes("nouvelle construction") || k.includes("recent")) return "new";
+  if (
+    k.startsWith("etage") ||
+    k.startsWith("floor") ||
+    k.startsWith("level") ||
+    k.includes("rez-de-chaussee") ||
+    k === "rdc" ||
+    k.includes("attique") ||
+    k.includes("duplex")
+  ) {
+    return "floor";
+  }
+
+  if (
+    k.includes("sdb") ||
+    k.includes("salle de bain") ||
+    k.includes("bain") ||
+    k.includes("douche") ||
+    k.includes("bath") ||
+    k.includes("bathroom") ||
+    k.includes("shower")
+  ) {
+    return "bath";
+  }
+
+  if (k.includes("cuisine") || k.includes("kitchen")) return "kitchen";
+
+  if (
+    k.includes("cave") ||
+    k.includes("cellar") ||
+    k.includes("grenier") ||
+    k.includes("attic") ||
+    k.includes("combles") ||
+    k.includes("dressing") ||
+    k.includes("walk-in") ||
+    k.includes("cellier") ||
+    k.includes("storage") ||
+    k.includes("sous-sol") ||
+    k.includes("basement") ||
+    k.includes("cabanon") ||
+    k.includes("shed") ||
+    k.includes("coins rangement")
+  ) {
+    return "box";
+  }
+
+  if (
+    k.includes("balcon") ||
+    k.includes("balcony") ||
+    k.includes("terrasse") ||
+    k.includes("terrace") ||
+    k.includes("loggia") ||
+    k.includes("cour") ||
+    k.includes("courtyard")
+  ) {
+    return "balcony";
+  }
+
+  if (k.includes("jardin") || k.includes("garden") || k.includes("verdoyant")) return "tree";
+
+  if (k.includes("garage") || k.includes("double garage") || k.includes("garage box")) return "garage";
+
+  if (
+    k.includes("parking") ||
+    k.includes("place de parc") ||
+    k.includes("place couverte") ||
+    k.includes("place exterieure") ||
+    k.includes("places exterieures") ||
+    k.includes("parking space") ||
+    k.includes("outdoor parking") ||
+    k.includes("covered parking")
+  ) {
+    return "parking";
+  }
+
+  if (k.includes("local velo") || k.includes("velos") || k.includes("bike")) return "bike";
+
+  if (k.includes("buanderie") || k.includes("laverie") || k.includes("laundry")) return "washer";
+
+  if (k.includes("ascenseur") || k.includes("elevator") || k.includes("lift")) return "lift";
+
+  if (k.includes("fibre") || k.includes("fiber") || k.includes("wifi") || k.includes("internet") || k.includes("domotique")) return "wifi";
+
+  if (
+    k.includes("panneaux") ||
+    k.includes("solaire") ||
+    k.includes("solar") ||
+    k.includes("orientation sud") ||
+    k.includes("south") ||
+    k === "sud" ||
+    k.includes("minergie") ||
+    k.includes("lumineux") ||
+    k.includes("bright")
+  ) {
+    return "sun";
+  }
+
+  if (k.includes("pompe a chaleur") || k.includes("heat pump") || k === "pompe") return "wind";
+
+  if (k.includes("cheminee") || k.includes("fireplace") || k.includes("poele") || k.includes("wood stove") || k.includes("chauffage")) return "flame";
+
+  if (
+    k.includes("renove") ||
+    k.includes("renovee") ||
+    k.includes("renovation") ||
+    k.includes("renovated") ||
+    k.includes("double vitrage") ||
+    k.includes("double glazing") ||
+    k.includes("stores") ||
+    k.includes("blinds") ||
+    k.includes("portail") ||
+    k.includes("gate") ||
+    k.includes("moderne") ||
+    k.includes("modern") ||
+    k.includes("atelier") ||
+    k.includes("workshop") ||
+    k.includes("bureau") ||
+    k.includes("office") ||
+    k.includes("arrosage") ||
+    k.includes("irrigation") ||
+    k.includes("loft") ||
+    k.includes("industriel") ||
+    k.includes("industrial") ||
+    k.includes("parquet") ||
+    k.includes("wood flooring") ||
+    k.includes("beton") ||
+    k.includes("concrete") ||
+    k.includes("carrelage") ||
+    k.includes("tile") ||
+    k.includes("meuble") ||
+    k.includes("furnished") ||
+    k.includes("charges comprises") ||
+    k.includes("utilities included")
+  ) {
+    return "tool";
+  }
+
+  if (k.includes("piscine") || k.includes("pool") || k.includes("spa") || k.includes("jacuzzi")) return "drop";
+
+  if (k.includes("animaux") || k.includes("pets") || k.includes("equestre") || k.includes("equestrian")) return "paw";
+
+  if (k.includes("interphone") || k.includes("security") || k.includes("porte securisee") || k.includes("securisee") || k.includes("secure") || k.includes("camera")) return "shield";
+
+  if (k.includes("vue degagee") || k.includes("open view") || k.includes("vue montagne") || k.includes("mountain") || k.includes("vue campagne") || k.includes("countryside") || k.includes("panoram")) return "mountain";
+
+  if (
+    k.includes("centre") ||
+    k.includes("centre-ville") ||
+    k.includes("downtown") ||
+    k.includes("city center") ||
+    k.includes("proche") ||
+    k.includes("near") ||
+    k.includes("gare") ||
+    k.includes("station") ||
+    k.includes("ecoles") ||
+    k.includes("schools") ||
+    k.includes("commerces") ||
+    k.includes("shops") ||
+    k.includes("autoroute") ||
+    k.includes("highway")
+  ) {
+    return "pin";
+  }
+
+  if (k.includes("calme") || k.includes("quiet")) return "leaf";
+
+  if (
+    k.includes("enfants") ||
+    k.includes("children") ||
+    k.includes("child") ||
+    k.includes("quartier familial") ||
+    k.includes("family-friendly")
+  ) {
+    return "kids";
+  }
+
+  if (k.includes("neuf") || k.includes("new build") || k.includes("nouvelle construction") || k.includes("recent") || k === "new") return "new";
 
   return "";
 }
@@ -1306,7 +1499,7 @@ export function mountCardGalleries() {
 export function mountReveals() {
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const targets = [
-    ...document.querySelectorAll("main > section:not(.hero)"),
+    ...document.querySelectorAll("main > section:not(.hero):not([data-reveal-skip])"),
     ...document.querySelectorAll("[data-reveal]"),
   ];
   if (!targets.length) return;
@@ -1414,7 +1607,13 @@ export function mountDossierPrefill() {
   const refInput = form.querySelector("input[name=\"ref\"]");
 
   if (typeSelect instanceof HTMLSelectElement && type) {
-    const normalized = type.toLowerCase() === "achat" ? "Achat" : type.toLowerCase() === "location" ? "Location" : "";
+    const raw = type.toLowerCase();
+    const normalized =
+      raw === "achat" || raw === "buy" || raw === "sale"
+        ? "Achat"
+        : raw === "location" || raw === "rent" || raw === "rental"
+          ? "Location"
+          : "";
     if (normalized) {
       typeSelect.value = normalized;
       for (const opt of Array.from(typeSelect.options)) {
@@ -1449,7 +1648,7 @@ export function mountDossierPrefill() {
           rawStatus === "loue" ||
           rawStatus === "louee" ||
           rawStatus.includes("rented");
-        const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
+        const statusLabel = isSold ? t("status.sold") : isRented ? t("status.rented") : "";
         if (!statusLabel) return;
 
         const note = document.createElement("div");
@@ -1463,8 +1662,8 @@ export function mountDossierPrefill() {
             </svg>
           </div>
           <div class="t">
-            <div class="k">Indisponible</div>
-            <div class="v">Ce bien est ${statusLabel}. Les demandes sont désactivées.</div>
+            <div class="k">${t("listing.unavailableTitle")}</div>
+            <div class="v">${t("listing.unavailableMsg", { status: statusLabel })}</div>
           </div>
         `;
         form.prepend(note);
@@ -1528,7 +1727,7 @@ export function mountCountUps() {
   };
 
   const format = (n, decimals) => {
-    const nf = new Intl.NumberFormat("fr-FR", {
+    const nf = new Intl.NumberFormat(getLang() === "en" ? "en-CH" : "fr-CH", {
       minimumFractionDigits: decimals,
       maximumFractionDigits: decimals,
     });
@@ -1632,7 +1831,7 @@ export function mountTestimonials() {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "testimonials-dot";
-      b.setAttribute("aria-label", `Aller à l’avis ${i + 1}`);
+      b.setAttribute("aria-label", t("aria.reviewGo", { n: i + 1 }));
       b.addEventListener("click", () => {
         setIndex(i);
         restart();

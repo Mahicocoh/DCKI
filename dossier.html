@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202605032100" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606110001" />
   </head>
   <body data-page="dossier">
     <header class="topbar">
@@ -27,6 +27,7 @@
             </button>
             <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
             <nav class="topbar-menu-panel" data-nav>
+              <div class="topbar-menu-links">
               <a href="./index.html">
                 <span class="nav-ico" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -113,7 +114,25 @@
                   <span class="nav-sub">Espace administrateur</span>
                 </span>
               </a>
+              </div>
               <div class="topbar-menu-footer">
+                <div class="topbar-menu-contact">
+                  <a class="topbar-menu-phone" href="tel:+41787338717" aria-label="Appeler le 078 733 87 17">
+                    <span class="topbar-menu-phone-ico" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.9v2a2 2 0 0 1-2.2 2 20 20 0 0 1-8.7-3.1 19.6 19.6 0 0 1-6-6A20 20 0 0 1 2 4.2 2 2 0 0 1 4 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.45 2.1L7.4 9.6a16 16 0 0 0 7 7l1.1-1.1a2 2 0 0 1 2.1-.45c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9Z"></path>
+                      </svg>
+                    </span>
+                    <span>078 733 87 17</span>
+                  </a>
+                  <div class="topbar-menu-hours">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 2"></path>
+                    </svg>
+                    <span>Lu – Ve, 08h00 – 18h30</span>
+                  </div>
+                </div>
                 <div class="topbar-menu-footer-block">
                   <div class="topbar-menu-footer-k">Réseaux</div>
                   <div class="topbar-menu-footer-social">
@@ -153,66 +172,26 @@
 
     <main class="section">
       <div class="container">
-        <div class="grid cols-2 dossier-grid">
-          <div class="panel dossier-panel">
-            <div class="inner">
-              <h2 style="margin-top:0">Demande de dossier</h2>
-              <p class="lead" style="margin-top:0">
-                Cette page sert à demander un dossier (achat ou location).
-              </p>
-              <div class="card" style="margin-top:14px">
-                <div class="media">
-                  <img src="./assets/stage_efh_villa_lugnorre.jpg" alt="Villa" loading="lazy" />
-                </div>
-              </div>
-              <div class="grid cols-2 dossier-pills" style="gap:12px">
-                <div class="pill">
-                  <strong>Contact</strong>
-                  <span>Deniz Demirci</span>
-                </div>
-                <div class="pill">
-                  <strong>Adresse</strong>
-                  <span>Courtételle</span>
-                </div>
-                <div class="pill pill--full pill--email">
-                  <strong>Email</strong>
-                  <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
-                </div>
-              </div>
-              <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
-                <iframe
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  src="https://www.google.com/maps?q=Courtetelle%2C%20Suisse&t=k&z=19&output=embed"
-                  title="Courtételle"
-                  allowfullscreen
-                ></iframe>
-              </div>
-              <div class="map-actions dossier-map-actions" style="margin-top:12px">
-                <a class="btn primary" href="https://www.google.com/maps?q=Courtetelle%2C%20Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
-                <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Courtetelle%2C%20Suisse" target="_blank" rel="noreferrer">Vue 3D Google Maps</a>
-              </div>
-              <div style="margin-top:14px" class="card">
-                <div class="body">
-                  <h3 style="margin-top:0">Exemples de pièces demandées</h3>
-                  <div class="meta" style="margin-top:10px">
-                    <span class="tag">Pièce d’identité</span>
-                    <span class="tag">3 dernières fiches de salaire</span>
-                    <span class="tag">Attestation poursuites</span>
-                    <span class="tag">Lettre de motivation</span>
-                    <span class="tag">Coordonnées</span>
-                  </div>
-                  <p class="fine" style="margin:12px 0 0">
-                    À adapter selon vos procédures et exigences légales.
-                  </p>
-                </div>
-              </div>
-            </div>
+        <header class="dossier-head">
+          <div class="dossier-head-text">
+            <h1 class="dossier-title">Demande de dossier</h1>
+            <p class="lead dossier-lead">
+              Recevez rapidement les informations et les documents du bien sélectionné.
+            </p>
           </div>
+        </header>
 
-          <div class="panel dossier-panel">
+        <div class="card dossier-hero">
+          <div class="media">
+            <img src="./assets/9404816f-726f-40ac-984b-3d41cfdf6754.png" alt="Demande de dossier" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="grid cols-2 dossier-stack">
+          <div class="panel dossier-panel dossier-form">
             <div class="inner">
-              <h2 style="margin-top:0">Formulaire</h2>
+              <h2>Formulaire</h2>
+              <p class="fine">Demande d’achat ou de location — réponse rapide par email.</p>
               <form class="form" data-demo-form="Demande de dossier" method="post" enctype="multipart/form-data" data-form-endpoint="">
                 <div class="field">
                   <span class="label">Nom</span>
@@ -254,6 +233,55 @@
                   <a class="btn" href="./index.html#recherche-rapide">Rechercher un bien</a>
                 </div>
               </form>
+            </div>
+          </div>
+
+          <div class="panel dossier-panel dossier-contact">
+            <div class="inner">
+              <h2>Contact & adresse</h2>
+              <div class="grid cols-2 dossier-pills">
+                <div class="pill">
+                  <strong>Contact</strong>
+                  <span>Deniz Demirci</span>
+                </div>
+                <div class="pill">
+                  <strong>Adresse</strong>
+                  <span>Courtételle Jura</span>
+                </div>
+                <div class="pill pill--full pill--email">
+                  <strong>Email</strong>
+                  <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a>
+                </div>
+              </div>
+              <div class="map" aria-label="Carte Google Maps">
+                <iframe
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=Courtetelle%2C%20Jura%2C%20Suisse&t=k&z=19&output=embed"
+                  title="Courtételle Jura"
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <div class="map-actions dossier-map-actions">
+                <a class="btn primary" href="https://www.google.com/maps?q=Courtetelle%2C%20Jura%2C%20Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
+                <a class="btn" href="https://www.google.com/maps/search/?api=1&query=Courtetelle%2C%20Jura%2C%20Suisse" target="_blank" rel="noreferrer">Vue 3D Google Maps</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card dossier-docs">
+            <div class="body">
+              <h3>Exemples de pièces demandées</h3>
+              <div class="meta">
+                <span class="tag">Pièce d’identité</span>
+                <span class="tag">3 dernières fiches de salaire</span>
+                <span class="tag">Attestation poursuites</span>
+                <span class="tag">Extrait du casier judiciaire</span>
+                <span class="tag">Coordonnées</span>
+              </div>
+              <p class="fine">
+                À adapter selon vos procédures et exigences légales.
+              </p>
             </div>
           </div>
         </div>
@@ -337,7 +365,7 @@
                   </span>
                   <div class="footer-contact-text">
                     <div class="footer-contact-k">Adresse</div>
-                    <div class="footer-contact-v">Courtételle</div>
+                    <div class="footer-contact-v">Courtételle Jura</div>
                   </div>
                 </div>
               </div>
@@ -376,7 +404,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202605032100"></script>
+    <script type="module" src="./scripts/app.js?v=202606110006"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
@@ -385,7 +413,14 @@
         const id = params.get("id");
         const typeEl = document.querySelector("select[name='type']");
         const refEl = document.querySelector("input[name='ref']");
-        if (typeEl && (type === "Location" || type === "Achat")) typeEl.value = type;
+        const raw = String(type || "").trim().toLowerCase();
+        const normalized =
+          raw === "achat" || raw === "buy" || raw === "sale"
+            ? "Achat"
+            : raw === "location" || raw === "rent" || raw === "rental"
+              ? "Location"
+              : "";
+        if (typeEl && normalized) typeEl.value = normalized;
         if (refEl && id) refEl.value = id;
       })();
     </script>

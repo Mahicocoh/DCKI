@@ -1,6 +1,7 @@
-import { CATEGORY_LABEL, getListingFacts, getListingFeatures, getListingPhotos } from "./listings-data.js";
-import { formatCHF, formatRooms, showToast, getQueryParams, mountTagIcons } from "./ui.js?v=202605032030";
+import { getListingFacts, getListingFeatures, getListingPhotos } from "./listings-data.js";
+import { formatCHF, formatRooms, showToast, getQueryParams, mountTagIcons } from "./ui.js?v=202606110006";
 import { loadListings } from "./listings-store.js";
+import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202606110006";
 
 function escapeHtml(s) {
   return String(s)
@@ -15,6 +16,8 @@ const state = {
   photos: [],
   index: 0,
 };
+
+let currentListing = null;
 
 function tagHtml(label) {
   return `<span class="tag">${escapeHtml(label)}</span>`;
@@ -44,6 +47,11 @@ function render(listing) {
   const openMaps3d = document.querySelector("[data-listing-open-maps-3d]");
   const statusRibbon = document.querySelector("[data-listing-status-ribbon]");
 
+  const titleText = pickListingText(listing, "title");
+  const descText = pickListingText(listing, "description");
+  const regionText = translateRegionName(listing.region);
+  const typeText = translatePropertyType(listing.propertyType);
+
   const rawStatus = String(listing.status || "")
     .trim()
     .toLowerCase()
@@ -60,51 +68,51 @@ function render(listing) {
     rawStatus === "loue" ||
     rawStatus === "louee" ||
     rawStatus.includes("rented");
-  const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
+  const statusLabel = isSold ? t("status.sold") : isRented ? t("status.rented") : "";
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   if (pill) {
     pill.innerHTML = `
       <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
-      <strong style="letter-spacing:.02em">${escapeHtml(CATEGORY_LABEL[listing.category] || "")}</strong>
+      <strong style="letter-spacing:.02em">${escapeHtml(listing.category === "sale" ? t("biens.btn.sale") : listing.category === "rent" ? t("biens.btn.rent") : "")}</strong>
       <span style="opacity:.65">•</span>
-      <span style="opacity:.85">${escapeHtml(listing.propertyType)}</span>
+      <span style="opacity:.85">${escapeHtml(typeText)}</span>
       <span style="opacity:.65">•</span>
       <span style="opacity:.85">${escapeHtml(listing.id)}</span>
       ${statusLabel ? `<span style="opacity:.65">•</span><span style="opacity:.95">${escapeHtml(statusLabel)}</span>` : ""}
     `;
   }
 
-  if (title) title.textContent = listing.title;
-  if (meta) meta.textContent = `${listing.region} — ${listing.locality} • ${formatRooms(listing.rooms)} • ${listing.surface} m²`;
+  if (title) title.textContent = titleText;
+  if (meta) meta.textContent = `${regionText} — ${listing.locality} • ${formatRooms(listing.rooms)} • ${listing.surface} m²`;
 
   const facts = getListingFacts(listing);
-  if (availability) availability.textContent = facts.availableFrom ? `Disponible dès ${facts.availableFrom}` : "";
+  if (availability) availability.textContent = facts.availableFrom ? t("listing.availableFrom", { date: facts.availableFrom }) : "";
 
   const priceText = `${formatCHF(listing.price)}${listing.priceSuffix ? ` ${listing.priceSuffix}` : ""}`;
   if (price) price.textContent = priceText;
 
   if (factsEl) {
     factsEl.innerHTML = [
-      facts.floor != null ? tagHtml(`Étage ${String(facts.floor)}`) : "",
-      facts.bathrooms != null ? tagHtml(`${String(facts.bathrooms)} sdb`) : "",
-      facts.newBuild ? tagHtml("Nouvelle construction") : "",
-      facts.parking ? tagHtml("Place de parc") : "",
-      facts.quietArea ? tagHtml("Quartier calme") : "",
-      facts.childrenFriendly ? tagHtml("Adapté aux enfants") : "",
+      facts.floor != null ? tagHtml(`${t("listing.floor")} ${String(facts.floor)}`) : "",
+      facts.bathrooms != null ? tagHtml(`${String(facts.bathrooms)} ${t("listing.bath")}`) : "",
+      facts.newBuild ? tagHtml(t("listing.newBuild")) : "",
+      facts.parking ? tagHtml(t("listing.parking")) : "",
+      facts.quietArea ? tagHtml(t("listing.quietArea")) : "",
+      facts.childrenFriendly ? tagHtml(t("listing.childrenFriendly")) : "",
     ]
       .filter(Boolean)
       .join("");
   }
 
-  if (desc) desc.textContent = listing.description || "";
+  if (desc) desc.textContent = descText || "";
 
   const features = getListingFeatures(listing, 36);
   const outFeatures = statusLabel ? [statusLabel, ...features.filter((f) => f !== statusLabel)] : features;
   if (featuresEl) {
-    featuresEl.innerHTML = outFeatures.map((f) => tagHtml(f)).join("");
+    featuresEl.innerHTML = outFeatures.map((f) => tagHtml(translateListingFeature(f))).join("");
   }
 
-  const mapQuery = `${listing.locality}, ${listing.region}, Suisse`;
+  const mapQuery = `${listing.locality}, ${regionText}, Suisse`;
   const mapQ = encodeURIComponent(mapQuery);
   if (mapIframe) {
     mapIframe.src = `https://www.google.com/maps?q=${mapQ}&t=k&z=19&output=embed`;
@@ -117,7 +125,7 @@ function render(listing) {
   setPhoto(0);
 
   const img = document.querySelector("[data-gallery-img]");
-  if (img) img.alt = listing.title;
+  if (img) img.alt = titleText;
   if (statusRibbon) {
     statusRibbon.textContent = statusLabel;
     statusRibbon.style.display = statusLabel ? "" : "none";
@@ -133,7 +141,7 @@ function render(listing) {
 
   const dossierBtn = document.querySelector(".cta a.btn.primary[href$='dossier.html']");
   if (dossierBtn) {
-    const type = listing.category === "sale" ? "Achat" : "Location";
+    const type = listing.category === "sale" ? "sale" : listing.category === "rent" ? "rent" : "";
     dossierBtn.setAttribute(
       "href",
       `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(listing.id)}`
@@ -155,8 +163,8 @@ function render(listing) {
           </svg>
         </div>
         <div class="t">
-          <div class="k">Indisponible</div>
-          <div class="v">Ce bien est ${escapeHtml(statusLabel)}. Les demandes sont désactivées.</div>
+          <div class="k">${escapeHtml(t("listing.unavailableTitle"))}</div>
+          <div class="v">${escapeHtml(t("listing.unavailableMsg", { status: statusLabel }))}</div>
         </div>
       `;
       cta.appendChild(note);
@@ -184,16 +192,24 @@ function render(listing) {
   const visitType = visitForm?.querySelector?.("[data-appointment-request-type]");
   if (visitType instanceof HTMLSelectElement) {
     const isSale = listing.category === "sale";
-    const desired = new Set([
-      "Demande de visite",
-      isSale ? "Acheter un bien" : "Louer un bien",
-      "Question",
-    ]);
+    const normalize = (raw) => {
+      const v = String(raw || "").trim();
+      if (v === "visit" || v === "dossier" || v === "buy" || v === "rent" || v === "advice" || v === "question") return v;
+      if (v === "Demande de visite") return "visit";
+      if (v === "Demande de dossier") return "dossier";
+      if (v === "Acheter un bien") return "buy";
+      if (v === "Louer un bien") return "rent";
+      if (v === "Conseils") return "advice";
+      if (v === "Question") return "question";
+      return v;
+    };
+    const desired = new Set(["visit", isSale ? "buy" : "rent", "question"]);
     for (const opt of Array.from(visitType.options)) {
-      const label = (opt.textContent || "").trim();
-      if (!desired.has(label)) opt.remove();
+      const v = normalize(opt.getAttribute("value") || opt.textContent || "");
+      if (!desired.has(v)) opt.remove();
     }
-    visitType.value = "Demande de visite";
+    const preferred = Array.from(visitType.options).find((o) => normalize(o.value || o.textContent || "") === "visit");
+    if (preferred) visitType.value = preferred.value;
   }
 
   if (visitForm instanceof HTMLFormElement) {
@@ -256,13 +272,19 @@ export async function initListingPage() {
   const LISTINGS = await loadListings();
   const listing = LISTINGS.find((l) => l.id === id);
   if (!listing) {
-    showToast("Bien introuvable.");
+    showToast(t("listing.notFound"));
     window.location.replace("./biens.html");
     return;
   }
 
+  currentListing = listing;
   render(listing);
   mountTagIcons();
+
+  window.addEventListener("dcki:lang", () => {
+    if (currentListing) render(currentListing);
+    mountTagIcons();
+  });
 
   document.addEventListener("click", (e) => {
     const t = e.target;

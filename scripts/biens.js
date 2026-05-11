@@ -2,6 +2,17 @@ import { getListingSearchText, normalizeForSearch, getListingFeatures } from "./
 import { renderListings } from "./listings-ui.js";
 import { loadListings } from "./listings-store.js";
 
+let rerenderBound = false;
+let last = {
+  saleGrid: null,
+  rentGrid: null,
+  saleCount: null,
+  rentCount: null,
+  count: null,
+  saleItems: [],
+  rentItems: [],
+};
+
 function toNumber(v) {
   const n = Number(String(v ?? "").replace(",", "."));
   return Number.isFinite(n) ? n : null;
@@ -104,4 +115,14 @@ export async function initBiens() {
 
   if (saleSection) saleSection.style.display = categories.includes("sale") ? "" : "none";
   if (rentSection) rentSection.style.display = categories.includes("rent") ? "" : "none";
+
+  last = { saleGrid, rentGrid, saleCount, rentCount, count, saleItems, rentItems };
+  if (!rerenderBound) {
+    rerenderBound = true;
+    window.addEventListener("dcki:lang", () => {
+      if (!last.saleGrid || !last.rentGrid) return;
+      renderListings(last.saleGrid, last.saleItems);
+      renderListings(last.rentGrid, last.rentItems);
+    });
+  }
 }

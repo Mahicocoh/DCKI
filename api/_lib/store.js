@@ -2,7 +2,11 @@ import { kv } from "@vercel/kv";
 
 const KEY = "dcki:listings";
 
-function normalizeListingPayload(payload) {
+function hasOwn(obj, key) {
+  return !!obj && Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+function normalizeListingPayload(payload, prev) {
   const out = {};
   out.id = String(payload?.id || "").trim();
   out.category = payload?.category === "sale" ? "sale" : "rent";
@@ -10,6 +14,10 @@ function normalizeListingPayload(payload) {
   out.propertyType = String(payload?.propertyType || "").trim();
   out.title = String(payload?.title || "").trim();
   out.description = String(payload?.description || "").trim();
+  out.title_en = hasOwn(payload, "title_en") ? String(payload?.title_en || "").trim() : String(prev?.title_en || "").trim();
+  out.description_en = hasOwn(payload, "description_en")
+    ? String(payload?.description_en || "").trim()
+    : String(prev?.description_en || "").trim();
   out.region = String(payload?.region || "").trim();
   out.locality = String(payload?.locality || "").trim();
   out.rooms = Number(payload?.rooms);
@@ -45,7 +53,27 @@ async function loadSeedListings() {
 
 export async function getListings() {
   const existing = await kv.get(KEY);
-  if (Array.isArray(existing) && existing.length) return existing;
+  if (Array.isArray(existing) && existing.length) {
+    const seed = await loadSeedListings();
+    const seedById = new Map(seed.map((l) => [l.id, l]));
+    let changed = false;
+    const merged = existing.map((l) => {
+      const s = seedById.get(l?.id);
+      if (!s) return l;
+      const next = { ...l };
+      if (!next.title_en && s.title_en) {
+        next.title_en = s.title_en;
+        changed = true;
+      }
+      if (!next.description_en && s.description_en) {
+        next.description_en = s.description_en;
+        changed = true;
+      }
+      return next;
+    });
+    if (changed) await kv.set(KEY, merged);
+    return merged;
+  }
   const seed = await loadSeedListings();
   await kv.set(KEY, seed);
   return seed;
@@ -56,7 +84,7 @@ export async function setListings(listings) {
 }
 
 export async function createListing(payload) {
-  const listing = normalizeListingPayload(payload);
+  const listing = normalizeListingPayload(payload, null);
   const err = validateListing(listing);
   if (err) return { ok: false, error: err };
   const listings = await getListings();
@@ -67,12 +95,13 @@ export async function createListing(payload) {
 }
 
 export async function updateListing(id, payload) {
-  const listing = normalizeListingPayload({ ...payload, id });
-  const err = validateListing(listing);
-  if (err) return { ok: false, error: err };
   const listings = await getListings();
   const idx = listings.findIndex((l) => l.id === id);
   if (idx === -1) return { ok: false, error: "Bien introuvable.", status: 404 };
+  const prev = listings[idx];
+  const listing = normalizeListingPayload({ ...payload, id }, prev);
+  const err = validateListing(listing);
+  if (err) return { ok: false, error: err };
   const next = listings.slice();
   next[idx] = listing;
   await setListings(next);

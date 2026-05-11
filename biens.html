@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202605032100" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606110001" />
   </head>
   <body data-page="biens">
     <header class="topbar">
@@ -27,6 +27,7 @@
             </button>
             <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
             <nav class="topbar-menu-panel" data-nav>
+              <div class="topbar-menu-links">
               <a href="./index.html">
                 <span class="nav-ico" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -102,7 +103,25 @@
                   <span class="nav-sub">Espace administrateur</span>
                 </span>
               </a>
+              </div>
               <div class="topbar-menu-footer">
+                <div class="topbar-menu-contact">
+                  <a class="topbar-menu-phone" href="tel:+41787338717" aria-label="Appeler le 078 733 87 17">
+                    <span class="topbar-menu-phone-ico" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.9v2a2 2 0 0 1-2.2 2 20 20 0 0 1-8.7-3.1 19.6 19.6 0 0 1-6-6A20 20 0 0 1 2 4.2 2 2 0 0 1 4 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.45 2.1L7.4 9.6a16 16 0 0 0 7 7l1.1-1.1a2 2 0 0 1 2.1-.45c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9Z"></path>
+                      </svg>
+                    </span>
+                    <span>078 733 87 17</span>
+                  </a>
+                  <div class="topbar-menu-hours">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 2"></path>
+                    </svg>
+                    <span>Lu – Ve, 08h00 – 18h30</span>
+                  </div>
+                </div>
                 <div class="topbar-menu-footer-block">
                   <div class="topbar-menu-footer-k">Réseaux</div>
                   <div class="topbar-menu-footer-social">
@@ -559,7 +578,7 @@
                   </span>
                   <div class="footer-contact-text">
                     <div class="footer-contact-k">Adresse</div>
-                    <div class="footer-contact-v">Courtételle</div>
+                    <div class="footer-contact-v">Courtételle Jura</div>
                   </div>
                 </div>
               </div>
@@ -601,164 +620,6 @@
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
-    <script type="module">
-      import { setActiveNav, mountTopbarMenu, wireForms, mountToTopFab, mountWhatsAppFab, mountCardGalleries, mountReveals, mountTagIcons } from "./scripts/ui.js?v=202605032000";
-      setActiveNav();
-      mountTopbarMenu();
-      wireForms();
-      mountWhatsAppFab();
-      mountToTopFab();
-      mountCardGalleries();
-      mountTagIcons();
-      mountReveals();
-    </script>
-    <script>
-      (function () {
-        const normalize = (value) =>
-          String(value || "")
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase();
-
-        const toNumber = (v) => {
-          const s = String(v ?? "").trim();
-          if (!s) return null;
-          const n = Number(s.replace(",", ".").replace(/[^\d.]/g, ""));
-          return Number.isFinite(n) ? n : null;
-        };
-
-        const toInt = (v) => {
-          const s = String(v ?? "").trim();
-          if (!s) return null;
-          const n = Number(s.replace(/[^\d]/g, ""));
-          return Number.isFinite(n) ? n : null;
-        };
-
-        const qp = new URLSearchParams(window.location.search);
-        const cat = qp.get("cat") || (qp.get("sale") === "1" ? "sale" : qp.get("rent") === "1" ? "rent" : "");
-        const qRaw = qp.get("q") || "";
-        const qTokens = normalize(qRaw)
-          .split(/\s+/)
-          .map((t) => t.trim())
-          .filter(Boolean);
-        const region = normalize(qp.get("region") || "");
-        const locality = normalize(qp.get("locality") || "");
-        const type = normalize(qp.get("type") || "");
-        const minPrice = toInt(qp.get("minPrice"));
-        const maxPrice = toInt(qp.get("maxPrice"));
-        const minRooms = toNumber(qp.get("minRooms"));
-        const minSurface = toInt(qp.get("minSurface"));
-        const tags = qp
-          .getAll("tags")
-          .flatMap((v) => String(v || "").split(","))
-          .map((s) => normalize(s.trim()))
-          .filter(Boolean);
-
-        const saleSection = document.getElementById("vendre");
-        const rentSection = document.getElementById("louer");
-        if (saleSection) saleSection.style.display = cat && cat !== "sale" ? "none" : "";
-        if (rentSection) rentSection.style.display = cat && cat !== "rent" ? "none" : "";
-
-        const saleBtn = document.querySelector("[data-cat-sale]");
-        const rentBtn = document.querySelector("[data-cat-rent]");
-        if (saleBtn) {
-          const p = new URLSearchParams(qp);
-          p.set("cat", "sale");
-          saleBtn.setAttribute("href", `./biens.html?${p.toString()}#vendre`);
-        }
-        if (rentBtn) {
-          const p = new URLSearchParams(qp);
-          p.set("cat", "rent");
-          rentBtn.setAttribute("href", `./biens.html?${p.toString()}#louer`);
-        }
-
-        const items = Array.from(document.querySelectorAll("article.card.listing"));
-
-        const parseItem = (el) => {
-          const ds = el.dataset || {};
-          const pillEl = el.querySelector(".pill");
-          const pillText = normalize((pillEl && pillEl.textContent) || "");
-          const category = normalize(ds.category) || (pillText.includes("a vendre") ? "sale" : "rent");
-          const regionTxt = normalize(ds.region);
-          const localityTxt = normalize(ds.locality);
-          const typeTxt = normalize(ds.type);
-          const h3El = el.querySelector("h3");
-          const metaEl = el.querySelector(".meta");
-          const descEl = el.querySelector(".desc");
-          const chipEl = el.querySelector(".chipRow");
-          const title = normalize((h3El && h3El.textContent) || "");
-          const meta = normalize((metaEl && metaEl.textContent) || "");
-          const desc = normalize((descEl && descEl.textContent) || "");
-          const tagsTxt = normalize(`${ds.tags || ""} ${(chipEl && chipEl.textContent) || ""}`);
-          const hay = `${title} ${meta} ${desc} ${tagsTxt} ${regionTxt} ${localityTxt} ${typeTxt}`;
-
-          const priceEl = el.querySelector(".price");
-          const price = toInt(ds.price) ?? toInt((priceEl && priceEl.textContent) || "") ?? 0;
-
-          const rooms = toNumber(ds.rooms) ??
-            (() => {
-              const roomsMatch = (((metaEl && metaEl.textContent) || "")).match(/(\d+(?:[.,]\d+)?)\s*pi[eè]ces/i);
-              return roomsMatch ? toNumber(roomsMatch[1]) : null;
-            })();
-
-          const surface = toInt(ds.surface) ??
-            (() => {
-              const m = (((metaEl && metaEl.textContent) || "")).match(/(\d+)\s*m²/i);
-              return m ? toInt(m[1]) : null;
-            })();
-
-          return { category, region: regionTxt, locality: localityTxt, type: typeTxt, hay, price, rooms, surface, tagsTxt };
-        };
-
-        let totalVisible = 0;
-        let saleVisible = 0;
-        let rentVisible = 0;
-
-        for (const el of items) {
-          const info = parseItem(el);
-          let ok = true;
-
-          if (cat && info.category !== cat) ok = false;
-          if (ok && region && info.region !== region) ok = false;
-          if (ok && locality && info.locality !== locality) ok = false;
-          if (ok && type && info.type !== type) ok = false;
-          if (ok && qTokens.length) {
-            for (const t of qTokens) {
-              if (!info.hay.includes(t)) {
-                ok = false;
-                break;
-              }
-            }
-          }
-          if (ok && minPrice != null && info.price < minPrice) ok = false;
-          if (ok && maxPrice != null && info.price && info.price > maxPrice) ok = false;
-          if (ok && minRooms != null && info.rooms != null && info.rooms < minRooms) ok = false;
-          if (ok && minSurface != null && info.surface != null && info.surface < minSurface) ok = false;
-          if (ok && tags.length) {
-            for (const t of tags) {
-              if (!info.tagsTxt.includes(t)) {
-                ok = false;
-                break;
-              }
-            }
-          }
-
-          el.style.display = ok ? "" : "none";
-
-          if (ok) {
-            totalVisible += 1;
-            if (info.category === "sale") saleVisible += 1;
-            if (info.category === "rent") rentVisible += 1;
-          }
-        }
-
-        const totalEl = document.querySelector("[data-biens-count]");
-        const saleEl = document.querySelector("[data-biens-sale-count]");
-        const rentEl = document.querySelector("[data-biens-rent-count]");
-        if (totalEl) totalEl.textContent = `${totalVisible} bien${totalVisible > 1 ? "s" : ""}`;
-        if (saleEl) saleEl.textContent = `${saleVisible} bien${saleVisible > 1 ? "s" : ""}`;
-        if (rentEl) rentEl.textContent = `${rentVisible} bien${rentVisible > 1 ? "s" : ""}`;
-      })();
-    </script>
+    <script type="module" src="./scripts/app.js?v=202606110006"></script>
   </body>
 </html>

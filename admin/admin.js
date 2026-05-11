@@ -1,5 +1,6 @@
-import { showToast } from "../scripts/ui.js";
+import { showToast, formatRooms } from "../scripts/ui.js";
 import { getListingPhotos } from "../scripts/listings-data.js";
+import { getLang, initI18n, t } from "../scripts/i18n.js?v=202606110006";
 
 const listHost = document.querySelector("[data-admin-list]");
 const countEl = document.querySelector("[data-admin-count]");
@@ -39,6 +40,8 @@ let stateTags = [];
 let stateGallery = [];
 let dragIndex = null;
 
+initI18n();
+
 function escapeHtml(s) {
   return String(s)
     .replaceAll("&", "&amp;")
@@ -60,7 +63,7 @@ async function api(path, opts = {}) {
   const res = await fetch(path, { cache: "no-store", ...opts });
   const data = await res.json().catch(() => ({}));
   if (!res.ok || data.ok === false) {
-    const msg = data.error || `Erreur (${res.status})`;
+    const msg = data.error || (getLang() === "en" ? `Error (${res.status})` : `Erreur (${res.status})`);
     throw new Error(msg);
   }
   return data;
@@ -71,7 +74,7 @@ async function uploadFiles(files) {
   for (const f of files) fd.append("files", f, f.name);
   const res = await fetch("/api/admin/upload", { method: "POST", body: fd, cache: "no-store" });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok || data.ok === false) throw new Error(data.error || `Erreur (${res.status})`);
+  if (!res.ok || data.ok === false) throw new Error(data.error || (getLang() === "en" ? `Error (${res.status})` : `Erreur (${res.status})`));
   const out = Array.isArray(data.files) ? data.files : [];
   return out.map((x) => x.url).filter(Boolean);
 }
@@ -117,15 +120,15 @@ function renderGallery() {
   galleryHost.innerHTML = stateGallery
     .map((url, idx) => {
       const isMain = main && url === main;
-      const k = isMain ? "Main" : `#${idx + 1}`;
+      const k = isMain ? (getLang() === "en" ? "Main" : "Principal") : `#${idx + 1}`;
       return `
         <div class="admin-thumb" draggable="true" data-admin-idx="${idx}">
           <img src="${escapeHtml(url)}" alt="" loading="lazy" />
           <div class="bar">
             <div class="k">${escapeHtml(k)}</div>
             <div class="btns">
-              <button class="admin-mini-btn" type="button" data-admin-set-main="${idx}">Main</button>
-              <button class="admin-mini-btn" type="button" data-admin-remove-photo="${idx}">Suppr</button>
+              <button class="admin-mini-btn" type="button" data-admin-set-main="${idx}">${escapeHtml(getLang() === "en" ? "Main" : "Principal")}</button>
+              <button class="admin-mini-btn" type="button" data-admin-remove-photo="${idx}">${escapeHtml(getLang() === "en" ? "Remove" : "Suppr")}</button>
             </div>
           </div>
         </div>
@@ -141,7 +144,7 @@ function rebuildTagSuggest() {
     if (!Array.isArray(l.tags)) continue;
     all.push(...l.tags);
   }
-  const unique = uniq(all).sort((a, b) => a.localeCompare(b, "fr"));
+  const unique = uniq(all).sort((a, b) => a.localeCompare(b, getLang() === "en" ? "en" : "fr"));
   tagSuggest.innerHTML = unique.map((t) => `<option value="${escapeHtml(t)}"></option>`).join("");
 }
 
@@ -205,7 +208,7 @@ function updatePreview() {
   if (previewTitle) previewTitle.textContent = d.title || "—";
   if (previewMeta) {
     const left = [d.region, d.locality].filter(Boolean).join(" — ");
-    const right = [d.propertyType, d.rooms != null ? `${String(d.rooms).replace(".", ",")} p.` : "", d.surface != null ? `${d.surface} m²` : ""]
+    const right = [d.propertyType, d.rooms != null ? formatRooms(d.rooms) : "", d.surface != null ? `${d.surface} m²` : ""]
       .filter(Boolean)
       .join(" • ");
     previewMeta.textContent = [left, right].filter(Boolean).join(" • ");
@@ -227,13 +230,14 @@ function renderList() {
   listHost.innerHTML = filtered
     .map((l) => {
       const active = l.id === selectedId ? " style=\"border-color: rgba(200,161,74,.7)\"" : "";
-      const status = l.status === "sold" ? "Vendu" : l.status === "rented" ? "Loué" : "";
+      const status = l.status === "sold" ? t("status.sold") : l.status === "rented" ? t("status.rented") : "";
+      const cat = l.category === "sale" ? t("biens.btn.sale") : t("biens.btn.rent");
       return `
         <button class="btn" type="button" data-admin-pick="${escapeHtml(l.id)}"${active} style="justify-content:flex-start;width:100%">
           <span style="font-weight:900">${escapeHtml(l.id)}</span>
           <span style="opacity:.7">—</span>
           <span style="font-weight:800">${escapeHtml(l.title || "")}</span>
-          ${status ? `<span class="tag" style="margin-left:auto">${escapeHtml(status)}</span>` : `<span style="margin-left:auto;opacity:.6">${escapeHtml(l.category === "sale" ? "Vente" : "Location")}</span>`}
+          ${status ? `<span class="tag" style="margin-left:auto">${escapeHtml(status)}</span>` : `<span style="margin-left:auto;opacity:.6">${escapeHtml(cat)}</span>`}
         </button>
       `;
     })
@@ -271,7 +275,7 @@ btnNew?.addEventListener("click", () => {
     rooms: 3.5,
     surface: 80,
     price: 0,
-    priceSuffix: "/mois",
+    priceSuffix: t("home.priceSuffix.month"),
     tags: [],
     image: "",
     gallery: [],
@@ -282,9 +286,9 @@ btnNew?.addEventListener("click", () => {
 btnRefresh?.addEventListener("click", async () => {
   try {
     await load();
-    showToast("Données rafraîchies.");
+    showToast(t("admin.toast.refreshed"));
   } catch (e) {
-    showToast(e.message || "Erreur.");
+    showToast(e.message || t("admin.toast.error"));
   }
 });
 
@@ -292,7 +296,7 @@ btnSave?.addEventListener("click", async () => {
   try {
     const draft = normalizeDraftFromForm();
     if (!draft.id) {
-      showToast("Référence requise.");
+      showToast(t("admin.toast.referenceRequired"));
       return;
     }
     const exists = listings.some((l) => l.id === draft.id);
@@ -300,15 +304,15 @@ btnSave?.addEventListener("click", async () => {
       await api("/api/admin/listings", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(draft) });
       selectedId = draft.id;
       await load();
-      showToast("Bien créé.");
+      showToast(t("admin.toast.created"));
       return;
     }
     await api(`/api/admin/listing?id=${encodeURIComponent(draft.id)}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(draft) });
     selectedId = draft.id;
     await load();
-    showToast("Bien enregistré.");
+    showToast(t("admin.toast.saved"));
   } catch (e) {
-    showToast(e.message || "Erreur.");
+    showToast(e.message || t("admin.toast.error"));
   }
 });
 
@@ -316,14 +320,14 @@ btnDelete?.addEventListener("click", async () => {
   try {
     const draft = normalizeDraftFromForm();
     if (!draft.id) return;
-    const ok = window.confirm(`Supprimer ${draft.id} ?`);
+    const ok = window.confirm(t("admin.confirm.delete", { id: draft.id }));
     if (!ok) return;
     await api(`/api/admin/listing?id=${encodeURIComponent(draft.id)}`, { method: "DELETE" });
     selectedId = "";
     await load();
-    showToast("Bien supprimé.");
+    showToast(t("admin.toast.deleted"));
   } catch (e) {
-    showToast(e.message || "Erreur.");
+    showToast(e.message || t("admin.toast.error"));
   }
 });
 
@@ -373,9 +377,9 @@ async function handleUploadToGallery(files) {
       if (imageUrlInput) imageUrlInput.value = urls[0];
       form.image.value = urls[0];
     }
-    showToast("Photos ajoutées.");
+    showToast(t("admin.toast.photosAdded"));
   } catch (e) {
-    showToast(e.message || "Upload impossible.");
+    showToast(e.message || t("admin.toast.uploadFailed"));
   } finally {
     if (galleryUploadInput) galleryUploadInput.value = "";
   }
@@ -404,13 +408,13 @@ async function handleUploadMain() {
   try {
     const urls = await uploadFiles([f]);
     const url = urls[0];
-    if (!url) throw new Error("Upload impossible.");
+    if (!url) throw new Error(t("admin.toast.uploadFailed"));
     if (imageUrlInput) imageUrlInput.value = url;
     form.image.value = url;
     if (!stateGallery.includes(url)) setGallery([url, ...stateGallery]);
-    showToast("Image principale mise à jour.");
+    showToast(t("admin.toast.mainImageUpdated"));
   } catch (e) {
-    showToast(e.message || "Upload impossible.");
+    showToast(e.message || t("admin.toast.uploadFailed"));
   } finally {
     if (imageUploadInput) imageUploadInput.value = "";
   }

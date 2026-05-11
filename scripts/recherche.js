@@ -2,6 +2,9 @@ import { getListingSearchText, normalizeForSearch, getListingFeatures, getAllTag
 import { renderListings } from "./listings-ui.js";
 import { getQueryParams, initAutocomplete } from "./ui.js";
 import { loadListings } from "./listings-store.js";
+import { getLang, t } from "./i18n.js?v=202606110006";
+
+let langBound = false;
 
 function getSelectedCategories(form) {
   const cat = form.cat?.value;
@@ -80,7 +83,9 @@ function hydrateLocalities(listings, region) {
   if (!el) return;
   const base = listings.filter((l) => !region || l.region === region).map((l) => l.locality);
   const unique = [...new Set(base)].sort((a, b) => a.localeCompare(b, "fr"));
-  el.innerHTML = `<option value="">Toutes</option>` + unique.map((v) => `<option value="${escapeAttr(v)}">${escapeHtml(v)}</option>`).join("");
+  el.innerHTML =
+    `<option value="">${escapeHtml(t("search.region.all"))}</option>` +
+    unique.map((v) => `<option value="${escapeAttr(v)}">${escapeHtml(v)}</option>`).join("");
 }
 
 function escapeHtml(s) {
@@ -114,8 +119,22 @@ export async function initRecherche() {
   const tagsHost = document.querySelector("#filters-modal [data-tags-list]");
   if (tagsHost) {
     const tags = getAllTags();
+    const translateTag = (raw) => {
+      const v = String(raw || "").trim();
+      if (v === "Cheminée") return t("tag.fireplace");
+      if (v === "Jardin") return t("tag.garden");
+      if (v === "Terrasse") return t("tag.terrace");
+      if (v === "Balcon") return t("tag.balcony");
+      if (v === "Garage") return t("tag.garage");
+      if (v === "Ascenseur") return t("tag.elevator");
+      if (v === "Calme") return t("tag.quiet");
+      if (v === "Rénové") return t("tag.renovated");
+      if (v === "Neuf") return t("tag.new");
+      if (v === "Proche gare") return t("tag.nearStation");
+      return v;
+    };
     tagsHost.innerHTML = tags
-      .map((t) => `<label class="filter-chip"><input type="checkbox" name="tags" value="${t}"><span>${t}</span></label>`)
+      .map((v) => `<label class="filter-chip"><input type="checkbox" name="tags" value="${escapeAttr(v)}"><span>${escapeHtml(translateTag(v))}</span></label>`)
       .join("");
   }
 
@@ -166,7 +185,8 @@ export async function initRecherche() {
     const sorted = sortListings(filtered, filters.sort);
     renderListings(grid, sorted);
     if (count) {
-      count.textContent = sorted.length > 0 ? `Afficher ${sorted.length} objet${sorted.length > 1 ? "s" : ""}` : "Aucun résultat";
+      const plural = sorted.length > 1 ? "s" : "";
+      count.textContent = sorted.length > 0 ? t("search.showCount", { n: sorted.length, plural }) : t("search.none");
     }
     if (empty) empty.style.display = sorted.length ? "none" : "";
   };
@@ -177,13 +197,20 @@ export async function initRecherche() {
   const setPriceOptions = (mode) => {
     if (!maxPriceQuick) return;
     const opts = [];
-    opts.push({ v: "", t: "indiff." });
+    opts.push({ v: "", t: t("search.any") });
     if (mode === "rent") {
       const values = [500, 800, 1000, 1200, 1500, 2000, 2500, 3000, 4000, 5000, 7000, 10000];
-      for (const v of values) opts.push({ v: String(v), t: v.toLocaleString("fr-CH") + " CHF" });
+      for (const v of values) {
+        const locale = getLang() === "en" ? "en-CH" : "fr-CH";
+        opts.push({ v: String(v), t: v.toLocaleString(locale) + " CHF" });
+      }
     } else {
       const values = [100000, 200000, 300000, 400000, 500000, 700000, 900000, 1000000, 1500000, 2000000];
-      for (const v of values) opts.push({ v: String(v), t: v >= 1000000 ? (v/1000000) + " Mio CHF" : v.toLocaleString("fr-CH") + " CHF" });
+      for (const v of values) {
+        const locale = getLang() === "en" ? "en-CH" : "fr-CH";
+        const million = getLang() === "en" ? "M" : "Mio";
+        opts.push({ v: String(v), t: v >= 1000000 ? (v / 1000000) + ` ${million} CHF` : v.toLocaleString(locale) + " CHF" });
+      }
     }
     maxPriceQuick.innerHTML = opts.map(o => `<option value="${o.v}">${o.t}</option>`).join("");
   };
@@ -203,6 +230,15 @@ export async function initRecherche() {
       setTab(tab.getAttribute("data-search-tab"));
     });
   });
+
+  if (!langBound) {
+    langBound = true;
+    window.addEventListener("dcki:lang", () => {
+      const mode = (catInput && catInput.value) || "rent";
+      setPriceOptions(mode);
+      update();
+    });
+  }
 
   if (qp.sale === "1") setTab("sale");
   else if (qp.rent === "1") setTab("rent");

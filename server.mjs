@@ -209,7 +209,11 @@ async function writeListings(listings) {
   await fs.promises.writeFile(LISTINGS_FILE, JSON.stringify(listings, null, 2), "utf8");
 }
 
-function normalizeListingPayload(payload) {
+function hasOwn(obj, key) {
+  return !!obj && Object.prototype.hasOwnProperty.call(obj, key);
+}
+
+function normalizeListingPayload(payload, prev) {
   const out = {};
   out.id = String(payload?.id || "").trim();
   out.category = payload?.category === "sale" ? "sale" : "rent";
@@ -217,6 +221,10 @@ function normalizeListingPayload(payload) {
   out.propertyType = String(payload?.propertyType || "").trim();
   out.title = String(payload?.title || "").trim();
   out.description = String(payload?.description || "").trim();
+  out.title_en = hasOwn(payload, "title_en") ? String(payload?.title_en || "").trim() : String(prev?.title_en || "").trim();
+  out.description_en = hasOwn(payload, "description_en")
+    ? String(payload?.description_en || "").trim()
+    : String(prev?.description_en || "").trim();
   out.region = String(payload?.region || "").trim();
   out.locality = String(payload?.locality || "").trim();
   out.rooms = Number(payload?.rooms);
@@ -312,7 +320,7 @@ function createServer() {
       (async () => {
         const raw = await readBody(req);
         const payload = JSON.parse(raw.toString("utf8") || "{}");
-        const listing = normalizeListingPayload(payload);
+        const listing = normalizeListingPayload(payload, null);
         const errMsg = validateListing(listing);
         if (errMsg) {
           json(res, 400, { ok: false, error: errMsg });
@@ -353,7 +361,7 @@ function createServer() {
         }
         const raw = await readBody(req);
         const payload = JSON.parse(raw.toString("utf8") || "{}");
-        const listing = normalizeListingPayload({ ...payload, id });
+        const listing = normalizeListingPayload({ ...payload, id }, listings[idx]);
         const errMsg = validateListing(listing);
         if (errMsg) {
           json(res, 400, { ok: false, error: errMsg });
@@ -386,7 +394,7 @@ function createServer() {
 
         const raw = await readBody(req);
         const payload = JSON.parse(raw.toString("utf8") || "{}");
-        const listing = normalizeListingPayload({ ...payload, id });
+        const listing = normalizeListingPayload({ ...payload, id }, listings[idx]);
         const errMsg = validateListing(listing);
         if (errMsg) {
           json(res, 400, { ok: false, error: errMsg });

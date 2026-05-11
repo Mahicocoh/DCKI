@@ -1,4 +1,5 @@
 import { showToast } from "../scripts/ui.js";
+import { initI18n, t } from "../scripts/i18n.js?v=202606110006";
 
 const qs = new URLSearchParams(window.location.search);
 const next = qs.get("next") || "/admin/index.html";
@@ -6,8 +7,10 @@ const next = qs.get("next") || "/admin/index.html";
 const form = document.querySelector("[data-admin-login]");
 const hint = document.querySelector("[data-admin-login-hint]");
 
+initI18n();
+
 if (hint) {
-  hint.textContent = "Astuce: les identifiants sont configurés côté serveur.";
+  hint.textContent = t("admin.login.tip");
 }
 
 form?.addEventListener("submit", async (e) => {
@@ -25,12 +28,12 @@ form?.addEventListener("submit", async (e) => {
     });
     const data = await res.json().catch(() => ({}));
     if (!res.ok || !data.ok) {
-      showToast(data.error || "Connexion impossible.");
+      showToast(data.error || t("admin.login.failed"));
       return;
     }
     window.location.replace(next);
   } catch {
-    showToast("Connexion impossible.");
+    showToast(t("admin.login.failed"));
   }
 });
 

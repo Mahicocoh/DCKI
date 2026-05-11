@@ -6,7 +6,7 @@
     <title>Contact — DCKImmo</title>
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202605032100" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606110001" />
   </head>
   <body data-page="contact">
     <header class="topbar">
@@ -25,6 +25,7 @@
             </button>
             <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
             <nav class="topbar-menu-panel" data-nav>
+              <div class="topbar-menu-links">
               <a href="./index.html">
                 <span class="nav-ico" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -100,7 +101,25 @@
                   <span class="nav-sub">Espace administrateur</span>
                 </span>
               </a>
+              </div>
               <div class="topbar-menu-footer">
+                <div class="topbar-menu-contact">
+                  <a class="topbar-menu-phone" href="tel:+41787338717" aria-label="Appeler le 078 733 87 17">
+                    <span class="topbar-menu-phone-ico" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.9v2a2 2 0 0 1-2.2 2 20 20 0 0 1-8.7-3.1 19.6 19.6 0 0 1-6-6A20 20 0 0 1 2 4.2 2 2 0 0 1 4 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.45 2.1L7.4 9.6a16 16 0 0 0 7 7l1.1-1.1a2 2 0 0 1 2.1-.45c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9Z"></path>
+                      </svg>
+                    </span>
+                    <span>078 733 87 17</span>
+                  </a>
+                  <div class="topbar-menu-hours">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 2"></path>
+                    </svg>
+                    <span>Lu – Ve, 08h00 – 18h30</span>
+                  </div>
+                </div>
                 <div class="topbar-menu-footer-block">
                   <div class="topbar-menu-footer-k">Réseaux</div>
                   <div class="topbar-menu-footer-social">
@@ -209,14 +228,26 @@
                   <p class="team-desc">
                     Contact direct, conseils clairs et organisation des visites selon vos disponibilités.
                   </p>
-                  <div class="team-proof">Réponse sous 24 heures • Visites 7/7</div>
+                  <div class="team-proof">
+                    <span class="team-proof-item">
+                      <span class="team-proof-ico" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                          <circle cx="12" cy="12" r="9"></circle>
+                          <path d="M12 7v5l3 2"></path>
+                        </svg>
+                      </span>
+                      <span>Réponse sous 24 heures</span>
+                    </span>
+                  </div>
                   <div class="team-contact">
                     <a href="tel:+41787338717" class="btn primary">Appeler maintenant</a>
                     <a href="#formulaire" class="btn">Envoyer un message</a>
                     <a href="#formulaire" class="btn" data-open-appointment>Prendre rendez-vous</a>
                   </div>
                 </div>
-                <div class="team-photo is-silhouette" aria-hidden="true"></div>
+                <div class="team-photo">
+                  <img src="./assets/a48e2531-28c5-4e36-88c9-c211fc88fd93-cutout.png" alt="Silhouette du référent immobilier" loading="lazy" decoding="async" />
+                </div>
               </div>
             </div>
           </div>
@@ -286,12 +317,12 @@
                   <div class="field">
                     <span class="label">Type de demande</span>
                     <select class="control" name="request_type" required id="contact-request-type">
-                      <option>Demande de visite</option>
-                      <option>Demande de dossier</option>
-                      <option>Louer un bien</option>
-                      <option>Acheter un bien</option>
-                      <option>Conseils</option>
-                      <option>Question</option>
+                      <option value="Demande de visite">Demande de visite</option>
+                      <option value="Demande de dossier">Demande de dossier</option>
+                      <option value="Louer un bien">Louer un bien</option>
+                      <option value="Acheter un bien">Acheter un bien</option>
+                      <option value="Conseils">Conseils</option>
+                      <option value="Question">Question</option>
                     </select>
                   </div>
                   <div class="field full appointment-planner" data-appointment-planner hidden>
@@ -408,7 +439,7 @@
                   </span>
                   <div class="footer-contact-text">
                     <div class="footer-contact-k">Adresse</div>
-                    <div class="footer-contact-v">Courtételle</div>
+                    <div class="footer-contact-v">Courtételle Jura</div>
                   </div>
                 </div>
               </div>
@@ -450,6 +481,6 @@
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
-    <script type="module" src="./scripts/app.js?v=202605032100"></script>
+    <script type="module" src="./scripts/app.js?v=202606110006"></script>
   </body>
 </html>

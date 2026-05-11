@@ -1,6 +1,7 @@
-import { CATEGORY_LABEL, getListingFeatures, getListingPhotos, getListingFacts } from "./listings-data.js";
+import { getListingFeatures, getListingPhotos, getListingFacts } from "./listings-data.js";
 import { formatCHF, formatRooms, showToast } from "./ui.js";
 import { loadListings } from "./listings-store.js";
+import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202606110006";
 
 function escapeHtml(s) {
   return String(s)
@@ -24,12 +25,12 @@ function ensureModal() {
   modal.setAttribute("data-modal", "1");
   modal.innerHTML = `
     <div class="backdrop" data-close></div>
-    <div class="dialog" role="dialog" aria-modal="true" aria-label="Détail du bien">
+    <div class="dialog" role="dialog" aria-modal="true" aria-label="${escapeAttr(t("listing.modalLabel"))}">
       <div class="dialog-grid">
         <div class="media" data-gallery>
           <img data-modal-img alt="" />
-          <button class="nav prev" type="button" aria-label="Photo précédente" data-photo-prev>‹</button>
-          <button class="nav next" type="button" aria-label="Photo suivante" data-photo-next>›</button>
+          <button class="nav prev" type="button" aria-label="${escapeAttr(t("aria.prevPhoto"))}" data-photo-prev>‹</button>
+          <button class="nav next" type="button" aria-label="${escapeAttr(t("aria.nextPhoto"))}" data-photo-next>›</button>
           <div class="count" data-photo-count></div>
         </div>
         <div class="content">
@@ -39,15 +40,15 @@ function ensureModal() {
               <h3 data-modal-title></h3>
               <div class="meta" data-modal-meta></div>
             </div>
-            <button class="close" type="button" aria-label="Fermer" data-close>✕</button>
+            <button class="close" type="button" aria-label="${escapeAttr(t("common.close"))}" data-close>✕</button>
           </div>
           <p class="desc" data-modal-desc></p>
           <div class="facts" data-modal-facts></div>
           <div class="features" data-modal-features></div>
           <div class="cta">
-            <a class="btn primary" href="./dossier.html" data-modal-cta-dossier>Demande de dossier</a>
-            <a class="btn" href="./index.html#contact" data-modal-cta-visit>Demander une visite</a>
-            <button class="btn" type="button" data-copy-ref>Copier la référence</button>
+            <a class="btn primary" href="./dossier.html" data-modal-cta-dossier>${escapeHtml(t("listing.requestDossier"))}</a>
+            <a class="btn" href="./index.html#contact" data-modal-cta-visit>${escapeHtml(t("listing.requestVisit"))}</a>
+            <button class="btn" type="button" data-copy-ref>${escapeHtml(t("listing.copyRef"))}</button>
           </div>
         </div>
       </div>
@@ -94,7 +95,12 @@ function openModal(listing) {
   const dossierBtn = modal.querySelector("[data-modal-cta-dossier]");
   const visitBtn = modal.querySelector("[data-modal-cta-visit]");
 
-  img.alt = listing.title;
+  const titleText = pickListingText(listing, "title");
+  const descText = pickListingText(listing, "description");
+  const regionText = translateRegionName(listing.region);
+  const typeText = translatePropertyType(listing.propertyType);
+
+  img.alt = titleText;
   state.listingId = listing.id;
   state.photos = getListingPhotos(listing, 10);
   setPhoto(modal, 0);
@@ -116,40 +122,41 @@ function openModal(listing) {
     rawStatus === "loue" ||
     rawStatus === "louee" ||
     rawStatus.includes("rented");
-  const statusLabel = isSold ? "Vendu" : isRented ? "Loué" : "";
+  const statusLabel = isSold ? t("status.sold") : isRented ? t("status.rented") : "";
   const isUnavailable = isSold || isRented;
+  const categoryLabel = listing.category === "sale" ? t("biens.btn.sale") : listing.category === "rent" ? t("biens.btn.rent") : "";
   pill.innerHTML = `
     <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
-    <strong style="letter-spacing:.02em">${escapeHtml(CATEGORY_LABEL[listing.category] || "")}</strong>
+    <strong style="letter-spacing:.02em">${escapeHtml(categoryLabel)}</strong>
     <span style="opacity:.65">•</span>
-    <span style="opacity:.85">${escapeHtml(listing.propertyType)}</span>
+    <span style="opacity:.85">${escapeHtml(typeText)}</span>
     <span style="opacity:.65">•</span>
     <span style="opacity:.85">${escapeHtml(listing.id)}</span>
     ${statusLabel ? `<span style="opacity:.65">•</span><span style="opacity:.95">${escapeHtml(statusLabel)}</span>` : ""}
   `;
 
-  title.textContent = listing.title;
-  meta.textContent = `${listing.region} — ${listing.locality} • ${formatRooms(listing.rooms)} • ${listing.surface} m²`;
-  desc.textContent = listing.description || "";
+  title.textContent = titleText;
+  meta.textContent = `${regionText} — ${listing.locality} • ${formatRooms(listing.rooms)} • ${listing.surface} m²`;
+  desc.textContent = descText || "";
 
   const price = `${formatCHF(listing.price)}${listing.priceSuffix ? ` ${listing.priceSuffix}` : ""}`;
   const factsObj = getListingFacts(listing);
   facts.innerHTML = `
     <span class="tag">${escapeHtml(price)}</span>
-    <span class="tag">${escapeHtml(listing.region)}</span>
+    <span class="tag">${escapeHtml(regionText)}</span>
     <span class="tag">${escapeHtml(listing.locality)}</span>
-    <span class="tag">${escapeHtml(listing.propertyType)}</span>
-    ${factsObj.availableFrom ? `<span class="tag">Disponible dès ${escapeHtml(factsObj.availableFrom)}</span>` : ""}
-    ${factsObj.floor != null ? `<span class="tag">Étage ${escapeHtml(String(factsObj.floor))}</span>` : ""}
-    ${factsObj.bathrooms != null ? `<span class="tag">${escapeHtml(String(factsObj.bathrooms))} sdb</span>` : ""}
-    ${factsObj.newBuild ? `<span class="tag">Nouvelle construction</span>` : ""}
-    ${factsObj.parking ? `<span class="tag">Parking</span>` : ""}
-    ${factsObj.quietArea ? `<span class="tag">Quartier calme</span>` : ""}
-    ${factsObj.childrenFriendly ? `<span class="tag">Adapté aux enfants</span>` : ""}
+    <span class="tag">${escapeHtml(typeText)}</span>
+    ${factsObj.availableFrom ? `<span class="tag">${escapeHtml(t("listing.availableFrom", { date: factsObj.availableFrom }))}</span>` : ""}
+    ${factsObj.floor != null ? `<span class="tag">${escapeHtml(t("listing.floor"))} ${escapeHtml(String(factsObj.floor))}</span>` : ""}
+    ${factsObj.bathrooms != null ? `<span class="tag">${escapeHtml(String(factsObj.bathrooms))} ${escapeHtml(t("listing.bath"))}</span>` : ""}
+    ${factsObj.newBuild ? `<span class="tag">${escapeHtml(t("listing.newBuild"))}</span>` : ""}
+    ${factsObj.parking ? `<span class="tag">${escapeHtml(t("listing.parking"))}</span>` : ""}
+    ${factsObj.quietArea ? `<span class="tag">${escapeHtml(t("listing.quietArea"))}</span>` : ""}
+    ${factsObj.childrenFriendly ? `<span class="tag">${escapeHtml(t("listing.childrenFriendly"))}</span>` : ""}
   `;
 
   const list = getListingFeatures(listing, 36);
-  features.innerHTML = list.map((f) => `<span class="tag">${escapeHtml(f)}</span>`).join("");
+  features.innerHTML = list.map((f) => `<span class="tag">${escapeHtml(translateListingFeature(f))}</span>`).join("");
 
   if (isUnavailable) {
     if (dossierBtn instanceof HTMLAnchorElement) {
@@ -166,7 +173,7 @@ function openModal(listing) {
     }
   } else {
     if (dossierBtn instanceof HTMLAnchorElement) {
-      const type = listing.category === "sale" ? "Achat" : "Location";
+      const type = listing.category === "sale" ? "sale" : listing.category === "rent" ? "rent" : "";
       dossierBtn.setAttribute("href", `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(listing.id)}`);
       dossierBtn.removeAttribute("aria-disabled");
       dossierBtn.tabIndex = 0;
@@ -195,8 +202,8 @@ function openModal(listing) {
         </svg>
       </div>
       <div class="t">
-        <div class="k">Indisponible</div>
-        <div class="v">Ce bien est ${escapeHtml(statusLabel)}. Les demandes sont désactivées.</div>
+        <div class="k">${escapeHtml(t("listing.unavailableTitle"))}</div>
+        <div class="v">${escapeHtml(t("listing.unavailableMsg", { status: statusLabel }))}</div>
       </div>
     `;
     cta.appendChild(note);
@@ -205,9 +212,9 @@ function openModal(listing) {
   copyBtn.onclick = async () => {
     try {
       await navigator.clipboard.writeText(listing.id);
-      showToast(`Référence copiée : ${listing.id}`);
+      showToast(t("listing.refCopied", { id: listing.id }));
     } catch {
-      showToast(`Référence : ${listing.id}`);
+      showToast(t("listing.ref", { id: listing.id }));
     }
   };
 

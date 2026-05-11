@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202605032100" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606110001" />
   </head>
   <body data-page="listing">
     <header class="topbar">
@@ -27,6 +27,7 @@
             </button>
             <div class="topbar-menu-overlay" data-topbar-menu-overlay aria-hidden="true"></div>
             <nav class="topbar-menu-panel" data-nav>
+              <div class="topbar-menu-links">
               <a href="./index.html">
                 <span class="nav-ico" aria-hidden="true">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -102,7 +103,25 @@
                   <span class="nav-sub">Espace administrateur</span>
                 </span>
               </a>
+              </div>
               <div class="topbar-menu-footer">
+                <div class="topbar-menu-contact">
+                  <a class="topbar-menu-phone" href="tel:+41787338717" aria-label="Appeler le 078 733 87 17">
+                    <span class="topbar-menu-phone-ico" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.9v2a2 2 0 0 1-2.2 2 20 20 0 0 1-8.7-3.1 19.6 19.6 0 0 1-6-6A20 20 0 0 1 2 4.2 2 2 0 0 1 4 2h2a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.45 2.1L7.4 9.6a16 16 0 0 0 7 7l1.1-1.1a2 2 0 0 1 2.1-.45c.9.3 1.8.5 2.7.6A2 2 0 0 1 22 16.9Z"></path>
+                      </svg>
+                    </span>
+                    <span>078 733 87 17</span>
+                  </a>
+                  <div class="topbar-menu-hours">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 2"></path>
+                    </svg>
+                    <span>Lu – Ve, 08h00 – 18h30</span>
+                  </div>
+                </div>
                 <div class="topbar-menu-footer-block">
                   <div class="topbar-menu-footer-k">Réseaux</div>
                   <div class="topbar-menu-footer-social">
@@ -237,12 +256,12 @@
                   <div class="field">
                     <span class="label">Type de demande</span>
                     <select class="control" required data-appointment-request-type>
-                      <option>Demande de visite</option>
-                      <option>Demande de dossier</option>
-                      <option>Louer un bien</option>
-                      <option>Acheter un bien</option>
-                      <option>Conseils</option>
-                      <option>Question</option>
+                      <option value="visit">Demande de visite</option>
+                      <option value="dossier">Demande de dossier</option>
+                      <option value="rent">Louer un bien</option>
+                      <option value="buy">Acheter un bien</option>
+                      <option value="advice">Conseils</option>
+                      <option value="question">Question</option>
                     </select>
                   </div>
                   <div class="field full appointment-planner" data-appointment-planner hidden>
@@ -353,7 +372,7 @@
                   </span>
                   <div class="footer-contact-text">
                     <div class="footer-contact-k">Adresse</div>
-                    <div class="footer-contact-v">Courtételle</div>
+                    <div class="footer-contact-v">Courtételle Jura</div>
                   </div>
                 </div>
               </div>
@@ -392,7 +411,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202605032100"></script>
+    <script type="module" src="./scripts/app.js?v=202606110006"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
@@ -402,6 +421,71 @@
         const titleEl = document.querySelector("[data-listing-title]");
         if (!titleEl) return;
         if (String(titleEl.textContent || "").trim()) return;
+
+        const lang = (window.localStorage.getItem("dcki_lang") || "fr").trim().toLowerCase() === "en" ? "en" : "fr";
+        const isEn = lang === "en";
+        const pick = (fr, en) => (isEn ? en : fr);
+        const translateRegion = (v) => (isEn && String(v || "").trim() === "Jura bernois" ? "Bernese Jura" : String(v || "").trim());
+        const translateType = (v) => {
+          const raw = String(v || "").trim();
+          if (!isEn) return raw;
+          if (raw === "Appartement") return "Apartment";
+          if (raw === "Maison") return "House";
+          if (raw === "Villa") return "Villa";
+          return raw;
+        };
+        const translateFeature = (v) => {
+          const raw = String(v || "").trim();
+          if (!isEn) return raw;
+          if (raw === "Centre") return "City center";
+          if (raw === "Ascenseur") return "Elevator";
+          if (raw === "Cheminée") return "Fireplace";
+          if (raw === "Balcon") return "Balcony";
+          if (raw === "Terrasse") return "Terrace";
+          if (raw === "Jardin") return "Garden";
+          if (raw === "Garage") return "Garage";
+          if (raw === "Calme") return "Quiet";
+          if (raw === "Rénové") return "Renovated";
+          if (raw === "Neuf") return "New";
+          if (raw === "Proche gare") return "Near the station";
+          if (raw === "Piscine") return "Pool";
+          if (raw === "Cave") return "Cellar";
+          if (raw === "Grenier") return "Attic";
+          if (raw === "Buanderie") return "Laundry room";
+          if (raw === "Laverie commune") return "Shared laundry";
+          if (raw === "Parking extérieur") return "Outdoor parking";
+          if (raw === "Place couverte") return "Covered parking";
+          if (raw === "Local vélos") return "Bike storage";
+          if (raw === "Panneaux solaires") return "Solar panels";
+          if (raw === "Pompe à chaleur") return "Heat pump";
+          if (raw === "Chauffage au sol") return "Underfloor heating";
+          if (raw === "Double vitrage") return "Double glazing";
+          if (raw === "Stores électriques") return "Electric blinds";
+          if (raw === "Cuisine équipée") return "Equipped kitchen";
+          if (raw === "Cuisine ouverte") return "Open kitchen";
+          if (raw === "Dressing") return "Walk-in closet";
+          if (raw === "Suite parentale") return "Master suite";
+          if (raw === "Baignoire") return "Bathtub";
+          if (raw === "Douche à l’italienne") return "Walk-in shower";
+          if (raw === "Vue dégagée") return "Open view";
+          if (raw === "Proche écoles") return "Near schools";
+          if (raw === "Proche commerces") return "Near shops";
+          if (raw === "Accès autoroute") return "Highway access";
+          if (raw === "Sans vis-à-vis") return "No overlooking";
+          if (raw === "Fibre optique") return "Fiber internet";
+          if (raw === "Domotique") return "Home automation";
+          if (raw === "Interphone") return "Intercom";
+          if (raw === "Porte sécurisée") return "Security door";
+          if (raw === "Animaux acceptés") return "Pets allowed";
+          if (raw === "Meublé") return "Furnished";
+          if (raw === "Hauteur sous plafond") return "High ceilings";
+          if (raw === "Parquet") return "Wood flooring";
+          if (raw === "Carrelage") return "Tile";
+          if (raw === "Orientation sud") return "South-facing";
+          if (raw === "Accès PMR") return "Accessible";
+          if (raw === "Charges comprises") return "Utilities included";
+          return raw;
+        };
 
         const qp = new URLSearchParams(window.location.search);
         const id = qp.get("id") || "";
@@ -636,14 +720,84 @@
         const formatRooms = (v) => {
           const n = Number(v);
           if (!Number.isFinite(n) || n <= 0) return "";
-          return `${n.toString().replace(".", ",")} p.`;
+          const out = isEn ? n.toString() : n.toString().replace(".", ",");
+          return isEn ? `${out} rooms` : `${out} p.`;
         };
 
         const formatCHF = (v) => {
           const n = Number(v);
           if (!Number.isFinite(n) || n <= 0) return "";
-          return new Intl.NumberFormat("fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
+          return new Intl.NumberFormat(isEn ? "en-CH" : "fr-CH", { style: "currency", currency: "CHF", maximumFractionDigits: 0 }).format(n);
         };
+
+        const setText = (sel, txt) => {
+          const el = document.querySelector(sel);
+          if (el instanceof HTMLElement) el.textContent = txt;
+        };
+
+        setText("a.btn.ghost.small[href=\"./biens.html\"]", pick("← Retour aux biens", "← Back to properties"));
+        setText(".panel .inner h3:nth-of-type(1)", pick("Description", "Description"));
+        setText(".panel .inner h3:nth-of-type(2)", pick("Caractéristiques", "Features"));
+        setText(".panel .inner h3:nth-of-type(3)", pick("Contact", "Contact"));
+        setText("#demande-visite", pick("Demande de visite", "Viewing request"));
+        setText(".cta a.btn.primary[href^=\"./dossier.html\"]", pick("Demande de dossier", "Application file"));
+        setText(".cta a.btn[href^=\"#demande-visite\"]", pick("Demander une visite", "Request a viewing"));
+
+        const map = document.querySelector(".map[aria-label]");
+        if (map instanceof HTMLElement) map.setAttribute("aria-label", pick("Carte Google Maps du bien", "Google Maps for this property"));
+        const mapIframe = document.querySelector("[data-listing-map-iframe]");
+        if (mapIframe instanceof HTMLIFrameElement) mapIframe.title = pick("Carte", "Map");
+        const openMapsBtn = document.querySelector("[data-listing-open-maps]");
+        if (openMapsBtn instanceof HTMLAnchorElement) openMapsBtn.textContent = pick("Ouvrir dans Maps", "Open in Maps");
+        const openMaps3dBtn = document.querySelector("[data-listing-open-maps-3d]");
+        if (openMaps3dBtn instanceof HTMLAnchorElement) openMaps3dBtn.textContent = pick("Vue 3D Google Maps", "Google Maps 3D view");
+
+        const contactKs = Array.from(document.querySelectorAll(".contact-cards .contact-card .k"));
+        if (contactKs[0] instanceof HTMLElement) contactKs[0].textContent = pick("Contact", "Contact");
+        if (contactKs[1] instanceof HTMLElement) contactKs[1].textContent = pick("Téléphone", "Phone");
+        if (contactKs[2] instanceof HTMLElement) contactKs[2].textContent = pick("Email", "Email");
+        if (contactKs[3] instanceof HTMLElement) contactKs[3].textContent = pick("Adresse", "Address");
+
+        const formLabels = Array.from(document.querySelectorAll("#listing-form .label"));
+        if (formLabels[0] instanceof HTMLElement) formLabels[0].textContent = pick("Nom", "Name");
+        if (formLabels[1] instanceof HTMLElement) formLabels[1].textContent = pick("Email", "Email");
+        if (formLabels[2] instanceof HTMLElement) formLabels[2].textContent = pick("Téléphone", "Phone");
+        if (formLabels[3] instanceof HTMLElement) formLabels[3].textContent = pick("Type de demande", "Request type");
+        const apptLabel = document.querySelector("#listing-form .field.full.appointment-planner .label");
+        if (apptLabel instanceof HTMLElement) apptLabel.textContent = pick("Disponibilités pour la visite", "Availability for the viewing");
+        if (formLabels[formLabels.length - 1] instanceof HTMLElement) formLabels[formLabels.length - 1].textContent = pick("Message", "Message");
+
+        const formName = document.querySelector("#listing-form input[placeholder]");
+        if (formName instanceof HTMLInputElement) formName.placeholder = pick("Nom Prénom", "Full name");
+        const formMsg = document.querySelector("#listing-form textarea[data-appointment-message]");
+        if (formMsg instanceof HTMLTextAreaElement) formMsg.placeholder = pick("Vos disponibilités, questions, informations…", "Your availability, questions, details…");
+        const sendBtn = document.querySelector("#listing-form button[type=\"submit\"]");
+        if (sendBtn instanceof HTMLButtonElement) sendBtn.textContent = pick("Envoyer", "Send");
+
+        const typeSel = document.querySelector("#listing-form select[data-appointment-request-type]");
+        if (typeSel instanceof HTMLSelectElement) {
+          for (const opt of Array.from(typeSel.options)) {
+            const v = (opt.value || "").trim();
+            if (v === "visit") opt.textContent = pick("Demande de visite", "Viewing request");
+            if (v === "dossier") opt.textContent = pick("Demande de dossier", "Application file");
+            if (v === "rent") opt.textContent = pick("Louer un bien", "Rent a property");
+            if (v === "buy") opt.textContent = pick("Acheter un bien", "Buy a property");
+            if (v === "advice") opt.textContent = pick("Conseils", "Advice");
+            if (v === "question") opt.textContent = pick("Question", "Question");
+          }
+        }
+
+        const lb = document.getElementById("photo-lightbox");
+        if (lb instanceof HTMLElement) {
+          const img = lb.querySelector("img[alt]");
+          if (img instanceof HTMLImageElement) img.alt = pick("Agrandissement photo", "Photo enlargement");
+          const prev = lb.querySelector(".nav.prev[aria-label]");
+          if (prev instanceof HTMLElement) prev.setAttribute("aria-label", pick("Photo précédente", "Previous photo"));
+          const next = lb.querySelector(".nav.next[aria-label]");
+          if (next instanceof HTMLElement) next.setAttribute("aria-label", pick("Photo suivante", "Next photo"));
+          const close = lb.querySelector("button.close[aria-label]");
+          if (close instanceof HTMLElement) close.setAttribute("aria-label", pick("Fermer", "Close"));
+        }
 
         const pill = document.querySelector("[data-listing-pill]");
         const metaEl = document.querySelector("[data-listing-meta]");
@@ -652,7 +806,7 @@
         const featsEl = document.querySelector("[data-listing-features]");
         const dossierBtn = document.querySelector(".cta a.btn.primary[href$='dossier.html']");
 
-        const catLabel = listing.category === "sale" ? "À vendre" : "À louer";
+        const catLabel = listing.category === "sale" ? pick("À vendre", "For sale") : pick("À louer", "For rent");
         const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
 
         if (pill) {
@@ -660,16 +814,16 @@
             <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
             <strong style="letter-spacing:.02em">${catLabel}</strong>
             <span style="opacity:.65">•</span>
-            <span style="opacity:.85">${listing.propertyType}</span>
+            <span style="opacity:.85">${translateType(listing.propertyType)}</span>
             <span style="opacity:.65">•</span>
             <span style="opacity:.85">${id || ""}</span>
           `;
         }
 
-        titleEl.textContent = listing.title || "";
-        if (metaEl) metaEl.textContent = `${listing.region} — ${listing.locality} • ${formatRooms(listing.rooms)}${listing.surface ? ` • ${listing.surface} m²` : ""}`;
+        titleEl.textContent = isEn ? (listing.title_en || (id ? `Property ${id}` : "Property — DCKImmo")) : listing.title || "";
+        if (metaEl) metaEl.textContent = `${translateRegion(listing.region)} — ${listing.locality} • ${formatRooms(listing.rooms)}${listing.surface ? ` • ${listing.surface} m²` : ""}`;
         if (priceEl) priceEl.textContent = `${formatCHF(listing.price)}${listing.priceSuffix ? ` ${listing.priceSuffix}` : ""}`.trim();
-        if (descEl) descEl.textContent = listing.desc || "";
+        if (descEl) descEl.textContent = isEn ? (listing.desc_en || "Description unavailable. Open the site via localhost to load all dynamic information.") : listing.desc || "";
 
         if (featsEl) {
           const pool = [
@@ -690,18 +844,18 @@
             seen.add(s);
             out.push(s);
           }
-          featsEl.innerHTML = out.map((t) => `<span class="tag">${t}</span>`).join("");
+          featsEl.innerHTML = out.map((t) => `<span class="tag">${translateFeature(t)}</span>`).join("");
         }
 
         if (dossierBtn && id) {
-          const type = listing.category === "sale" ? "Achat" : "Location";
+          const type = listing.category === "sale" ? "sale" : listing.category === "rent" ? "rent" : "";
           dossierBtn.setAttribute("href", `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`);
         }
 
         const mapIframe = document.querySelector("[data-listing-map-iframe]");
         const openMaps = document.querySelector("[data-listing-open-maps]");
         const openMaps3d = document.querySelector("[data-listing-open-maps-3d]");
-        const mapQuery = `${listing.locality}, ${listing.region}, Suisse`;
+        const mapQuery = `${listing.locality}, ${translateRegion(listing.region)}, Suisse`;
         const mapQ = encodeURIComponent(mapQuery);
         if (mapIframe) {
           mapIframe.src = `https://www.google.com/maps?q=${mapQ}&t=k&z=19&output=embed`;
