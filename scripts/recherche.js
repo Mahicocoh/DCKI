@@ -1,8 +1,8 @@
 import { getListingSearchText, normalizeForSearch, getListingFeatures, getAllTags } from "./listings-data.js";
 import { renderListings } from "./listings-ui.js";
-import { getQueryParams, initAutocomplete } from "./ui.js";
-import { loadListings } from "./listings-store.js?v=202606110009";
-import { getLang, t } from "./i18n.js?v=202606110006";
+import { getQueryParams, initAutocomplete } from "./ui.js?v=202606120001";
+import { loadListings } from "./listings-store.js?v=202606120001";
+import { getLang, t } from "./i18n.js?v=202606120001";
 
 let langBound = false;
 

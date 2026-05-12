@@ -1,5 +1,5 @@
-import { showToast } from "../scripts/ui.js";
-import { initI18n, t } from "../scripts/i18n.js?v=202606110006";
+import { showToast } from "../scripts/ui.js?v=202606120001";
+import { initI18n, t } from "../scripts/i18n.js?v=202606120001";
 
 const qs = new URLSearchParams(window.location.search);
 const next = qs.get("next") || "/admin/index.html";
