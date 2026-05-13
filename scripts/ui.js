@@ -1036,46 +1036,332 @@ export function initAutocomplete(inputId, listId) {
   const list = document.getElementById(listId);
   if (!input || !list) return;
 
-  input.addEventListener("input", (e) => {
-    const val = e.target.value;
+  const form = input.closest("form");
+  const isSmartOn = () => {
+    const toggle = form?.querySelector?.("[data-smart-toggle]");
+    return toggle instanceof HTMLInputElement ? toggle.checked : false;
+  };
+
+  const render = (matches) => {
     list.innerHTML = "";
-    if (!val) {
+    if (!matches.length) {
       list.classList.remove("show");
       return;
     }
-
-    const q = normalizeForSearch(val);
-    const matches = LOCALITIES.filter(l => 
-      normalizeForSearch(l.name).includes(q) || 
-      normalizeForSearch(l.zip).includes(q) ||
-      normalizeForSearch(l.region).includes(q)
-    ).slice(0, 8); // max 8 results
-
-    if (matches.length > 0) {
-      matches.forEach(m => {
-        const div = document.createElement("div");
-        div.className = "autocomplete-item";
-        div.innerHTML = `<strong>${m.name}</strong> <span class="region">${m.zip} - ${m.region}</span>`;
-        div.addEventListener("click", () => {
-          input.value = m.name;
-          list.classList.remove("show");
-          // Dispatch input event to trigger form updates if needed
-          input.dispatchEvent(new Event("input", { bubbles: true }));
-        });
-        list.appendChild(div);
+    for (const m of matches) {
+      const div = document.createElement("div");
+      div.className = "autocomplete-item";
+      div.innerHTML = `<strong>${m.name}</strong> <span class="region">${m.zip} - ${m.region}</span>`;
+      div.addEventListener("click", () => {
+        input.value = m.name;
+        list.classList.remove("show");
+        input.dispatchEvent(new Event("input", { bubbles: true }));
       });
-      list.classList.add("show");
-    } else {
-      list.classList.remove("show");
+      list.appendChild(div);
     }
-  });
+    list.classList.add("show");
+  };
+
+  const getMatches = (val) => {
+    const q = normalizeForSearch(val || "");
+    const base = LOCALITIES.filter((l) => {
+      const name = normalizeForSearch(l.name);
+      const zip = normalizeForSearch(l.zip);
+      const region = normalizeForSearch(l.region);
+      return !q || name.includes(q) || zip.includes(q) || region.includes(q);
+    });
+    return base.slice(0, 8);
+  };
+
+  const open = () => {
+    if (isSmartOn()) {
+      list.classList.remove("show");
+      return;
+    }
+    render(getMatches(input.value));
+  };
+
+  input.addEventListener("input", open);
+  input.addEventListener("focus", open);
 
   // Close when clicking outside
   document.addEventListener("click", (e) => {
-    if (e.target !== input && e.target !== list) {
+    const t = e.target;
+    if (t !== input && !(t instanceof Node && list.contains(t))) {
       list.classList.remove("show");
     }
   });
+}
+
+function toIntFromText(v) {
+  const s = String(v ?? "").trim();
+  if (!s) return null;
+  const cleaned = s.replace(/[^\d]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : null;
+}
+
+function toNumberFromText(v) {
+  const s = String(v ?? "").trim();
+  if (!s) return null;
+  const cleaned = s.replace(",", ".").replace(/[^\d.]/g, "");
+  const n = Number(cleaned);
+  return Number.isFinite(n) ? n : null;
+}
+
+export function smartSearchToFilters(raw) {
+  const text = String(raw ?? "").trim();
+  const s = normalizeForSearch(text);
+  const out = {
+    cat: "",
+    region: "",
+    locality: "",
+    propertyType: "",
+    maxPrice: null,
+    minRooms: null,
+    minSurface: null,
+    tags: [],
+    nearStation: false,
+    nearSchool: false,
+    nearHighway: false,
+  };
+
+  if (!s) return out;
+
+  if (/\b(acheter|achat|vente|a vendre|vendre|vend)\b/.test(s)) out.cat = "sale";
+  if (/\b(louer|location|a louer|locat)\b/.test(s)) out.cat = "rent";
+
+  if (s.includes("jura bernois")) out.region = "Jura bernois";
+  else if (/\bjura\b/.test(s)) out.region = "Jura";
+
+  if (/\b(appartement|appart|studio)\b/.test(s)) out.propertyType = "Appartement";
+  if (/\b(maison)\b/.test(s)) out.propertyType = "Maison";
+  if (/\b(villa)\b/.test(s)) out.propertyType = "Villa";
+
+  const mMax =
+    s.match(/(?:\bmax(?:imum)?\b|\bjusqu'?a\b|\bjusqu a\b|<=|<)\s*([0-9][0-9'’ .,]*)\s*(?:chf|fr|.-)?\b/) ||
+    s.match(/\b([0-9][0-9'’ .,]*)\s*(?:chf|fr|.-)\b/);
+  if (mMax) out.maxPrice = toIntFromText(mMax[1]);
+
+  const mRooms = s.match(/(\d+(?:[.,]\d+)?)\s*(?:p|pieces|piece|rooms|room)\b/);
+  if (mRooms) out.minRooms = toNumberFromText(mRooms[1]);
+
+  const mSurf = s.match(/(\d{2,4})\s*(?:m2|m²)\b/);
+  if (mSurf) out.minSurface = toIntFromText(mSurf[1]);
+
+  out.nearStation = /\b(gare|train|station)\b/.test(s);
+  out.nearSchool = /\b(ecole|school)\b/.test(s);
+  out.nearHighway = /\b(autoroute|a16|highway)\b/.test(s);
+
+  const tagRules = [
+    { re: /\bcheminee\b/, v: "Cheminée" },
+    { re: /\bjardin\b/, v: "Jardin" },
+    { re: /\bterrasse\b/, v: "Terrasse" },
+    { re: /\bbalcon\b/, v: "Balcon" },
+    { re: /\bloggia\b/, v: "Loggia" },
+    { re: /\bgarage\b/, v: "Garage" },
+    { re: /\bascenseur\b/, v: "Ascenseur" },
+    { re: /\bcalme\b/, v: "Calme" },
+    { re: /\brenove\b/, v: "Rénové" },
+    { re: /\bneuf\b/, v: "Neuf" },
+  ];
+  for (const r of tagRules) {
+    if (r.re.test(s)) out.tags.push(r.v);
+  }
+  if (out.nearStation) out.tags.push("Proche gare");
+
+  const byLen = [...LOCALITIES].sort((a, b) => String(b.name).length - String(a.name).length);
+  for (const loc of byLen) {
+    const key = normalizeForSearch(loc?.name || "");
+    if (key && s.includes(key)) {
+      out.locality = loc.name;
+      break;
+    }
+  }
+
+  out.tags = [...new Set(out.tags)];
+  return out;
+}
+
+export function mountSmartSearch() {
+  const smartToggles = Array.from(document.querySelectorAll("[data-smart-toggle]"));
+  for (const toggle of smartToggles) {
+    if (!(toggle instanceof HTMLInputElement)) continue;
+    const form = toggle.closest("form");
+    if (!(form instanceof HTMLFormElement)) continue;
+    const q = form.querySelector("input[name='q']");
+    if (!(q instanceof HTMLInputElement)) continue;
+    const help = form.querySelector("[data-smart-help]");
+
+    const defaultPh = q.getAttribute("placeholder") || "";
+    const smartPh = "Que cherches-tu ?";
+    q.setAttribute("data-smart-default-ph", defaultPh);
+    q.setAttribute("data-smart-ph", smartPh);
+
+    const apply = () => {
+      const enabled = toggle.checked;
+      q.placeholder = enabled ? smartPh : (q.getAttribute("data-smart-default-ph") || defaultPh);
+      const list = form.querySelector(".autocomplete-list");
+      if (list instanceof HTMLElement) list.classList.remove("show");
+      if (help instanceof HTMLElement) {
+        help.classList.toggle("is-on", enabled);
+        help.setAttribute("aria-hidden", enabled ? "false" : "true");
+      }
+    };
+    toggle.addEventListener("change", apply);
+    apply();
+  }
+
+  const form = document.querySelector("form[data-home-search]");
+  if (!form) return;
+
+  form.addEventListener("submit", (e) => {
+    const smartToggle = form.querySelector("[data-smart-toggle]");
+    if (!(smartToggle instanceof HTMLInputElement) || !smartToggle.checked) return;
+
+    const q = form.querySelector("input[name='q']");
+    if (!(q instanceof HTMLInputElement)) return;
+    const raw = q.value.trim();
+    if (!raw) return;
+
+    const f = smartSearchToFilters(raw);
+    const hasSignal =
+      Boolean(f.cat || f.region || f.locality || f.propertyType) ||
+      f.maxPrice != null ||
+      f.minRooms != null ||
+      f.minSurface != null ||
+      f.nearStation ||
+      f.nearSchool ||
+      f.nearHighway ||
+      (Array.isArray(f.tags) && f.tags.length);
+    if (!hasSignal) return;
+
+    e.preventDefault();
+
+    const p = new URLSearchParams(new FormData(form));
+    p.delete("q");
+
+    if (f.cat) p.set("cat", f.cat);
+    if (f.region) p.set("region", f.region);
+    if (f.locality) p.set("locality", f.locality);
+    if (f.propertyType) p.set("type", f.propertyType);
+    if (f.maxPrice != null) p.set("maxPrice", String(f.maxPrice));
+    if (f.minRooms != null) p.set("minRooms", String(f.minRooms));
+    if (f.minSurface != null) p.set("minSurface", String(f.minSurface));
+
+    const pickedTags = Array.from(form.querySelectorAll("input[name='tags']:checked")).map((i) => i.value);
+    const tags = [...new Set([...(pickedTags || []), ...(f.tags || [])])].filter(Boolean);
+    p.delete("tags");
+    if (tags.length) p.set("tags", tags.join(","));
+
+    p.delete("nearStation");
+    p.delete("nearSchool");
+    p.delete("nearHighway");
+    if (f.nearStation) p.set("nearStation", "1");
+    if (f.nearSchool) p.set("nearSchool", "1");
+    if (f.nearHighway) p.set("nearHighway", "1");
+
+    const url = `${form.getAttribute("action") || "./biens.html"}?${p.toString()}`;
+    window.location.href = url;
+  });
+}
+
+export function mountHomeSearchRanges() {
+  const form = document.querySelector("form[data-home-search]");
+  if (!form) return;
+
+  if (document.getElementById("home-q") && document.getElementById("home-autocomplete")) {
+    initAutocomplete("home-q", "home-autocomplete");
+  }
+
+  const minPriceSel = form.querySelector("select[name='minPrice']");
+  const maxPriceSel = form.querySelector("select[name='maxPrice']");
+  const maxRoomsSel = form.querySelector("select[name='maxRooms']");
+  const minSurfaceSel = form.querySelector("select[name='minSurface']");
+  const maxSurfaceSel = form.querySelector("select[name='maxSurface']");
+
+  const formatCHF = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "’");
+  const fmtRooms = (v) => String(v).replace(".", ",");
+  const range = (from, to, step) => {
+    const out = [];
+    for (let v = from; v <= to; v += step) out.push(v);
+    return out;
+  };
+  const getPriceValues = (mode) => {
+    if (mode === "rent") return range(500, 5000, 250);
+    if (mode === "sale") {
+      const a = range(50000, 500000, 50000);
+      const b = range(600000, 1000000, 100000);
+      const c = range(1250000, 3000000, 250000);
+      return [...a, ...b, ...c];
+    }
+    const all = [...range(500, 5000, 250), ...range(50000, 500000, 50000), ...range(600000, 1000000, 100000), ...range(1250000, 3000000, 250000)];
+    return [...new Set(all)].sort((x, y) => x - y);
+  };
+  const getRoomsValues = () => {
+    const out = [];
+    for (let v = 1; v <= 8.001; v += 0.5) out.push(Number(v.toFixed(1)));
+    return out;
+  };
+  const getSurfaceValues = () => range(25, 300, 25);
+
+  const fillSelect = (el, values, labeler) => {
+    if (!(el instanceof HTMLSelectElement)) return;
+    const keep = el.value;
+    el.innerHTML = [`<option value="">indiff.</option>`].concat(values.map((v) => `<option value="${v}">${labeler(v)}</option>`)).join("");
+    if (keep) el.value = keep;
+  };
+
+  const toNumber = (v) => {
+    const n = Number(String(v ?? "").replace(",", "."));
+    return Number.isFinite(n) ? n : null;
+  };
+  const toInt = (v) => {
+    const s = String(v ?? "").trim();
+    if (!s) return null;
+    const cleaned = s.replace(/[^\d]/g, "");
+    const n = Number(cleaned);
+    return Number.isFinite(n) ? n : null;
+  };
+  const ensureMinMax = (minEl, maxEl, coerce) => {
+    if (!(minEl instanceof HTMLSelectElement) || !(maxEl instanceof HTMLSelectElement)) return;
+    const a = coerce(minEl.value);
+    const b = coerce(maxEl.value);
+    if (a == null || b == null) return;
+    if (a <= b) return;
+    maxEl.value = minEl.value;
+  };
+
+  if (minPriceSel instanceof HTMLSelectElement && maxPriceSel instanceof HTMLSelectElement) {
+    minPriceSel.addEventListener("change", () => ensureMinMax(minPriceSel, maxPriceSel, toInt));
+    maxPriceSel.addEventListener("change", () => ensureMinMax(minPriceSel, maxPriceSel, toInt));
+  }
+  if (minSurfaceSel instanceof HTMLSelectElement && maxSurfaceSel instanceof HTMLSelectElement) {
+    minSurfaceSel.addEventListener("change", () => ensureMinMax(minSurfaceSel, maxSurfaceSel, toInt));
+    maxSurfaceSel.addEventListener("change", () => ensureMinMax(minSurfaceSel, maxSurfaceSel, toInt));
+  }
+  const minRoomsSel = form.querySelector("select[name='minRooms']");
+  if (minRoomsSel instanceof HTMLSelectElement && maxRoomsSel instanceof HTMLSelectElement) {
+    minRoomsSel.addEventListener("change", () => ensureMinMax(minRoomsSel, maxRoomsSel, toNumber));
+    maxRoomsSel.addEventListener("change", () => ensureMinMax(minRoomsSel, maxRoomsSel, toNumber));
+  }
+
+  const update = () => {
+    const mode = (form.querySelector("input[name='cat']:checked")?.value || "").trim();
+    fillSelect(minPriceSel, getPriceValues(mode), (v) => `${formatCHF(v)} CHF`);
+    fillSelect(maxPriceSel, getPriceValues(mode), (v) => `${formatCHF(v)} CHF`);
+    fillSelect(maxRoomsSel, getRoomsValues(), (v) => fmtRooms(v));
+    fillSelect(minSurfaceSel, getSurfaceValues(), (v) => `${v} m²`);
+    fillSelect(maxSurfaceSel, getSurfaceValues(), (v) => `${v} m²`);
+    ensureMinMax(minPriceSel, maxPriceSel, toInt);
+    ensureMinMax(minSurfaceSel, maxSurfaceSel, toInt);
+    ensureMinMax(minRoomsSel, maxRoomsSel, toNumber);
+  };
+
+  for (const r of form.querySelectorAll("input[name='cat']")) {
+    r.addEventListener("change", update);
+  }
+  update();
 }
 
 export function mountWhatsAppFab() {
@@ -1123,6 +1409,80 @@ export function mountToTopFab() {
   });
 
   document.body.appendChild(a);
+}
+
+export function mountCantonBubbles() {
+  const hosts = Array.from(document.querySelectorAll(".advice-map-right")).filter((el) => el.querySelector(".advice-map-bubble"));
+  if (!hosts.length) return;
+
+  const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const isMobile = window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches;
+
+  const setBubbleAria = (host, on) => {
+    const bubble = host.querySelector(".advice-map-bubble");
+    if (!(bubble instanceof HTMLElement)) return;
+    bubble.setAttribute("aria-hidden", on ? "false" : "true");
+  };
+
+  const closeAll = () => {
+    for (const el of hosts) {
+      if (!(el instanceof HTMLElement)) continue;
+      el.classList.remove("is-bubble-on");
+      setBubbleAria(el, false);
+    }
+  };
+
+  if (isMobile) {
+    for (const host of hosts) {
+      if (!(host instanceof HTMLElement)) continue;
+      host.addEventListener("click", (e) => {
+        const insideBubble = e.target instanceof HTMLElement && Boolean(e.target.closest(".advice-map-bubble"));
+        if (insideBubble) return;
+        const next = !host.classList.contains("is-bubble-on");
+        closeAll();
+        host.classList.toggle("is-bubble-on", next);
+        setBubbleAria(host, next);
+      });
+    }
+
+    document.addEventListener("click", (e) => {
+      const t = e.target;
+      if (!(t instanceof HTMLElement)) return;
+      if (t.closest(".advice-map-right")) return;
+      closeAll();
+    });
+    return;
+  }
+
+  if (reduced || typeof IntersectionObserver === "undefined") return;
+
+  const seen = new WeakSet();
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        const host = entry.target;
+        if (!(host instanceof HTMLElement)) continue;
+        if (!entry.isIntersecting) continue;
+        if (seen.has(host)) continue;
+        seen.add(host);
+
+        host.classList.add("is-bubble-peek");
+        setBubbleAria(host, true);
+        window.setTimeout(() => {
+          host.classList.remove("is-bubble-peek");
+          setBubbleAria(host, false);
+        }, 1800);
+
+        io.unobserve(host);
+      }
+    },
+    { threshold: 0.6 }
+  );
+
+  for (const host of hosts) {
+    if (!(host instanceof HTMLElement)) continue;
+    io.observe(host);
+  }
 }
 
 function normalizeKey(s) {
@@ -1419,6 +1779,149 @@ function getCardPhotos(card) {
 }
 
 let stateListings = null;
+
+const FAVORITES_STORAGE_KEY = "dcki_favorites_v1";
+let favoritesCache = null;
+
+function loadFavoritesSet() {
+  if (favoritesCache) return favoritesCache;
+  try {
+    const raw = localStorage.getItem(FAVORITES_STORAGE_KEY);
+    const arr = raw ? JSON.parse(raw) : [];
+    favoritesCache = new Set(Array.isArray(arr) ? arr.map((v) => String(v)) : []);
+  } catch {
+    favoritesCache = new Set();
+  }
+  return favoritesCache;
+}
+
+function saveFavoritesSet(set) {
+  try {
+    localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(Array.from(set)));
+  } catch {}
+}
+
+export function isFavorite(listingId) {
+  const id = String(listingId || "").trim();
+  if (!id) return false;
+  return loadFavoritesSet().has(id);
+}
+
+export function toggleFavorite(listingId) {
+  const id = String(listingId || "").trim();
+  if (!id) return false;
+  const set = loadFavoritesSet();
+  const next = !set.has(id);
+  if (next) set.add(id);
+  else set.delete(id);
+  saveFavoritesSet(set);
+  return next;
+}
+
+function favoriteIconSvg() {
+  return `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"></path>
+    </svg>
+  `;
+}
+
+function ensureFavButton(button) {
+  if (!(button instanceof HTMLElement)) return;
+  if (button.dataset.favBound === "1") return;
+  button.dataset.favBound = "1";
+  if (!(button instanceof HTMLButtonElement)) {
+    if (!button.hasAttribute("role")) button.setAttribute("role", "button");
+    if (!button.hasAttribute("tabindex")) button.setAttribute("tabindex", "0");
+  }
+  if (!button.innerHTML.trim()) button.innerHTML = favoriteIconSvg();
+}
+
+function updateFavButton(button, fav) {
+  if (!(button instanceof HTMLElement)) return;
+  ensureFavButton(button);
+  button.setAttribute("aria-pressed", fav ? "true" : "false");
+  button.setAttribute("aria-label", fav ? "Retirer des favoris" : "Ajouter aux favoris");
+  button.classList.toggle("is-on", fav);
+}
+
+function getFavIdFromButton(button) {
+  const raw = button.getAttribute("data-fav-id") || "";
+  if (raw) return raw;
+  const card = button.closest(".card.listing");
+  if (card instanceof HTMLElement) return getCardListingId(card);
+  return "";
+}
+
+function syncFavoritesUI(root = document) {
+  const scope = root && typeof root.querySelectorAll === "function" ? root : document;
+  const set = loadFavoritesSet();
+  for (const card of Array.from(scope.querySelectorAll(".card.listing"))) {
+    const id = getCardListingId(card);
+    if (!id) continue;
+    card.classList.toggle("is-fav", set.has(id));
+  }
+  for (const btn of Array.from(scope.querySelectorAll("[data-fav-btn]"))) {
+    if (!(btn instanceof HTMLElement)) continue;
+    const id = getFavIdFromButton(btn);
+    if (!id) continue;
+    updateFavButton(btn, set.has(id));
+  }
+}
+
+export function mountFavorites() {
+  for (const card of Array.from(document.querySelectorAll(".card.listing"))) {
+    const media = card.querySelector(".media");
+    if (!(media instanceof HTMLElement)) continue;
+    let btn = media.querySelector("[data-fav-btn]");
+    if (!(btn instanceof HTMLElement)) {
+      btn = document.createElement("span");
+      btn.className = "fav-btn";
+      btn.setAttribute("role", "button");
+      btn.setAttribute("tabindex", "0");
+      btn.setAttribute("data-fav-btn", "");
+      media.appendChild(btn);
+    }
+    ensureFavButton(btn);
+    const id = getCardListingId(card);
+    if (id) btn.setAttribute("data-fav-id", id);
+  }
+
+  for (const btn of Array.from(document.querySelectorAll("[data-fav-btn]"))) {
+    ensureFavButton(btn);
+  }
+
+  if (document.body.dataset.favDelegationBound !== "1") {
+    document.body.dataset.favDelegationBound = "1";
+    document.addEventListener("click", (e) => {
+      const t = e.target;
+      const btn = t instanceof Element ? t.closest("[data-fav-btn]") : null;
+      if (!(btn instanceof HTMLElement)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const id = getFavIdFromButton(btn);
+      if (!id) return;
+      const fav = toggleFavorite(id);
+      syncFavoritesUI(document);
+      updateFavButton(btn, fav);
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const t = e.target;
+      const btn = t instanceof Element ? t.closest("[data-fav-btn]") : null;
+      if (!(btn instanceof HTMLElement)) return;
+      e.preventDefault();
+      e.stopPropagation();
+      const id = getFavIdFromButton(btn);
+      if (!id) return;
+      const fav = toggleFavorite(id);
+      syncFavoritesUI(document);
+      updateFavButton(btn, fav);
+    });
+  }
+
+  syncFavoritesUI(document);
+}
 
 export function mountCardGalleries() {
   (async () => {

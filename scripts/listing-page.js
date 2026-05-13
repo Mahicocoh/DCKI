@@ -1,5 +1,5 @@
 import { getListingFacts, getListingFeatures, getListingPhotos } from "./listings-data.js";
-import { formatCHF, formatRooms, showToast, getQueryParams, mountTagIcons } from "./ui.js?v=202606120001";
+import { formatCHF, formatRooms, showToast, getQueryParams, mountTagIcons, isFavorite } from "./ui.js?v=202606130002";
 import { loadListings } from "./listings-store.js?v=202606120001";
 import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202606120001";
 
@@ -83,6 +83,14 @@ function render(listing) {
   }
 
   if (title) title.textContent = titleText;
+  const fav = isFavorite(listing.id);
+  for (const favBtn of Array.from(document.querySelectorAll("[data-fav-btn][data-fav-id]"))) {
+    if (!(favBtn instanceof HTMLElement)) continue;
+    favBtn.setAttribute("data-fav-id", listing.id);
+    favBtn.setAttribute("aria-pressed", fav ? "true" : "false");
+    favBtn.setAttribute("aria-label", fav ? "Retirer des favoris" : "Ajouter aux favoris");
+    favBtn.classList.toggle("is-on", fav);
+  }
   if (meta) meta.textContent = `${regionText} — ${listing.locality} • ${formatRooms(listing.rooms)} • ${listing.surface} m²`;
 
   const facts = getListingFacts(listing);

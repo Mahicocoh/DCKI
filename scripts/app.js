@@ -1,11 +1,11 @@
-import { mountLoader } from "./loader.js?v=202606120001";
-import { initI18n } from "./i18n.js?v=202606120001";
-import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountTagIcons, mountConstructionToasts } from "./ui.js?v=202606120001";
-import { initRecherche } from "./recherche.js?v=202606120001";
-import { initBiens } from "./biens.js?v=202606120001";
+import { mountLoader } from "./loader.js?v=202606130002";
+import { initI18n } from "./i18n.js?v=202606130002";
+import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountTagIcons, mountConstructionToasts, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges } from "./ui.js?v=202606130002";
+import { initRecherche } from "./recherche.js?v=202606130002";
+import { initBiens } from "./biens.js?v=202606130002";
 import { initHome } from "./home.js";
 import { initVideoFallbacks } from "./video-fallback.js";
-import { initListingPage } from "./listing-page.js?v=202606120001";
+import { initListingPage } from "./listing-page.js?v=202606130002";
 
 mountLoader();
 
@@ -20,6 +20,9 @@ mountM2Calculator();
 mountRentMaxCalculator();
 mountRateCalculator();
 wireForms();
+mountSmartSearch();
+mountHomeSearchRanges();
+mountCantonBubbles();
 mountAppointmentPlanner();
 mountTypewriters();
 mountDossierPrefill();
@@ -27,6 +30,7 @@ initVideoFallbacks();
 mountWhatsAppFab();
 mountToTopFab();
 mountCardGalleries();
+mountFavorites();
 mountReveals();
 mountCountUps();
 mountTestimonials();

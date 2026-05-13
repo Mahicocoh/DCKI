@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
 <html lang="fr">
   <head>
     <meta charset="UTF-8" />
@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202606120028" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606130006" />
   </head>
   <body data-page="home">
     <a id="top"></a>
@@ -301,33 +301,55 @@
 
               <div class="is24-body">
                 <div class="is24-field large">
-                  <span class="is24-label">Où?</span>
+                  <div class="is24-smartbar">
+                    <span class="is24-label">Où?</span>
+                    <label class="is24-smart-toggle">
+                      <input type="checkbox" data-smart-toggle />
+                      <span>Recherche intelligente</span>
+                    </label>
+                  </div>
                   <div class="autocomplete-wrapper">
-                    <input class="is24-control" name="q" id="home-q" list="localities-list" autocomplete="off" placeholder="Localité, NPA, Canton..." />
+                    <input class="is24-control" name="q" id="home-q" autocomplete="off" placeholder="Localité, NPA, Canton..." />
                     <div class="autocomplete-list" id="home-autocomplete"></div>
+                    <div class="is24-smart-help" data-smart-help aria-hidden="true">
+                      Écris ta phrase (ex : 3,5 pièces à louer, max 1800, proche gare)
+                    </div>
                   </div>
                 </div>
                 
                 <div class="is24-field">
                   <span class="is24-label">Prix de</span>
-                  <input class="is24-control" name="minPrice" inputmode="numeric" placeholder="min" />
+                  <select class="is24-control" name="minPrice" data-price-min>
+                    <option value="">indiff.</option>
+                  </select>
                 </div>
                 
                 <div class="is24-field">
                   <span class="is24-label">à</span>
-                  <input class="is24-control" name="maxPrice" inputmode="numeric" placeholder="max" />
+                  <select class="is24-control" name="maxPrice" data-price-max>
+                    <option value="">indiff.</option>
+                  </select>
                 </div>
 
                 <div class="is24-field">
                   <span class="is24-label">Pièces de</span>
-                  <select class="is24-control" name="minRooms">
+                  <select class="is24-control" name="minRooms" data-rooms-min>
                     <option value="">indiff.</option>
                     <option value="1">1</option>
+                    <option value="1.5">1,5</option>
                     <option value="2">2</option>
+                    <option value="2.5">2,5</option>
                     <option value="3">3</option>
+                    <option value="3.5">3,5</option>
                     <option value="4">4</option>
+                    <option value="4.5">4,5</option>
                     <option value="5">5</option>
+                    <option value="5.5">5,5</option>
                     <option value="6">6</option>
+                    <option value="6.5">6,5</option>
+                    <option value="7">7</option>
+                    <option value="7.5">7,5</option>
+                    <option value="8">8</option>
                   </select>
                 </div>
 
@@ -358,11 +380,33 @@
                         </div>
                         <div class="field">
                           <span class="label">Surface min (m²)</span>
-                          <input class="control" name="minSurface" inputmode="numeric" placeholder="ex : 70" />
+                          <select class="control" name="minSurface" data-surface-min>
+                            <option value="">indiff.</option>
+                          </select>
+                        </div>
+                        <div class="field">
+                          <span class="label">Surface max (m²)</span>
+                          <select class="control" name="maxSurface" data-surface-max>
+                            <option value="">indiff.</option>
+                          </select>
+                        </div>
+                        <div class="field">
+                          <span class="label">Pièces max</span>
+                          <select class="control" name="maxRooms" data-rooms-max>
+                            <option value="">indiff.</option>
+                          </select>
                         </div>
                         <div class="field">
                           <span class="label">Commune (exacte)</span>
                           <input class="control" name="locality" placeholder="ex : Tavannes" />
+                        </div>
+                        <div class="field full">
+                          <span class="label">Proximité</span>
+                          <div class="filter-chips">
+                            <label class="filter-chip"><input type="checkbox" name="nearStation" value="1"><span>Proche d’une gare</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="nearSchool" value="1"><span>Proche d’une école</span></label>
+                            <label class="filter-chip"><input type="checkbox" name="nearHighway" value="1"><span>Accès autoroute</span></label>
+                          </div>
                         </div>
                         <div class="field full">
                           <span class="label">Caractéristiques</span>
@@ -790,6 +834,14 @@
                   <a class="advice-map-cta" href="./contact.html#formulaire">En savoir plus <span aria-hidden="true">→</span></a>
                 </div>
                 <div class="advice-map-right">
+                  <div class="advice-map-bubble" role="tooltip" aria-hidden="true">
+                    <div class="advice-map-bubble-title">Jura</div>
+                    <div class="advice-map-bubble-stats">
+                      <div><strong>51</strong> communes</div>
+                      <div><strong>4</strong> districts</div>
+                    </div>
+                    <div class="advice-map-bubble-services">Achat • Vente • Location</div>
+                  </div>
                   <img src="./assets/carte suisse jura.png" alt="Carte du Canton du Jura" loading="lazy" />
                 </div>
               </div>
@@ -827,6 +879,14 @@
                   <a class="advice-map-cta" href="./contact.html#formulaire">En savoir plus <span aria-hidden="true">→</span></a>
                 </div>
                 <div class="advice-map-right">
+                  <div class="advice-map-bubble" role="tooltip" aria-hidden="true">
+                    <div class="advice-map-bubble-title">Berne</div>
+                    <div class="advice-map-bubble-stats">
+                      <div><strong>334</strong> communes</div>
+                      <div><strong>10</strong> arrondissements</div>
+                    </div>
+                    <div class="advice-map-bubble-services">Achat • Vente • Location</div>
+                  </div>
                   <img src="./assets/carte suisse jura bernois.png" alt="Carte du Canton de Berne" loading="lazy" />
                 </div>
               </div>
@@ -1244,7 +1304,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606120001"></script>
+    <script type="module" src="./scripts/app.js?v=202606130002"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {

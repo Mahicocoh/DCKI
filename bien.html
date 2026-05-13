@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202606120028" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606130006" />
   </head>
   <body data-page="listing">
     <header class="topbar">
@@ -174,6 +174,7 @@
                 <div class="media">
                   <img data-gallery-img alt="" src="./assets/1.jpg" />
                   <div class="status-ribbon" data-listing-status-ribbon style="display:none"></div>
+                  <button class="fav-btn" type="button" aria-label="Ajouter aux favoris" aria-pressed="false" data-fav-btn data-fav-id=""></button>
                   <button class="nav prev" type="button" aria-label="Photo précédente" data-gallery-prev>‹</button>
                   <button class="nav next" type="button" aria-label="Photo suivante" data-gallery-next>›</button>
                   <div class="count" data-gallery-count></div>
@@ -191,7 +192,7 @@
                     allowfullscreen
                   ></iframe>
                 </div>
-                <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+                <div class="map-actions" style="margin-top:12px">
                   <a class="btn primary" data-listing-open-maps href="https://www.google.com/maps?q=Suisse" target="_blank" rel="noreferrer">Ouvrir dans Maps</a>
                   <a class="btn" data-listing-open-maps-3d href="https://www.google.com/maps/search/?api=1&query=Suisse" target="_blank" rel="noreferrer">Vue 3D Google Maps</a>
                 </div>
@@ -201,7 +202,9 @@
             <div class="panel">
               <div class="inner">
                 <div class="pill" data-listing-pill></div>
-                <h2 style="margin:12px 0 8px" data-listing-title></h2>
+                <div class="listing-title-row">
+                  <h2 style="margin:12px 0 8px" data-listing-title></h2>
+                </div>
                 <div class="meta" data-listing-meta></div>
                 <div class="meta" style="margin-top:8px" data-listing-availability></div>
                 <div class="listing-price" data-listing-price></div>
@@ -411,7 +414,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606120001"></script>
+    <script type="module" src="./scripts/app.js?v=202606130002"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
@@ -745,8 +748,8 @@
 
         const map = document.querySelector(".map[aria-label]");
         if (map instanceof HTMLElement) map.setAttribute("aria-label", pick("Carte Google Maps du bien", "Google Maps for this property"));
-        const mapIframe = document.querySelector("[data-listing-map-iframe]");
-        if (mapIframe instanceof HTMLIFrameElement) mapIframe.title = pick("Carte", "Map");
+        const mapIframeEl = document.querySelector("[data-listing-map-iframe]");
+        if (mapIframeEl instanceof HTMLIFrameElement) mapIframeEl.title = pick("Carte", "Map");
         const openMapsBtn = document.querySelector("[data-listing-open-maps]");
         if (openMapsBtn instanceof HTMLAnchorElement) openMapsBtn.textContent = pick("Ouvrir dans Maps", "Open in Maps");
         const openMaps3dBtn = document.querySelector("[data-listing-open-maps-3d]");
@@ -852,14 +855,14 @@
           dossierBtn.setAttribute("href", `./dossier.html?type=${encodeURIComponent(type)}&id=${encodeURIComponent(id)}`);
         }
 
-        const mapIframe = document.querySelector("[data-listing-map-iframe]");
+        const mapIframe2 = document.querySelector("[data-listing-map-iframe]");
         const openMaps = document.querySelector("[data-listing-open-maps]");
         const openMaps3d = document.querySelector("[data-listing-open-maps-3d]");
         const mapQuery = `${listing.locality}, ${translateRegion(listing.region)}, Suisse`;
         const mapQ = encodeURIComponent(mapQuery);
-        if (mapIframe) {
-          mapIframe.src = `https://www.google.com/maps?q=${mapQ}&t=k&z=19&output=embed`;
-          mapIframe.title = mapQuery;
+        if (mapIframe2) {
+          mapIframe2.src = `https://www.google.com/maps?q=${mapQ}&t=k&z=19&output=embed`;
+          mapIframe2.title = mapQuery;
         }
         if (openMaps) openMaps.href = `https://www.google.com/maps?q=${mapQ}`;
         if (openMaps3d) openMaps3d.href = `https://www.google.com/maps/search/?api=1&query=${mapQ}`;

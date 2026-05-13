@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202606120028" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606130006" />
   </head>
   <body data-page="recherche">
     <header class="topbar">
@@ -170,38 +170,62 @@
             <input type="hidden" name="cat" value="rent" id="search-page-cat" />
             
             <div class="is24-field large">
-              <span class="is24-label">Où?</span>
+              <div class="is24-smartbar">
+                <span class="is24-label">Où?</span>
+                <label class="is24-smart-toggle">
+                  <input type="checkbox" data-smart-toggle />
+                  <span>Recherche intelligente</span>
+                </label>
+              </div>
               <div class="autocomplete-wrapper">
                 <input class="is24-control" name="q" id="search-q" autocomplete="off" placeholder="Localité, NPA, Canton..." />
                 <div class="autocomplete-list" id="search-autocomplete"></div>
+                <div class="is24-smart-help" data-smart-help aria-hidden="true">
+                  Écris ta phrase (ex : 3,5 pièces à louer, max 1800, proche gare)
+                </div>
               </div>
             </div>
             
             <div class="is24-field">
-              <span class="is24-label">Prix à</span>
-              <select class="is24-control" name="maxPriceQuick">
+              <span class="is24-label">Prix de</span>
+              <select class="is24-control" name="minPrice" data-price-min>
                 <option value="">indiff.</option>
-                <option value="1000">1 000 CHF</option>
-                <option value="1500">1 500 CHF</option>
-                <option value="2000">2 000 CHF</option>
-                <option value="2500">2 500 CHF</option>
-                <option value="3000">3 000 CHF</option>
-                <option value="4000">4 000 CHF</option>
-                <option value="5000">5 000 CHF</option>
-                <option value="1000000">1 000 000 CHF</option>
+              </select>
+            </div>
+
+            <div class="is24-field">
+              <span class="is24-label">à</span>
+              <select class="is24-control" name="maxPrice" data-price-max>
+                <option value="">indiff.</option>
               </select>
             </div>
 
             <div class="is24-field">
               <span class="is24-label">Pièces de</span>
-              <select class="is24-control" name="minRooms">
+              <select class="is24-control" name="minRooms" data-rooms-min>
                 <option value="">indiff.</option>
                 <option value="1">1</option>
+                <option value="1.5">1,5</option>
                 <option value="2">2</option>
+                <option value="2.5">2,5</option>
                 <option value="3">3</option>
+                <option value="3.5">3,5</option>
                 <option value="4">4</option>
+                <option value="4.5">4,5</option>
                 <option value="5">5</option>
+                <option value="5.5">5,5</option>
                 <option value="6">6</option>
+                <option value="6.5">6,5</option>
+                <option value="7">7</option>
+                <option value="7.5">7,5</option>
+                <option value="8">8</option>
+              </select>
+            </div>
+
+            <div class="is24-field">
+              <span class="is24-label">à</span>
+              <select class="is24-control" name="maxRooms" data-rooms-max>
+                <option value="">indiff.</option>
               </select>
             </div>
 
@@ -266,18 +290,26 @@
                     </div>
 
                     <div class="field">
-                      <span class="label">Prix min (CHF)</span>
-                      <input class="control" name="minPrice" inputmode="numeric" placeholder="ex : 1200" />
+                      <span class="label">Surface de (m²)</span>
+                      <select class="control" name="minSurface" data-surface-min>
+                        <option value="">indiff.</option>
+                      </select>
                     </div>
 
                     <div class="field">
-                      <span class="label">Prix max (CHF)</span>
-                      <input class="control" name="maxPrice" inputmode="numeric" placeholder="ex : 2500" />
+                      <span class="label">Surface à (m²)</span>
+                      <select class="control" name="maxSurface" data-surface-max>
+                        <option value="">indiff.</option>
+                      </select>
                     </div>
-                    
-                    <div class="field">
-                      <span class="label">Surface min (m²)</span>
-                      <input class="control" name="minSurface" inputmode="numeric" placeholder="ex : 70" />
+
+                    <div class="field full">
+                      <span class="label">Proximité</span>
+                      <div class="filter-chips">
+                        <label class="filter-chip"><input type="checkbox" name="nearStation" value="1"><span>Proche d’une gare</span></label>
+                        <label class="filter-chip"><input type="checkbox" name="nearSchool" value="1"><span>Proche d’une école</span></label>
+                        <label class="filter-chip"><input type="checkbox" name="nearHighway" value="1"><span>Accès autoroute</span></label>
+                      </div>
                     </div>
 
                     <div class="field full">
@@ -494,7 +526,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606120001"></script>
+    <script type="module" src="./scripts/app.js?v=202606130002"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>

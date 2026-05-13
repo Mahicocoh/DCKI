@@ -18,6 +18,11 @@ function toNumber(v) {
   return Number.isFinite(n) ? n : null;
 }
 
+function getQueryTokens(q) {
+  const s = normalizeForSearch(q || "");
+  return s.split(/\s+/).map((t) => t.trim()).filter(Boolean);
+}
+
 function matches(listing, f) {
   if (f.categories.length && !f.categories.includes(listing.category)) return false;
   if (f.region && normalizeForSearch(listing.region) !== normalizeForSearch(f.region)) return false;
@@ -26,15 +31,31 @@ function matches(listing, f) {
   if (f.minPrice != null && listing.price < f.minPrice) return false;
   if (f.maxPrice != null && listing.price > f.maxPrice) return false;
   if (f.minRooms != null && listing.rooms < f.minRooms) return false;
+  if (f.maxRooms != null && listing.rooms > f.maxRooms) return false;
   if (f.minSurface != null && listing.surface < f.minSurface) return false;
+  if (f.maxSurface != null && listing.surface > f.maxSurface) return false;
   if (f.tags && f.tags.length) {
     const features = new Set([...(listing.tags || []), ...getListingFeatures(listing)]);
     for (const t of f.tags) if (!features.has(t)) return false;
   }
-  if (f.q) {
-    const q = normalizeForSearch(f.q);
+  if (f.nearStation) {
     const hay = getListingSearchText(listing);
-    if (!hay.includes(q)) return false;
+    if (!hay.includes("gare") && !hay.includes("train") && !hay.includes("station")) return false;
+  }
+  if (f.nearSchool) {
+    const hay = getListingSearchText(listing);
+    if (!hay.includes("ecole") && !hay.includes("school")) return false;
+  }
+  if (f.nearHighway) {
+    const hay = getListingSearchText(listing);
+    if (!hay.includes("autoroute") && !hay.includes("a16") && !hay.includes("highway")) return false;
+  }
+  if (f.q) {
+    const tokens = getQueryTokens(f.q);
+    if (tokens.length) {
+      const hay = getListingSearchText(listing);
+      for (const t of tokens) if (!hay.includes(t)) return false;
+    }
   }
   return true;
 }
@@ -111,10 +132,15 @@ export async function initBiens() {
     minPrice: toNumber(qp.get("minPrice")),
     maxPrice: toNumber(qp.get("maxPrice")),
     minRooms: toNumber(qp.get("minRooms")),
+    maxRooms: toNumber(qp.get("maxRooms")),
     minSurface: toNumber(qp.get("minSurface")),
+    maxSurface: toNumber(qp.get("maxSurface")),
     tags: (qp.get("tags") || "").split(",").map((s) => s.trim()).filter(Boolean),
     q: (qp.get("q") || "").trim(),
     sort: qp.get("sort") || "",
+    nearStation: qp.get("nearStation") === "1",
+    nearSchool: qp.get("nearSchool") === "1",
+    nearHighway: qp.get("nearHighway") === "1",
   };
 
   const filtered = LISTINGS.filter((l) => matches(l, filters));

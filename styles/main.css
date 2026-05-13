@@ -1396,6 +1396,7 @@ body[data-page="home"] .advice-performance > .container::before{
   display:flex;
   align-items:center;
   justify-content:center;
+  position:relative;
 }
 .advice-map-left{min-width:0;display:flex;flex-direction:column}
 .advice-map-icon{
@@ -1491,6 +1492,75 @@ body[data-page="home"] .advice-performance > .container::before{
   object-fit:contain;
   display:block;
   image-rendering:auto;
+}
+.advice-map-bubble{
+  position:absolute;
+  top:auto;
+  bottom:16px;
+  left:50%;
+  width:min(240px, 92%);
+  background:rgba(255,255,255,.96);
+  border:1px solid rgba(15,23,32,.12);
+  border-radius:14px;
+  box-shadow:0 14px 30px rgba(0,0,0,.16);
+  padding:12px 14px;
+  opacity:0;
+  transform:translate(-50%, 8px);
+  transition:opacity .18s ease, transform .18s ease;
+  pointer-events:none;
+  backdrop-filter: blur(6px);
+}
+.advice-map-bubble::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:100%;
+  width:14px;
+  height:14px;
+  background:rgba(255,255,255,.96);
+  border-right:1px solid rgba(15,23,32,.12);
+  border-bottom:1px solid rgba(15,23,32,.12);
+  transform:translate(-50%, -7px) rotate(45deg);
+}
+.advice-map-bubble-title{
+  font-weight:950;
+  letter-spacing:-0.01em;
+  color:rgba(11,42,58,.94);
+  font-size:18px;
+}
+.advice-map-bubble-stats{
+  margin-top:6px;
+  display:grid;
+  gap:2px;
+  color:rgba(15,23,32,.78);
+  font-size:13px;
+}
+.advice-map-bubble-stats strong{font-weight:950;color:rgba(11,42,58,.94)}
+.advice-map-bubble-services{
+  margin-top:10px;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:rgba(11,42,58,.74);
+}
+@media (hover: hover) and (pointer: fine){
+  .advice-map-right:hover .advice-map-bubble{
+    opacity:1;
+    transform:translate(-50%, 0);
+  }
+}
+.advice-map-right.is-bubble-on .advice-map-bubble{
+  opacity:1;
+  transform:translate(-50%, 0);
+  pointer-events:auto;
+}
+.advice-map-right.is-bubble-peek .advice-map-bubble{
+  opacity:1;
+  transform:translate(-50%, 0);
+}
+@media (hover: none), (pointer: coarse){
+  .advice-map-right{cursor:pointer}
 }
 @media (hover: hover) and (pointer: fine){
   .advice-map-card:hover{
@@ -2675,6 +2745,11 @@ body[data-page="contact"] .contact-team-card{
 }
 @media (max-width: 720px){
   .contact-team-showcase.reveal .contact-team-highlight .v{opacity:1;transform:none;filter:none;transition:none}
+  .contact-team-left{align-items:center}
+  .contact-team-photo{align-self:center}
+  .contact-team-copy{width:100%;text-align:center}
+  .contact-team-sep{margin-left:auto;margin-right:auto}
+  .contact-team-showcase .team-proof{display:flex;justify-content:center}
   .contact-hero{
     padding:34px 0 24px;
     min-height:420px;
@@ -3192,6 +3267,7 @@ body[data-page="dossier"] .dossier-docs .fine{margin:12px 0 0}
   body[data-page="dossier"] .dossier-form{order:1}
   body[data-page="dossier"] .dossier-contact{order:2}
   body[data-page="dossier"] .dossier-docs{order:3}
+  body[data-page="dossier"] .dossier-docs .meta{justify-content:center}
 }
 body[data-page="dossier"] .dossier-panel .meta{
   display:flex;
@@ -4395,6 +4471,35 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 .card .media{aspect-ratio:16/10;background:#eeece7;position:relative;overflow:hidden}
 .card .media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .card:hover .media img{transform:scale(1.05)}
+.fav-btn{
+  position:absolute;
+  top:10px;
+  right:10px;
+  width:40px;
+  height:40px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,32,.10);
+  background:rgba(255,255,255,.92);
+  color:rgba(11,42,58,.92);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  z-index:4;
+  backdrop-filter:blur(8px);
+  box-shadow:0 10px 25px rgba(15,23,32,.14);
+  transition:transform .12s ease, background .12s ease, border-color .12s ease, color .12s ease, box-shadow .12s ease;
+}
+.fav-btn svg{width:19px;height:19px;display:block;fill:transparent;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fav-btn.is-on svg{fill:currentColor}
+.card.listing.is-fav .fav-btn{background:rgba(255,255,255,.96);border-color:rgba(15,23,32,.10);color:#e11d48}
+.fav-btn:focus-visible{outline:3px solid rgba(11,42,58,.22);outline-offset:2px}
+@media (hover: hover) and (pointer: fine){
+  .fav-btn:hover{transform:translateY(-1px) scale(1.03);background:#ffffff;box-shadow:0 14px 30px rgba(15,23,32,.16)}
+}
+.listing-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.listing-title-row .fav-btn{position:relative;top:auto;right:auto;background:rgba(255,255,255,.92);border-color:rgba(15,23,32,.10);color:rgba(11,42,58,.92)}
+.listing-title-row .fav-btn:focus-visible{outline:3px solid rgba(11,42,58,.22)}
 .card .body{padding:14px 14px 16px}
 .card h3{margin:0 0 8px;font-size:18px;letter-spacing:-0.01em}
 .meta{display:flex;flex-wrap:wrap;gap:10px;color:rgba(15,23,32,.68);font-size:13.5px}
@@ -4730,6 +4835,135 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   font-weight: 600;
   color: var(--text);
 }
+.is24-smartbar{
+  margin-top:0;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.is24-smart-pill{
+  display:inline-flex;
+  align-items:center;
+  user-select:none;
+  cursor:pointer;
+}
+.is24-smart-pill input{
+  position:absolute;
+  opacity:0;
+  width:1px;
+  height:1px;
+}
+.is24-smart-pill-ui{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 12px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,32,.14);
+  background:rgba(11,42,58,.06);
+  color:rgba(11,42,58,.86);
+  font-weight:950;
+  letter-spacing:-0.01em;
+  transition:background .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease, color .15s ease;
+}
+.is24-smart-pill-dot{
+  width:10px;
+  height:10px;
+  border-radius:999px;
+  background:rgba(11,42,58,.28);
+  box-shadow:inset 0 0 0 2px rgba(255,255,255,.85);
+}
+.is24-smart-pill input:focus-visible + .is24-smart-pill-ui{
+  box-shadow:0 0 0 3px rgba(200,161,74,.22);
+}
+.is24-smart-pill input:checked + .is24-smart-pill-ui{
+  background:rgba(11,42,58,.94);
+  border-color:rgba(11,42,58,.94);
+  color:#fff;
+  box-shadow:0 10px 24px rgba(11,42,58,.18);
+  transform:translateY(-1px);
+}
+.is24-smart-pill input:checked + .is24-smart-pill-ui .is24-smart-pill-dot{
+  background:rgba(200,161,74,.95);
+  box-shadow:0 0 0 3px rgba(200,161,74,.22);
+}
+.is24-smart-help{
+  margin-top:0;
+  font-size:12px;
+  color:rgba(15,23,32,.62);
+  line-height:1.35;
+  opacity:0;
+  transform:translateY(-4px);
+  max-height:0;
+  overflow:hidden;
+  transition:opacity .18s ease, transform .18s ease, max-height .18s ease;
+}
+.is24-smart-help.is-on{
+  margin-top:8px;
+  opacity:1;
+  transform:translateY(0);
+  max-height:56px;
+}
+.is24-smart-title{
+  font-weight:900;
+  letter-spacing:-0.01em;
+  color:rgba(11,42,58,.94);
+}
+.is24-smart-badge{
+  margin-left:auto;
+  font-size:12px;
+  font-weight:900;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(200,161,74,.12);
+  border:1px solid rgba(200,161,74,.28);
+  color:rgba(115,84,20,.95);
+}
+.is24-smart-toggle{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-weight:850;
+  color:rgba(15,23,32,.78);
+  user-select:none;
+  margin-left:-2px;
+}
+.is24-smart-toggle input{
+  appearance:none;
+  width:42px;
+  height:24px;
+  border-radius:999px;
+  background:rgba(15,23,32,.14);
+  border:1px solid rgba(15,23,32,.18);
+  position:relative;
+  outline:none;
+  cursor:pointer;
+  flex:0 0 auto;
+  transition:background .15s ease, border-color .15s ease;
+}
+.is24-smart-toggle input::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  left:3px;
+  width:18px;
+  height:18px;
+  border-radius:999px;
+  background:#fff;
+  transform:translateY(-50%);
+  box-shadow:0 6px 16px rgba(0,0,0,.16);
+  transition:left .15s ease;
+}
+.is24-smart-toggle input:checked{
+  background:rgba(11,42,58,.94);
+  border-color:rgba(11,42,58,.94);
+}
+.is24-smart-toggle input:checked::after{left:21px}
+@media (max-width: 768px){
+  .is24-smartbar{flex-wrap:wrap}
+  .is24-smart-badge{order:3;margin-left:0}
+}
 .is24-control{
   width: 100%;
   height: 48px;
@@ -4763,10 +4997,11 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   max-height: 250px;
   overflow-y: auto;
-  z-index: 100;
+  z-index: 80;
   margin-top: 4px;
   display: none;
 }
+.quick-search{position:relative;z-index:50}
 .autocomplete-list.show {
   display: block;
 }
