@@ -396,6 +396,8 @@ body.menu-open .topbar::before{backdrop-filter:none}
   gap:14px;
   background:linear-gradient(180deg, rgba(11,42,58,.96) 0%, rgba(7,22,32,.98) 100%);
   backdrop-filter:blur(10px);
+  border-radius:16px;
+  overflow:hidden;
   padding-bottom:max(40px, env(safe-area-inset-bottom));
 }
 .topbar-menu-footer-block{display:grid;gap:10px}
@@ -1276,6 +1278,11 @@ body[data-page="listing"]::after{
   align-items:center;
   text-align:center;
   gap:4px;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  backdrop-filter:none;
 }
 .pill.listing-pill .listing-pill-main{
   display:flex;
@@ -1562,9 +1569,6 @@ body[data-page="home"] .advice-performance > .container::before{
   object-fit:contain;
   display:block;
   image-rendering:auto;
-}
-body[data-page="home"] .advice-map-card--jb .advice-map-right img{
-  filter:brightness(1.32) saturate(1.12);
 }
 .advice-map-bubble{
   position:absolute;
@@ -3246,7 +3250,7 @@ body[data-page="contact"] .contact-team-card{
 
 .quick-search{padding-top:24px}
 body[data-page="home"] .quick-search{padding-top:0}
-body[data-page="home"] .quick-search .is24-search{margin-top:-82px}
+body[data-page="home"] .quick-search .is24-search{margin-top:0}
 
 .area-strip{padding:16px 0 6px}
 .area-grid{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:18px;align-items:center}
@@ -5141,7 +5145,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   .is24-field, .is24-btn { width: 100%; }
   .is24-tab{padding:14px 18px}
   .is24-search{margin-top:-16px}
-  body[data-page="home"] .quick-search .is24-search{margin-top:-44px}
+  body[data-page="home"] .quick-search .is24-search{margin-top:0}
 }
 .field{grid-column:span 6;display:flex;flex-direction:column;gap:8px}
 .field.full{grid-column:1 / -1}
