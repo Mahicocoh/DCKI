@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202606130006" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606160007" />
   </head>
   <body data-page="listing">
     <header class="topbar">
@@ -201,7 +201,7 @@
 
             <div class="panel">
               <div class="inner">
-                <div class="pill" data-listing-pill></div>
+                <div class="pill listing-pill" data-listing-pill></div>
                 <div class="listing-title-row">
                   <h2 style="margin:12px 0 8px" data-listing-title></h2>
                 </div>
@@ -811,15 +811,15 @@
 
         const catLabel = listing.category === "sale" ? pick("À vendre", "For sale") : pick("À louer", "For rent");
         const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
+        const refText = String(id || "").trim().toUpperCase();
 
         if (pill) {
           pill.innerHTML = `
-            <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
-            <strong style="letter-spacing:.02em">${catLabel}</strong>
-            <span style="opacity:.65">•</span>
-            <span style="opacity:.85">${translateType(listing.propertyType)}</span>
-            <span style="opacity:.65">•</span>
-            <span style="opacity:.85">${id || ""}</span>
+            <div class="listing-pill-main">
+              <span class="listing-pill-dot" style="background:${dotColor}"></span>
+              <strong class="listing-pill-status">${catLabel}</strong>
+            </div>
+            <div class="listing-pill-ref">${refText}</div>
           `;
         }
 

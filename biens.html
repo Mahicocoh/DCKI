@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202606130006" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606160007" />
   </head>
   <body data-page="biens">
     <header class="topbar">
@@ -163,22 +163,22 @@
       <div class="container">
         <div class="panel catalog-hero-panel">
           <div class="inner">
-            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
+            <div class="catalog-hero-head" style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap">
               <div>
                 <h2 style="margin:0;font-size:36px">Nos biens</h2>
                 <p class="lead" style="margin:8px 0 0">
                   À vendre et à louer. Cliquez sur un bien pour voir la fiche complète.
                 </p>
               </div>
-              <div class="pill">
+              <div class="pill catalog-hero-total">
                 <strong>Total</strong>
                 <span data-biens-count>0 biens</span>
               </div>
             </div>
-            <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
-              <a class="btn" href="./biens.html?cat=sale#vendre" data-cat-sale>À vendre</a>
-              <a class="btn" href="./biens.html?cat=rent#louer" data-cat-rent>À louer</a>
-              <a class="btn primary" href="./index.html#recherche-rapide">Recherche</a>
+            <div class="catalog-hero-actions" style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+              <a class="btn catalog-action-sale" href="./biens.html?cat=sale#vendre" data-cat-sale>À vendre</a>
+              <a class="btn catalog-action-rent" href="./biens.html?cat=rent#louer" data-cat-rent>À louer</a>
+              <a class="btn primary catalog-action-search" href="./index.html#recherche-rapide">Recherche</a>
             </div>
             <div class="trust-strip" aria-label="Réassurance">
               <span class="item">Interlocuteur unique</span>
@@ -620,6 +620,6 @@
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
-    <script type="module" src="./scripts/app.js?v=202606130002"></script>
+    <script type="module" src="./scripts/app.js?v=202606160001"></script>
   </body>
 </html>

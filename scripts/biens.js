@@ -1,5 +1,5 @@
 import { getListingSearchText, normalizeForSearch, getListingFeatures } from "./listings-data.js";
-import { renderListings } from "./listings-ui.js";
+import { renderListings } from "./listings-ui.js?v=202606160001";
 import { loadListings } from "./listings-store.js?v=202606120001";
 
 let rerenderBound = false;

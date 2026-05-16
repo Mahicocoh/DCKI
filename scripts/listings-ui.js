@@ -40,6 +40,7 @@ export function listingCard(listing) {
   ].join(" • ");
 
   const href = `./bien.html?id=${encodeURIComponent(listing.id)}`;
+  const refText = formatListingRef(listing.id);
 
   return `
     <article class="card listing ${statusLabel ? "is-unavailable" : ""}" data-id="${escapeHtml(listing.id)}">
@@ -50,11 +51,12 @@ export function listingCard(listing) {
           ${statusLabel ? `<div class="status-ribbon">${escapeHtml(statusLabel)}</div>` : ""}
         </div>
         <div class="body">
-          <div class="pill" style="margin-bottom:10px">
-            <span style="width:8px;height:8px;border-radius:999px;background:${listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(120,210,255,.85)"}"></span>
-            <span style="font-size:13px">${escapeHtml(listing.category === "sale" ? t("biens.btn.sale") : t("biens.btn.rent"))}</span>
-            <span style="opacity:.65;font-size:13px">•</span>
-            <span style="opacity:.88;font-size:13px">${escapeHtml(typeText)}</span>
+          <div class="pill listing-pill" style="margin-bottom:10px">
+            <div class="listing-pill-main">
+              <span class="listing-pill-dot" style="background:${listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(120,210,255,.85)"}"></span>
+              <strong class="listing-pill-status">${escapeHtml(listing.category === "sale" ? t("biens.btn.sale") : t("biens.btn.rent"))}</strong>
+            </div>
+            <div class="listing-pill-ref">${escapeHtml(refText)}</div>
           </div>
           <h3>${escapeHtml(titleText)}</h3>
           <div class="meta">${escapeHtml(meta)}</div>
@@ -96,4 +98,9 @@ function clampText(s, maxLen) {
   const cut = t.slice(0, maxLen - 1);
   const lastSpace = cut.lastIndexOf(" ");
   return (lastSpace > 60 ? cut.slice(0, lastSpace) : cut).trimEnd() + "…";
+}
+
+function formatListingRef(id) {
+  const s = String(id || "").trim();
+  return s ? s.toUpperCase() : "";
 }
