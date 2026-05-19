@@ -1,6 +1,6 @@
 import { mountLoader } from "./loader.js?v=202606160001";
 import { initI18n } from "./i18n.js?v=202606160001";
-import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountTagIcons, mountConstructionToasts, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges } from "./ui.js?v=202606160001";
+import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges } from "./ui.js?v=202606160001";
 import { initRecherche } from "./recherche.js?v=202606160001";
 import { initBiens } from "./biens.js?v=202606160001";
 import { initHome } from "./home.js";
@@ -41,4 +41,3 @@ if (page === "home") initHome();
 if (page === "recherche") initRecherche();
 if (page === "biens") initBiens();
 if (page === "listing") initListingPage();
-mountTagIcons();

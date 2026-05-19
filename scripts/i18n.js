@@ -447,6 +447,7 @@ const DICT = {
     "listing.availableFrom": "Disponible dès {date}",
     "listing.description": "Description",
     "listing.features": "Caractéristiques",
+    "listing.amenities": "Commodités",
     "listing.requestDossier": "Demande de dossier",
     "listing.requestVisit": "Demander une visite",
     "listing.contact": "Contact",
@@ -1114,6 +1115,7 @@ const DICT = {
     "listing.availableFrom": "Available from {date}",
     "listing.description": "Description",
     "listing.features": "Features",
+    "listing.amenities": "Amenities",
     "listing.requestDossier": "Application file",
     "listing.requestVisit": "Request a viewing",
     "listing.contact": "Contact",
@@ -2320,6 +2322,8 @@ function applyListingPage() {
   if (descH instanceof HTMLElement) descH.textContent = t("listing.description");
   const featsH = document.querySelector("[data-listing-features]")?.previousElementSibling;
   if (featsH instanceof HTMLElement) featsH.textContent = t("listing.features");
+  const amenitiesH = document.querySelector("[data-listing-amenities]")?.previousElementSibling;
+  if (amenitiesH instanceof HTMLElement) amenitiesH.textContent = t("listing.amenities");
   const contactH = document.querySelector(".contact-cards")?.previousElementSibling;
   if (contactH instanceof HTMLElement) contactH.textContent = t("listing.contact");
   const visitH = document.getElementById("demande-visite");

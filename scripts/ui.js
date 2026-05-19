@@ -27,6 +27,12 @@ export function mountTopbarMenu() {
 
   const close = (menu) => {
     menu.classList.remove("open");
+    for (const u of Array.from(menu.querySelectorAll("[data-useful-menu]"))) {
+      if (!(u instanceof HTMLElement)) continue;
+      u.classList.remove("open");
+      const t = u.querySelector("[data-useful-toggle]");
+      if (t instanceof HTMLElement) t.setAttribute("aria-expanded", "false");
+    }
     const btn = getButton(menu);
     if (btn) btn.setAttribute("aria-expanded", "false");
     syncBodyLock();
@@ -59,6 +65,21 @@ export function mountTopbarMenu() {
 
     for (const a of menu.querySelectorAll("[data-nav] a")) {
       a.addEventListener("click", () => close(menu));
+    }
+
+    const useful = menu.querySelector("[data-useful-menu]");
+    if (useful instanceof HTMLElement && useful.dataset.bound !== "1") {
+      useful.dataset.bound = "1";
+      const toggle = useful.querySelector("[data-useful-toggle]");
+      if (toggle instanceof HTMLButtonElement) {
+        toggle.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const next = !useful.classList.contains("open");
+          useful.classList.toggle("open", next);
+          toggle.setAttribute("aria-expanded", next ? "true" : "false");
+        });
+      }
     }
 
     const overlay = getOverlay(menu);
@@ -1431,6 +1452,34 @@ export function mountCantonBubbles() {
       setBubbleAria(el, false);
     }
   };
+
+  const wireCta = (host) => {
+    const card = host.closest(".advice-map-card");
+    if (!(card instanceof HTMLElement)) return;
+    const cta = card.querySelector(".advice-map-cta");
+    if (!(cta instanceof HTMLAnchorElement)) return;
+
+    cta.addEventListener("click", (e) => {
+      const next = !host.classList.contains("is-bubble-on");
+      if (!next) return;
+      e.preventDefault();
+      closeAll();
+      host.classList.add("is-bubble-on");
+      setBubbleAria(host, true);
+    });
+  };
+
+  for (const host of hosts) {
+    if (!(host instanceof HTMLElement)) continue;
+    wireCta(host);
+  }
+
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    if (!(t instanceof HTMLElement)) return;
+    if (t.closest(".advice-map-card")) return;
+    closeAll();
+  });
 
   if (isMobile) {
     for (const host of hosts) {

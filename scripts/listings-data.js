@@ -577,17 +577,8 @@ export function normalizeForSearch(value) {
 }
 
 export function getListingFeatures(listing, count = 34) {
-  const seed = hashString(listing.id);
-  const rnd = mulberry32(seed);
-  const base = new Set([...(listing.tags || [])]);
-  const out = [...base];
-
-  const candidates = FEATURE_POOL.filter((f) => !base.has(f));
-  while (out.length < Math.min(count, FEATURE_POOL.length) && candidates.length) {
-    const idx = Math.floor(rnd() * candidates.length);
-    out.push(candidates.splice(idx, 1)[0]);
-  }
-  return out;
+  const base = new Set([...(listing.tags || []), ...(listing.features || [])]);
+  return [...base].slice(0, count);
 }
 
 export function getListingSearchText(listing) {
@@ -616,19 +607,6 @@ export function getListingFacts(listing) {
     quietArea: Boolean(listing.quietArea),
     childrenFriendly: Boolean(listing.childrenFriendly),
   };
-
-  if (out.availableFrom) return out;
-
-  const seed = hashString(`${listing.id}:facts`);
-  const rnd = mulberry32(seed);
-  const month = String(1 + Math.floor(rnd() * 12)).padStart(2, "0");
-  out.availableFrom = `01.${month}.2026`;
-  out.floor = Math.floor(rnd() * 4) + 1;
-  out.bathrooms = rnd() > 0.2 ? 1 : 2;
-  out.newBuild = rnd() > 0.65;
-  out.parking = rnd() > 0.3;
-  out.quietArea = rnd() > 0.35;
-  out.childrenFriendly = rnd() > 0.45;
   return out;
 }
 
