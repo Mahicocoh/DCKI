@@ -23,6 +23,8 @@ const DICT = {
     "nav.contact.sub": "Parlons de votre projet",
     "nav.admin": "Admin",
     "nav.admin.sub": "Espace administrateur",
+    "nav.useful": "Liens utiles",
+    "nav.useful.sub": "Portails immobiliers",
 
     "page.adminLogin.title": "Connexion — Admin",
     "page.admin.title": "Admin — Biens",
@@ -448,6 +450,17 @@ const DICT = {
     "listing.description": "Description",
     "listing.features": "Caractéristiques",
     "listing.amenities": "Commodités",
+    "listing.commune": "Commune",
+    "listing.access": "Accès",
+    "listing.distances": "Distances",
+    "listing.distance": "Distance",
+    "listing.walk": "À pied",
+    "listing.transit": "En train",
+    "listing.car": "En voiture",
+    "listing.amenityGroup.environment": "Environnement",
+    "listing.amenityGroup.outdoor": "Extérieur",
+    "listing.amenityGroup.indoor": "Intérieur",
+    "listing.amenityGroup.equipment": "Équipement",
     "listing.requestDossier": "Demande de dossier",
     "listing.requestVisit": "Demander une visite",
     "listing.contact": "Contact",
@@ -691,6 +704,8 @@ const DICT = {
     "nav.contact.sub": "Let’s talk about your project",
     "nav.admin": "Admin",
     "nav.admin.sub": "Admin area",
+    "nav.useful": "Useful links",
+    "nav.useful.sub": "Property portals",
 
     "page.adminLogin.title": "Login — Admin",
     "page.admin.title": "Admin — Listings",
@@ -1116,6 +1131,17 @@ const DICT = {
     "listing.description": "Description",
     "listing.features": "Features",
     "listing.amenities": "Amenities",
+    "listing.commune": "Municipality",
+    "listing.access": "Access",
+    "listing.distances": "Distances",
+    "listing.distance": "Distance",
+    "listing.walk": "On foot",
+    "listing.transit": "By train",
+    "listing.car": "By car",
+    "listing.amenityGroup.environment": "Environment",
+    "listing.amenityGroup.outdoor": "Outdoor",
+    "listing.amenityGroup.indoor": "Indoor",
+    "listing.amenityGroup.equipment": "Equipment",
     "listing.requestDossier": "Application file",
     "listing.requestVisit": "Request a viewing",
     "listing.contact": "Contact",
@@ -1545,6 +1571,14 @@ function applyNav() {
       if (title instanceof HTMLElement) title.textContent = it.title;
       if (sub instanceof HTMLElement) sub.textContent = it.sub;
     }
+  }
+
+  const useful = document.querySelector("[data-useful-menu]");
+  if (useful instanceof HTMLElement) {
+    const title = useful.querySelector(".nav-title");
+    const sub = useful.querySelector(".nav-sub");
+    if (title instanceof HTMLElement) title.textContent = t("nav.useful");
+    if (sub instanceof HTMLElement) sub.textContent = t("nav.useful.sub");
   }
 
   setAttrAll("[data-topbar-menu-btn]", "aria-label", t("menu.label"));
@@ -2320,10 +2354,18 @@ function applyListingPage() {
 
   const descH = document.querySelector("[data-listing-desc]")?.previousElementSibling;
   if (descH instanceof HTMLElement) descH.textContent = t("listing.description");
-  const featsH = document.querySelector("[data-listing-features]")?.previousElementSibling;
+  const featsH = document.querySelector("[data-listing-characteristics]")?.previousElementSibling || document.querySelector("[data-listing-features]")?.previousElementSibling;
   if (featsH instanceof HTMLElement) featsH.textContent = t("listing.features");
-  const amenitiesH = document.querySelector("[data-listing-amenities]")?.previousElementSibling;
+  const communeH = document.querySelector("[data-listing-commune]")?.previousElementSibling;
+  if (communeH instanceof HTMLElement) communeH.textContent = t("listing.commune");
+  const accessH = document.querySelector("[data-listing-access]")?.previousElementSibling;
+  if (accessH instanceof HTMLElement) accessH.textContent = t("listing.access");
+  const amenitiesH =
+    document.querySelector("[data-listing-amenities-groups]")?.previousElementSibling ||
+    document.querySelector("[data-listing-amenities]")?.previousElementSibling;
   if (amenitiesH instanceof HTMLElement) amenitiesH.textContent = t("listing.amenities");
+  const distancesH = document.querySelector("[data-listing-distances]")?.previousElementSibling;
+  if (distancesH instanceof HTMLElement) distancesH.textContent = t("listing.distances");
   const contactH = document.querySelector(".contact-cards")?.previousElementSibling;
   if (contactH instanceof HTMLElement) contactH.textContent = t("listing.contact");
   const visitH = document.getElementById("demande-visite");

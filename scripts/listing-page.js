@@ -1,7 +1,7 @@
 import { getListingFacts, getListingPhotos } from "./listings-data.js";
-import { formatCHF, formatRooms, showToast, getQueryParams, isFavorite } from "./ui.js?v=202606130002";
-import { loadListings } from "./listings-store.js?v=202606120001";
-import { pickListingText, t, translatePropertyType, translateRegionName } from "./i18n.js?v=202606120001";
+import { formatCHF, formatRooms, showToast, getQueryParams, isFavorite } from "./ui.js?v=202605192235";
+import { loadListings } from "./listings-store.js?v=202605192235";
+import { getLang, pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605192235";
 
 function escapeHtml(s) {
   return String(s)
@@ -203,10 +203,81 @@ function normalizeCharacteristics(listing, facts, statusLabel, typeText) {
 }
 
 function kvTableHtml(rows) {
+  const isEn = getLang() === "en";
+  const ord = (n) => {
+    const v = Number(n);
+    if (!Number.isFinite(v)) return String(n);
+    const mod100 = v % 100;
+    if (mod100 >= 11 && mod100 <= 13) return `${v}th`;
+    const mod10 = v % 10;
+    if (mod10 === 1) return `${v}st`;
+    if (mod10 === 2) return `${v}nd`;
+    if (mod10 === 3) return `${v}rd`;
+    return `${v}th`;
+  };
+
+  const translateKey = (k) => {
+    const v = String(k || "").trim();
+    if (!isEn) return v;
+    const map = {
+      "Référence": "Reference",
+      "Disponibilité": "Availability",
+      "Sanitaire": "Bathrooms",
+      "Année de construction": "Year built",
+      "Dernières rénovations": "Last renovation",
+      "Pièces": "Rooms",
+      "Chambre": "Bedrooms",
+      "Étage": "Floor",
+      "Nombre d'étage(s) total": "Total floors",
+      "Type de chauffage": "Heating type",
+      "Installation chauffage": "Heating system",
+      "Eau chaude sanitaire": "Hot water",
+      "Surface habitable": "Living area",
+      "Nombre de WC": "WC",
+      "Places de parc": "Parking",
+      "Charges": "Fees",
+    };
+    return map[v] || v;
+  };
+
+  const translateValue = (k, v) => {
+    const rawKey = String(k || "").trim();
+    const rawVal = String(v || "").trim();
+    if (!isEn) return rawVal;
+
+    let out = translateListingFeature(rawVal);
+
+    const simpleMap = {
+      "Pellets": "Pellets",
+      "Gaz": "Gas",
+      "Mazout": "Oil",
+      "Électrique": "Electric",
+      "Solaire": "Solar",
+      "Radiateurs": "Radiators",
+      "Disponible": "Available",
+      "Pas disponible": "Not available",
+      "En sus": "Extra",
+      "Immédiatement": "Immediately",
+    };
+    out = simpleMap[out] || out;
+
+    out = out.replace(/\bCHF\s+(\d+)\.-\/mois\b/i, "CHF $1/month");
+    out = out.replace(/\(Comprises\)/gi, "(included)");
+
+    if (rawKey === "Étage") {
+      const m = rawVal.match(/(\d+)\s*(?:er|e)\s+étage/i);
+      if (m) out = `${ord(m[1])} floor`;
+    }
+
+    return out;
+  };
+
   return rows
     .map((r) => {
-      const k = String(r.k || "").trim();
-      const v = String(r.v || "").trim();
+      const rawK = String(r.k || "").trim();
+      const rawV = String(r.v || "").trim();
+      const k = translateKey(rawK);
+      const v = translateValue(rawK, rawV);
       if (!k || !v) return "";
       return `<div class="kv-row"><div class="kv-k">${escapeHtml(k)}</div><div class="kv-v">${escapeHtml(v)}</div></div>`;
     })
@@ -291,13 +362,54 @@ function normalizeAmenityGroups(listing) {
 }
 
 function amenityGroupsHtml(groups) {
+  const translateGroupTitle = (raw) => {
+    const v = String(raw || "").trim();
+    if (v === "Environnement") return t("listing.amenityGroup.environment");
+    if (v === "Extérieur") return t("listing.amenityGroup.outdoor");
+    if (v === "Intérieur") return t("listing.amenityGroup.indoor");
+    if (v === "Équipement") return t("listing.amenityGroup.equipment");
+    return v;
+  };
+
+  const translateItem = (raw) => {
+    const v = String(raw || "").trim();
+    if (!v) return v;
+    const base = translateListingFeature(v);
+    if (getLang() !== "en") return base;
+    const map = {
+      "Commerces": "Shops",
+      "Rue commerçante": "Shopping street",
+      "Banque": "Bank",
+      "Poste": "Post office",
+      "Restaurant(s)": "Restaurants",
+      "Pharmacie": "Pharmacy",
+      "Gare": "Train station",
+      "Arrêt de bus": "Bus stop",
+      "Village": "Village",
+      "Entrée/sortie autoroute": "Highway access",
+      "Parking public": "Public parking",
+      "Sans ascenseur": "No elevator",
+      "Cuisine habitable": "Eat-in kitchen",
+      "Salle de bain privative": "Private bathroom",
+      "WC visiteurs": "Guest WC",
+      "Non meublé": "Unfurnished",
+      "Plaques vitrocéramiques": "Ceramic cooktop",
+      "Four": "Oven",
+      "Réfrigérateur": "Fridge",
+      "Lave-linge": "Washing machine",
+      "Sèche-linge": "Dryer",
+      "Douche": "Shower",
+    };
+    return map[base] || base;
+  };
+
   return groups
     .map((g) => {
-      const title = String(g.title || "").trim();
+      const title = translateGroupTitle(String(g.title || "").trim());
       const items = Array.isArray(g.items) ? g.items.map((x) => String(x).trim()).filter(Boolean) : [];
       if (!title || !items.length) return "";
       return `<div class="amenity-group"><div class="amenity-k">${escapeHtml(title)}</div><ul class="amenity-list">${items
-        .map((it) => `<li>${escapeHtml(it)}</li>`)
+        .map((it) => `<li>${escapeHtml(translateItem(it))}</li>`)
         .join("")}</ul></div>`;
     })
     .filter(Boolean)
@@ -330,11 +442,12 @@ function normalizeDistances(listing) {
     return { label, distance: `${meters} m`, walk: `${walkMin}'`, transit: `${transitMin}'`, car: `${carMin}'` };
   };
 
+  const lbl = (fr, en) => (getLang() === "en" ? en : fr);
   return [
-    mk("Transports publics", 80, 320),
-    mk("École primaire", 250, 950),
-    mk("Commerces", 120, 650),
-    mk("Restaurants", 90, 480),
+    mk(lbl("Transports publics", "Public transport"), 80, 320),
+    mk(lbl("École primaire", "Primary school"), 250, 950),
+    mk(lbl("Commerces", "Shops"), 120, 650),
+    mk(lbl("Restaurants", "Restaurants"), 90, 480),
   ];
 }
 
@@ -342,10 +455,10 @@ function distancesTableHtml(rows) {
   const header = `
     <div class="distances-head">
       <div></div>
-      <div class="distances-h">Distance</div>
-      <div class="distances-h">À pied</div>
-      <div class="distances-h">En train</div>
-      <div class="distances-h">En voiture</div>
+      <div class="distances-h">${escapeHtml(t("listing.distance"))}</div>
+      <div class="distances-h">${escapeHtml(t("listing.walk"))}</div>
+      <div class="distances-h">${escapeHtml(t("listing.transit"))}</div>
+      <div class="distances-h">${escapeHtml(t("listing.car"))}</div>
     </div>
   `;
 
@@ -353,10 +466,10 @@ function distancesTableHtml(rows) {
     .map((r) => {
       return `<div class="distances-row">
         <div class="distances-k">${escapeHtml(r.label)}</div>
-        <div class="distances-v" data-label="Distance">${escapeHtml(r.distance || "-")}</div>
-        <div class="distances-v" data-label="À pied">${escapeHtml(r.walk || "-")}</div>
-        <div class="distances-v" data-label="En train">${escapeHtml(r.transit || "-")}</div>
-        <div class="distances-v" data-label="En voiture">${escapeHtml(r.car || "-")}</div>
+        <div class="distances-v" data-label="${escapeHtml(t("listing.distance"))}">${escapeHtml(r.distance || "-")}</div>
+        <div class="distances-v" data-label="${escapeHtml(t("listing.walk"))}">${escapeHtml(r.walk || "-")}</div>
+        <div class="distances-v" data-label="${escapeHtml(t("listing.transit"))}">${escapeHtml(r.transit || "-")}</div>
+        <div class="distances-v" data-label="${escapeHtml(t("listing.car"))}">${escapeHtml(r.car || "-")}</div>
       </div>`;
     })
     .join("");

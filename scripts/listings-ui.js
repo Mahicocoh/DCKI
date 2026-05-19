@@ -1,6 +1,6 @@
 import { getListingFacts } from "./listings-data.js";
-import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202606120001";
-import { formatCHF, formatRooms, mountCardGalleries, mountFavorites } from "./ui.js?v=202606130002";
+import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605192235";
+import { formatCHF, formatRooms, mountCardGalleries, mountFavorites } from "./ui.js?v=202605192235";
 
 export function listingCard(listing) {
   const rawStatus = String(listing.status || "")
