@@ -1,4 +1,4 @@
-import { getListingSearchText, normalizeForSearch, getListingFeatures, getAllTags } from "./listings-data.js";
+import { getListingSearchText, normalizeForSearch, getListingFeatures, getAllTags, LOCALITIES } from "./listings-data.js";
 import { renderListings } from "./listings-ui.js?v=202605192235";
 import { getQueryParams, initAutocomplete, smartSearchToFilters } from "./ui.js?v=202605192235";
 import { loadListings } from "./listings-store.js?v=202605192235";
@@ -383,9 +383,23 @@ export async function initRecherche() {
       if (s) p.set(k, s);
     };
 
+    const resolveExactLocality = (text) => {
+      const s = normalizeForSearch(text || "");
+      if (!s) return "";
+      const zip = String(text || "").replace(/[^\d]/g, "");
+      if (zip.length === 4) {
+        const z = LOCALITIES.find((l) => normalizeForSearch(l.zip) === normalizeForSearch(zip));
+        if (z) return z.name;
+      }
+      const exact = LOCALITIES.find((l) => normalizeForSearch(l.name) === s);
+      return exact ? exact.name : "";
+    };
+
+    const qExactLocality = !smartHas ? resolveExactLocality(smartRaw) : "";
+
     set("cat", cat);
     set("region", (smartHas && smart?.region) || form.region?.value);
-    set("locality", (smartHas && smart?.locality) || form.locality?.value);
+    set("locality", (smartHas && smart?.locality) || form.locality?.value || qExactLocality);
     set("type", (smartHas && smart?.propertyType) || form.propertyType?.value);
     set("minPrice", form.minPrice?.value);
     set("maxPrice", (smartHas && smart?.maxPrice != null ? smart.maxPrice : null) || form.maxPrice?.value);
@@ -405,7 +419,7 @@ export async function initRecherche() {
     const mergedTags = [...new Set([...(pickedTags || []), ...((smartHas && smart?.tags) || [])])].filter(Boolean);
     if (mergedTags.length) p.set("tags", mergedTags.join(","));
 
-    if (!smartHas) set("q", form.q?.value);
+    if (!smartHas && !((form.locality?.value || "").trim()) && !qExactLocality) set("q", form.q?.value);
     set("sort", form.sort?.value);
 
     window.location.href = `./biens.html?${p.toString()}`;

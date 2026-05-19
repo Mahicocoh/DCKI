@@ -1058,6 +1058,24 @@ export function initAutocomplete(inputId, listId) {
   if (!input || !list) return;
 
   const form = input.closest("form");
+  const ensureLocalityField = () => {
+    if (!(form instanceof HTMLFormElement)) return null;
+    const sel = form.querySelector("select[name='locality']");
+    if (sel instanceof HTMLSelectElement) return sel;
+    const existing = form.querySelector("input[type='hidden'][name='locality']");
+    if (existing instanceof HTMLInputElement) return existing;
+    const hidden = document.createElement("input");
+    hidden.type = "hidden";
+    hidden.name = "locality";
+    form.appendChild(hidden);
+    return hidden;
+  };
+  const setLocality = (name) => {
+    const field = ensureLocalityField();
+    if (field instanceof HTMLSelectElement || field instanceof HTMLInputElement) field.value = String(name || "").trim();
+  };
+  const clearLocality = () => setLocality("");
+
   const isSmartOn = () => {
     const toggle = form?.querySelector?.("[data-smart-toggle]");
     return toggle instanceof HTMLInputElement ? toggle.checked : false;
@@ -1075,6 +1093,8 @@ export function initAutocomplete(inputId, listId) {
       div.innerHTML = `<strong>${m.name}</strong> <span class="region">${m.zip} - ${m.region}</span>`;
       div.addEventListener("click", () => {
         input.value = m.name;
+        input.setAttribute("data-picked-locality", m.name);
+        setLocality(m.name);
         list.classList.remove("show");
         input.dispatchEvent(new Event("input", { bubbles: true }));
       });
@@ -1098,6 +1118,11 @@ export function initAutocomplete(inputId, listId) {
     if (isSmartOn()) {
       list.classList.remove("show");
       return;
+    }
+    const picked = input.getAttribute("data-picked-locality") || "";
+    if (picked && normalizeForSearch(input.value) !== normalizeForSearch(picked)) {
+      input.removeAttribute("data-picked-locality");
+      clearLocality();
     }
     render(getMatches(input.value));
   };
@@ -1238,49 +1263,66 @@ export function mountSmartSearch() {
 
   form.addEventListener("submit", (e) => {
     const smartToggle = form.querySelector("[data-smart-toggle]");
-    if (!(smartToggle instanceof HTMLInputElement) || !smartToggle.checked) return;
+    const smartEnabled = smartToggle instanceof HTMLInputElement ? smartToggle.checked : false;
 
     const q = form.querySelector("input[name='q']");
     if (!(q instanceof HTMLInputElement)) return;
     const raw = q.value.trim();
     if (!raw) return;
 
-    const f = smartSearchToFilters(raw);
+    const resolveExactLocality = (text) => {
+      const s = normalizeForSearch(text || "");
+      if (!s) return "";
+      const zip = String(text || "").replace(/[^\d]/g, "");
+      if (zip.length === 4) {
+        const z = LOCALITIES.find((l) => normalizeForSearch(l.zip) === normalizeForSearch(zip));
+        if (z) return z.name;
+      }
+      const exact = LOCALITIES.find((l) => normalizeForSearch(l.name) === s);
+      return exact ? exact.name : "";
+    };
+
+    const f = smartEnabled ? smartSearchToFilters(raw) : null;
     const hasSignal =
-      Boolean(f.cat || f.region || f.locality || f.propertyType) ||
-      f.maxPrice != null ||
-      f.minRooms != null ||
-      f.minSurface != null ||
-      f.nearStation ||
-      f.nearSchool ||
-      f.nearHighway ||
-      (Array.isArray(f.tags) && f.tags.length);
-    if (!hasSignal) return;
+      smartEnabled &&
+      (Boolean(f?.cat || f?.region || f?.locality || f?.propertyType) ||
+        f?.maxPrice != null ||
+        f?.minRooms != null ||
+        f?.minSurface != null ||
+        f?.nearStation ||
+        f?.nearSchool ||
+        f?.nearHighway ||
+        (Array.isArray(f?.tags) && f.tags.length));
+
+    const picked = q.getAttribute("data-picked-locality") || "";
+    const exactLocality = picked || (!smartEnabled ? resolveExactLocality(raw) : "");
+
+    if (!hasSignal && !exactLocality) return;
 
     e.preventDefault();
 
     const p = new URLSearchParams(new FormData(form));
     p.delete("q");
 
-    if (f.cat) p.set("cat", f.cat);
-    if (f.region) p.set("region", f.region);
-    if (f.locality) p.set("locality", f.locality);
-    if (f.propertyType) p.set("type", f.propertyType);
-    if (f.maxPrice != null) p.set("maxPrice", String(f.maxPrice));
-    if (f.minRooms != null) p.set("minRooms", String(f.minRooms));
-    if (f.minSurface != null) p.set("minSurface", String(f.minSurface));
+    if (hasSignal && f?.cat) p.set("cat", f.cat);
+    if (hasSignal && f?.region) p.set("region", f.region);
+    if ((hasSignal && f?.locality) || exactLocality) p.set("locality", (hasSignal && f?.locality) || exactLocality);
+    if (hasSignal && f?.propertyType) p.set("type", f.propertyType);
+    if (hasSignal && f?.maxPrice != null) p.set("maxPrice", String(f.maxPrice));
+    if (hasSignal && f?.minRooms != null) p.set("minRooms", String(f.minRooms));
+    if (hasSignal && f?.minSurface != null) p.set("minSurface", String(f.minSurface));
 
     const pickedTags = Array.from(form.querySelectorAll("input[name='tags']:checked")).map((i) => i.value);
-    const tags = [...new Set([...(pickedTags || []), ...(f.tags || [])])].filter(Boolean);
+    const tags = [...new Set([...(pickedTags || []), ...((hasSignal && f?.tags) || [])])].filter(Boolean);
     p.delete("tags");
     if (tags.length) p.set("tags", tags.join(","));
 
     p.delete("nearStation");
     p.delete("nearSchool");
     p.delete("nearHighway");
-    if (f.nearStation) p.set("nearStation", "1");
-    if (f.nearSchool) p.set("nearSchool", "1");
-    if (f.nearHighway) p.set("nearHighway", "1");
+    if (hasSignal && f?.nearStation) p.set("nearStation", "1");
+    if (hasSignal && f?.nearSchool) p.set("nearSchool", "1");
+    if (hasSignal && f?.nearHighway) p.set("nearHighway", "1");
 
     const url = `${form.getAttribute("action") || "./biens.html"}?${p.toString()}`;
     window.location.href = url;

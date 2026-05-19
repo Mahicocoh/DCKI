@@ -1796,14 +1796,16 @@ body[data-page="home"] .advice-performance > .container::before{
   font-size:13px;
 }
 .advice-map-bubble-stats > div{
-  flex:1 1 0;
+  flex:1 1 140px;
   min-width:0;
   background:rgba(47,90,115,.08);
   border:1px solid rgba(47,90,115,.12);
   border-radius:12px;
   padding:6px 8px;
   white-space:normal;
-  overflow-wrap:anywhere;
+  overflow-wrap:normal;
+  word-break:normal;
+  hyphens:none;
 }
 .advice-map-bubble-stats strong{font-weight:950;color:rgba(11,42,58,.94)}
 .advice-map-bubble-services{
@@ -5940,8 +5942,8 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   .hero h1{font-size:38px;line-height:1.1}
   .hero p{font-size:16px;margin-left:auto;margin-right:auto}
   .hero .overlay{background:linear-gradient(180deg, rgba(7,11,16,.18), rgba(7,11,16,.46) 62%, rgba(7,11,16,.62))}
-  .topbar{background:var(--bg)}
-  .topbar::before{background:var(--bg)}
+  .topbar{background:#ffffff}
+  .topbar::before{background:#ffffff}
   .brand img{height:56px;filter:brightness(1.03) contrast(1.03)}
   .topbar-inner{padding:8px 0}
   .topbar .nav{gap:4px}
