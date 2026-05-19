@@ -811,6 +811,27 @@ body[data-page="listing"] .distances-v{
   body[data-page="listing"] main.section{
     padding-bottom:calc(44px + 120px + env(safe-area-inset-bottom));
   }
+  body[data-page="listing"] .distances-table{overflow:visible}
+  body[data-page="listing"] .distances-head{display:none}
+  body[data-page="listing"] .distances-row{
+    grid-template-columns:1fr 1fr;
+    min-width:0;
+    row-gap:8px;
+    padding:12px 0;
+  }
+  body[data-page="listing"] .distances-k{grid-column:1 / -1}
+  body[data-page="listing"] .distances-v{
+    text-align:left;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:10px;
+  }
+  body[data-page="listing"] .distances-v::before{
+    content:attr(data-label);
+    color:rgba(15,23,32,.62);
+    font-weight:750;
+  }
   body[data-page="listing"] .listing-page .cta{
     flex-direction:column;
   }
@@ -4359,7 +4380,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   font-weight:950;
   letter-spacing:.18em;
   text-transform:uppercase;
-  color:rgba(11,42,58,.72);
+  color:var(--text);
 }
 .partners-head h2{
   margin:10px 0 0;

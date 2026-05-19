@@ -353,10 +353,10 @@ function distancesTableHtml(rows) {
     .map((r) => {
       return `<div class="distances-row">
         <div class="distances-k">${escapeHtml(r.label)}</div>
-        <div class="distances-v">${escapeHtml(r.distance || "-")}</div>
-        <div class="distances-v">${escapeHtml(r.walk || "-")}</div>
-        <div class="distances-v">${escapeHtml(r.transit || "-")}</div>
-        <div class="distances-v">${escapeHtml(r.car || "-")}</div>
+        <div class="distances-v" data-label="Distance">${escapeHtml(r.distance || "-")}</div>
+        <div class="distances-v" data-label="À pied">${escapeHtml(r.walk || "-")}</div>
+        <div class="distances-v" data-label="En train">${escapeHtml(r.transit || "-")}</div>
+        <div class="distances-v" data-label="En voiture">${escapeHtml(r.car || "-")}</div>
       </div>`;
     })
     .join("");
