@@ -4108,6 +4108,23 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 }
 
 @media (max-width: 720px){
+  .services-section .service-feature.reveal{
+    transition:opacity .38s ease, transform .55s cubic-bezier(.2,.8,.2,1), filter .55s cubic-bezier(.2,.8,.2,1);
+  }
+  .services-section .service-feature.reveal .service-feature-copy h3,
+  .services-section .service-feature.reveal .service-feature-lead,
+  .services-section .service-feature.reveal .service-feature-steps,
+  .services-section .service-feature.reveal .service-feature-cta,
+  .services-section .service-feature.reveal .service-feature-media{
+    transform:translateY(-10px);
+    transition:opacity .42s ease, transform .42s cubic-bezier(.2,.8,.2,1);
+  }
+  .services-section .service-feature.reveal .service-feature-copy h3{transition-delay:0s}
+  .services-section .service-feature.reveal .service-feature-lead{transition-delay:.05s}
+  .services-section .service-feature.reveal .service-feature-steps{transition-delay:.09s}
+  .services-section .service-feature.reveal .service-feature-cta{transition-delay:.13s}
+  .services-section .service-feature.reveal .service-feature-media{transition-delay:.05s}
+
   .services-showcase{gap:14px}
   .service-feature{
     grid-template-columns:1fr;
