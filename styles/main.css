@@ -3457,6 +3457,12 @@ body[data-page="contact"] .contact-team-card{
 .quick-search{padding-top:24px}
 body[data-page="home"] .quick-search{padding-top:0}
 body[data-page="home"] .quick-search .is24-search{margin-top:0}
+@media (max-width: 980px){
+  body[data-page="home"] .quick-search .is24-search{margin-left:-22px;margin-right:-22px;width:calc(100% + 44px)}
+}
+@media (max-width: 720px){
+  body[data-page="home"] .quick-search .is24-search{margin-left:-18px;margin-right:-18px;width:calc(100% + 36px)}
+}
 
 .area-strip{padding:16px 0 6px}
 .area-grid{display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));gap:18px;align-items:center}
