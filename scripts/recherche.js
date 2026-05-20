@@ -36,7 +36,7 @@ function getQueryTokens(q) {
 
 function matchesFilters(listing, f) {
   if (f.categories.length && !f.categories.includes(listing.category)) return false;
-  if (f.region && normalizeForSearch(listing.region) !== normalizeForSearch(f.region)) return false;
+  if (f.region && !f.locality && normalizeForSearch(listing.region) !== normalizeForSearch(f.region)) return false;
   if (f.propertyType && normalizeForSearch(listing.propertyType) !== normalizeForSearch(f.propertyType)) return false;
   if (f.locality && normalizeForSearch(listing.locality) !== normalizeForSearch(f.locality)) return false;
   if (f.minPrice != null && listing.price < f.minPrice) return false;
@@ -384,15 +384,55 @@ export async function initRecherche() {
     };
 
     const resolveExactLocality = (text) => {
-      const s = normalizeForSearch(text || "");
+      const raw = String(text || "").trim();
+      const s = normalizeForSearch(raw);
       if (!s) return "";
-      const zip = String(text || "").replace(/[^\d]/g, "");
+      const zip = raw.replace(/[^\d]/g, "");
       if (zip.length === 4) {
         const z = LOCALITIES.find((l) => normalizeForSearch(l.zip) === normalizeForSearch(zip));
         if (z) return z.name;
       }
       const exact = LOCALITIES.find((l) => normalizeForSearch(l.name) === s);
-      return exact ? exact.name : "";
+      if (exact) return exact.name;
+
+      const candidates = LOCALITIES.filter((l) => {
+        const n = normalizeForSearch(l.name);
+        return n.startsWith(s) || s.startsWith(n) || n.includes(s);
+      });
+      if (candidates.length === 1) return candidates[0].name;
+
+      const oneEditAway = (a, b) => {
+        const la = a.length;
+        const lb = b.length;
+        if (Math.abs(la - lb) > 1) return false;
+        if (la === lb) {
+          let diff = 0;
+          for (let i = 0; i < la; i += 1) {
+            if (a[i] !== b[i]) diff += 1;
+            if (diff > 1) return false;
+          }
+          return true;
+        }
+        const short = la < lb ? a : b;
+        const long = la < lb ? b : a;
+        let i = 0;
+        let j = 0;
+        let used = false;
+        while (i < short.length && j < long.length) {
+          if (short[i] === long[j]) {
+            i += 1;
+            j += 1;
+            continue;
+          }
+          if (used) return false;
+          used = true;
+          j += 1;
+        }
+        return true;
+      };
+
+      const fuzzy = LOCALITIES.filter((l) => oneEditAway(s, normalizeForSearch(l.name)));
+      return fuzzy.length === 1 ? fuzzy[0].name : "";
     };
 
     const qExactLocality = !smartHas ? resolveExactLocality(smartRaw) : "";

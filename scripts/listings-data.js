@@ -571,9 +571,11 @@ export const LOCALITIES = [
 export function normalizeForSearch(value) {
   const s = String(value ?? "");
   return s
+    .trim()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
+    .toLowerCase()
+    .replace(/\s+/g, " ");
 }
 
 export function getListingFeatures(listing, count = 34) {

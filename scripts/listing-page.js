@@ -404,16 +404,54 @@ function amenityGroupsHtml(groups) {
   };
 
   return groups
-    .map((g) => {
+    .map((g, idx) => {
       const title = translateGroupTitle(String(g.title || "").trim());
       const items = Array.isArray(g.items) ? g.items.map((x) => String(x).trim()).filter(Boolean) : [];
       if (!title || !items.length) return "";
-      return `<div class="amenity-group"><div class="amenity-k">${escapeHtml(title)}</div><ul class="amenity-list">${items
-        .map((it) => `<li>${escapeHtml(translateItem(it))}</li>`)
-        .join("")}</ul></div>`;
+      const panelId = `amenity-panel-${idx}`;
+      return `
+        <div class="amenity-group" data-amenity-accordion-item>
+          <button class="amenity-head" type="button" aria-expanded="false" aria-controls="${escapeHtml(panelId)}">
+            <span class="amenity-k">${escapeHtml(title)}</span>
+          </button>
+          <div class="amenity-panel" id="${escapeHtml(panelId)}" hidden>
+            <ul class="amenity-list">${items.map((it) => `<li>${escapeHtml(translateItem(it))}</li>`).join("")}</ul>
+          </div>
+        </div>
+      `;
     })
     .filter(Boolean)
     .join("");
+}
+
+function setupAmenityAccordion(root) {
+  if (!(root instanceof HTMLElement)) return;
+  if (root.dataset.amenityAccordionBound === "1") return;
+  root.dataset.amenityAccordionBound = "1";
+
+  root.addEventListener("click", (e) => {
+    const btn = e.target instanceof Element ? e.target.closest(".amenity-head") : null;
+    if (!(btn instanceof HTMLButtonElement)) return;
+
+    const item = btn.closest("[data-amenity-accordion-item]");
+    if (!(item instanceof HTMLElement)) return;
+
+    const panel = item.querySelector(".amenity-panel");
+    if (!(panel instanceof HTMLElement)) return;
+
+    const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+    for (const otherBtn of root.querySelectorAll(".amenity-head[aria-expanded='true']")) {
+      if (otherBtn === btn) continue;
+      otherBtn.setAttribute("aria-expanded", "false");
+      const otherItem = otherBtn.closest("[data-amenity-accordion-item]");
+      const otherPanel = otherItem ? otherItem.querySelector(".amenity-panel") : null;
+      if (otherPanel instanceof HTMLElement) otherPanel.hidden = true;
+    }
+
+    btn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+    panel.hidden = isOpen;
+  });
 }
 
 function normalizeDistances(listing) {
@@ -533,14 +571,18 @@ function render(listing) {
   const statusLabel = isSold ? t("status.sold") : isRented ? t("status.rented") : "";
   const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   if (pill) {
+    const cat = listing.category === "sale" ? t("biens.btn.sale") : listing.category === "rent" ? t("biens.btn.rent") : "";
     pill.innerHTML = `
-      <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
-      <strong style="letter-spacing:.02em">${escapeHtml(listing.category === "sale" ? t("biens.btn.sale") : listing.category === "rent" ? t("biens.btn.rent") : "")}</strong>
-      <span style="opacity:.65">•</span>
-      <span style="opacity:.85">${escapeHtml(typeText)}</span>
-      <span style="opacity:.65">•</span>
-      <span style="opacity:.85">${escapeHtml(listing.id)}</span>
-      ${statusLabel ? `<span style="opacity:.65">•</span><span style="opacity:.95">${escapeHtml(statusLabel)}</span>` : ""}
+      <div class="listing-pill-main">
+        <span class="listing-pill-dot" style="background:${dotColor}"></span>
+        <strong class="listing-pill-status">${escapeHtml(cat)}</strong>
+        <span class="listing-pill-sep">•</span>
+        <span class="listing-pill-type">${escapeHtml(typeText)}</span>
+      </div>
+      <div class="listing-pill-sub">
+        <span class="listing-pill-ref">${escapeHtml(String(listing.id || "").toUpperCase())}</span>
+        ${statusLabel ? `<span class="listing-pill-sep">•</span><span class="listing-pill-state">${escapeHtml(statusLabel)}</span>` : ""}
+      </div>
     `;
   }
 
@@ -592,7 +634,10 @@ function render(listing) {
   if (amenitiesBlock instanceof HTMLElement) {
     const groups = normalizeAmenityGroups(listing);
     amenitiesBlock.hidden = false;
-    if (amenitiesGroupsEl) amenitiesGroupsEl.innerHTML = amenityGroupsHtml(groups);
+    if (amenitiesGroupsEl) {
+      amenitiesGroupsEl.innerHTML = amenityGroupsHtml(groups);
+      setupAmenityAccordion(amenitiesGroupsEl);
+    }
   }
 
   if (distancesBlock instanceof HTMLElement) {
@@ -604,11 +649,11 @@ function render(listing) {
   const mapQuery = `${listing.locality}, ${regionText}, Suisse`;
   const mapQ = encodeURIComponent(mapQuery);
   if (mapIframe) {
-    mapIframe.src = `https://www.google.com/maps?q=${mapQ}&t=k&z=19&output=embed`;
+    mapIframe.src = `https://www.google.com/maps?q=${mapQ}&t=m&z=16&output=embed`;
     mapIframe.title = mapQuery;
   }
-  if (openMaps) openMaps.href = `https://www.google.com/maps?q=${mapQ}`;
-  if (openMaps3d) openMaps3d.href = `https://www.google.com/maps/search/?api=1&query=${mapQ}`;
+  if (openMaps) openMaps.href = `https://www.google.com/maps?q=${mapQ}&t=m&z=16`;
+  if (openMaps3d) openMaps3d.href = `https://www.google.com/maps?q=${mapQ}&t=k&z=19`;
 
   state.photos = getListingPhotos(listing, 10);
   setPhoto(0);
