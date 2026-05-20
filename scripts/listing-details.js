@@ -105,7 +105,6 @@ function openModal(listing) {
   state.photos = getListingPhotos(listing, 10);
   setPhoto(modal, 0);
 
-  const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   const rawStatus = String(listing.status || "")
     .trim()
     .toLowerCase()
@@ -126,7 +125,6 @@ function openModal(listing) {
   const isUnavailable = isSold || isRented;
   const categoryLabel = listing.category === "sale" ? t("biens.btn.sale") : listing.category === "rent" ? t("biens.btn.rent") : "";
   pill.innerHTML = `
-    <span style="width:10px;height:10px;border-radius:999px;background:${dotColor}"></span>
     <strong style="letter-spacing:.02em">${escapeHtml(categoryLabel)}</strong>
     <span style="opacity:.65">•</span>
     <span style="opacity:.85">${escapeHtml(typeText)}</span>

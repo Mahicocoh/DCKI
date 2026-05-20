@@ -569,12 +569,10 @@ function render(listing) {
     rawStatus === "louee" ||
     rawStatus.includes("rented");
   const statusLabel = isSold ? t("status.sold") : isRented ? t("status.rented") : "";
-  const dotColor = listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(64,140,255,.85)";
   if (pill) {
     const cat = listing.category === "sale" ? t("biens.btn.sale") : listing.category === "rent" ? t("biens.btn.rent") : "";
     pill.innerHTML = `
       <div class="listing-pill-main">
-        <span class="listing-pill-dot" style="background:${dotColor}"></span>
         <strong class="listing-pill-status">${escapeHtml(cat)}</strong>
         <span class="listing-pill-sep">•</span>
         <span class="listing-pill-type">${escapeHtml(typeText)}</span>

@@ -52,10 +52,6 @@ export function listingCard(listing) {
         </div>
         <div class="body">
           <div class="pill listing-pill" style="margin-bottom:10px">
-            <div class="listing-pill-main">
-              <span class="listing-pill-dot" style="background:${listing.category === "sale" ? "rgba(200,161,74,.95)" : "rgba(120,210,255,.85)"}"></span>
-              <strong class="listing-pill-status">${escapeHtml(listing.category === "sale" ? t("biens.btn.sale") : t("biens.btn.rent"))}</strong>
-            </div>
             <div class="listing-pill-ref">${escapeHtml(refText)}</div>
           </div>
           <h3>${escapeHtml(titleText)}</h3>

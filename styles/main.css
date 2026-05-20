@@ -808,15 +808,22 @@ body[data-page="listing"] .amenity-list li{
 body[data-page="listing"] .amenity-list li:last-child{border-bottom:0}
 body[data-page="listing"] .distances-table{
   margin-top:10px;
-  overflow-x:scroll;
+  overflow-x:auto;
   overflow-y:hidden;
-  scrollbar-gutter:stable both-edges;
-  padding-bottom:10px;
+  scrollbar-gutter:auto;
+  padding-bottom:0;
   -webkit-overflow-scrolling:touch;
 }
-body[data-page="listing"] .distances-table::-webkit-scrollbar{height:14px}
-body[data-page="listing"] .distances-table::-webkit-scrollbar-track{background:rgba(15,23,32,.06);border-radius:999px}
-body[data-page="listing"] .distances-table::-webkit-scrollbar-thumb{background:rgba(11,42,58,.50);border-radius:999px;border:3px solid rgba(15,23,32,.06)}
+@media (max-width: 720px){
+  body[data-page="listing"] .distances-table{
+    overflow-x:scroll;
+    scrollbar-gutter:stable both-edges;
+    padding-bottom:10px;
+  }
+  body[data-page="listing"] .distances-table::-webkit-scrollbar{height:14px}
+  body[data-page="listing"] .distances-table::-webkit-scrollbar-track{background:rgba(15,23,32,.06);border-radius:999px}
+  body[data-page="listing"] .distances-table::-webkit-scrollbar-thumb{background:rgba(11,42,58,.50);border-radius:999px;border:3px solid rgba(15,23,32,.06)}
+}
 body[data-page="listing"] .distances-head,
 body[data-page="listing"] .distances-row{
   display:grid;
