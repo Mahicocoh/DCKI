@@ -819,34 +819,10 @@ body[data-page="listing"] .distances-table{
 }
 @media (max-width: 720px){
   body[data-page="listing"] .distances-table{
-    position:relative;
     overflow-x:scroll;
     scrollbar-gutter:auto;
     padding-bottom:26px;
     scrollbar-width:none;
-  }
-  body[data-page="listing"] .distances-table::before{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:6px;
-    height:16px;
-    background:rgba(15,23,32,.10);
-    border-radius:999px;
-    pointer-events:none;
-  }
-  body[data-page="listing"] .distances-table::after{
-    content:"";
-    position:absolute;
-    left:10%;
-    right:10%;
-    bottom:6px;
-    height:16px;
-    background:rgba(11,42,58,.78);
-    border-radius:999px;
-    pointer-events:none;
-    opacity:.65;
   }
   body[data-page="listing"] .distances-table::-webkit-scrollbar{height:0}
 }
@@ -4407,36 +4383,34 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 .hscroll::-webkit-scrollbar{height:8px}
 .hscroll::-webkit-scrollbar-thumb{background:rgba(15,23,32,.16);border-radius:999px}
 .hscroll > *{scroll-snap-align:start;flex:0 0 auto}
+.has-scroll-indicator{position:relative}
+.has-scroll-indicator .scroll-indicator{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:6px;
+  height:16px;
+  pointer-events:none;
+  opacity:.92;
+}
+.has-scroll-indicator .scroll-indicator-track{
+  position:absolute;
+  inset:0;
+  background:rgba(15,23,32,.10);
+}
+.has-scroll-indicator .scroll-indicator-thumb{
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  background:rgba(11,42,58,.78);
+}
 @media (max-width: 720px){
   #bonnes-affaires .hscroll{
-    position:relative;
     padding-bottom:26px;
     scrollbar-width:none;
   }
   #bonnes-affaires .hscroll::-webkit-scrollbar{height:0}
-  #bonnes-affaires .hscroll::before{
-    content:"";
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:6px;
-    height:14px;
-    background:rgba(15,23,32,.10);
-    border-radius:999px;
-    pointer-events:none;
-  }
-  #bonnes-affaires .hscroll::after{
-    content:"";
-    position:absolute;
-    left:12%;
-    right:12%;
-    bottom:6px;
-    height:14px;
-    background:rgba(11,42,58,.72);
-    border-radius:999px;
-    pointer-events:none;
-    opacity:.60;
-  }
 }
 .card.listing.compact{width:min(420px, 92vw)}
 .card.listing.compact .media{aspect-ratio:16/9}

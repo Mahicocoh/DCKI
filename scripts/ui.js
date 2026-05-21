@@ -1527,6 +1527,82 @@ export function mountToTopFab() {
   document.body.appendChild(a);
 }
 
+export function mountScrollIndicators() {
+  const mql = window.matchMedia ? window.matchMedia("(max-width: 720px)") : null;
+  const hosts = [
+    ...document.querySelectorAll("body[data-page='listing'] .distances-table"),
+    ...document.querySelectorAll("#bonnes-affaires .hscroll"),
+  ].filter((el) => el instanceof HTMLElement);
+
+  if (!hosts.length) return;
+
+  const attach = (host) => {
+    if (!(host instanceof HTMLElement)) return;
+    if (host.querySelector(":scope > .scroll-indicator")) return;
+
+    const wrap = document.createElement("div");
+    wrap.className = "scroll-indicator";
+    wrap.setAttribute("aria-hidden", "true");
+    const track = document.createElement("div");
+    track.className = "scroll-indicator-track";
+    const thumb = document.createElement("div");
+    thumb.className = "scroll-indicator-thumb";
+    wrap.appendChild(track);
+    wrap.appendChild(thumb);
+    host.appendChild(wrap);
+
+    let raf = 0;
+    const update = () => {
+      const mobile = mql ? mql.matches : true;
+      const max = host.scrollWidth - host.clientWidth;
+      const needs = max > 1;
+      const on = mobile && needs;
+      host.classList.toggle("has-scroll-indicator", on);
+      wrap.style.display = on ? "block" : "none";
+      if (!on) return;
+
+      const trackW = wrap.clientWidth || host.clientWidth;
+      const ratio = host.clientWidth / host.scrollWidth;
+      const thumbW = Math.max(48, Math.round(trackW * ratio));
+      const left = max ? Math.round((trackW - thumbW) * (host.scrollLeft / max)) : 0;
+      thumb.style.width = `${thumbW}px`;
+      thumb.style.transform = `translateX(${left}px)`;
+    };
+
+    const schedule = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        update();
+      });
+    };
+
+    host.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule, { passive: true });
+
+    if (mql) {
+      const onChange = () => schedule();
+      if (typeof mql.addEventListener === "function") mql.addEventListener("change", onChange);
+      else if (typeof mql.addListener === "function") mql.addListener(onChange);
+    }
+
+    if (typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(() => schedule());
+      ro.observe(host);
+      ro.observe(wrap);
+    }
+
+    if (typeof MutationObserver !== "undefined") {
+      const mo = new MutationObserver(() => schedule());
+      mo.observe(host, { childList: true, subtree: true });
+    }
+
+    schedule();
+  };
+
+  for (const host of hosts) attach(host);
+}
+
 export function mountCantonBubbles() {
   const hosts = Array.from(document.querySelectorAll(".advice-map-right")).filter((el) => el.querySelector(".advice-map-bubble"));
   if (!hosts.length) return;
