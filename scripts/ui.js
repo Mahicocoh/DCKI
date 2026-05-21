@@ -1552,19 +1552,24 @@ export function mountScrollIndicators() {
     host.appendChild(wrap);
 
     let raf = 0;
+    const getMetrics = () => {
+      const max = host.scrollWidth - host.clientWidth;
+      const trackW = wrap.clientWidth || host.clientWidth;
+      const ratio = host.clientWidth / host.scrollWidth;
+      const thumbW = Math.max(48, Math.round(trackW * ratio));
+      const travel = Math.max(1, trackW - thumbW);
+      return { max, trackW, thumbW, travel };
+    };
     const update = () => {
       const mobile = mql ? mql.matches : true;
-      const max = host.scrollWidth - host.clientWidth;
+      const { max, trackW, thumbW, travel } = getMetrics();
       const needs = max > 1;
       const on = mobile && needs;
       host.classList.toggle("has-scroll-indicator", on);
       wrap.style.display = on ? "block" : "none";
       if (!on) return;
 
-      const trackW = wrap.clientWidth || host.clientWidth;
-      const ratio = host.clientWidth / host.scrollWidth;
-      const thumbW = Math.max(48, Math.round(trackW * ratio));
-      const left = max ? Math.round((trackW - thumbW) * (host.scrollLeft / max)) : 0;
+      const left = max ? Math.round(travel * (host.scrollLeft / max)) : 0;
       thumb.style.width = `${thumbW}px`;
       thumb.style.transform = `translateX(${left}px)`;
     };
@@ -1597,6 +1602,54 @@ export function mountScrollIndicators() {
       mo.observe(host, { childList: true, subtree: true });
     }
 
+    let dragging = null;
+    const isOn = () => wrap.style.display !== "none";
+    const clientX = (e) => {
+      if (e.touches && e.touches[0]) return e.touches[0].clientX;
+      if (e.changedTouches && e.changedTouches[0]) return e.changedTouches[0].clientX;
+      return e.clientX;
+    };
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const setFromLeft = (left) => {
+      const { max, travel } = getMetrics();
+      if (max <= 0) return;
+      const pos = clamp(left, 0, travel);
+      host.scrollLeft = (pos / travel) * max;
+    };
+    const startDrag = (e, mode) => {
+      if (!isOn()) return;
+      if (mql && !mql.matches) return;
+      schedule();
+      const rect = wrap.getBoundingClientRect();
+      const x = clientX(e) - rect.left;
+      const { travel } = getMetrics();
+      const thumbRect = thumb.getBoundingClientRect();
+      const thumbLeft = thumbRect.left - rect.left;
+      const thumbW = thumbRect.width;
+      const offset = mode === "thumb" ? clamp(x - thumbLeft, 0, Math.max(1, thumbW)) : Math.round(thumbW / 2);
+      dragging = { rect, offset };
+      setFromLeft(x - offset);
+      window.addEventListener("pointermove", moveDrag, { passive: false });
+      window.addEventListener("pointerup", endDrag, { passive: true });
+      window.addEventListener("pointercancel", endDrag, { passive: true });
+      e.preventDefault();
+    };
+    const moveDrag = (e) => {
+      if (!dragging) return;
+      const x = clientX(e) - dragging.rect.left;
+      setFromLeft(x - dragging.offset);
+      e.preventDefault();
+    };
+    const endDrag = (e) => {
+      if (!dragging) return;
+      dragging = null;
+      window.removeEventListener("pointermove", moveDrag);
+      window.removeEventListener("pointerup", endDrag);
+      window.removeEventListener("pointercancel", endDrag);
+    };
+
+    thumb.addEventListener("pointerdown", (e) => startDrag(e, "thumb"));
+    track.addEventListener("pointerdown", (e) => startDrag(e, "track"));
     schedule();
   };
 

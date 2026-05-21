@@ -4390,7 +4390,9 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   right:0;
   bottom:6px;
   height:16px;
-  pointer-events:none;
+  pointer-events:auto;
+  border-radius:999px;
+  overflow:hidden;
   opacity:.92;
 }
 .has-scroll-indicator .scroll-indicator-track{
@@ -4404,6 +4406,8 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   bottom:0;
   left:0;
   background:rgba(11,42,58,.78);
+  border-radius:999px;
+  touch-action:none;
 }
 @media (max-width: 720px){
   #bonnes-affaires .hscroll{
