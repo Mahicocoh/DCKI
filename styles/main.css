@@ -328,7 +328,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
   right:0;
   min-width:220px;
   padding:8px;
-  border-radius:16px;
+  border-radius:0;
   border:1px solid rgba(15,23,32,.10);
   background:rgba(255,255,255,.96);
   backdrop-filter:blur(14px);
@@ -360,7 +360,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
   align-items:center;
   gap:10px;
   padding:10px 12px;
-  border-radius:12px;
+  border-radius:0;
   color:var(--muted);
   border:1px solid transparent;
   font-weight:850;
@@ -399,7 +399,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
   display:flex;
   align-items:center;
   padding:10px 12px;
-  border-radius:12px;
+  border-radius:0;
   border:1px solid rgba(15,23,32,.10);
   background:rgba(255,255,255,.74);
   color:rgba(15,23,32,.80);
@@ -441,7 +441,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
   gap:14px;
   background:linear-gradient(180deg, rgba(247,246,243,.96) 0%, rgba(255,255,255,.92) 100%);
   backdrop-filter:none;
-  border-radius:16px;
+  border-radius:0;
   overflow:hidden;
   padding-bottom:max(40px, env(safe-area-inset-bottom));
 }
@@ -543,7 +543,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
     width:min(80vw, 720px);
     min-width:0;
     padding:16px;
-    border-radius:24px 0 0 24px;
+    border-radius:0;
     border:0;
     background:#ffffff;
     backdrop-filter:none;
@@ -570,7 +570,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
     gap:12px;
     padding:16px 18px;
     min-height:52px;
-    border-radius:16px;
+    border-radius:0;
     border:1px solid rgba(15,23,32,.08);
     background:transparent;
     color:rgba(15,23,32,.78);
@@ -4383,6 +4383,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 .hscroll::-webkit-scrollbar{height:8px}
 .hscroll::-webkit-scrollbar-thumb{background:rgba(15,23,32,.16);border-radius:999px}
 .hscroll > *{scroll-snap-align:start;flex:0 0 auto}
+.scroll-indicator-wrap{position:relative;display:block}
 .has-scroll-indicator{position:relative}
 .has-scroll-indicator .scroll-indicator{
   position:absolute;
@@ -4394,6 +4395,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   border-radius:999px;
   overflow:hidden;
   opacity:.92;
+  z-index:5;
 }
 .has-scroll-indicator .scroll-indicator-track{
   position:absolute;
@@ -6406,3 +6408,9 @@ body *{border-radius:0 !important}
 .footer-contact-ico,
 .is24-smart-toggle input,
 .is24-smart-toggle input::after{border-radius:999px !important}
+.topbar-menu-panel{border-radius:0 !important}
+.topbar-menu-panel .topbar-menu-footer{border-radius:0 !important}
+.topbar-menu-panel .topbar-menu-contact{display:none}
+.topbar-menu-panel .topbar-menu-footer-k{text-align:center;justify-self:center}
+.topbar-menu-panel .topbar-menu-footer-block{justify-items:center;text-align:center}
+.topbar-menu-panel .topbar-menu-footer-social{justify-content:center;padding-right:0}

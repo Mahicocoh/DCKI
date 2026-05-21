@@ -1538,7 +1538,18 @@ export function mountScrollIndicators() {
 
   const attach = (host) => {
     if (!(host instanceof HTMLElement)) return;
-    if (host.querySelector(":scope > .scroll-indicator")) return;
+    const ensureWrapper = () => {
+      const p = host.parentElement;
+      if (p instanceof HTMLElement && p.classList.contains("scroll-indicator-wrap")) return p;
+      const wrap = document.createElement("div");
+      wrap.className = "scroll-indicator-wrap";
+      host.insertAdjacentElement("beforebegin", wrap);
+      wrap.appendChild(host);
+      return wrap;
+    };
+
+    const outer = ensureWrapper();
+    if (outer.querySelector(":scope > .scroll-indicator")) return;
 
     const wrap = document.createElement("div");
     wrap.className = "scroll-indicator";
@@ -1549,7 +1560,7 @@ export function mountScrollIndicators() {
     thumb.className = "scroll-indicator-thumb";
     wrap.appendChild(track);
     wrap.appendChild(thumb);
-    host.appendChild(wrap);
+    outer.appendChild(wrap);
 
     let raf = 0;
     const getMetrics = () => {
@@ -1565,7 +1576,7 @@ export function mountScrollIndicators() {
       const { max, trackW, thumbW, travel } = getMetrics();
       const needs = max > 1;
       const on = mobile && needs;
-      host.classList.toggle("has-scroll-indicator", on);
+      outer.classList.toggle("has-scroll-indicator", on);
       wrap.style.display = on ? "block" : "none";
       if (!on) return;
 
@@ -1594,7 +1605,7 @@ export function mountScrollIndicators() {
     if (typeof ResizeObserver !== "undefined") {
       const ro = new ResizeObserver(() => schedule());
       ro.observe(host);
-      ro.observe(wrap);
+      ro.observe(outer);
     }
 
     if (typeof MutationObserver !== "undefined") {
@@ -1634,6 +1645,23 @@ export function mountScrollIndicators() {
       window.addEventListener("pointercancel", endDrag, { passive: true });
       e.preventDefault();
     };
+    const startDragTouch = (e, mode) => {
+      if (!isOn()) return;
+      if (mql && !mql.matches) return;
+      schedule();
+      const rect = wrap.getBoundingClientRect();
+      const x = clientX(e) - rect.left;
+      const thumbRect = thumb.getBoundingClientRect();
+      const thumbLeft = thumbRect.left - rect.left;
+      const thumbW = thumbRect.width;
+      const offset = mode === "thumb" ? clamp(x - thumbLeft, 0, Math.max(1, thumbW)) : Math.round(thumbW / 2);
+      dragging = { rect, offset };
+      setFromLeft(x - offset);
+      window.addEventListener("touchmove", moveDrag, { passive: false });
+      window.addEventListener("touchend", endDrag, { passive: true });
+      window.addEventListener("touchcancel", endDrag, { passive: true });
+      e.preventDefault();
+    };
     const moveDrag = (e) => {
       if (!dragging) return;
       const x = clientX(e) - dragging.rect.left;
@@ -1646,12 +1674,18 @@ export function mountScrollIndicators() {
       window.removeEventListener("pointermove", moveDrag);
       window.removeEventListener("pointerup", endDrag);
       window.removeEventListener("pointercancel", endDrag);
+      window.removeEventListener("touchmove", moveDrag);
+      window.removeEventListener("touchend", endDrag);
+      window.removeEventListener("touchcancel", endDrag);
     };
 
     thumb.addEventListener("pointerdown", (e) => startDrag(e, "thumb"));
     track.addEventListener("pointerdown", (e) => startDrag(e, "track"));
+    thumb.addEventListener("touchstart", (e) => startDragTouch(e, "thumb"), { passive: false });
+    track.addEventListener("touchstart", (e) => startDragTouch(e, "track"), { passive: false });
     schedule();
   };
+
 
   for (const host of hosts) attach(host);
 }
