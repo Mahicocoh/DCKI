@@ -6406,6 +6406,7 @@ body *{border-radius:0 !important}
 .whatsapp-fab,
 .to-top-fab,
 .footer-contact-ico,
+.has-scroll-indicator .scroll-indicator-thumb,
 .is24-smart-toggle input,
 .is24-smart-toggle input::after{border-radius:999px !important}
 .topbar-menu-panel{border-radius:0 !important}
