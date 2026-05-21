@@ -81,6 +81,9 @@ while ($listener.IsListening) {
 
     $res.StatusCode = 200
     $res.ContentType = Get-ContentType $full
+    $res.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    $res.Headers["Pragma"] = "no-cache"
+    $res.Headers["Expires"] = "0"
     $bytes = [System.IO.File]::ReadAllBytes($full)
     $res.ContentLength64 = $bytes.Length
     $res.OutputStream.Write($bytes, 0, $bytes.Length)

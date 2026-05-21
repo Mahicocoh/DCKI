@@ -341,11 +341,13 @@ body.menu-open .topbar::before{backdrop-filter:none}
   transform:translateY(-6px) scale(.98);
   transition:opacity .18s ease, transform .22s cubic-bezier(.2,.8,.2,1), visibility .18s ease;
   z-index:260;
+  pointer-events:none;
 }
 .topbar-menu.open .topbar-menu-panel{
   opacity:1;
   visibility:visible;
   transform:translateY(0) scale(1);
+  pointer-events:auto;
 }
 .topbar-menu-links{
   display:flex;
@@ -819,10 +821,9 @@ body[data-page="listing"] .distances-table{
   body[data-page="listing"] .distances-table{
     position:relative;
     overflow-x:scroll;
-    scrollbar-gutter:stable both-edges;
+    scrollbar-gutter:auto;
     padding-bottom:26px;
-    scrollbar-width:auto;
-    scrollbar-color:rgba(11,42,58,.78) rgba(15,23,32,.10);
+    scrollbar-width:none;
   }
   body[data-page="listing"] .distances-table::before{
     content:"";
@@ -847,9 +848,7 @@ body[data-page="listing"] .distances-table{
     pointer-events:none;
     opacity:.65;
   }
-  body[data-page="listing"] .distances-table::-webkit-scrollbar{height:16px}
-  body[data-page="listing"] .distances-table::-webkit-scrollbar-track{background:rgba(15,23,32,.10);border-radius:999px}
-  body[data-page="listing"] .distances-table::-webkit-scrollbar-thumb{background:rgba(11,42,58,.78);border-radius:999px;border:2px solid rgba(15,23,32,.10)}
+  body[data-page="listing"] .distances-table::-webkit-scrollbar{height:0}
 }
 body[data-page="listing"] .distances-head,
 body[data-page="listing"] .distances-row{
@@ -4412,7 +4411,9 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   #bonnes-affaires .hscroll{
     position:relative;
     padding-bottom:26px;
+    scrollbar-width:none;
   }
+  #bonnes-affaires .hscroll::-webkit-scrollbar{height:0}
   #bonnes-affaires .hscroll::before{
     content:"";
     position:absolute;
