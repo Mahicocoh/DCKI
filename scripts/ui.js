@@ -20,6 +20,19 @@ export function mountTopbarMenu() {
   const getOverlay = (menu) => menu.querySelector("[data-topbar-menu-overlay]");
   const getPanel = (menu) => menu.querySelector(".topbar-menu-panel");
 
+  document.body.classList.remove("menu-open");
+  for (const menu of menus) {
+    menu.classList.remove("open");
+    const btn = getButton(menu);
+    if (btn) btn.setAttribute("aria-expanded", "false");
+    for (const u of Array.from(menu.querySelectorAll("[data-useful-menu]"))) {
+      if (!(u instanceof HTMLElement)) continue;
+      u.classList.remove("open");
+      const t = u.querySelector("[data-useful-toggle]");
+      if (t instanceof HTMLElement) t.setAttribute("aria-expanded", "false");
+    }
+  }
+
   const syncBodyLock = () => {
     const anyOpen = menus.some((m) => m.classList.contains("open"));
     document.body.classList.toggle("menu-open", anyOpen);
@@ -2132,10 +2145,15 @@ export function mountCardGalleries() {
 
 export function mountReveals() {
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const targets = [
-    ...document.querySelectorAll("main > section:not(.hero):not([data-reveal-skip])"),
-    ...document.querySelectorAll("[data-reveal]"),
-  ];
+  const shouldReveal = (el) => {
+    if (!(el instanceof HTMLElement)) return false;
+    const banned = ".card,.hscroll,.service-feature,.partners-panel,.partner-card,.testimonials-shell";
+    if (el.matches(banned) || el.closest(banned)) return false;
+    if (el.querySelector("img,video,iframe")) return false;
+    return true;
+  };
+
+  const targets = Array.from(document.querySelectorAll("[data-reveal]")).filter(shouldReveal);
   if (!targets.length) return;
 
   const unique = Array.from(new Set(targets));
