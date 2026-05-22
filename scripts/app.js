@@ -1,11 +1,11 @@
-import { mountLoader } from "./loader.js?v=202605192235";
-import { initI18n } from "./i18n.js?v=202605192235";
-import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202605192235";
-import { initRecherche } from "./recherche.js?v=202605192235";
-import { initBiens } from "./biens.js?v=202605192235";
+import { mountLoader } from "./loader.js?v=202605222410";
+import { initI18n } from "./i18n.js?v=202605222410";
+import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202605222410";
+import { initRecherche } from "./recherche.js?v=202605222410";
+import { initBiens } from "./biens.js?v=202605222410";
 import { initHome } from "./home.js";
 import { initVideoFallbacks } from "./video-fallback.js";
-import { initListingPage } from "./listing-page.js?v=202605192235";
+import { initListingPage } from "./listing-page.js?v=202605222410";
 
 mountLoader();
 

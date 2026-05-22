@@ -2177,6 +2177,17 @@ function syncFavoritesUI(root = document) {
 }
 
 export function mountFavorites() {
+  const page = (document.body.getAttribute("data-page") || "").trim();
+  if (page !== "listing") {
+    for (const btn of Array.from(document.querySelectorAll("[data-fav-btn]"))) {
+      if (btn instanceof HTMLElement) btn.remove();
+    }
+    for (const card of Array.from(document.querySelectorAll(".card.listing.is-fav"))) {
+      if (card instanceof HTMLElement) card.classList.remove("is-fav");
+    }
+    return;
+  }
+
   for (const card of Array.from(document.querySelectorAll(".card.listing"))) {
     const media = card.querySelector(".media");
     if (!(media instanceof HTMLElement)) continue;
@@ -2307,6 +2318,8 @@ export function mountCardGalleries() {
 }
 
 export function mountReveals() {
+  const page = (document.body.getAttribute("data-page") || "").trim();
+  if (page === "contact") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const shouldReveal = (el) => {
     if (!(el instanceof HTMLElement)) return false;
@@ -2346,6 +2359,8 @@ export function mountReveals() {
 }
 
 export function mountTypewriters() {
+  const page = (document.body.getAttribute("data-page") || "").trim();
+  if (page === "contact") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const els = Array.from(document.querySelectorAll("[data-typewriter]"));
   if (!els.length) return;

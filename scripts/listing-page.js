@@ -1,7 +1,7 @@
 import { getListingFacts, getListingPhotos } from "./listings-data.js";
-import { formatCHF, formatRooms, showToast, getQueryParams, isFavorite } from "./ui.js?v=202605192235";
-import { loadListings } from "./listings-store.js?v=202605192235";
-import { getLang, pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605192235";
+import { formatCHF, formatRooms, showToast, getQueryParams, isFavorite } from "./ui.js?v=202605222500";
+import { loadListings } from "./listings-store.js?v=202605222500";
+import { getLang, pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605222500";
 
 function escapeHtml(s) {
   return String(s)
@@ -62,6 +62,51 @@ function clampInt(n, min, max) {
 
 function tagHtml(label) {
   return `<span class="tag">${escapeHtml(label)}</span>`;
+}
+
+function metaIcon(kind) {
+  if (kind === "pin") {
+    return `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 22s7-4.4 7-11a7 7 0 0 0-14 0c0 6.6 7 11 7 11Z"></path>
+        <circle cx="12" cy="11" r="2.5"></circle>
+      </svg>
+    `.trim();
+  }
+  if (kind === "bed") {
+    return `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 7v10"></path>
+        <path d="M21 17V7"></path>
+        <path d="M3 13h18"></path>
+        <path d="M7 10h10"></path>
+        <path d="M7 10a2 2 0 0 0-2 2v1"></path>
+        <path d="M17 10a2 2 0 0 1 2 2v1"></path>
+      </svg>
+    `.trim();
+  }
+  if (kind === "surface") {
+    return `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M4 9V4h5"></path>
+        <path d="M20 15v5h-5"></path>
+        <path d="M9 20H4v-5"></path>
+        <path d="M15 4h5v5"></path>
+      </svg>
+    `.trim();
+  }
+  return "";
+}
+
+function metaItem(icon, text) {
+  const label = String(text ?? "").trim();
+  if (!label) return "";
+  return `
+    <span class="meta-item">
+      ${icon ? `<span class="meta-ico">${icon}</span>` : ""}
+      <span class="meta-text">${escapeHtml(label)}</span>
+    </span>
+  `.trim();
 }
 
 function normalizeCharacteristics(listing, facts, statusLabel, typeText) {
@@ -593,7 +638,16 @@ function render(listing) {
     favBtn.setAttribute("aria-label", fav ? "Retirer des favoris" : "Ajouter aux favoris");
     favBtn.classList.toggle("is-on", fav);
   }
-  if (meta) meta.textContent = `${regionText} — ${listing.locality} • ${formatRooms(listing.rooms)} • ${listing.surface} m²`;
+  if (meta) {
+    meta.innerHTML = [
+      metaItem(metaIcon("pin"), regionText),
+      metaItem(metaIcon("pin"), listing.locality),
+      metaItem(metaIcon("bed"), formatRooms(listing.rooms)),
+      metaItem(metaIcon("surface"), `${listing.surface} m²`),
+    ]
+      .filter(Boolean)
+      .join("");
+  }
 
   const facts = getListingFacts(listing);
   if (availability) availability.textContent = facts.availableFrom ? t("listing.availableFrom", { date: facts.availableFrom }) : "";

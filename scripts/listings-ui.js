@@ -1,6 +1,6 @@
 import { getListingFacts } from "./listings-data.js";
-import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605192235";
-import { formatCHF, formatRooms, mountCardGalleries, mountFavorites } from "./ui.js?v=202605192235";
+import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605222500";
+import { formatCHF, formatRooms, mountCardGalleries } from "./ui.js?v=202605222500";
 
 export function listingCard(listing) {
   const rawStatus = String(listing.status || "")
@@ -47,7 +47,6 @@ export function listingCard(listing) {
       <a class="listing-link" data-rdv-link href="${escapeAttr(href)}" aria-label="${escapeAttr(t("listing.open"))}">
         <div class="media">
           <img src="${escapeAttr(listing.image)}" alt="${escapeAttr(titleText)}" loading="lazy" />
-          <span class="fav-btn" role="button" tabindex="0" aria-label="Ajouter aux favoris" aria-pressed="false" data-fav-btn></span>
           ${statusLabel ? `<div class="status-ribbon">${escapeHtml(statusLabel)}</div>` : ""}
         </div>
         <div class="body">
@@ -72,7 +71,6 @@ export function listingCard(listing) {
 export function renderListings(target, listings) {
   target.innerHTML = listings.map(listingCard).join("");
   mountCardGalleries();
-  mountFavorites();
 }
 
 export function escapeHtml(s) {
