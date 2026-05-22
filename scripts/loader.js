@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=202605222945";
+import { t } from "./i18n.js?v=202605223115";
 
 export function mountLoader() {
   const el = document.createElement("div");
