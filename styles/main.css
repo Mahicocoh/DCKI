@@ -1357,7 +1357,7 @@ body[data-page="conseils"] .hero-type-text{
   body[data-page="conseils"] .page-hero-content h1{font-size:36px}
   body[data-page="conseils"] .hero-type-text{font-size:17px}
   body[data-page="conseils"] .page-hero{min-height:46vh}
-  body[data-page="conseils"] .page-hero-bg{object-position:35% 32%}
+  body[data-page="conseils"] .page-hero-bg{object-position:72% 32%}
 }
 
 @media (max-width: 640px){
@@ -1383,7 +1383,7 @@ body[data-page="conseils"] .hero-type-text{
 @media (max-width: 420px){
   body[data-page="conseils"] .page-hero h1{font-size:32px}
   body[data-page="conseils"] .page-hero{min-height:40vh}
-  body[data-page="conseils"] .page-hero-bg{object-position:35% 28%}
+  body[data-page="conseils"] .page-hero-bg{object-position:72% 28%}
   body[data-page="conseils"] .section{padding:30px 0}
   body[data-page="conseils"] .section h2{font-size:24px}
   body[data-page="conseils"] .advice-article{padding-left:12px}
@@ -2980,8 +2980,10 @@ body[data-page="contact"] header,
 body[data-page="contact"] main,
 body[data-page="contact"] footer{
   position:relative;
-  z-index:1;
 }
+body[data-page="contact"] header{z-index:90}
+body[data-page="contact"] main,
+body[data-page="contact"] footer{z-index:1}
 body[data-page="contact"]::before{
   content:"";
   position:fixed;
@@ -3189,10 +3191,12 @@ body[data-page="contact"]::after{
 }
 .contact-team-card::before{display:none}
 body[data-page="contact"] .contact-team-card{
-  width:100vw;
-  margin-left:calc(50% - 50vw);
-  margin-right:calc(50% - 50vw);
+  width:auto;
+  max-width:520px;
+  margin-left:auto;
+  margin-right:auto;
 }
+.contact-team-stack{display:flex;flex-direction:column;align-items:center;text-align:center}
 .contact-team-photo{
   width:234px;
   height:234px;
@@ -3206,12 +3210,33 @@ body[data-page="contact"] .contact-team-card{
   transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   transform-origin:center;
 }
+.contact-team-stack .contact-team-photo{
+  width:min(360px, 100%);
+  height:320px;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.contact-team-stack .contact-team-photo::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:14px;
+  transform:translateX(-50%);
+  width:260px;
+  height:260px;
+  border-radius:999px;
+  background:rgba(15,23,32,.05);
+  pointer-events:none;
+}
 .contact-team-photo:hover{
   transform:scale(1.06);
   border-color:rgba(15,23,32,.16);
   box-shadow:0 22px 60px rgba(15,23,32,.16);
 }
 .contact-team-photo:active{transform:scale(1.03)}
+.contact-team-stack .contact-team-photo:hover,
+.contact-team-stack .contact-team-photo:active{transform:none;box-shadow:none;border-color:transparent}
 .contact-team-photo::after{
   content:"";
   position:absolute;
@@ -3220,6 +3245,7 @@ body[data-page="contact"] .contact-team-card{
   border:2px solid rgba(200,161,74,.28);
   pointer-events:none;
 }
+.contact-team-stack .contact-team-photo::after{display:none}
 .contact-team-photo img{
   width:100%;
   height:100%;
@@ -3231,9 +3257,11 @@ body[data-page="contact"] .contact-team-card{
   filter:none;
   transform:none;
 }
+.contact-team-stack .contact-team-photo img{position:relative;z-index:1;object-position:50% 10%}
 .contact-team-copy{min-width:0}
 .contact-team-k{font-size:12px;font-weight:950;letter-spacing:.16em;text-transform:uppercase;color:rgba(15,23,32,.62)}
-.contact-team-name{margin-top:10px;font-weight:950;letter-spacing:-0.02em;font-size:26px;color:rgba(7,17,28,.96)}
+.contact-team-name{margin-top:14px;font-weight:950;letter-spacing:-0.02em;font-size:26px;color:rgba(7,17,28,.96)}
+.contact-team-stack .contact-team-name{font-family:var(--fontDisplay);font-weight:700;font-size:46px;letter-spacing:-0.03em;line-height:1.06}
 .contact-team-role{margin-top:6px;color:rgba(15,23,32,.72);font-weight:800}
 .contact-team-actions{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
 .contact-team-main{display:flex;align-items:center;gap:24px}
@@ -3269,8 +3297,28 @@ body[data-page="contact"] .contact-team-card{
 .contact-team-showcase.reveal.is-visible .contact-team-highlight:nth-child(3) .v{transition-delay:.42s}
 .contact-team-sep{width:48px;height:3px;border-radius:999px;background:linear-gradient(90deg, var(--accent), var(--accent2));margin:12px 0;transform:scaleX(0);transform-origin:left;transition:transform .9s cubic-bezier(.2,.8,.2,1)}
 .contact-team-showcase.reveal.is-visible .contact-team-sep{transform:scaleX(1)}
-.contact-team-card .contact-team-actions{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;align-items:stretch}
+.contact-team-card .contact-team-actions{display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:12px;align-items:stretch;margin-top:22px}
 .contact-team-card .contact-team-actions .btn{width:100%;justify-content:center}
+body[data-page="contact"] .contact-team-card .team-desc{max-width:40ch;margin-left:auto;margin-right:auto}
+body[data-page="contact"] .contact-team-card .team-proof{display:flex;justify-content:center;margin-top:14px}
+body[data-page="contact"] .contact-team-card .team-proof-item{
+  padding:10px 14px;
+  border:1px solid rgba(15,23,32,.12);
+  background:rgba(255,255,255,.92);
+  border-radius:999px;
+  box-shadow:0 12px 34px rgba(15,23,32,.08);
+}
+body[data-page="contact"] .contact-team-card .team-proof-ico{
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  border:1px solid rgba(15,23,32,.10);
+  background:#ffffff;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+}
+body[data-page="contact"] .contact-team-card .team-proof-ico svg{width:16px;height:16px}
 @media (max-width: 980px){
   .contact-hero-title{font-size:44px}
   .contact-hero-visual img{height:360px}
@@ -3281,6 +3329,7 @@ body[data-page="contact"] .contact-team-card{
   .contact-team-highlights{grid-template-columns:repeat(3, minmax(0, 1fr));border-top:1px solid rgba(200,161,74,.22);padding-top:14px}
   .contact-team-highlight{min-width:0;padding:10px 12px}
   .contact-team-photo{width:200px;height:200px}
+  body[data-page="contact"] .contact-team-card{max-width:520px}
 }
 @media (max-width: 720px){
   .contact-team-showcase.reveal .contact-team-highlight .v{opacity:1;transform:none;filter:none;transition:none}
@@ -3289,6 +3338,10 @@ body[data-page="contact"] .contact-team-card{
   .contact-team-copy{width:100%;text-align:center}
   .contact-team-sep{margin-left:auto;margin-right:auto}
   .contact-team-showcase .team-proof{display:flex;justify-content:center}
+  body[data-page="contact"] .contact-team-card{max-width:520px}
+  body[data-page="contact"] .contact-team-card .contact-team-stack .contact-team-name{font-size:40px}
+  body[data-page="contact"] .contact-team-card .contact-team-stack .contact-team-photo{height:300px}
+  body[data-page="contact"] .contact-team-card .contact-team-stack .contact-team-photo::before{width:240px;height:240px}
   .contact-hero{
     padding:34px 0 24px;
     min-height:420px;
@@ -6371,10 +6424,22 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .footer-cols{padding-left:0;border-left:0}
   .footer-cols .footer-col + .footer-col{border-left:0}
   .footer-contact-item + .footer-contact-item{border-top:0;padding-top:0}
-  .footer-bottom{flex-direction:column;align-items:flex-start;text-align:left}
-  .footer-bottom-left{padding-left:0}
-  .footer-bottom-left::before{content:none}
-  .footer-bottom-right{text-align:left}
+  .footer-top{justify-items:center;text-align:center}
+  .footer-brand{align-items:center;text-align:center}
+  .footer-desc{text-align:center}
+  .footer-social{justify-content:center}
+  .footer-cols{justify-items:center;text-align:center}
+  .footer-cols .footer-col{justify-self:center}
+  .footer-col .k{display:block}
+  .footer-col .k::after{margin-left:auto;margin-right:auto}
+  .footer-col a{text-align:center}
+  .footer-cols .footer-col:first-child a{justify-content:center}
+  .footer-contact{align-items:center}
+  .footer-contact-item{justify-content:center}
+  .footer-contact-text{text-align:center}
+  .footer-bottom{flex-direction:column;align-items:center;text-align:center}
+  .footer-bottom-left{display:none}
+  .footer-bottom-right{width:100%;text-align:center}
   .footer-desc{max-width:none;overflow-wrap:anywhere}
   .about-showcase{padding:16px;border-radius:18px}
   .about-showcase-head h2{font-size:28px}
