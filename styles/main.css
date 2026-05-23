@@ -3198,6 +3198,13 @@ body[data-page="contact"] .contact-team-card{
   margin-right:0;
 }
 .contact-team-stack{display:flex;flex-direction:column;align-items:center;text-align:center}
+.contact-team-section-title{
+  margin:0 0 10px;
+  font-size:18px;
+  font-weight:950;
+  color:rgba(15,23,32,.92);
+  letter-spacing:-0.01em;
+}
 .contact-team-photo{
   width:234px;
   height:234px;
@@ -6469,7 +6476,8 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .footer-brand{align-items:center;text-align:center}
   .footer-desc{text-align:center}
   .footer-social{justify-content:center}
-  .footer-cols{justify-items:center;text-align:center}
+  .footer-cols{grid-template-columns:1fr;justify-items:center;text-align:center;padding-left:0;border-left:0}
+  .footer-cols .footer-col + .footer-col{border-left:0}
   .footer-cols .footer-col{justify-self:center}
   .footer-col .k{display:block}
   .footer-col .k::after{margin-left:auto;margin-right:auto}
