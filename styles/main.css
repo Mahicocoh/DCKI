@@ -6452,7 +6452,19 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .footer-col .k{display:block}
   .footer-col .k::after{margin-left:auto;margin-right:auto}
   .footer-col a{text-align:center}
-  .footer-cols .footer-col:first-child a{justify-content:center}
+  .footer-cols .footer-col:first-child a{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    max-width:240px;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:14px;
+    line-height:1.35;
+  }
+  .footer-cols .footer-col:first-child a::before{width:16px;height:16px;background-size:16px 16px}
   .footer-cols .footer-col:first-child a::after{left:50%;transform:translateX(-50%)}
   .footer-contact{align-items:center}
   .footer-contact-item{justify-content:center}
@@ -6482,10 +6494,25 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .footer-col .k{display:block}
   .footer-col .k::after{margin-left:auto;margin-right:auto}
   .footer-col a{text-align:center}
-  .footer-cols .footer-col:first-child a{justify-content:center}
+  .footer-cols .footer-col:first-child a{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    max-width:240px;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:14px;
+    line-height:1.35;
+  }
+  .footer-cols .footer-col:first-child a::before{width:16px;height:16px;background-size:16px 16px}
   .footer-cols .footer-col:first-child a::after{left:50%;transform:translateX(-50%)}
   .footer-contact{align-items:center}
-  .footer-contact-item{justify-content:center;position:relative}
+  .footer-contact-item{justify-content:center;position:relative;flex-direction:column;gap:10px}
+  .footer-contact-ico{margin:0 auto}
+  .footer-contact-text{justify-items:center}
+  .footer-contact .footer-contact-text a{white-space:normal;overflow-wrap:anywhere;word-break:break-word}
   .footer-contact-item:not(:last-child){padding-bottom:18px}
   .footer-contact-item:not(:last-child)::after{
     content:"";
