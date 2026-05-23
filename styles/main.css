@@ -836,7 +836,7 @@ body[data-page="listing"] .listing-price{
   background:linear-gradient(180deg, rgba(235,240,246,.98), rgba(226,232,240,.94));
   border:1px solid rgba(15,23,32,.10);
   box-shadow:0 16px 46px rgba(15,23,32,.12);
-  border-radius:12px !important;
+  border-radius:0 !important;
 }
 .cta{display:flex;gap:10px;flex-wrap:wrap}
 body[data-page="listing"] .meta{overflow-wrap:anywhere}
@@ -872,17 +872,22 @@ body[data-page="listing"] .meta-ico svg{width:18px;height:18px;display:block}
     overflow:auto;
     -webkit-overflow-scrolling:touch;
     gap:10px;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
   }
-  body[data-page="listing"] .meta::-webkit-scrollbar{height:0}
+  body[data-page="listing"] .meta::-webkit-scrollbar{height:0;display:none}
   body[data-page="listing"] .meta-item{
     margin-right:0;
-    padding:8px 10px;
+    padding:6px 8px;
     border:1px solid rgba(15,23,32,.10);
     background:rgba(255,255,255,.92);
     border-radius:0 !important;
     white-space:nowrap;
+    gap:6px;
+    font-size:12.5px;
   }
   body[data-page="listing"] .meta-item:not(:last-child)::after{content:none}
+  body[data-page="listing"] .meta-ico svg{width:16px;height:16px}
 }
 body[data-page="listing"] .facts,
 body[data-page="listing"] .features{max-width:100%}
@@ -3216,16 +3221,7 @@ body[data-page="contact"] .contact-team-card{
   box-shadow:none;
 }
 .contact-team-stack .contact-team-photo::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%, -50%);
-  width:calc(100% + 70px);
-  height:calc(100% + 70px);
-  border-radius:999px;
-  background:rgba(15,23,32,.04);
-  pointer-events:none;
+  display:none;
 }
 .contact-team-photo:hover{
   transform:scale(1.06);
