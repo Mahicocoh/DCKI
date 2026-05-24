@@ -3225,21 +3225,10 @@ body[data-page="contact"] .contact-team-card{
   border:0;
   background:#ffffff;
   box-shadow:none;
-  overflow:visible;
+  overflow:hidden;
 }
 .contact-team-stack .contact-team-photo::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%, -50%);
-  width:calc(100% + 92px);
-  height:calc(100% + 92px);
-  border-radius:999px;
-  background:rgba(15,23,32,.06);
-  border:1px solid rgba(15,23,32,.08);
-  pointer-events:none;
-  z-index:0;
+  display:none;
 }
 .contact-team-photo:hover{
   transform:scale(1.06);
@@ -3264,7 +3253,7 @@ body[data-page="contact"] .contact-team-card{
   object-fit:cover;
   object-position:50% 8%;
   display:block;
-  background:#ffffff;
+  background:transparent;
   image-rendering:auto;
   filter:none;
   transform:none;
@@ -3314,7 +3303,7 @@ body[data-page="contact"] .contact-team-card{
 body[data-page="contact"] .contact-team-card .team-desc{max-width:40ch;margin-left:auto;margin-right:auto}
 body[data-page="contact"] .contact-team-card .team-proof{display:flex;justify-content:center;margin-top:14px}
 body[data-page="contact"] .contact-team-card .team-proof-item{
-  padding:10px 14px;
+  padding:9px 13px;
   border:1px solid rgba(15,23,32,.12);
   background:rgba(255,255,255,.92);
   border-radius:999px;
@@ -5952,9 +5941,13 @@ body[data-page="listing"] .listing-top-row .fav-btn{
 .footer-social{
   margin-top:8px;
   display:flex;
-  gap:10px;
+  gap:12px;
   flex-wrap:wrap;
   align-items:center;
+}
+@supports not (gap: 12px){
+  .footer-social .social-btn + .social-btn{margin-left:12px}
+  .topbar-menu-footer-social .social-btn + .social-btn{margin-left:12px}
 }
 .footer-col .footer-social{margin-top:18px}
 .footer-social .k{
@@ -5980,7 +5973,7 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   text-decoration:none;
   transition:transform .16s ease, border-color .16s ease, background .16s ease, color .16s ease, box-shadow .16s ease;
 }
-.social-btn svg{width:18px;height:18px}
+.social-btn svg{width:18px;height:18px;display:block}
 .social-btn:hover{
   transform:translateY(-2px);
   border-color:transparent;
@@ -5989,15 +5982,17 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   box-shadow:0 22px 54px rgba(11,42,58,.22);
 }
 .footer .footer-social .social-btn{
-  width:34px;
-  height:34px;
+  width:32px;
+  height:32px;
   background:transparent;
   border-color:rgba(255,255,255,.26);
   box-shadow:none;
   color:rgba(255,255,255,.86);
   transform:none;
+  display:grid;
+  place-items:center;
 }
-.footer .footer-social .social-btn svg{width:16px;height:16px}
+.footer .footer-social .social-btn svg{width:15px;height:15px;display:block;transform:translateY(.5px)}
 .footer .footer-social .social-btn:hover{
   background:rgba(255,255,255,.08);
   border-color:rgba(255,255,255,.42);
@@ -6013,8 +6008,10 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   box-shadow:0 14px 34px rgba(15,23,32,.10);
   color:rgba(11,42,58,.90);
   transform:none;
+  display:grid;
+  place-items:center;
 }
-.topbar-menu-footer .topbar-menu-footer-social .social-btn svg{width:18px;height:18px}
+.topbar-menu-footer .topbar-menu-footer-social .social-btn svg{width:18px;height:18px;display:block}
 .topbar-menu-footer .topbar-menu-footer-social .social-btn:hover{
   background:linear-gradient(90deg, var(--accent), var(--accent2));
   border-color:transparent;
@@ -6458,10 +6455,12 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .footer-top{justify-items:center;text-align:center}
   .footer-brand{align-items:center;text-align:center}
   .footer-desc{text-align:center}
-  .footer-social{justify-content:center}
+  .footer-social{justify-content:center;width:100%}
   .footer-cols{justify-items:center;text-align:center}
   .footer-cols .footer-col{justify-self:center}
   .footer-col .k{display:block;font-size:13px}
+  .footer-cols .footer-col:nth-child(2) > .k{display:none}
+  .footer-col .footer-social{margin-top:22px}
   .footer-col .k::after{margin-left:auto;margin-right:auto}
   .footer-col a{text-align:center}
   .footer-cols .footer-col:first-child a{
@@ -6502,11 +6501,13 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .footer-top{justify-items:center;text-align:center}
   .footer-brand{align-items:center;text-align:center}
   .footer-desc{text-align:center}
-  .footer-social{justify-content:center}
+  .footer-social{justify-content:center;width:100%}
   .footer-cols{grid-template-columns:1fr;justify-items:center;text-align:center;padding-left:0;border-left:0}
   .footer-cols .footer-col + .footer-col{border-left:0}
   .footer-cols .footer-col{justify-self:center}
   .footer-col .k{display:block;font-size:13px}
+  .footer-cols .footer-col:nth-child(2) > .k{display:none}
+  .footer-col .footer-social{margin-top:22px}
   .footer-col .k::after{margin-left:auto;margin-right:auto}
   .footer-col a{text-align:center}
   .footer-cols .footer-col:first-child a{
