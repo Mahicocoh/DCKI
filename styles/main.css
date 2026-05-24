@@ -3225,9 +3225,21 @@ body[data-page="contact"] .contact-team-card{
   border:0;
   background:#ffffff;
   box-shadow:none;
+  overflow:visible;
 }
 .contact-team-stack .contact-team-photo::before{
-  display:none;
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  width:calc(100% + 92px);
+  height:calc(100% + 92px);
+  border-radius:999px;
+  background:rgba(15,23,32,.06);
+  border:1px solid rgba(15,23,32,.08);
+  pointer-events:none;
+  z-index:0;
 }
 .contact-team-photo:hover{
   transform:scale(1.06);
