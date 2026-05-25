@@ -1,6 +1,6 @@
-import { showToast, formatRooms, mountToTopFab } from "../scripts/ui.js?v=202605252747";
+import { showToast, formatRooms, mountToTopFab } from "../scripts/ui.js?v=202605252840";
 import { getListingPhotos } from "../scripts/listings-data.js";
-import { getLang, initI18n, t } from "../scripts/i18n.js?v=202605252747";
+import { getLang, initI18n, t } from "../scripts/i18n.js?v=202605252840";
 
 const listHost = document.querySelector("[data-admin-list]");
 const countEl = document.querySelector("[data-admin-count]");
