@@ -2967,9 +2967,9 @@ body[data-page="contact"] .contact-hero-visual{display:none}
 body[data-page="contact"] .contact-team-showcase{
   padding-top:18px;
   padding-bottom:28px;
-  border-bottom:1px solid rgba(15,23,32,.10);
-  background:rgba(255,255,255,.98);
-  backdrop-filter:blur(10px);
+  border-bottom:0;
+  background:transparent;
+  backdrop-filter:none;
 }
 body[data-page="contact"] .contact-team-showcase + .contact-who{margin-top:18px}
 body[data-page="contact"] .contact-who{
@@ -3212,7 +3212,7 @@ body[data-page="contact"] .contact-who-title{font-size:48px;line-height:1.06}
   display:block;
   padding:26px max(22px, env(safe-area-inset-right)) 26px max(22px, env(safe-area-inset-left));
   border-radius:0;
-  border:1px solid rgba(15,23,32,.10);
+  border:0;
   background:#ffffff;
   box-shadow:none;
   position:relative;
@@ -3231,7 +3231,7 @@ body[data-page="contact"] .contact-team-card{
   border-radius:0;
   overflow:hidden;
   background:#ffffff;
-  border:1px solid rgba(15,23,32,.10);
+  border:0;
   flex:0 0 auto;
   position:relative;
   transition:transform .18s ease, border-color .18s ease;
@@ -3239,7 +3239,6 @@ body[data-page="contact"] .contact-team-card{
 }
 .contact-team-photo:hover{
   transform:scale(1.06);
-  border-color:rgba(15,23,32,.16);
 }
 .contact-team-photo:active{transform:scale(1.03)}
 .contact-team-photo img{
@@ -6429,12 +6428,13 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .quick-search .panel{margin-top:0}
   .page-hero{min-height:44vh;padding:30px 0 22px;align-items:flex-end}
   .page-hero h1{font-size:30px}
+  .footer .container{padding-left:12px;padding-right:12px}
   .footer-logo{margin-top:0;width:260px;max-width:100%}
   .footer-cols{grid-template-columns:1fr}
   .footer-cols{padding-left:0;border-left:0}
   .footer-cols .footer-col + .footer-col{border-left:0}
   .footer-contact-item + .footer-contact-item{border-top:0;padding-top:0}
-  .footer-top{justify-items:center;text-align:center}
+  .footer-top{justify-items:stretch;text-align:center}
   .footer-brand{align-items:center;text-align:center}
   .footer-desc{text-align:center}
   .footer-social{justify-content:flex-start;width:100%}
@@ -6482,7 +6482,8 @@ body[data-page="listing"] .listing-top-row .fav-btn{
 }
 
 @media (max-width: 720px){
-  .footer-top{justify-items:center;text-align:center}
+  .footer .container{padding-left:12px;padding-right:12px}
+  .footer-top{justify-items:stretch;text-align:center}
   .footer-brand{align-items:center;text-align:center}
   .footer-desc{text-align:center}
   .footer-social{justify-content:flex-start;width:100%}

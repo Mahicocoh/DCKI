@@ -1,6 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
 import { loadListings } from "./listings-store.js?v=202605223115";
-import { getLang, t } from "./i18n.js?v=202605252633";
+import { getLang, t } from "./i18n.js?v=202605252715";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
