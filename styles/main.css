@@ -3338,23 +3338,25 @@ body[data-page="contact"] .contact-team-card{
   .contact-team-highlight + .contact-team-highlight{border-left:0;border-top:1px solid rgba(15,23,32,.10)}
   .contact-hero{
     padding:34px 0 24px;
-    min-height:420px;
-    background:url("../assets/photo contact haut.png") 78% 50% / cover no-repeat;
-    backdrop-filter:blur(10px);
+    min-height:unset;
+    background:transparent;
+    backdrop-filter:none;
     position:relative;
   }
-  .contact-hero::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:
-      linear-gradient(90deg, rgba(255,255,255,.94) 0%, rgba(255,255,255,.90) 42%, rgba(255,255,255,.62) 58%, rgba(255,255,255,0) 76%),
-      linear-gradient(180deg, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 40%);
-    pointer-events:none;
+  .contact-hero::before{display:none}
+  .contact-hero::after{display:none}
+  .contact-hero-grid{
+    display:flex;
+    flex-direction:column;
+    background:#ffffff;
+    background-clip:content-box;
+    border:0;
+    box-shadow:none;
+    overflow:hidden;
   }
-  .contact-hero-copy{padding:0;background:transparent;border:0;box-shadow:none;backdrop-filter:none}
-  .contact-hero-grid{display:block}
-  body[data-page="contact"] .contact-hero-visual{display:none}
+  body[data-page="contact"] .contact-hero-visual{display:block;order:-1;border:0;border-radius:0;box-shadow:none;background:transparent}
+  .contact-hero-visual img{height:220px;border-radius:0}
+  .contact-hero-copy{padding:18px;background:transparent;border:0;box-shadow:none;backdrop-filter:none}
   .contact-hero-title{font-size:32px}
   .contact-hero-actions{width:100%;flex-wrap:wrap;overflow:visible}
   .contact-hero-actions .btn{width:100%;white-space:normal;flex:1 1 100%}      
