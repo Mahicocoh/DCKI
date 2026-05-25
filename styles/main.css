@@ -3354,7 +3354,14 @@ body[data-page="contact"] .contact-team-card{
     box-shadow:none;
     overflow:hidden;
   }
-  body[data-page="contact"] .contact-hero-visual{display:block;order:-1;border:0;border-radius:0;box-shadow:none;background:transparent}
+  body[data-page="contact"] .contact-hero-visual{display:block;order:-1;border:0;border-radius:0;box-shadow:none;background:transparent;position:relative}
+  body[data-page="contact"] .contact-hero-visual::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.55) 78%, rgba(255,255,255,1) 100%);
+    pointer-events:none;
+  }
   .contact-hero-visual img{height:220px;border-radius:0}
   .contact-hero-copy{padding:18px;background:transparent;border:0;box-shadow:none;backdrop-filter:none}
   .contact-hero-title{font-size:32px}
