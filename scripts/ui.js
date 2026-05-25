@@ -1,6 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
 import { loadListings } from "./listings-store.js?v=202605223115";
-import { getLang, t } from "./i18n.js?v=202605260015";
+import { getLang, t } from "./i18n.js?v=202605260120";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -1553,43 +1553,33 @@ export function mountToTopFab() {
   window.addEventListener("resize", update, { passive: true });
   update();
 
-  a.addEventListener("click", (e) => {
-    e.preventDefault();
-    const topEl = document.getElementById("top");
-    if (topEl && typeof topEl.scrollIntoView === "function") {
-      try {
-        topEl.scrollIntoView({ block: "start" });
-        return;
-      } catch (_err0) {
-        try {
-          topEl.scrollIntoView(true);
-          return;
-        } catch (_err0b) {}
-      }
-    }
+  a.addEventListener("click", () => {
+    document.body.classList.remove("menu-open");
+    for (const menu of document.querySelectorAll("[data-topbar-menu]")) menu.classList.remove("open");
 
-    const tryScroll = (target) => {
-      if (!target || typeof target.scrollTo !== "function") return false;
+    const topEl = document.getElementById("top");
+    const doScroll = () => {
       try {
-        target.scrollTo({ top: 0, left: 0 });
-        return true;
-      } catch (_err) {
-        try {
-          target.scrollTo(0, 0);
-          return true;
-        } catch (_err2) {
-          return false;
-        }
-      }
+        if (topEl && typeof topEl.scrollIntoView === "function") topEl.scrollIntoView(true);
+      } catch (_err0) {}
+
+      try {
+        if (scroller && typeof scroller.scrollTo === "function") scroller.scrollTo(0, 0);
+      } catch (_err1) {}
+
+      try {
+        window.scrollTo(0, 0);
+      } catch (_err2) {}
+
+      try {
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      } catch (_err3) {}
     };
 
-    if (tryScroll(scroller)) return;
-    if (tryScroll(window)) return;
-
-    try {
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
-    } catch (_err3) {}
+    doScroll();
+    window.requestAnimationFrame(doScroll);
+    window.setTimeout(doScroll, 80);
   });
 
   document.body.appendChild(a);
