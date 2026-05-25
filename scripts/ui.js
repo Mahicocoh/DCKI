@@ -1,6 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
 import { loadListings } from "./listings-store.js?v=202605223115";
-import { getLang, t } from "./i18n.js?v=202605223115";
+import { getLang, t } from "./i18n.js?v=202605252430";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -1505,30 +1505,91 @@ export function mountWhatsAppFab() {
 export function mountToTopFab() {
   if (document.querySelector(".to-top-fab")) return;
 
+  if (!document.getElementById("top")) {
+    const top = document.createElement("a");
+    top.id = "top";
+    top.setAttribute("aria-hidden", "true");
+    top.style.position = "absolute";
+    top.style.left = "0";
+    top.style.top = "0";
+    top.style.width = "1px";
+    top.style.height = "1px";
+    top.style.pointerEvents = "none";
+    document.body.prepend(top);
+  }
+
   const a = document.createElement("a");
   a.className = "to-top-fab";
-  a.href = "#";
+  a.href = "#top";
   a.setAttribute("aria-label", t("top.backToTop"));
   a.innerHTML =
     '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>';
 
+  const scroller = document.scrollingElement || document.documentElement || document.body;
+  const getScrollTop = () => {
+    const wy = (typeof window.pageYOffset === "number" ? window.pageYOffset : 0) || 0;
+    const top = (scroller && typeof scroller.scrollTop === "number" ? scroller.scrollTop : 0) || 0;
+    const bodyTop = (document.body && typeof document.body.scrollTop === "number" ? document.body.scrollTop : 0) || 0;
+    const docTop = (document.documentElement && typeof document.documentElement.scrollTop === "number" ? document.documentElement.scrollTop : 0) || 0;
+    return Math.max(wy, top, bodyTop, docTop);
+  };
+  const getClientH = () => window.innerHeight || (scroller && scroller.clientHeight ? scroller.clientHeight : 0) || 0;
+  const getScrollH = () => {
+    const bodyH = (document.body && document.body.scrollHeight ? document.body.scrollHeight : 0) || 0;
+    const docH = (document.documentElement && document.documentElement.scrollHeight ? document.documentElement.scrollHeight : 0) || 0;
+    return Math.max(bodyH, docH);
+  };
+
   const update = () => {
-    const docH = Math.max(
-      document.documentElement.scrollHeight || 0,
-      document.body.scrollHeight || 0,
-      document.documentElement.offsetHeight || 0,
-      document.body.offsetHeight || 0
-    );
-    const nearBottom = window.scrollY + window.innerHeight > docH - 200;
-    const show = window.scrollY > 80 || nearBottom;
+    const y = getScrollTop();
+    const docH = getScrollH();
+    const ch = getClientH();
+    const nearBottom = y + ch > docH - 320;
+    const show = y > 140 || nearBottom;
     a.classList.toggle("show", show);
   };
   window.addEventListener("scroll", update, { passive: true });
+  if (scroller && scroller !== document.documentElement) scroller.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update, { passive: true });
   update();
 
   a.addEventListener("click", (e) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const topEl = document.getElementById("top");
+    if (topEl && typeof topEl.scrollIntoView === "function") {
+      try {
+        topEl.scrollIntoView({ block: "start" });
+        return;
+      } catch (_err0) {
+        try {
+          topEl.scrollIntoView(true);
+          return;
+        } catch (_err0b) {}
+      }
+    }
+
+    const tryScroll = (target) => {
+      if (!target || typeof target.scrollTo !== "function") return false;
+      try {
+        target.scrollTo({ top: 0, left: 0 });
+        return true;
+      } catch (_err) {
+        try {
+          target.scrollTo(0, 0);
+          return true;
+        } catch (_err2) {
+          return false;
+        }
+      }
+    };
+
+    if (tryScroll(scroller)) return;
+    if (tryScroll(window)) return;
+
+    try {
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    } catch (_err3) {}
   });
 
   document.body.appendChild(a);

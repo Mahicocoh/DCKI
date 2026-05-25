@@ -1,6 +1,6 @@
-import { showToast, formatRooms } from "../scripts/ui.js?v=202606120001";
+import { showToast, formatRooms, mountToTopFab } from "../scripts/ui.js?v=202605252955";
 import { getListingPhotos } from "../scripts/listings-data.js";
-import { getLang, initI18n, t } from "../scripts/i18n.js?v=202606120001";
+import { getLang, initI18n, t } from "../scripts/i18n.js?v=202605252955";
 
 const listHost = document.querySelector("[data-admin-list]");
 const countEl = document.querySelector("[data-admin-count]");
@@ -41,6 +41,7 @@ let stateGallery = [];
 let dragIndex = null;
 
 initI18n();
+mountToTopFab();
 
 function escapeHtml(s) {
   return String(s)

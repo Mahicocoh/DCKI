@@ -1,5 +1,5 @@
-import { showToast } from "../scripts/ui.js?v=202606120001";
-import { initI18n, t } from "../scripts/i18n.js?v=202606120001";
+import { showToast, mountToTopFab } from "../scripts/ui.js?v=202605252955";
+import { initI18n, t } from "../scripts/i18n.js?v=202605252955";
 
 const qs = new URLSearchParams(window.location.search);
 const next = qs.get("next") || "/admin/index.html";
@@ -8,6 +8,7 @@ const form = document.querySelector("[data-admin-login]");
 const hint = document.querySelector("[data-admin-login-hint]");
 
 initI18n();
+mountToTopFab();
 
 if (hint) {
   hint.textContent = t("admin.login.tip");
