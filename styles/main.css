@@ -2572,6 +2572,7 @@ body[data-page="home"] .advice-performance > .container::before{
   grid-template-columns:1fr;
   column-gap:0;
   row-gap:10px;
+  flex:1 1 auto;
 }
 .advice-step-cta{
   margin-top:18px;
@@ -3347,8 +3348,8 @@ body[data-page="contact"] .contact-team-card{
   .contact-team-copy{width:100%;text-align:center}
   .contact-team-sep{margin-left:auto;margin-right:auto}
   .contact-team-showcase .team-proof{display:flex;justify-content:center}
-  .contact-team-highlights{grid-template-columns:1fr}
-  .contact-team-highlight + .contact-team-highlight{border-left:0;border-top:1px solid rgba(15,23,32,.10)}
+  .contact-team-highlights{grid-template-columns:1fr;border-top:0;padding-top:0}
+  .contact-team-highlight + .contact-team-highlight{border-left:0;border-top:0}
   .contact-hero{
     padding:34px 0 24px;
     min-height:420px;

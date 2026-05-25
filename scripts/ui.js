@@ -1,6 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
 import { loadListings } from "./listings-store.js?v=202605223115";
-import { getLang, t } from "./i18n.js?v=202605252430";
+import { getLang, t } from "./i18n.js?v=202605252359";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -1762,7 +1762,6 @@ export function mountCantonBubbles() {
   const hosts = Array.from(document.querySelectorAll(".advice-map-right")).filter((el) => el.querySelector(".advice-map-bubble"));
   if (!hosts.length) return;
 
-  const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isMobile = window.matchMedia && window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
   const setBubbleAria = (host, on) => {
@@ -1799,6 +1798,7 @@ export function mountCantonBubbles() {
     if (!(host instanceof HTMLElement)) continue;
     wireCta(host);
   }
+  closeAll();
 
   document.addEventListener("click", (e) => {
     const t = e.target;
@@ -1827,36 +1827,6 @@ export function mountCantonBubbles() {
       closeAll();
     });
     return;
-  }
-
-  if (reduced || typeof IntersectionObserver === "undefined") return;
-
-  const seen = new WeakSet();
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        const host = entry.target;
-        if (!(host instanceof HTMLElement)) continue;
-        if (!entry.isIntersecting) continue;
-        if (seen.has(host)) continue;
-        seen.add(host);
-
-        host.classList.add("is-bubble-peek");
-        setBubbleAria(host, true);
-        window.setTimeout(() => {
-          host.classList.remove("is-bubble-peek");
-          setBubbleAria(host, false);
-        }, 1800);
-
-        io.unobserve(host);
-      }
-    },
-    { threshold: 0.6 }
-  );
-
-  for (const host of hosts) {
-    if (!(host instanceof HTMLElement)) continue;
-    io.observe(host);
   }
 }
 
