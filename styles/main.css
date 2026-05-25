@@ -3385,8 +3385,9 @@ body[data-page="contact"] .contact-team-card{
   .contact-team-showcase .team-contact .btn{white-space:nowrap;flex:0 0 auto}
   .contact-team-showcase .team-contact::-webkit-scrollbar{height:0}
   .contact-team-card .contact-team-actions{grid-template-columns:1fr}
-  .contact-team-highlights{grid-template-columns:1fr}
-  .contact-team-highlight + .contact-team-highlight{border-left:0;border-top:1px solid rgba(15,23,32,.10)}
+  .contact-team-highlights{grid-template-columns:1fr;justify-items:center}
+  .contact-team-highlight{align-items:center;text-align:center}
+  .contact-team-highlight + .contact-team-highlight{border-left:0;border-top:0}
 }
 
 @media (max-width: 720px){
@@ -6513,6 +6514,8 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   .footer-cols .footer-col:first-child a::after{left:0;transform:none}
   .footer-contact{align-items:flex-start}
   .footer-contact-item{justify-content:flex-start;position:relative;flex-direction:row;gap:16px}
+  .footer-contact-ico{width:34px;height:34px}
+  .footer-contact-ico svg{width:16px;height:16px}
   .footer-contact-ico{margin:0}
   .footer-contact-text{justify-items:start}
   .footer-contact .footer-contact-text a{white-space:normal;overflow-wrap:anywhere;word-break:break-word}
