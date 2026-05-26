@@ -3829,30 +3829,16 @@ body[data-page="contact"] .contact-team-card{
 }
 .contact-team-showcase .team-proof-item{display:inline-flex;align-items:center;gap:8px}
 .contact-team-showcase .team-proof-ico{
-  width:18px;height:18px;
+  width:20px;height:20px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
   color:rgba(15,23,32,.66);
 }
-.contact-team-showcase .team-proof-ico svg{width:18px;height:18px}
-body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand{
-  transform-origin:12px 12px;
-  transform-box:fill-box;
-}
-body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand.hour{
-  animation:clockHandSpin .82s cubic-bezier(.2,.9,.2,1) 1;
-}
-body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand.minute{
-  animation:clockHandSpin .96s cubic-bezier(.2,.9,.2,1) 1;
-}
-@media (prefers-reduced-motion: reduce){
-  body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand{animation:none}
-}
-@keyframes clockHandSpin{
-  from{transform:rotate(0deg)}
-  to{transform:rotate(360deg)}
-}
+.contact-team-showcase .team-proof-ico svg{width:20px;height:20px}
+body[data-page="contact"] .contact-team-showcase .team-proof-ico{color:rgba(11,42,58,.92)}
+body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-face{stroke:rgba(15,23,32,.52)}
+body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand{stroke:rgba(11,42,58,.96)}
 .contact-team-showcase .team-contact{display:flex;gap:10px;flex-wrap:wrap}
 .contact-team-showcase .team-panel{
   background:transparent;

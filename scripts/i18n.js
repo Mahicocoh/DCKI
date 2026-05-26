@@ -404,6 +404,13 @@ const DICT = {
     "contact.team.desc": "Contact direct, conseils clairs et organisation des visites selon vos disponibilités.",
     "contact.team.proof.reply": "Réponse sous 24 heures",
     "contact.team.proof.visits": "Visites 7/7",
+    "contact.team.badge": "Interlocuteur dédié",
+    "contact.team.h1.k": "Interlocuteur unique",
+    "contact.team.h1.v": "Un contact dédié à votre projet",
+    "contact.team.h2.k": "Accompagnement sur mesure",
+    "contact.team.h2.v": "Conseils personnalisés et suivi attentif",
+    "contact.team.h3.k": "Réactif",
+    "contact.team.h3.v": "Votre interlocuteur vous répond rapidement",
     "contact.details": "Coordonnées",
     "contact.details.lead": "Réponse rapide et contact direct.",
     "contact.form": "Formulaire",
@@ -1085,6 +1092,13 @@ const DICT = {
     "contact.team.desc": "Direct contact, clear advice and scheduling viewings based on your availability.",
     "contact.team.proof.reply": "Reply within 24 hours",
     "contact.team.proof.visits": "Viewings 7/7",
+    "contact.team.badge": "Dedicated contact",
+    "contact.team.h1.k": "Single contact person",
+    "contact.team.h1.v": "One dedicated contact for your project",
+    "contact.team.h2.k": "Tailored support",
+    "contact.team.h2.v": "Personalized advice and attentive follow-up",
+    "contact.team.h3.k": "Responsive",
+    "contact.team.h3.v": "Your contact replies quickly",
     "contact.details": "Contact details",
     "contact.details.lead": "Fast reply and direct contact.",
     "contact.form": "Form",
@@ -2159,11 +2173,36 @@ function applyContactPage() {
 
   setTextAll(".contact-team-showcase h2", t("contact.team"));
   setTextAll(".contact-team-showcase .section-head .lead", t("contact.team.lead"));
+  setTextAll(".contact-team-k", t("contact.team"));
+  setTextAll(".contact-team-photo-tag", t("contact.team"));
   setTextAll(".team-role", t("contact.team.role"));
   setTextAll(".team-desc", t("contact.team.desc"));
 
   const proofReply = document.querySelector(".team-proof .team-proof-item span:last-child");
   if (proofReply instanceof HTMLElement) proofReply.textContent = t("contact.team.proof.reply");
+
+  const photoBadge = document.querySelector(".contact-team-photo-badge > span:last-child");
+  if (photoBadge instanceof HTMLElement) photoBadge.textContent = t("contact.team.badge");
+
+  const hl = Array.from(document.querySelectorAll(".contact-team-highlights .contact-team-highlight"));
+  if (hl[0] instanceof HTMLElement) {
+    const k = hl[0].querySelector(".k");
+    const v = hl[0].querySelector(".v");
+    if (k instanceof HTMLElement) k.textContent = t("contact.team.h1.k");
+    if (v instanceof HTMLElement) v.textContent = t("contact.team.h1.v");
+  }
+  if (hl[1] instanceof HTMLElement) {
+    const k = hl[1].querySelector(".k");
+    const v = hl[1].querySelector(".v");
+    if (k instanceof HTMLElement) k.textContent = t("contact.team.h2.k");
+    if (v instanceof HTMLElement) v.textContent = t("contact.team.h2.v");
+  }
+  if (hl[2] instanceof HTMLElement) {
+    const k = hl[2].querySelector(".k");
+    const v = hl[2].querySelector(".v");
+    if (k instanceof HTMLElement) k.textContent = t("contact.team.h3.k");
+    if (v instanceof HTMLElement) v.textContent = t("contact.team.h3.v");
+  }
 
   const callBtn = document.querySelector(".team-contact a.btn.primary[href^=\"tel:\"]");
   if (callBtn instanceof HTMLAnchorElement) callBtn.textContent = t("contact.cta.call");
