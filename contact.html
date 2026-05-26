@@ -236,8 +236,12 @@
                           <span class="team-proof-ico" aria-hidden="true">
                             <svg class="clock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                               <circle cx="12" cy="12" r="9"></circle>
-                              <line class="clock-hand hour" x1="12" y1="12" x2="12" y2="8.9"></line>
-                              <line class="clock-hand minute" x1="12" y1="12" x2="16" y2="12"></line>
+                              <line class="clock-hand hour" x1="12" y1="12" x2="12" y2="8.9">
+                                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1.2s" begin="0.1s" repeatCount="1" />
+                              </line>
+                              <line class="clock-hand minute" x1="12" y1="12" x2="16" y2="12">
+                                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1.35s" begin="0.1s" repeatCount="1" />
+                              </line>
                               <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" opacity=".85"></circle>
                             </svg>
                           </span>
