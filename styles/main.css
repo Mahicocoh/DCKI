@@ -3056,7 +3056,7 @@ body[data-page="contact"]::after{
   body[data-page="contact"]::after{
     background:rgba(247,246,243,.34);
   }
-  .contact-who-frame{border-radius:0;border:0;background:#ffffff;box-shadow:none;padding:22px 18px 20px}
+  body[data-page="contact"] .contact-who-frame{border-radius:0;border:0;background:#ffffff;box-shadow:none;padding:22px 18px 20px}
 }
 
 body[data-page="contact"] .contact-who-title{font-size:48px;line-height:1.06}
@@ -6381,7 +6381,7 @@ body[data-page="listing"] .listing-top-row .fav-btn{
 .to-top-fab{
   position:fixed;
   right:max(14px, env(safe-area-inset-right));
-  bottom:calc(14px + env(safe-area-inset-bottom) + 78px);
+  bottom:calc(14px + env(safe-area-inset-bottom) + 60px);
   width:54px;
   height:54px;
   border-radius:999px;
