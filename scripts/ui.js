@@ -1,6 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
-import { loadListings } from "./listings-store.js?v=202605260410";
-import { getLang, t } from "./i18n.js?v=202605260410";
+import { loadListings } from "./listings-store.js?v=202605260460";
+import { getLang, t } from "./i18n.js?v=202605260460";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -1544,13 +1544,27 @@ export function mountToTopFab() {
     const y = getScrollTop();
     const docH = getScrollH();
     const ch = getClientH();
-    const nearBottom = y + ch > docH - 320;
-    const show = y > 140 || nearBottom;
+    const distance = Math.max(0, docH - (y + ch));
+    const nearBottom = distance < 900;
+    const show = y > 140 || (y > 40 && nearBottom);
     a.classList.toggle("show", show);
   };
-  window.addEventListener("scroll", update, { passive: true });
-  if (scroller && scroller !== document.documentElement) scroller.addEventListener("scroll", update, { passive: true });
+
+  let raf = 0;
+  const schedule = () => {
+    if (raf) return;
+    raf = window.requestAnimationFrame(() => {
+      raf = 0;
+      update();
+    });
+  };
+
+  window.addEventListener("scroll", schedule, { passive: true });
+  if (scroller && scroller !== document.documentElement) scroller.addEventListener("scroll", schedule, { passive: true });
   window.addEventListener("resize", update, { passive: true });
+  window.addEventListener("orientationchange", update, { passive: true });
+  window.addEventListener("touchend", update, { passive: true });
+  window.addEventListener("visibilitychange", update, { passive: true });
   update();
 
   a.addEventListener("click", () => {
@@ -2387,8 +2401,6 @@ export function mountReveals() {
 }
 
 export function mountTypewriters() {
-  const page = (document.body.getAttribute("data-page") || "").trim();
-  if (page === "contact") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const els = Array.from(document.querySelectorAll("[data-typewriter]"));
   if (!els.length) return;

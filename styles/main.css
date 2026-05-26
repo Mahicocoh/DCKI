@@ -2984,7 +2984,13 @@ body[data-page="contact"] .contact-who{
 body[data-page="contact"] .contact-who::before{
   display:none;
 }
-body[data-page="contact"] .contact-who .container{position:relative;z-index:1}
+body[data-page="contact"] .contact-who .container{
+  position:relative;
+  z-index:1;
+  max-width:none;
+  padding-left:0;
+  padding-right:0;
+}
 @media (max-width: 720px){
   body[data-page="contact"] .contact-who::before{
     right:-220px;
@@ -3046,6 +3052,7 @@ body[data-page="contact"]::after{
   body[data-page="contact"]::after{
     background:rgba(247,246,243,.34);
   }
+  .contact-who-frame{border-radius:0;padding:20px 18px 18px}
 }
 
 body[data-page="contact"] .contact-who-title{font-size:48px;line-height:1.06}
@@ -3062,6 +3069,15 @@ body[data-page="contact"] .contact-who-title{font-size:48px;line-height:1.06}
   position:relative;
   display:inline-block;
 }
+.contact-who-frame{
+  border-radius:0;
+  border:1px solid rgba(15,23,32,.12);
+  background:transparent;
+  box-shadow:none;
+  padding:26px 26px 24px;
+}
+.contact-who-frame .contact-who-text{margin-top:18px}
+.contact-who-frame .contact-who-title{margin-top:0}
 .contact-who-title::after{
   content:"";
   position:absolute;
@@ -6329,27 +6345,28 @@ body[data-page="listing"] .listing-top-row .fav-btn{
 .to-top-fab{
   position:fixed;
   right:max(18px, env(safe-area-inset-right));
-  bottom:calc(18px + env(safe-area-inset-bottom) + 74px);
-  width:50px;
-  height:50px;
+  bottom:calc(18px + env(safe-area-inset-bottom) + 96px);
+  width:54px;
+  height:54px;
   border-radius:999px;
   display:flex;
   align-items:center;
   justify-content:center;
   text-decoration:none;
-  border:1px solid rgba(15,23,32,.16);
-  background:#ffffff;
-  backdrop-filter:blur(10px);
-  box-shadow:0 18px 44px rgba(0,0,0,.14);
+  border:1px solid rgba(11,42,58,.18);
+  background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.84));
+  backdrop-filter:blur(12px);
+  box-shadow:0 16px 40px rgba(0,0,0,.16);
   color:rgba(11,42,58,.90);
   z-index:110;
   opacity:0;
   pointer-events:none;
-  transform:translateY(6px);
-  transition:opacity .18s ease, transform .18s ease;
+  transform:translateY(8px) scale(.98);
+  transition:opacity .18s ease, transform .18s ease, box-shadow .18s ease, border-color .18s ease;
 }
 .to-top-fab.show{opacity:1;pointer-events:auto;transform:translateY(0)}
-.to-top-fab:hover{transform:translateY(-2px)}
+.to-top-fab:hover{transform:translateY(-2px) scale(1)}
+.to-top-fab:active{transform:translateY(0) scale(.98)}
 
 .loader{
   position:fixed;inset:0;z-index:100;
