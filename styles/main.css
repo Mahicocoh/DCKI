@@ -3056,7 +3056,7 @@ body[data-page="contact"]::after{
   body[data-page="contact"]::after{
     background:rgba(247,246,243,.34);
   }
-  .contact-who-frame{border-radius:0;padding:20px 18px 18px}
+  .contact-who-frame{border-radius:0;border:0;background:#ffffff;box-shadow:none;padding:22px 18px 20px}
 }
 
 body[data-page="contact"] .contact-who-title{font-size:48px;line-height:1.06}
@@ -3281,7 +3281,7 @@ body[data-page="contact"] .contact-team-card{
   position:absolute;
   left:0;
   top:auto;
-  bottom:4px;
+  bottom:0;
   display:inline-flex;
   align-items:center;
   gap:9px;
@@ -3409,7 +3409,7 @@ body[data-page="contact"] .contact-team-card{
   .contact-team-k{display:none}
   .contact-team-photo-tag{display:flex}
   .contact-team-photo img{height:var(--team-photo);border-radius:14px}
-  .contact-team-photo-badge{left:0;top:auto;bottom:4px;padding:8px 10px;font-size:11.5px}
+  .contact-team-photo-badge{left:0;top:auto;bottom:0;padding:8px 10px;font-size:11.5px}
   .contact-team-sep{margin-left:auto;margin-right:auto}
   .contact-team-showcase .team-proof{display:flex;justify-content:center}
   .contact-team-highlights{grid-template-columns:1fr;border-top:0;padding-top:0}
