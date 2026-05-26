@@ -1,6 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
-import { loadListings } from "./listings-store.js?v=202605260460";
-import { getLang, t } from "./i18n.js?v=202605260460";
+import { loadListings } from "./listings-store.js?v=202605260490";
+import { getLang, t } from "./i18n.js?v=202605260490";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -1545,8 +1545,8 @@ export function mountToTopFab() {
     const docH = getScrollH();
     const ch = getClientH();
     const distance = Math.max(0, docH - (y + ch));
-    const nearBottom = distance < 900;
-    const show = y > 140 || (y > 40 && nearBottom);
+    const nearBottom = distance < 650;
+    const show = nearBottom || y > 140;
     a.classList.toggle("show", show);
   };
 
@@ -1566,6 +1566,7 @@ export function mountToTopFab() {
   window.addEventListener("touchend", update, { passive: true });
   window.addEventListener("visibilitychange", update, { passive: true });
   update();
+  window.setTimeout(update, 140);
 
   a.addEventListener("click", () => {
     document.body.classList.remove("menu-open");

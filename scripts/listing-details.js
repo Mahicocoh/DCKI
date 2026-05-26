@@ -1,7 +1,7 @@
 import { getListingFeatures, getListingPhotos, getListingFacts } from "./listings-data.js";
-import { formatCHF, formatRooms, showToast } from "./ui.js?v=202605260460";
-import { loadListings } from "./listings-store.js?v=202605260460";
-import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605260460";
+import { formatCHF, formatRooms, showToast } from "./ui.js?v=202605260490";
+import { loadListings } from "./listings-store.js?v=202605260490";
+import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605260490";
 
 function escapeHtml(s) {
   return String(s)
