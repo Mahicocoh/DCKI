@@ -3061,7 +3061,7 @@ body[data-page="contact"]::after{
 
 body[data-page="contact"] .contact-who-title{font-size:48px;line-height:1.06}
 @media (max-width: 720px){
-  body[data-page="contact"] .contact-who-title{font-size:34px}
+  body[data-page="contact"] .contact-who-title{font-size:28px}
 }
 .contact-who-title{
   margin:10px 0 0;
@@ -3446,7 +3446,7 @@ body[data-page="contact"] .contact-team-card{
   .contact-hero-actions{width:100%;flex-wrap:wrap;overflow:visible}
   .contact-hero-actions .btn{width:100%;white-space:normal;flex:1 1 100%}      
   .contact-who{padding:30px 0 22px}
-  .contact-who-title{font-size:34px}
+  .contact-who-title{font-size:28px}
   .contact-who-title::after{width:110px}
   .contact-who-text p{font-size:15.5px;line-height:1.7}
   .contact-values-section{padding:30px 0 22px}
@@ -3836,6 +3836,23 @@ body[data-page="contact"] .contact-team-card{
   color:rgba(15,23,32,.66);
 }
 .contact-team-showcase .team-proof-ico svg{width:18px;height:18px}
+body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand{
+  transform-origin:12px 12px;
+  transform-box:fill-box;
+}
+body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand.hour{
+  animation:clockHandSpin .82s cubic-bezier(.2,.9,.2,1) 1;
+}
+body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand.minute{
+  animation:clockHandSpin .96s cubic-bezier(.2,.9,.2,1) 1;
+}
+@media (prefers-reduced-motion: reduce){
+  body[data-page="contact"] .contact-team-showcase .team-proof-ico svg.clock-ico .clock-hand{animation:none}
+}
+@keyframes clockHandSpin{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
 .contact-team-showcase .team-contact{display:flex;gap:10px;flex-wrap:wrap}
 .contact-team-showcase .team-panel{
   background:transparent;
