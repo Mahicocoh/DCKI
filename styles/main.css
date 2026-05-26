@@ -3246,6 +3246,8 @@ body[data-page="contact"] .contact-team-card{
   height:100%;
   object-fit:cover;
   object-position:50% 8%;
+  position:relative;
+  z-index:1;
   display:block;
   background:#ffffff;
   image-rendering:auto;
@@ -3261,6 +3263,8 @@ body[data-page="contact"] .contact-team-card{
   border-radius:0;
   border:0;
   background:#ffffff;
+  position:relative;
+  z-index:2;
   font-size:12px;
   font-weight:950;
   letter-spacing:.16em;
@@ -3346,7 +3350,20 @@ body[data-page="contact"] .contact-team-card{
 @media (max-width: 720px){
   .contact-team-showcase.reveal .contact-team-highlight .v{opacity:1;transform:none;filter:none;transition:none}
   .contact-team-left{align-items:center}
-  .contact-team-photo{align-self:center;height:auto}
+  .contact-team-photo{align-self:center;height:auto;overflow:visible;background:transparent;--team-photo:234px}
+  .contact-team-photo::before{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:46px;
+    transform:translateX(-50%);
+    width:calc(var(--team-photo) + 26px);
+    height:calc((var(--team-photo) + 26px) / 2);
+    border-radius:999px 999px 0 0;
+    background:rgba(255,255,255,.96);
+    border:1px solid rgba(15,23,32,.08);
+    z-index:0;
+  }
   .contact-team-copy{width:100%;text-align:center}
   .contact-team-k{display:none}
   .contact-team-photo-tag{display:flex}
