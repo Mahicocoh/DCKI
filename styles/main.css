@@ -3350,24 +3350,11 @@ body[data-page="contact"] .contact-team-card{
 @media (max-width: 720px){
   .contact-team-showcase.reveal .contact-team-highlight .v{opacity:1;transform:none;filter:none;transition:none}
   .contact-team-left{align-items:center}
-  .contact-team-photo{align-self:center;height:auto;overflow:visible;background:transparent;--team-photo:234px}
-  .contact-team-photo::before{
-    content:"";
-    position:absolute;
-    left:50%;
-    top:46px;
-    transform:translateX(-50%);
-    width:calc(var(--team-photo) + 26px);
-    height:calc((var(--team-photo) + 26px) / 2);
-    border-radius:999px 999px 0 0;
-    background:rgba(255,255,255,.96);
-    border:1px solid rgba(15,23,32,.08);
-    z-index:0;
-  }
+  .contact-team-photo{align-self:center;height:auto;overflow:hidden;background:#ffffff}
   .contact-team-copy{width:100%;text-align:center}
   .contact-team-k{display:none}
   .contact-team-photo-tag{display:flex}
-  .contact-team-photo img{height:234px}
+  .contact-team-photo img{height:234px;border-radius:999px 999px 0 0}
   .contact-team-sep{margin-left:auto;margin-right:auto}
   .contact-team-showcase .team-proof{display:flex;justify-content:center}
   .contact-team-highlights{grid-template-columns:1fr;border-top:0;padding-top:0}
