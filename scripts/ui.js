@@ -80,19 +80,18 @@ export function mountTopbarMenu() {
       a.addEventListener("click", () => close(menu));
     }
 
-    const useful = menu.querySelector("[data-useful-menu]");
-    if (useful instanceof HTMLElement && useful.dataset.bound !== "1") {
+    for (const useful of Array.from(menu.querySelectorAll("[data-useful-menu]"))) {
+      if (!(useful instanceof HTMLElement) || useful.dataset.bound === "1") continue;
       useful.dataset.bound = "1";
       const toggle = useful.querySelector("[data-useful-toggle]");
-      if (toggle instanceof HTMLButtonElement) {
-        toggle.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          const next = !useful.classList.contains("open");
-          useful.classList.toggle("open", next);
-          toggle.setAttribute("aria-expanded", next ? "true" : "false");
-        });
-      }
+      if (!(toggle instanceof HTMLButtonElement)) continue;
+      toggle.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const next = !useful.classList.contains("open");
+        useful.classList.toggle("open", next);
+        toggle.setAttribute("aria-expanded", next ? "true" : "false");
+      });
     }
 
     const overlay = getOverlay(menu);
@@ -1193,9 +1192,11 @@ export function smartSearchToFilters(raw) {
   if (s.includes("jura bernois")) out.region = "Jura bernois";
   else if (/\bjura\b/.test(s)) out.region = "Jura";
 
-  if (/\b(appartement|appart|studio)\b/.test(s)) out.propertyType = "Appartement";
+  if (/\b(studio)\b/.test(s)) out.propertyType = "Studio";
+  else if (/\b(appartement|appart)\b/.test(s)) out.propertyType = "Appartement";
   if (/\b(maison)\b/.test(s)) out.propertyType = "Maison";
   if (/\b(villa)\b/.test(s)) out.propertyType = "Villa";
+  if (/\b(immeuble)\b/.test(s)) out.propertyType = "Immeuble";
 
   const mMax =
     s.match(/(?:\bmax(?:imum)?\b|\bjusqu'?a\b|\bjusqu a\b|<=|<)\s*([0-9][0-9'’ .,]*)\s*(?:chf|fr|.-)?\b/) ||
@@ -2361,21 +2362,25 @@ export function mountCardGalleries() {
 }
 
 export function mountReveals() {
-  const page = (document.body.getAttribute("data-page") || "").trim();
-  if (page === "contact") return;
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const shouldReveal = (el) => {
     if (!(el instanceof HTMLElement)) return false;
-    const banned = ".card,.hscroll,.service-feature,.partners-panel,.partner-card,.testimonials-shell";
+    const banned = ".hscroll,.partners-panel,.testimonials-shell,.card.listing";
     if (el.matches(banned) || el.closest(banned)) return false;
-    if (el.querySelector("img,video,iframe")) return false;
+    if (el.querySelector("iframe")) return false;
     return true;
   };
 
-  const targets = Array.from(document.querySelectorAll("[data-reveal]")).filter(shouldReveal);
+  const targets = Array.from(
+    new Set([
+      ...document.querySelectorAll("[data-reveal]"),
+      ...document.querySelectorAll("main > section.section:not([data-reveal-skip])"),
+      ...document.querySelectorAll("main .panel"),
+      ...document.querySelectorAll("main .section-head"),
+      ...document.querySelectorAll("main article.service-feature"),
+    ])
+  ).filter(shouldReveal);
   if (!targets.length) return;
-
-  const unique = Array.from(new Set(targets));
 
   if (!("IntersectionObserver" in window)) return;
 
@@ -2389,14 +2394,24 @@ export function mountReveals() {
           io.unobserve(e.target);
         }
       },
-      { threshold: 0.12, rootMargin: "0px 0px -10% 0px" }
+      { threshold: 0.01, rootMargin: "0px 0px -25% 0px" }
     );
   } catch {
     return;
   }
 
-  for (const el of unique) {
+  const isInView = (el) => {
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight || 0;
+    return r.bottom > 0 && r.top < vh * 0.9;
+  };
+
+  for (const el of targets) {
     el.classList.add("reveal");
+    if (isInView(el)) {
+      el.classList.add("is-visible");
+      continue;
+    }
     io.observe(el);
   }
 }

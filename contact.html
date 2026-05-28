@@ -6,7 +6,7 @@
     <title>Contact — DCKImmo</title>
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202605260518" />
+    <link rel="stylesheet" href="./styles/main.css?v=202605290001" />
   </head>
   <body data-page="contact">
     <header class="topbar">
@@ -101,12 +101,44 @@
                   <span class="nav-sub">Espace administrateur</span>
                 </span>
               </a>
+              <div class="topbar-menu-useful" data-useful-menu data-services-menu>
+                <button class="topbar-menu-useful-btn" type="button" aria-expanded="false" data-useful-toggle>
+                  <span class="nav-ico" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M9 6V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1"></path>
+                      <rect x="3" y="6" width="18" height="15" rx="2"></rect>
+                      <path d="M3 11h18"></path>
+                    </svg>
+                  </span>
+                  <span class="nav-text">
+                    <span class="nav-title">Services complémentaires</span>
+                    <span class="nav-sub">Bientôt disponible</span>
+                  </span>
+                  <span class="topbar-menu-useful-caret" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="m6 9 6 6 6-6"></path>
+                    </svg>
+                  </span>
+                </button>
+                <div class="topbar-menu-useful-links">
+                  <div class="topbar-menu-service-item">
+                    <span class="topbar-menu-service-name" data-service-name="estimate">Estimation immobilière</span>
+                    <span class="topbar-menu-service-pill" data-service-pill>Bientôt disponible</span>
+                  </div>
+                  <div class="topbar-menu-service-item">
+                    <span class="topbar-menu-service-name" data-service-name="management">Gestion locative</span>
+                    <span class="topbar-menu-service-pill" data-service-pill>Bientôt disponible</span>
+                  </div>
+                </div>
+              </div>
               <div class="topbar-menu-useful" data-useful-menu>
                 <button class="topbar-menu-useful-btn" type="button" aria-expanded="false" data-useful-toggle>
                   <span class="nav-ico" aria-hidden="true">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M10 13a5 5 0 0 1 0-7l1-1a5 5 0 0 1 7 7l-1 1"></path>
-                      <path d="M14 11a5 5 0 0 1 0 7l-1 1a5 5 0 0 1-7-7l1-1"></path>
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M3 12h18"></path>
+                      <path d="M12 3c2.6 2.8 4 5.9 4 9s-1.4 6.2-4 9"></path>
+                      <path d="M12 3c-2.6 2.8-4 5.9-4 9s1.4 6.2 4 9"></path>
                     </svg>
                   </span>
                   <span class="nav-text">
@@ -207,6 +239,20 @@
         </div>
       </section>
 
+      <section class="section contact-who contact-who-hero" id="qui-sommes-nous">
+        <div class="container">
+          <div class="contact-who-frame" data-reveal>
+            <h2 class="contact-who-title">Qui sommes-nous&nbsp;?</h2>
+            <div class="contact-who-text">
+              <p>Nous présentons des biens immobiliers disponibles à la vente et à la location, avec une approche claire, directe et transparente. Notre objectif est de mettre en avant chaque bien de manière soignée afin de faciliter sa découverte et de permettre aux personnes intéressées de se projeter rapidement.</p>
+              <p>Chaque annonce est préparée avec attention, en mettant l’accent sur les informations essentielles, la qualité de présentation et la clarté des détails. Nous souhaitons offrir une expérience simple et efficace, que ce soit pour consulter un bien, demander des renseignements ou organiser une visite.</p>
+              <p>Les échanges se font en direct afin de rendre la communication plus fluide et plus réactive. Les visites sont organisées selon vos disponibilités, avec un accompagnement sérieux à chaque étape.</p>
+              <p>Notre démarche repose sur la transparence, la disponibilité et la confiance, pour vous permettre de découvrir des biens immobiliers dans les meilleures conditions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section class="section contact-team-showcase" id="equipe">
         <div class="container">
           <div class="panel team-panel">
@@ -237,10 +283,10 @@
                             <svg class="clock-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
                               <circle class="clock-face" cx="12" cy="12" r="9"></circle>
                               <line class="clock-hand hour" x1="12" y1="12" x2="12" y2="8.1" stroke-width="2.8">
-                                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="12s" begin="0s" repeatCount="indefinite" />
+                                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="3000s" begin="0s" repeatCount="indefinite" />
                               </line>
                               <line class="clock-hand minute" x1="12" y1="12" x2="17.2" y2="12" stroke-width="2.8">
-                                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="8s" begin="0s" repeatCount="indefinite" />
+                                <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="50s" begin="0s" repeatCount="indefinite" />
                               </line>
                               <circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" opacity=".85"></circle>
                             </svg>
@@ -272,19 +318,6 @@
                   <a href="#formulaire" class="btn" data-open-appointment>Prendre rendez-vous</a>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section contact-who" id="qui-sommes-nous">
-        <div class="container">
-          <div class="contact-who-frame">
-            <h2 class="contact-who-title" data-typewriter data-typewriter-speed="16" data-typewriter-delay="0">Qui sommes-nous?</h2>
-            <div class="contact-who-text">
-              <p>Nous présentons des biens immobiliers à la vente et à la location avec une approche claire et transparente.</p>
-              <p>Chaque bien est soigneusement mis en valeur afin de faciliter sa découverte et de permettre une projection rapide.</p>
-              <p>Les échanges se font en direct, sans intermédiaire inutile, et les visites sont organisées selon vos disponibilités.</p>
             </div>
           </div>
         </div>
@@ -542,6 +575,6 @@
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
-    <script type="module" src="./scripts/app.js?v=202605260519"></script>
+    <script type="module" src="./scripts/app.js?v=202605290001"></script>
   </body>
 </html>

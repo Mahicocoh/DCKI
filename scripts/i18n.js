@@ -25,6 +25,11 @@ const DICT = {
     "nav.admin.sub": "Espace administrateur",
     "nav.useful": "Liens utiles",
     "nav.useful.sub": "Portails immobiliers",
+    "nav.services": "Services complémentaires",
+    "nav.services.sub": "Bientôt disponible",
+    "services.estimate": "Estimation immobilière",
+    "services.management": "Gestion locative",
+    "services.comingSoon": "Bientôt disponible",
 
     "page.adminLogin.title": "Connexion — Admin",
     "page.admin.title": "Admin — Biens",
@@ -69,7 +74,7 @@ const DICT = {
     "admin.fields.preview": "Aperçu",
 
     "admin.status.available": "Disponible",
-    "admin.placeholders.propertyType": "Appartement / Maison / Villa",
+    "admin.placeholders.propertyType": "Studio / Appartement / Maison / Villa / Immeuble",
     "admin.placeholders.region": "Jura / Jura bernois",
     "admin.placeholders.tag": "Ajouter un tag…",
     "admin.actions.add": "Ajouter",
@@ -277,9 +282,11 @@ const DICT = {
     "search.features": "Caractéristiques",
     "search.submit": "Rechercher",
 
+    "type.studio": "Studio",
     "type.apartment": "Appartement",
     "type.house": "Maison",
     "type.villa": "Villa",
+    "type.building": "Immeuble",
     "tag.fireplace": "Cheminée",
     "tag.garden": "Jardin",
     "tag.terrace": "Terrasse",
@@ -390,9 +397,10 @@ const DICT = {
     "contact.cta.appointment": "Prendre rendez-vous",
     "contact.cta.call": "Appeler maintenant",
     "contact.who": "Qui sommes-nous ?",
-    "contact.who.p1": "Nous présentons des biens immobiliers à la vente et à la location avec une approche claire et transparente.",
-    "contact.who.p2": "Chaque bien est soigneusement mis en valeur afin de faciliter sa découverte et de permettre une projection rapide.",
-    "contact.who.p3": "Les échanges se font en direct, sans intermédiaire inutile, et les visites sont organisées selon vos disponibilités.",
+    "contact.who.p1": "Nous présentons des biens immobiliers disponibles à la vente et à la location, avec une approche claire, directe et transparente. Notre objectif est de mettre en avant chaque bien de manière soignée afin de faciliter sa découverte et de permettre aux personnes intéressées de se projeter rapidement.",
+    "contact.who.p2": "Chaque annonce est préparée avec attention, en mettant l’accent sur les informations essentielles, la qualité de présentation et la clarté des détails. Nous souhaitons offrir une expérience simple et efficace, que ce soit pour consulter un bien, demander des renseignements ou organiser une visite.",
+    "contact.who.p3": "Les échanges se font en direct afin de rendre la communication plus fluide et plus réactive. Les visites sont organisées selon vos disponibilités, avec un accompagnement sérieux à chaque étape.",
+    "contact.who.p4": "Notre démarche repose sur la transparence, la disponibilité et la confiance, pour vous permettre de découvrir des biens immobiliers dans les meilleures conditions.",
     "contact.values": "Nos valeurs",
     "contact.values.i1": "Proximité avec nos clients",
     "contact.values.i2": "Transparence dans chaque échange",
@@ -713,6 +721,11 @@ const DICT = {
     "nav.admin.sub": "Admin area",
     "nav.useful": "Useful links",
     "nav.useful.sub": "Property portals",
+    "nav.services": "Additional services",
+    "nav.services.sub": "Coming soon",
+    "services.estimate": "Property valuation",
+    "services.management": "Rental management",
+    "services.comingSoon": "Coming soon",
 
     "page.adminLogin.title": "Login — Admin",
     "page.admin.title": "Admin — Listings",
@@ -757,7 +770,7 @@ const DICT = {
     "admin.fields.preview": "Preview",
 
     "admin.status.available": "Available",
-    "admin.placeholders.propertyType": "Apartment / House / Villa",
+    "admin.placeholders.propertyType": "Studio / Apartment / House / Villa / Building",
     "admin.placeholders.region": "Jura / Bernese Jura",
     "admin.placeholders.tag": "Add a tag…",
     "admin.actions.add": "Add",
@@ -965,9 +978,11 @@ const DICT = {
     "search.features": "Features",
     "search.submit": "Search",
 
+    "type.studio": "Studio",
     "type.apartment": "Apartment",
     "type.house": "House",
     "type.villa": "Villa",
+    "type.building": "Building",
     "tag.fireplace": "Fireplace",
     "tag.garden": "Garden",
     "tag.terrace": "Terrace",
@@ -1078,9 +1093,10 @@ const DICT = {
     "contact.cta.appointment": "Book an appointment",
     "contact.cta.call": "Call now",
     "contact.who": "Who are we?",
-    "contact.who.p1": "We present properties for sale and rent with a clear and transparent approach.",
-    "contact.who.p2": "Each property is carefully showcased to make it easy to discover and picture yourself quickly.",
-    "contact.who.p3": "We communicate directly, without unnecessary intermediaries, and organize viewings based on your availability.",
+    "contact.who.p1": "We present properties available for sale and rent with a clear, direct and transparent approach. Our goal is to showcase each property carefully so it’s easy to discover and helps interested clients picture themselves quickly.",
+    "contact.who.p2": "Each listing is prepared with care, focusing on essential information, presentation quality and clear details. We aim to offer a simple and efficient experience—whether you’re browsing a property, requesting information or scheduling a viewing.",
+    "contact.who.p3": "We communicate directly to make the exchange smoother and more responsive. Viewings are organized based on your availability, with serious support at every step.",
+    "contact.who.p4": "Our approach is built on transparency, availability and trust, so you can discover properties in the best possible conditions.",
     "contact.values": "Our values",
     "contact.values.i1": "Close to our clients",
     "contact.values.i2": "Transparency in every exchange",
@@ -1475,9 +1491,11 @@ export function pickListingText(listing, field) {
 
 export function translatePropertyType(raw) {
   const v = String(raw || "").trim();
+  if (v === "Studio") return t("type.studio");
   if (v === "Appartement") return t("type.apartment");
   if (v === "Maison") return t("type.house");
   if (v === "Villa") return t("type.villa");
+  if (v === "Immeuble") return t("type.building");
   return v;
 }
 
@@ -1587,12 +1605,24 @@ function applyNav() {
     }
   }
 
-  const useful = document.querySelector("[data-useful-menu]");
-  if (useful instanceof HTMLElement) {
+  for (const useful of Array.from(document.querySelectorAll("[data-useful-menu]"))) {
+    if (!(useful instanceof HTMLElement)) continue;
     const title = useful.querySelector(".nav-title");
     const sub = useful.querySelector(".nav-sub");
-    if (title instanceof HTMLElement) title.textContent = t("nav.useful");
-    if (sub instanceof HTMLElement) sub.textContent = t("nav.useful.sub");
+    const isServices = useful.hasAttribute("data-services-menu");
+    if (title instanceof HTMLElement) title.textContent = isServices ? t("nav.services") : t("nav.useful");
+    if (sub instanceof HTMLElement) sub.textContent = isServices ? t("nav.services.sub") : t("nav.useful.sub");
+    if (isServices) {
+      for (const el of Array.from(useful.querySelectorAll('[data-service-name="estimate"]'))) {
+        if (el instanceof HTMLElement) el.textContent = t("services.estimate");
+      }
+      for (const el of Array.from(useful.querySelectorAll('[data-service-name="management"]'))) {
+        if (el instanceof HTMLElement) el.textContent = t("services.management");
+      }
+      for (const el of Array.from(useful.querySelectorAll("[data-service-pill]"))) {
+        if (el instanceof HTMLElement) el.textContent = t("services.comingSoon");
+      }
+    }
   }
 
   setAttrAll("[data-topbar-menu-btn]", "aria-label", t("menu.label"));
@@ -1727,9 +1757,11 @@ function applyHomePage() {
       for (const opt of Array.from(typeSel.options)) {
         const v = (opt.getAttribute("value") || "").trim();
         if (v === "") opt.textContent = t("search.type.all");
+        if (v === "Studio") opt.textContent = t("type.studio");
         if (v === "Appartement") opt.textContent = t("type.apartment");
         if (v === "Maison") opt.textContent = t("type.house");
         if (v === "Villa") opt.textContent = t("type.villa");
+        if (v === "Immeuble") opt.textContent = t("type.building");
       }
     }
 
@@ -1826,9 +1858,11 @@ function applyHomePage() {
         const txt = (s.textContent || "").trim();
         if (txt === "À vendre") s.textContent = t("biens.btn.sale");
         if (txt === "À louer") s.textContent = t("biens.btn.rent");
+        if (txt === "Studio") s.textContent = t("type.studio");
         if (txt === "Appartement") s.textContent = t("type.apartment");
         if (txt === "Maison") s.textContent = t("type.house");
         if (txt === "Villa") s.textContent = t("type.villa");
+        if (txt === "Immeuble") s.textContent = t("type.building");
       }
     }
 
@@ -1887,9 +1921,11 @@ function applyHomePage() {
         const txt = (s.textContent || "").trim();
         if (txt === "À vendre") s.textContent = t("biens.btn.sale");
         if (txt === "À louer") s.textContent = t("biens.btn.rent");
+        if (txt === "Studio") s.textContent = t("type.studio");
         if (txt === "Appartement") s.textContent = t("type.apartment");
         if (txt === "Maison") s.textContent = t("type.house");
         if (txt === "Villa") s.textContent = t("type.villa");
+        if (txt === "Immeuble") s.textContent = t("type.building");
       }
     }
     const details = card.querySelector(".listing-bottom .btn.small.primary");
@@ -2163,6 +2199,7 @@ function applyContactPage() {
   if (whoP[0] instanceof HTMLElement) whoP[0].textContent = t("contact.who.p1");
   if (whoP[1] instanceof HTMLElement) whoP[1].textContent = t("contact.who.p2");
   if (whoP[2] instanceof HTMLElement) whoP[2].textContent = t("contact.who.p3");
+  if (whoP[3] instanceof HTMLElement) whoP[3].textContent = t("contact.who.p4");
   setTextAll(".contact-values-section h2", t("contact.values"));
   setAttrAll(".contact-values-list", "aria-label", t("contact.values"));
   const values = Array.from(document.querySelectorAll(".contact-values-list li"));
@@ -2309,9 +2346,11 @@ function applyBiensPage() {
 
   const translateType = (raw) => {
     const v = String(raw || "").trim();
+    if (v === "Studio") return t("type.studio");
     if (v === "Appartement") return t("type.apartment");
     if (v === "Maison") return t("type.house");
     if (v === "Villa") return t("type.villa");
+    if (v === "Immeuble") return t("type.building");
     return v;
   };
 
@@ -2341,7 +2380,7 @@ function applyBiensPage() {
       if (!(s instanceof HTMLElement)) continue;
       const txt = (s.textContent || "").trim();
       if (txt === "À vendre" || txt === "À louer") s.textContent = isSale ? t("biens.btn.sale") : isRent ? t("biens.btn.rent") : txt;
-      if (txt === "Appartement" || txt === "Maison" || txt === "Villa") s.textContent = translateType(txt);
+      if (txt === "Studio" || txt === "Appartement" || txt === "Maison" || txt === "Villa" || txt === "Immeuble") s.textContent = translateType(txt);
     }
 
     const featured = card.querySelector(".deal-badge");
@@ -2540,6 +2579,18 @@ function applyRecherchePage() {
   if (localityLabel instanceof HTMLElement) localityLabel.textContent = t("search.city");
   const typeLabel = document.querySelector("#filters-modal select[name=\"propertyType\"]")?.closest(".field")?.querySelector(".label");
   if (typeLabel instanceof HTMLElement) typeLabel.textContent = t("search.type");
+  const typeSel = document.querySelector("#filters-modal select[name=\"propertyType\"]");
+  if (typeSel instanceof HTMLSelectElement) {
+    for (const opt of Array.from(typeSel.options)) {
+      const v = (opt.getAttribute("value") || "").trim();
+      if (v === "") opt.textContent = t("search.type.all");
+      if (v === "Studio") opt.textContent = t("type.studio");
+      if (v === "Appartement") opt.textContent = t("type.apartment");
+      if (v === "Maison") opt.textContent = t("type.house");
+      if (v === "Villa") opt.textContent = t("type.villa");
+      if (v === "Immeuble") opt.textContent = t("type.building");
+    }
+  }
   const sortLabel = document.querySelector("#filters-modal select[name=\"sort\"]")?.closest(".field")?.querySelector(".label");
   if (sortLabel instanceof HTMLElement) sortLabel.textContent = t("search.sort");
   const minPriceLabel = document.querySelector("#filters-modal input[name=\"minPrice\"]")?.closest(".field")?.querySelector(".label");
