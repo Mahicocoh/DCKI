@@ -1,5 +1,5 @@
-import { showToast, mountToTopFab } from "../scripts/ui.js?v=202605260490";
-import { initI18n, t } from "../scripts/i18n.js?v=202605260490";
+import { showToast, mountToTopFab } from "../scripts/ui.js?v=202605301300";
+import { initI18n, t } from "../scripts/i18n.js?v=202605301300";
 
 const qs = new URLSearchParams(window.location.search);
 const next = qs.get("next") || "/admin/index.html";

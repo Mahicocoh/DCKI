@@ -21,14 +21,15 @@ const DICT = {
     "nav.dossier.sub": "Documents et formulaire",
     "nav.contact": "Contact",
     "nav.contact.sub": "Parlons de votre projet",
-    "nav.admin": "Admin",
-    "nav.admin.sub": "Espace administrateur",
+    "nav.admin": "Connexion",
+    "nav.admin.sub": "Accès administrateur",
     "nav.useful": "Liens utiles",
     "nav.useful.sub": "Portails immobiliers",
     "nav.services": "Services complémentaires",
     "nav.services.sub": "Bientôt disponible",
     "services.estimate": "Estimation immobilière",
     "services.management": "Gestion locative",
+    "services.letting": "Mise en location",
     "services.comingSoon": "Bientôt disponible",
 
     "page.adminLogin.title": "Connexion — Admin",
@@ -717,14 +718,15 @@ const DICT = {
     "nav.dossier.sub": "Documents and form",
     "nav.contact": "Contact",
     "nav.contact.sub": "Let’s talk about your project",
-    "nav.admin": "Admin",
-    "nav.admin.sub": "Admin area",
+    "nav.admin": "Login",
+    "nav.admin.sub": "Admin access",
     "nav.useful": "Useful links",
     "nav.useful.sub": "Property portals",
     "nav.services": "Additional services",
     "nav.services.sub": "Coming soon",
     "services.estimate": "Property valuation",
     "services.management": "Rental management",
+    "services.letting": "Letting",
     "services.comingSoon": "Coming soon",
 
     "page.adminLogin.title": "Login — Admin",
@@ -1404,7 +1406,7 @@ async function getHomeListings() {
   if (homeListingsPromise) return homeListingsPromise;
   homeListingsPromise = (async () => {
     try {
-      const mod = await import("./listings-store.js?v=202605260490");
+      const mod = await import("./listings-store.js?v=202605301300");
       const list = await mod.loadListings();
       if (!Array.isArray(list)) return null;
       homeListingsCache = list;
@@ -1619,6 +1621,9 @@ function applyNav() {
       for (const el of Array.from(useful.querySelectorAll('[data-service-name="management"]'))) {
         if (el instanceof HTMLElement) el.textContent = t("services.management");
       }
+      for (const el of Array.from(useful.querySelectorAll('[data-service-name="letting"]'))) {
+        if (el instanceof HTMLElement) el.textContent = t("services.letting");
+      }
       for (const el of Array.from(useful.querySelectorAll("[data-service-pill]"))) {
         if (el instanceof HTMLElement) el.textContent = t("services.comingSoon");
       }
@@ -1642,7 +1647,17 @@ function applyFooter() {
   setAttrAll(".footer-newsletter input[type=\"email\"]", "placeholder", t("footer.newsletter.placeholder"));
   setAttrAll(".footer-newsletter button[aria-label]", "aria-label", t("footer.newsletter.submitAria"));
   setTextAll(".footer-privacy span:last-child", t("footer.privacy"));
-  setTextAll(".footer-bottom .fine:nth-of-type(2)", t("footer.legal"));
+  const legalLabels = t("footer.legal")
+    .split("•")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const legalA = Array.from(document.querySelectorAll(".footer-bottom-right a"));
+  if (legalA.length >= 2 && legalLabels.length >= 2) {
+    if (legalA[0] instanceof HTMLAnchorElement) legalA[0].textContent = legalLabels[0];
+    if (legalA[1] instanceof HTMLAnchorElement) legalA[1].textContent = legalLabels[1];
+  } else {
+    setTextAll(".footer-bottom .fine:nth-of-type(2)", t("footer.legal"));
+  }
 
   const desc = document.querySelector(".footer-desc");
   if (desc instanceof HTMLElement) {
@@ -2241,11 +2256,11 @@ function applyContactPage() {
     if (v instanceof HTMLElement) v.textContent = t("contact.team.h3.v");
   }
 
-  const callBtn = document.querySelector(".team-contact a.btn.primary[href^=\"tel:\"]");
+  const callBtn = document.querySelector(".contact-team-actions a.btn.primary[href^=\"tel:\"]");
   if (callBtn instanceof HTMLAnchorElement) callBtn.textContent = t("contact.cta.call");
-  const msgBtn = document.querySelector(".team-contact a.btn[href=\"#formulaire\"]:not([data-open-appointment])");
+  const msgBtn = document.querySelector(".contact-team-actions a.btn[href=\"#formulaire\"]:not([data-open-appointment])");
   if (msgBtn instanceof HTMLAnchorElement) msgBtn.textContent = t("contact.cta.message");
-  const apptBtn = document.querySelector(".team-contact a.btn[data-open-appointment]");
+  const apptBtn = document.querySelector(".contact-team-actions a.btn[data-open-appointment]");
   if (apptBtn instanceof HTMLAnchorElement) apptBtn.textContent = t("contact.cta.appointment");
 
   setTextAll("section#contact .section-head h2", t("contact.details"));

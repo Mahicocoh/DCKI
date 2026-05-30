@@ -295,6 +295,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
   cursor:pointer;
   transition:transform .12s ease, border-color .12s ease, background .12s ease;
 }
+.topbar-menu-btn svg{width:26px;height:26px}
 .topbar-menu-btn svg line{transition:transform .18s ease}
 @media (hover: hover) and (pointer: fine){
   .topbar-menu-btn:hover svg line:nth-of-type(1){transform:translateX(2px)}
@@ -3078,8 +3079,8 @@ body[data-page="contact"] footer{
   position:relative;
 }
 body[data-page="contact"] header{z-index:90}
-body[data-page="contact"] main,
-body[data-page="contact"] footer{z-index:1}
+body[data-page="contact"] main{z-index:1}
+body[data-page="contact"] footer{z-index:120}
 body[data-page="contact"] .panel{
   border:1px solid rgba(15,23,32,.10);
   background:#ffffff;
@@ -3122,6 +3123,14 @@ body[data-page="contact"]::after{
   body[data-page="contact"] .contact-who-frame{border-radius:0;border:0;background:transparent;box-shadow:none;padding:0}
 }
 
+body[data-page="contact"] .contact-who-k{
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(15,23,32,.62);
+  margin:0 0 6px;
+}
 body[data-page="contact"] .contact-who-title{font-size:28px;line-height:1.15;letter-spacing:-0.015em}
 @media (max-width: 720px){
   body[data-page="contact"] .contact-who-title{font-size:28px}
@@ -3149,6 +3158,7 @@ body[data-page="contact"] .contact-who-frame{
   margin:0;
   padding:0;
   background:transparent;
+  text-align:center;
 }
 
 body[data-page="legal"],
@@ -3157,7 +3167,18 @@ body[data-page="privacy"]{
 }
 body[data-page="legal"] main.section,
 body[data-page="privacy"] main.section{
-  padding:44px 0 34px;
+  padding:74px 0 64px;
+}
+body[data-page="legal"] .panel,
+body[data-page="privacy"] .panel{
+  background:#ffffff;
+  border:1px solid rgba(15,23,32,.10);
+  border-radius:18px;
+  box-shadow:0 22px 70px rgba(15,23,32,.10);
+}
+body[data-page="legal"] .panel .inner,
+body[data-page="privacy"] .panel .inner{
+  padding:34px 38px;
 }
 .legal-prose{
   max-width:980px;
@@ -3177,11 +3198,17 @@ body[data-page="privacy"] main.section{
   line-height:1.6;
 }
 .legal-prose h2{
-  margin:26px 0 10px;
-  font-size:18px;
+  margin:30px 0 12px;
+  font-size:19px;
   font-weight:950;
   letter-spacing:-0.01em;
   color:rgba(15,23,32,.92);
+  padding-top:18px;
+  border-top:1px solid rgba(15,23,32,.10);
+}
+.legal-prose h2:first-of-type{
+  padding-top:0;
+  border-top:0;
 }
 .legal-prose p,
 .legal-prose li{
@@ -3189,12 +3216,16 @@ body[data-page="privacy"] main.section{
   font-size:16px;
   line-height:1.75;
 }
-.legal-prose p{margin:0 0 14px}
+.legal-prose p{margin:0 0 16px}
 .legal-prose ul{margin:10px 0 14px 18px;padding:0}
 .legal-prose a{color:rgba(11,42,58,.92);text-decoration:underline;text-underline-offset:3px}
 .legal-prose a:hover{text-decoration-thickness:2px}
 @media (max-width: 720px){
   .legal-prose h1{font-size:30px}
+  body[data-page="legal"] main.section,
+  body[data-page="privacy"] main.section{padding:56px 0 46px}
+  body[data-page="legal"] .panel .inner,
+  body[data-page="privacy"] .panel .inner{padding:22px 18px}
 }
 .contact-who-frame .contact-who-text{margin-top:18px}
 .contact-who-frame .contact-who-title{margin-top:0}
@@ -3314,6 +3345,22 @@ body[data-page="privacy"] main.section{
 }
 .contact-who-title::after{display:none}
 .contact-who-text{margin-top:20px;max-width:920px}
+body[data-page="contact"] .contact-who-text{
+  margin-left:auto;
+  margin-right:auto;
+  max-width:1080px;
+  padding:18px 18px 16px;
+  border-radius:14px;
+  border:1px solid rgba(15,23,32,.10);
+  background:transparent;
+  box-shadow:none;
+  text-align:justify;
+  text-justify:inter-word;
+  hyphens:auto;
+}
+@media (max-width: 720px){
+  body[data-page="contact"] .contact-who-text{padding:16px 14px 14px;border-radius:12px}
+}
 .contact-who-text p{
   margin:0 0 14px;
   color:rgba(15,23,32,.72);
@@ -6161,11 +6208,13 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   padding:54px 0 44px;
   color:rgba(255,255,255,.74);
   position:relative;
+  z-index:120;
   overflow:hidden;
 }
 .footer .container{padding-left:22px;padding-right:22px}
 .footer::before{
   content:"";
+  display:none;
   position:absolute;
   inset:-20% 0 0 0;
   background:url("../assets/MAISON FORET.png") center/cover no-repeat;
@@ -6554,6 +6603,14 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   background-position:center;
 }
 .footer-bottom-right{text-align:right}
+.footer-bottom-right a{
+  display:inline-block;
+  padding:4px 3px;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  text-decoration-color:rgba(255,255,255,.55);
+}
+.footer-bottom-right a:active{transform:scale(.99)}
 .footer .fine{color:rgba(255,255,255,.58)}
 .footer-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:stretch}
 .footer-grid .panel{height:100%}
@@ -6619,6 +6676,16 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   pointer-events:none;
   transform:translateY(8px) scale(.98);
   transition:opacity .18s ease, transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.to-top-fab:hover{transform:translateY(-2px)}
+
+@media (max-width: 720px){
+  .whatsapp-fab{
+    bottom:calc(14px + env(safe-area-inset-bottom) + 84px);
+  }
+  .to-top-fab{
+    bottom:calc(14px + env(safe-area-inset-bottom) + 60px + 84px);
+  }
 }
 .to-top-fab.show{opacity:1;pointer-events:auto;transform:translateY(0)}
 .to-top-fab:hover{transform:translateY(-2px) scale(1)}
