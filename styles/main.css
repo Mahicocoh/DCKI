@@ -3080,7 +3080,7 @@ body[data-page="contact"] footer{
 }
 body[data-page="contact"] header{z-index:90}
 body[data-page="contact"] main{z-index:1}
-body[data-page="contact"] footer{z-index:120}
+body[data-page="contact"] footer{z-index:20}
 body[data-page="contact"] .panel{
   border:1px solid rgba(15,23,32,.10);
   background:#ffffff;
@@ -6208,7 +6208,7 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   padding:54px 0 44px;
   color:rgba(255,255,255,.74);
   position:relative;
-  z-index:120;
+  z-index:20;
   overflow:hidden;
 }
 .footer .container{padding-left:22px;padding-right:22px}
@@ -6650,7 +6650,7 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   border:1px solid rgba(255,255,255,.22);
   background:linear-gradient(135deg, rgba(37, 211, 102, .95), rgba(18, 140, 126, .95));
   box-shadow:0 18px 40px rgba(0,0,0,.20);
-  z-index:65;
+  z-index:200;
 }
 .whatsapp-fab svg{width:24px;height:24px}
 .whatsapp-fab:hover{transform:translateY(-2px)}
@@ -6671,7 +6671,7 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   backdrop-filter:blur(12px);
   box-shadow:0 16px 40px rgba(0,0,0,.16);
   color:rgba(11,42,58,.90);
-  z-index:110;
+  z-index:210;
   opacity:0;
   pointer-events:none;
   transform:translateY(8px) scale(.98);
