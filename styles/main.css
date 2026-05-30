@@ -468,6 +468,30 @@ body.menu-open .topbar::before{backdrop-filter:none}
   overflow:hidden;
   padding-bottom:max(40px, env(safe-area-inset-bottom));
 }
+.topbar-menu-lang{
+  margin-top:12px;
+  padding-top:12px;
+  border-top:1px solid rgba(15,23,32,.10);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+}
+.topbar-menu-lang-btn{
+  appearance:none;
+  border:0;
+  background:transparent;
+  padding:6px 2px;
+  font-weight:950;
+  font-size:12px;
+  letter-spacing:.14em;
+  color:rgba(15,23,32,.60);
+  cursor:pointer;
+}
+.topbar-menu-lang-btn:hover{color:rgba(15,23,32,.86)}
+.topbar-menu-lang-btn:focus-visible{outline:3px solid rgba(11,42,58,.22);outline-offset:3px}
+.topbar-menu-lang-btn.active{color:rgba(11,42,58,.92)}
+.topbar-menu-lang-sep{color:rgba(15,23,32,.30);font-weight:900}
 .topbar-menu-card{
   border:1px solid rgba(15,23,32,.10);
   background:rgba(255,255,255,.96);
@@ -3098,7 +3122,7 @@ body[data-page="contact"]::after{
   body[data-page="contact"] .contact-who-frame{border-radius:0;border:0;background:transparent;box-shadow:none;padding:0}
 }
 
-body[data-page="contact"] .contact-who-title{font-size:48px;line-height:1.06}
+body[data-page="contact"] .contact-who-title{font-size:28px;line-height:1.15;letter-spacing:-0.015em}
 @media (max-width: 720px){
   body[data-page="contact"] .contact-who-title{font-size:28px}
 }
@@ -3125,6 +3149,52 @@ body[data-page="contact"] .contact-who-frame{
   margin:0;
   padding:0;
   background:transparent;
+}
+
+body[data-page="legal"],
+body[data-page="privacy"]{
+  background:rgba(230,230,230,1);
+}
+body[data-page="legal"] main.section,
+body[data-page="privacy"] main.section{
+  padding:44px 0 34px;
+}
+.legal-prose{
+  max-width:980px;
+}
+.legal-prose h1{
+  margin:0;
+  font-family:var(--fontDisplay);
+  font-size:46px;
+  line-height:1.06;
+  letter-spacing:-0.03em;
+  color:rgba(7,17,28,.96);
+}
+.legal-prose .lead{
+  margin:10px 0 0;
+  color:rgba(15,23,32,.68);
+  font-size:15.5px;
+  line-height:1.6;
+}
+.legal-prose h2{
+  margin:26px 0 10px;
+  font-size:18px;
+  font-weight:950;
+  letter-spacing:-0.01em;
+  color:rgba(15,23,32,.92);
+}
+.legal-prose p,
+.legal-prose li{
+  color:rgba(15,23,32,.72);
+  font-size:16px;
+  line-height:1.75;
+}
+.legal-prose p{margin:0 0 14px}
+.legal-prose ul{margin:10px 0 14px 18px;padding:0}
+.legal-prose a{color:rgba(11,42,58,.92);text-decoration:underline;text-underline-offset:3px}
+.legal-prose a:hover{text-decoration-thickness:2px}
+@media (max-width: 720px){
+  .legal-prose h1{font-size:30px}
 }
 .contact-who-frame .contact-who-text{margin-top:18px}
 .contact-who-frame .contact-who-title{margin-top:0}
@@ -3242,20 +3312,7 @@ body[data-page="contact"] .contact-who-frame{
   .contact-who-card + .contact-who-card{border-left:0;border-top:1px solid rgba(15,23,32,.08)}
   .contact-who-card:nth-child(2n){border-left:0}
 }
-.contact-who-title::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:-10px;
-  height:3px;
-  width:140px;
-  border-radius:999px;
-  background:linear-gradient(90deg, var(--accent), var(--accent2));
-  transform:scaleX(0);
-  transform-origin:0 50%;
-  transition:transform .9s cubic-bezier(.2,.9,.2,1);
-}
-.contact-who.reveal.is-visible .contact-who-title::after{transform:scaleX(1)}
+.contact-who-title::after{display:none}
 .contact-who-text{margin-top:20px;max-width:920px}
 .contact-who-text p{
   margin:0 0 14px;
@@ -6111,7 +6168,7 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   content:"";
   position:absolute;
   inset:-20% 0 0 0;
-  background:url("./assets/MAISON FORET.png") center/cover no-repeat;
+  background:url("../assets/MAISON FORET.png") center/cover no-repeat;
   opacity:.22;
   filter:saturate(.92) contrast(1.02) brightness(.9);
   pointer-events:none;

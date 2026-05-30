@@ -3101,127 +3101,51 @@ function applyAdminPage() {
 }
 
 export function mountLanguageToggle() {
-  const host = document.querySelector(".topbar-actions") || document.querySelector(".topbar-inner");
+  const host =
+    document.querySelector(".topbar-menu-panel .topbar-menu-card-networks") ||
+    document.querySelector(".topbar-menu-card-networks") ||
+    document.querySelector(".topbar-actions") ||
+    document.querySelector(".topbar-inner");
   if (!(host instanceof HTMLElement)) return;
-  if (host.querySelector("[data-lang-toggle]")) return;
+  if (document.querySelector("[data-lang-toggle]")) return;
 
   const wrap = document.createElement("div");
-  wrap.className = "lang-menu";
+  wrap.className = "topbar-menu-lang";
   wrap.setAttribute("data-lang-toggle", "1");
+  wrap.setAttribute("role", "radiogroup");
 
-  const btn = document.createElement("button");
-  btn.type = "button";
-  btn.className = "lang-menu-btn";
-  btn.setAttribute("aria-haspopup", "menu");
-  btn.setAttribute("aria-expanded", "false");
-
-  const label = document.createElement("span");
-  label.className = "lang-menu-label";
-
-  const globe = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  globe.setAttribute("viewBox", "0 0 24 24");
-  globe.setAttribute("fill", "none");
-  globe.setAttribute("stroke", "currentColor");
-  globe.setAttribute("stroke-width", "2.2");
-  globe.setAttribute("stroke-linecap", "round");
-  globe.setAttribute("stroke-linejoin", "round");
-  globe.setAttribute("aria-hidden", "true");
-  globe.classList.add("lang-menu-ico");
-  globe.innerHTML = `<circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a14 14 0 0 1 0 18"></path><path d="M12 3a14 14 0 0 0 0 18"></path>`;
-
-  const caret = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  caret.setAttribute("viewBox", "0 0 24 24");
-  caret.setAttribute("fill", "none");
-  caret.setAttribute("stroke", "currentColor");
-  caret.setAttribute("stroke-width", "2.2");
-  caret.setAttribute("stroke-linecap", "round");
-  caret.setAttribute("stroke-linejoin", "round");
-  caret.setAttribute("aria-hidden", "true");
-  caret.classList.add("lang-menu-caret");
-  caret.innerHTML = `<path d="m6 9 6 6 6-6"></path>`;
-
-  btn.append(globe, label, caret);
-
-  const menu = document.createElement("div");
-  menu.className = "lang-menu-pop";
-  menu.setAttribute("role", "menu");
-
-  const mkItem = (lang, textKey) => {
+  const mkBtn = (lang) => {
     const b = document.createElement("button");
     b.type = "button";
-    b.className = "lang-menu-item";
+    b.className = "topbar-menu-lang-btn";
     b.dataset.lang = lang;
-    b.setAttribute("role", "menuitemradio");
+    b.setAttribute("role", "radio");
     b.addEventListener("click", () => {
       setLang(lang);
       applyTranslations();
       updateToggleState();
-      closeMenu();
       window.dispatchEvent(new CustomEvent("dcki:lang", { detail: { lang: getLang() } }));
     });
-    b.textContent = t(textKey);
+    b.textContent = String(lang || "").toUpperCase();
     return b;
   };
 
-  const fr = mkItem("fr", "lang.fr.full");
-  const en = mkItem("en", "lang.en.full");
-  menu.append(fr, en);
-  wrap.append(btn, menu);
-  host.prepend(wrap);
-
-  const openMenu = () => {
-    wrap.classList.add("open");
-    btn.setAttribute("aria-expanded", "true");
-  };
-
-  const closeMenu = () => {
-    wrap.classList.remove("open");
-    btn.setAttribute("aria-expanded", "false");
-  };
-
-  const toggleMenu = () => {
-    if (wrap.classList.contains("open")) closeMenu();
-    else openMenu();
-  };
+  const fr = mkBtn("fr");
+  const sep = document.createElement("span");
+  sep.className = "topbar-menu-lang-sep";
+  sep.textContent = "|";
+  const en = mkBtn("en");
+  wrap.append(fr, sep, en);
+  host.append(wrap);
 
   const updateToggleState = () => {
     const cur = getLang();
     wrap.setAttribute("aria-label", t("lang.label"));
-    btn.setAttribute("aria-label", t("lang.label"));
-    label.textContent = cur === "en" ? t("lang.en") : t("lang.fr");
     fr.setAttribute("aria-checked", cur === "fr" ? "true" : "false");
     en.setAttribute("aria-checked", cur === "en" ? "true" : "false");
     fr.classList.toggle("active", cur === "fr");
     en.classList.toggle("active", cur === "en");
-    fr.textContent = t("lang.fr.full");
-    en.textContent = t("lang.en.full");
   };
-
-  btn.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    toggleMenu();
-  });
-
-  document.addEventListener(
-    "click",
-    (e) => {
-      if (!wrap.classList.contains("open")) return;
-      const t = e.target;
-      if (!(t instanceof Node)) return;
-      if (!wrap.contains(t)) closeMenu();
-    },
-    true
-  );
-
-  document.addEventListener("keydown", (e) => {
-    if (!wrap.classList.contains("open")) return;
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closeMenu();
-      btn.focus();
-    }
-  });
 
   updateToggleState();
 }
