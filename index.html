@@ -354,6 +354,20 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="is24-field">
+                  <span class="is24-label">Type</span>
+                  <select class="is24-control" name="type" id="home-type">
+                    <option value="">Tous</option>
+                    <option value="Studio">Studio</option>
+                    <option value="Appartement">Appartement</option>
+                    <option value="Maison">Maison</option>
+                    <option value="Villa">Villa</option>
+                    <option value="Immeuble">Immeuble</option>
+                    <option value="Terrain">Terrain</option>
+                    <option value="Local commercial">Local commercial</option>
+                  </select>
+                </div>
                 
                 <div class="is24-field">
                   <span class="is24-label">Prix de</span>
@@ -391,83 +405,6 @@
                   </select>
                 </div>
 
-                <details class="is24-more">
-                  <summary class="is24-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
-                    Plus de filtres
-                  </summary>
-                  <div class="panel" style="margin-top:10px">
-                    <div class="inner">
-                      <div class="form">
-                        <div class="field">
-                          <span class="label">Région</span>
-                          <select class="control" name="region">
-                            <option value="">Toutes</option>
-                            <option value="Jura">Jura</option>
-                            <option value="Jura bernois">Jura bernois</option>
-                          </select>
-                        </div>
-                        <div class="field">
-                          <span class="label">Type</span>
-                          <select class="control" name="type">
-                            <option value="">Tous</option>
-                            <option value="Studio">Studio</option>
-                            <option value="Appartement">Appartement</option>
-                            <option value="Maison">Maison</option>
-                            <option value="Villa">Villa</option>
-                            <option value="Immeuble">Immeuble</option>
-                          </select>
-                        </div>
-                        <div class="field">
-                          <span class="label">Surface min (m²)</span>
-                          <select class="control" name="minSurface" data-surface-min>
-                            <option value="">indiff.</option>
-                          </select>
-                        </div>
-                        <div class="field">
-                          <span class="label">Surface max (m²)</span>
-                          <select class="control" name="maxSurface" data-surface-max>
-                            <option value="">indiff.</option>
-                          </select>
-                        </div>
-                        <div class="field">
-                          <span class="label">Pièces max</span>
-                          <select class="control" name="maxRooms" data-rooms-max>
-                            <option value="">indiff.</option>
-                          </select>
-                        </div>
-                        <div class="field">
-                          <span class="label">Commune (exacte)</span>
-                          <input class="control" name="locality" placeholder="ex : Tavannes" />
-                        </div>
-                        <div class="field full">
-                          <span class="label">Proximité</span>
-                          <div class="filter-chips">
-                            <label class="filter-chip"><input type="checkbox" name="nearStation" value="1"><span>Proche d’une gare</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="nearSchool" value="1"><span>Proche d’une école</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="nearHighway" value="1"><span>Accès autoroute</span></label>
-                          </div>
-                        </div>
-                        <div class="field full">
-                          <span class="label">Caractéristiques</span>
-                          <div class="filter-chips">
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Cheminée"><span>Cheminée</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Jardin"><span>Jardin</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Terrasse"><span>Terrasse</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Balcon"><span>Balcon</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Garage"><span>Garage</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Ascenseur"><span>Ascenseur</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Calme"><span>Calme</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Rénové"><span>Rénové</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Neuf"><span>Neuf</span></label>
-                            <label class="filter-chip"><input type="checkbox" name="tags" value="Proche gare"><span>Proche gare</span></label>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </details>
-
                 <div class="is24-field" style="min-width:160px">
                   <span class="is24-label" style="visibility:hidden">Action</span>
                   <button type="submit" class="is24-btn primary" style="width:100%">
@@ -475,6 +412,76 @@
                     Rechercher
                   </button>
                 </div>
+
+                <details class="is24-more">
+                  <summary class="is24-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                    Plus de filtres
+                  </summary>
+                  <div class="is24-more-panel">
+                    <div class="form">
+                      <div class="field">
+                        <span class="label">Région</span>
+                        <select class="control" name="region">
+                          <option value="">Toutes</option>
+                          <option value="Jura">Jura</option>
+                          <option value="Jura bernois">Jura bernois</option>
+                        </select>
+                      </div>
+
+                      <div class="field">
+                        <span class="label">Commune / ville</span>
+                        <input class="control" name="locality" placeholder="ex : Tavannes" />
+                      </div>
+
+                      <div class="field">
+                        <span class="label">Surface de (m²)</span>
+                        <select class="control" name="minSurface" data-surface-min>
+                          <option value="">indiff.</option>
+                        </select>
+                      </div>
+
+                      <div class="field">
+                        <span class="label">Surface à (m²)</span>
+                        <select class="control" name="maxSurface" data-surface-max>
+                          <option value="">indiff.</option>
+                        </select>
+                      </div>
+
+                      <div class="field">
+                        <span class="label">Pièces à</span>
+                        <select class="control" name="maxRooms" data-rooms-max>
+                          <option value="">indiff.</option>
+                        </select>
+                      </div>
+
+                      <div class="field full">
+                        <span class="label">Proximité</span>
+                        <div class="filter-chips">
+                          <label class="filter-chip"><input type="checkbox" name="nearStation" value="1"><span>Proche d’une gare</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="nearSchool" value="1"><span>Proche d’une école</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="nearHighway" value="1"><span>Accès autoroute</span></label>
+                        </div>
+                      </div>
+
+                      <div class="field full">
+                        <span class="label">Caractéristiques</span>
+                        <div class="filter-chips">
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Cheminée"><span>Cheminée</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Jardin"><span>Jardin</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Terrasse"><span>Terrasse</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Balcon"><span>Balcon</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Garage"><span>Garage</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Ascenseur"><span>Ascenseur</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Calme"><span>Calme</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Rénové"><span>Rénové</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Neuf"><span>Neuf</span></label>
+                          <label class="filter-chip"><input type="checkbox" name="tags" value="Proche gare"><span>Proche gare</span></label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </details>
                 
                 <datalist id="localities-list">
                   <option value="Delémont"></option>

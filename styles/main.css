@@ -6008,6 +6008,26 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   gap: 16px;
   flex-wrap: wrap;
 }
+.is24-more{
+  flex:0 0 auto;
+}
+.is24-more[open]{
+  flex:1 0 100%;
+}
+.is24-more > summary{
+  list-style:none;
+}
+.is24-more > summary::-webkit-details-marker{
+  display:none;
+}
+.is24-more-panel{
+  width:100%;
+  margin-top:12px;
+  padding:14px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.92);
+}
 .is24-field{
   display: flex;
   flex-direction: column;

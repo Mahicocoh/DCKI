@@ -281,6 +281,7 @@ const DICT = {
     "search.type.all": "Tous",
     "search.surfaceMin": "Surface min (m²)",
     "search.cityExact": "Commune (exacte)",
+    "search.proximity": "Proximité",
     "search.features": "Caractéristiques",
     "search.submit": "Rechercher",
 
@@ -289,6 +290,8 @@ const DICT = {
     "type.house": "Maison",
     "type.villa": "Villa",
     "type.building": "Immeuble",
+    "type.land": "Terrain",
+    "type.commercial": "Local commercial",
     "tag.fireplace": "Cheminée",
     "tag.garden": "Jardin",
     "tag.terrace": "Terrasse",
@@ -455,6 +458,13 @@ const DICT = {
     "biens.trust.one": "Interlocuteur unique",
     "biens.trust.two": "Accompagnement sur mesure",
     "biens.trust.three": "Suivi transparent",
+    "biens.sort.label": "Trier",
+    "biens.sort.newest": "Nouveautés",
+    "biens.sort.priceAsc": "Prix ↑",
+    "biens.sort.priceDesc": "Prix ↓",
+    "biens.sort.surface": "Surface",
+    "biens.sort.rooms": "Pièces",
+    "biens.sort.ratio": "Meilleur ratio",
 
     "page.listing.title": "Bien — DCKImmo",
     "listing.back": "← Retour aux biens",
@@ -987,6 +997,7 @@ const DICT = {
     "search.type.all": "Any",
     "search.surfaceMin": "Min area (m²)",
     "search.cityExact": "City (exact)",
+    "search.proximity": "Nearby",
     "search.features": "Features",
     "search.submit": "Search",
 
@@ -995,6 +1006,8 @@ const DICT = {
     "type.house": "House",
     "type.villa": "Villa",
     "type.building": "Building",
+    "type.land": "Land",
+    "type.commercial": "Commercial unit",
     "tag.fireplace": "Fireplace",
     "tag.garden": "Garden",
     "tag.terrace": "Terrace",
@@ -1161,6 +1174,13 @@ const DICT = {
     "biens.trust.one": "Single point of contact",
     "biens.trust.two": "Tailored support",
     "biens.trust.three": "Transparent follow-up",
+    "biens.sort.label": "Sort",
+    "biens.sort.newest": "Newest",
+    "biens.sort.priceAsc": "Price ↑",
+    "biens.sort.priceDesc": "Price ↓",
+    "biens.sort.surface": "Area",
+    "biens.sort.rooms": "Rooms",
+    "biens.sort.ratio": "Best ratio",
 
     "page.listing.title": "Property — DCKImmo",
     "listing.back": "← Back to properties",
@@ -1516,6 +1536,8 @@ export function translatePropertyType(raw) {
   if (v === "Maison") return t("type.house");
   if (v === "Villa") return t("type.villa");
   if (v === "Immeuble") return t("type.building");
+  if (v === "Terrain") return t("type.land");
+  if (v === "Local commercial") return t("type.commercial");
   return v;
 }
 
@@ -1752,9 +1774,26 @@ function applyHomePage() {
     const q = qs.querySelector("#home-q");
     if (q instanceof HTMLInputElement) q.placeholder = t("search.where.placeholder");
 
-    const priceFrom = qs.querySelector(".is24-field:nth-of-type(2) .is24-label");
+    const homeType = qs.querySelector("#home-type");
+    const homeTypeLabel = homeType?.closest(".is24-field")?.querySelector(".is24-label");
+    if (homeTypeLabel instanceof HTMLElement) homeTypeLabel.textContent = t("search.type");
+    if (homeType instanceof HTMLSelectElement) {
+      for (const opt of Array.from(homeType.options)) {
+        const v = (opt.value || "").trim();
+        if (v === "") opt.textContent = t("search.type.all");
+        if (v === "Studio") opt.textContent = t("type.studio");
+        if (v === "Appartement") opt.textContent = t("type.apartment");
+        if (v === "Maison") opt.textContent = t("type.house");
+        if (v === "Villa") opt.textContent = t("type.villa");
+        if (v === "Immeuble") opt.textContent = t("type.building");
+        if (v === "Terrain") opt.textContent = t("type.land");
+        if (v === "Local commercial") opt.textContent = t("type.commercial");
+      }
+    }
+
+    const priceFrom = qs.querySelector(".is24-field:nth-of-type(3) .is24-label");
     if (priceFrom instanceof HTMLElement) priceFrom.textContent = t("search.priceFrom");
-    const priceTo = qs.querySelector(".is24-field:nth-of-type(3) .is24-label");
+    const priceTo = qs.querySelector(".is24-field:nth-of-type(4) .is24-label");
     if (priceTo instanceof HTMLElement) priceTo.textContent = t("search.priceTo");
 
     const minPrice = qs.querySelector("input[name=\"minPrice\"]");
@@ -1762,7 +1801,7 @@ function applyHomePage() {
     const maxPrice = qs.querySelector("input[name=\"maxPrice\"]");
     if (maxPrice instanceof HTMLInputElement) maxPrice.placeholder = t("search.max");
 
-    const rooms = qs.querySelector(".is24-field:nth-of-type(4) .is24-label");
+    const rooms = qs.querySelector(".is24-field:nth-of-type(5) .is24-label");
     if (rooms instanceof HTMLElement) rooms.textContent = t("search.roomsFrom");
     const roomsSel = qs.querySelector("select[name=\"minRooms\"]");
     if (roomsSel instanceof HTMLSelectElement) {
@@ -1772,6 +1811,19 @@ function applyHomePage() {
 
     const more = qs.querySelector("details.is24-more > summary");
     replaceTextNodes(more, t("search.more"));
+
+    const sortLabel = qs.querySelector("[data-home-sort-label]");
+    if (sortLabel instanceof HTMLElement) sortLabel.textContent = t("biens.sort.label");
+    for (const pill of Array.from(qs.querySelectorAll("[data-home-sort-pills] [data-sort-mode]"))) {
+      if (!(pill instanceof HTMLElement)) continue;
+      const mode = (pill.getAttribute("data-sort-mode") || "").trim();
+      if (mode === "newest") pill.textContent = t("biens.sort.newest");
+      if (mode === "price_asc") pill.textContent = t("biens.sort.priceAsc");
+      if (mode === "price_desc") pill.textContent = t("biens.sort.priceDesc");
+      if (mode === "surface_desc") pill.textContent = t("biens.sort.surface");
+      if (mode === "rooms_desc") pill.textContent = t("biens.sort.rooms");
+      if (mode === "ratio_desc") pill.textContent = t("biens.sort.ratio");
+    }
 
     const regionLabel = qs.querySelector("select[name=\"region\"]")?.closest(".field")?.querySelector(".label");
     if (regionLabel instanceof HTMLElement) regionLabel.textContent = t("search.region");
@@ -1813,7 +1865,12 @@ function applyHomePage() {
       const raw = (locality.placeholder || "").trim();
       if (raw.startsWith("ex")) locality.placeholder = getLang() === "en" ? "e.g. Tavannes" : "ex : Tavannes";
     }
-    const featsLabel = qs.querySelector(".field.full .label");
+    const proxField = qs.querySelector("input[name=\"nearStation\"]")?.closest(".field.full");
+    const proxLabel = proxField?.querySelector(".label");
+    if (proxLabel instanceof HTMLElement) proxLabel.textContent = t("search.proximity");
+
+    const featsField = qs.querySelector("input[name=\"tags\"]")?.closest(".field.full");
+    const featsLabel = featsField?.querySelector(".label");
     if (featsLabel instanceof HTMLElement) featsLabel.textContent = t("search.features");
 
     const chips = Array.from(qs.querySelectorAll(".filter-chip"));
@@ -2633,7 +2690,11 @@ function applyRecherchePage() {
   if (maxPriceLabel instanceof HTMLElement) maxPriceLabel.textContent = t("search.priceMax");
   const minSurfaceLabel = document.querySelector("#filters-modal input[name=\"minSurface\"]")?.closest(".field")?.querySelector(".label");
   if (minSurfaceLabel instanceof HTMLElement) minSurfaceLabel.textContent = t("search.surfaceMin");
-  const tagsLabel = document.querySelector("#filters-modal .field.full .label");
+  const proxField = document.querySelector("#filters-modal input[name=\"nearStation\"]")?.closest(".field.full");
+  const proxLabel = proxField?.querySelector(".label");
+  if (proxLabel instanceof HTMLElement) proxLabel.textContent = t("search.proximity");
+  const tagsField = document.querySelector("#filters-modal input[name=\"tags\"]")?.closest(".field.full");
+  const tagsLabel = tagsField?.querySelector(".label");
   if (tagsLabel instanceof HTMLElement) tagsLabel.textContent = t("search.features");
 
   const sortSel = document.querySelector("#filters-modal select[name=\"sort\"]");

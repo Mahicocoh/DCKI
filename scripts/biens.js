@@ -64,22 +64,7 @@ function matches(listing, f) {
 
 function sortListings(list, mode) {
   const out = [...list];
-  switch (mode) {
-    case "price_asc":
-      out.sort((a, b) => a.price - b.price);
-      break;
-    case "price_desc":
-      out.sort((a, b) => b.price - a.price);
-      break;
-    case "surface_desc":
-      out.sort((a, b) => b.surface - a.surface);
-      break;
-    case "rooms_desc":
-      out.sort((a, b) => b.rooms - a.rooms);
-      break;
-    default:
-      out.sort((a, b) => a.id.localeCompare(b.id));
-  }
+  out.sort((a, b) => b.id.localeCompare(a.id));
   return out;
 }
 
@@ -153,6 +138,8 @@ export async function initBiens() {
 
   if (!saleGrid || !rentGrid) return;
 
+  const qp = new URLSearchParams(window.location.search);
+
   const saleBackup = saleGrid.innerHTML;
   const rentBackup = rentGrid.innerHTML;
 
@@ -171,7 +158,6 @@ export async function initBiens() {
     return;
   }
 
-  const qp = new URLSearchParams(window.location.search);
   const categories = [];
   
   // ImmoScout24 style search uses "cat=rent" or "cat=sale"
@@ -198,7 +184,6 @@ export async function initBiens() {
     maxSurface: toNumber(qp.get("maxSurface")),
     tags: (qp.get("tags") || "").split(",").map((s) => s.trim()).filter(Boolean),
     q: (qp.get("q") || "").trim(),
-    sort: qp.get("sort") || "",
     nearStation: qp.get("nearStation") === "1",
     nearSchool: qp.get("nearSchool") === "1",
     nearHighway: qp.get("nearHighway") === "1",
@@ -213,7 +198,7 @@ export async function initBiens() {
   }
 
   const filtered = LISTINGS.filter((l) => matches(l, filters));
-  const sorted = sortListings(filtered, filters.sort);
+  const sorted = sortListings(filtered);
   const saleItems = sorted.filter((l) => l.category === "sale");
   const rentItems = sorted.filter((l) => l.category === "rent");
 
