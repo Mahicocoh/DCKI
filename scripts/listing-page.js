@@ -64,6 +64,148 @@ function tagHtml(label) {
   return `<span class="tag">${escapeHtml(label)}</span>`;
 }
 
+function getPublicBaseUrl() {
+  const meta = document.querySelector('meta[name="dcki-public-base-url"]');
+  if (meta instanceof HTMLMetaElement) {
+    const v = String(meta.content || "").trim();
+    if (v) return v;
+  }
+  const base = window.location.origin || "";
+  return base ? `${base}/` : "/";
+}
+
+function ensureTrailingSlash(url) {
+  const s = String(url || "").trim();
+  if (!s) return "/";
+  return s.endsWith("/") ? s : `${s}/`;
+}
+
+async function copyToClipboard(text) {
+  const v = String(text || "").trim();
+  if (!v) return false;
+  try {
+    await navigator.clipboard.writeText(v);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function getShareUrl(listing) {
+  const base = ensureTrailingSlash(getPublicBaseUrl());
+  const url = new URL("bien.html", base);
+  url.searchParams.set("id", String(listing?.id || ""));
+  return url.toString();
+}
+
+function mountListingShare() {
+  const root = document.querySelector("[data-listing-share]");
+  if (!(root instanceof HTMLElement)) return;
+  if (root.getAttribute("data-share-mounted") === "1") return;
+  root.setAttribute("data-share-mounted", "1");
+
+  const toggle = root.querySelector("[data-share-toggle]");
+  const pop = root.querySelector("[data-share-pop]");
+  if (!(toggle instanceof HTMLButtonElement) || !(pop instanceof HTMLElement)) return;
+
+  const setOpen = (open) => {
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    pop.hidden = !open;
+  };
+
+  setOpen(false);
+
+  toggle.addEventListener("click", (e) => {
+    e.preventDefault();
+    const open = toggle.getAttribute("aria-expanded") === "true";
+    setOpen(!open);
+  });
+
+  document.addEventListener("click", (e) => {
+    const t = e.target;
+    if (!(t instanceof Element)) return;
+    if (t.closest("[data-listing-share]") === root) return;
+    setOpen(false);
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    setOpen(false);
+  });
+
+  const copy = root.querySelector("[data-share-copy]");
+  if (copy instanceof HTMLAnchorElement) {
+    copy.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const url = root.getAttribute("data-share-url") || "";
+      const ok = await copyToClipboard(url);
+      showToast(ok ? t("listing.share.copied") : url);
+      setOpen(false);
+    });
+  }
+
+  const ig = root.querySelector("[data-share-instagram]");
+  if (ig instanceof HTMLAnchorElement) {
+    ig.addEventListener("click", async () => {
+      const url = root.getAttribute("data-share-url") || "";
+      const ok = await copyToClipboard(url);
+      if (ok) showToast(t("listing.share.copied"));
+      setOpen(false);
+    });
+  }
+}
+
+function updateListingShare(listing, titleText) {
+  const root = document.querySelector("[data-listing-share]");
+  if (!(root instanceof HTMLElement)) return;
+
+  const shareUrl = getShareUrl(listing);
+  root.setAttribute("data-share-url", shareUrl);
+
+  const label = root.querySelector("[data-share-label]");
+  if (label instanceof HTMLElement) label.textContent = t("listing.share");
+
+  const toggle = root.querySelector("[data-share-toggle]");
+  if (toggle instanceof HTMLElement) toggle.setAttribute("aria-label", t("listing.share.toggleAria"));
+
+  const title = String(titleText || listing?.id || "").trim() || "DCKImmo";
+  const msg = `${title} — ${shareUrl}`;
+
+  const fb = root.querySelector("[data-share-facebook]");
+  if (fb instanceof HTMLAnchorElement) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+
+  const wa = root.querySelector("[data-share-whatsapp]");
+  if (wa instanceof HTMLAnchorElement) wa.href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+
+  const email = root.querySelector("[data-share-email]");
+  if (email instanceof HTMLAnchorElement) email.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(msg)}`;
+
+  const ig = root.querySelector("[data-share-instagram]");
+  if (ig instanceof HTMLAnchorElement) ig.href = "https://www.instagram.com/";
+
+  const copy = root.querySelector("[data-share-copy]");
+  if (copy instanceof HTMLElement) {
+    copy.setAttribute("aria-label", t("listing.share.copy"));
+    copy.setAttribute("title", t("listing.share.copy"));
+  }
+  if (fb instanceof HTMLElement) {
+    fb.setAttribute("aria-label", t("listing.share.facebook"));
+    fb.setAttribute("title", t("listing.share.facebook"));
+  }
+  if (ig instanceof HTMLElement) {
+    ig.setAttribute("aria-label", t("listing.share.instagram"));
+    ig.setAttribute("title", t("listing.share.instagram"));
+  }
+  if (wa instanceof HTMLElement) {
+    wa.setAttribute("aria-label", t("listing.share.whatsapp"));
+    wa.setAttribute("title", t("listing.share.whatsapp"));
+  }
+  if (email instanceof HTMLElement) {
+    email.setAttribute("aria-label", t("listing.share.email"));
+    email.setAttribute("title", t("listing.share.email"));
+  }
+}
+
 function metaIcon(kind) {
   if (kind === "pin") {
     return `
@@ -654,6 +796,9 @@ function render(listing) {
 
   const priceText = `${formatCHF(listing.price)}${listing.priceSuffix ? ` ${listing.priceSuffix}` : ""}`;
   if (price) price.textContent = priceText;
+
+  mountListingShare();
+  updateListingShare(listing, titleText);
 
   if (factsEl) {
     factsEl.innerHTML = [

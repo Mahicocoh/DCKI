@@ -114,6 +114,7 @@ const DICT = {
     "footer.newsletter.submitAria": "S’inscrire",
     "footer.privacy": "Aucune publicité. Désinscription en 1 clic.",
     "footer.legal": "Mentions légales • Politique de confidentialité",
+    "footer.rights": "Tous droits réservés",
 
     "common.searchProperty": "Rechercher un bien",
     "common.viewProperties": "Voir les biens",
@@ -461,6 +462,14 @@ const DICT = {
     "listing.map.title": "Carte",
     "listing.open": "Ouvrir le détail du bien",
     "listing.details": "Détails",
+    "listing.share": "Partager",
+    "listing.share.toggleAria": "Partager",
+    "listing.share.copy": "Copier le lien",
+    "listing.share.copied": "Lien copié.",
+    "listing.share.facebook": "Facebook",
+    "listing.share.instagram": "Instagram",
+    "listing.share.whatsapp": "WhatsApp",
+    "listing.share.email": "Email",
     "listing.featured": "✨ En Vedette",
     "listing.availableFrom": "Disponible dès {date}",
     "listing.description": "Description",
@@ -811,6 +820,7 @@ const DICT = {
     "footer.newsletter.submitAria": "Subscribe",
     "footer.privacy": "No ads. Unsubscribe in one click.",
     "footer.legal": "Legal notice • Privacy policy",
+    "footer.rights": "All rights reserved",
 
     "common.searchProperty": "Search a property",
     "common.viewProperties": "View properties",
@@ -1158,6 +1168,14 @@ const DICT = {
     "listing.map.title": "Map",
     "listing.open": "Open property details",
     "listing.details": "Details",
+    "listing.share": "Share",
+    "listing.share.toggleAria": "Share",
+    "listing.share.copy": "Copy link",
+    "listing.share.copied": "Link copied.",
+    "listing.share.facebook": "Facebook",
+    "listing.share.instagram": "Instagram",
+    "listing.share.whatsapp": "WhatsApp",
+    "listing.share.email": "Email",
     "listing.featured": "✨ Featured",
     "listing.availableFrom": "Available from {date}",
     "listing.description": "Description",
@@ -1647,6 +1665,7 @@ function applyFooter() {
   setAttrAll(".footer-newsletter input[type=\"email\"]", "placeholder", t("footer.newsletter.placeholder"));
   setAttrAll(".footer-newsletter button[aria-label]", "aria-label", t("footer.newsletter.submitAria"));
   setTextAll(".footer-privacy span:last-child", t("footer.privacy"));
+  setTextAll("[data-footer-rights]", t("footer.rights"));
   const legalLabels = t("footer.legal")
     .split("•")
     .map((s) => s.trim())
