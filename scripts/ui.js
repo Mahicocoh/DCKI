@@ -758,6 +758,149 @@ export function mountConstructionToasts() {
   }
 }
 
+function escapeHtml(s) {
+  return String(s)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function ensureComingSoonModal() {
+  let modal = document.querySelector("[data-coming-modal-root]");
+  if (modal) return modal;
+
+  modal = document.createElement("div");
+  modal.className = "modal coming-modal";
+  modal.setAttribute("data-coming-modal-root", "1");
+  modal.innerHTML = `
+    <div class="backdrop" data-coming-close></div>
+    <div class="dialog" role="dialog" aria-modal="true" aria-label="${escapeHtml(t("toast.construction"))}">
+      <div class="dialog-grid coming-modal-grid">
+        <div class="media coming-modal-media">
+          <img data-coming-img alt="" />
+        </div>
+        <div class="content">
+          <div class="titleRow">
+            <div>
+              <div class="pill">
+                <strong data-coming-name></strong>
+              </div>
+              <h3 data-coming-title>${escapeHtml(t("toast.construction"))}</h3>
+              <div class="meta" data-coming-meta></div>
+            </div>
+            <button class="close" type="button" aria-label="${escapeHtml(t("common.close"))}" data-coming-close>✕</button>
+          </div>
+          <p class="desc" data-coming-desc></p>
+          <div class="cta">
+            <button class="btn" type="button" data-coming-close>${escapeHtml(t("common.close"))}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `.trim();
+
+  document.body.appendChild(modal);
+  return modal;
+}
+
+let comingModalKind = null;
+
+function updateComingSoonModal(modal) {
+  if (!(modal instanceof HTMLElement)) return;
+
+  const title = modal.querySelector("[data-coming-title]");
+  if (title instanceof HTMLElement) title.textContent = t("toast.construction");
+
+  const closeBtn = modal.querySelector("button.close[data-coming-close]");
+  if (closeBtn instanceof HTMLButtonElement) closeBtn.setAttribute("aria-label", t("common.close"));
+
+  const closeAll = Array.from(modal.querySelectorAll(".cta button[data-coming-close]"));
+  for (const c of closeAll) {
+    if (c instanceof HTMLButtonElement) c.textContent = t("common.close");
+  }
+
+  const meta = modal.querySelector("[data-coming-meta]");
+  if (meta instanceof HTMLElement) meta.textContent = comingModalKind === "clean" ? t("partner.clean.meta") : "";
+}
+
+function openComingSoonModal(kind) {
+  const modal = ensureComingSoonModal();
+  const img = modal.querySelector("[data-coming-img]");
+  const name = modal.querySelector("[data-coming-name]");
+  const desc = modal.querySelector("[data-coming-desc]");
+
+  comingModalKind = kind === "clean" ? "clean" : "generic";
+
+  if (img instanceof HTMLImageElement) {
+    img.src = comingModalKind === "clean" ? "./assets/logo nettoyage.png" : "./assets/1.jpg";
+    img.alt = comingModalKind === "clean" ? "DCKI Clean Service" : "DCKImmo";
+  }
+
+  if (name instanceof HTMLElement) name.textContent = comingModalKind === "clean" ? "DCKI Clean Service" : "DCKImmo";
+  if (desc instanceof HTMLElement) desc.textContent = "";
+
+  updateComingSoonModal(modal);
+
+  const closeAll = Array.from(modal.querySelectorAll("[data-coming-close]"));
+  for (const c of closeAll) {
+    if (!(c instanceof HTMLElement)) continue;
+    c.onclick = () => closeComingSoonModal();
+  }
+
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+
+function closeComingSoonModal() {
+  const modal = document.querySelector("[data-coming-modal-root]");
+  if (!(modal instanceof HTMLElement)) return;
+  modal.classList.remove("show");
+  document.body.style.overflow = "";
+  comingModalKind = null;
+}
+
+export function mountPartnerComingSoonModal() {
+  const targets = Array.from(document.querySelectorAll("[data-coming-modal]"));
+  if (!targets.length) return;
+  const modal = ensureComingSoonModal();
+
+  for (const el of targets) {
+    if (!(el instanceof HTMLElement)) continue;
+    if (el.dataset.boundComingModal === "1") continue;
+    el.dataset.boundComingModal = "1";
+
+    const kind = (el.getAttribute("data-coming-modal") || "").trim().toLowerCase() || "generic";
+    const fire = () => openComingSoonModal(kind);
+
+    el.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      fire();
+    });
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        fire();
+      }
+      if (e.key === "Escape") closeComingSoonModal();
+    });
+  }
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    closeComingSoonModal();
+  });
+
+  window.addEventListener("dcki:lang", () => {
+    const m = document.querySelector("[data-coming-modal-root]");
+    if (!(m instanceof HTMLElement)) return;
+    if (!m.classList.contains("show")) return;
+    updateComingSoonModal(m);
+  });
+}
+
 export function wireForms() {
   const getDemoLabel = (form) => {
     const raw = (form.getAttribute("data-demo-form") || "").trim();

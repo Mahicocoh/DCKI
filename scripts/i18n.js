@@ -32,6 +32,14 @@ const DICT = {
     "services.letting": "Mise en location",
     "services.comingSoon": "Bientôt disponible",
 
+    "comingSoon.title": "Site en construction",
+    "comingSoon.back": "Retour au site",
+    "comingSoon.contact": "Me contacter",
+    "comingSoon.services.generic": "DCKImmo",
+    "comingSoon.services.clean": "DCKI Clean Service",
+    "comingSoon.lead.generic": "Cette page sera disponible prochainement.",
+    "comingSoon.lead.clean": "Service en préparation. Bientôt disponible.",
+
     "page.adminLogin.title": "Connexion — Admin",
     "page.admin.title": "Admin — Biens",
     "admin.topTitle": "Administration",
@@ -96,6 +104,7 @@ const DICT = {
 
     "menu.label": "Menu",
     "menu.social": "Réseaux",
+    "menu.social.aria": "Réseaux sociaux",
     "menu.call": "Appeler le 078 733 87 17",
     "menu.hours": "Lu – Ve, 08h00 – 18h30",
     "top.backToTop": "Remonter en haut",
@@ -115,6 +124,11 @@ const DICT = {
     "footer.privacy": "Aucune publicité. Désinscription en 1 clic.",
     "footer.legal": "Mentions légales • Politique de confidentialité",
     "footer.rights": "Tous droits réservés",
+    "footer.followUs": "Suivez-nous",
+    "footer.actor": "Acteur immobilier de proximité, ancré dans le Jura.",
+    "footer.contact.email": "E-mail",
+    "footer.contact.phone": "Téléphone",
+    "footer.contact.address": "Adresse",
 
     "common.searchProperty": "Rechercher un bien",
     "common.viewProperties": "Voir les biens",
@@ -356,6 +370,7 @@ const DICT = {
     "feature.office": "Bureau",
 
     "toast.construction": "Site en construction",
+    "partner.clean.meta": "Nettoyage professionnel",
     "toast.voice.permission": "Autorise le micro dans ton navigateur.",
     "toast.voice.noSpeech": "On n’a rien entendu. Réessaie.",
     "toast.voice.network": "Dictée indisponible (connexion/service bloqué).",
@@ -758,6 +773,14 @@ const DICT = {
     "services.letting": "Letting",
     "services.comingSoon": "Coming soon",
 
+    "comingSoon.title": "Under construction",
+    "comingSoon.back": "Back to website",
+    "comingSoon.contact": "Contact me",
+    "comingSoon.services.generic": "DCKImmo",
+    "comingSoon.services.clean": "DCKI Clean Service",
+    "comingSoon.lead.generic": "This page will be available soon.",
+    "comingSoon.lead.clean": "Service in progress. Coming soon.",
+
     "page.adminLogin.title": "Login — Admin",
     "page.admin.title": "Admin — Listings",
     "admin.topTitle": "Administration",
@@ -822,6 +845,7 @@ const DICT = {
 
     "menu.label": "Menu",
     "menu.social": "Social",
+    "menu.social.aria": "Social networks",
     "menu.call": "Call 078 733 87 17",
     "menu.hours": "Mon – Fri, 08:00 – 18:30",
     "top.backToTop": "Back to top",
@@ -841,6 +865,11 @@ const DICT = {
     "footer.privacy": "No ads. Unsubscribe in one click.",
     "footer.legal": "Legal notice • Privacy policy",
     "footer.rights": "All rights reserved",
+    "footer.followUs": "Follow us",
+    "footer.actor": "Local real estate agency rooted in the Jura.",
+    "footer.contact.email": "Email",
+    "footer.contact.phone": "Phone",
+    "footer.contact.address": "Address",
 
     "common.searchProperty": "Search a property",
     "common.viewProperties": "View properties",
@@ -1082,6 +1111,7 @@ const DICT = {
     "feature.office": "Office",
 
     "toast.construction": "Site under construction",
+    "partner.clean.meta": "Professional cleaning",
     "toast.voice.permission": "Allow microphone access in your browser.",
     "toast.voice.noSpeech": "We didn’t hear anything. Try again.",
     "toast.voice.network": "Dictation unavailable (network/service blocked).",
@@ -1692,6 +1722,8 @@ function applyNav() {
 
   setAttrAll("[data-topbar-menu-btn]", "aria-label", t("menu.label"));
   setTextAll(".topbar-menu-footer-k", t("menu.social"));
+  setAttrAll(".topbar-menu-card-networks", "aria-label", t("menu.social.aria"));
+  setTextAll(".topbar-menu-card-networks-k", t("footer.followUs"));
   setAttrAll(".topbar-menu-phone", "aria-label", t("menu.call"));
   setTextAll(".topbar-menu-hours span", t("menu.hours"));
   setAttrAll("a.btn.small[aria-label=\"Administration\"]", "aria-label", t("nav.admin"));
@@ -1700,9 +1732,19 @@ function applyNav() {
 }
 
 function applyFooter() {
-  setTextAll(".footer-col:nth-of-type(1) .k", t("footer.nav"));
-  setTextAll(".footer-col:nth-of-type(2) .k", t("footer.contact"));
-  setTextAll(".footer-col:nth-of-type(3) .k", t("footer.newsletter"));
+  setTextAll(".footer-col:nth-of-type(1) > .k", t("footer.nav"));
+  setTextAll(".footer-col:nth-of-type(2) > .k", t("footer.contact"));
+  setTextAll(".footer-col:nth-of-type(3) > .k", t("footer.newsletter"));
+  setTextAll(".footer-social > .k", t("footer.followUs"));
+  setAttrAll(".footer-social > .k", "data-label", t("footer.followUs"));
+  setTextAll(".footer-bottom-left", t("footer.actor"));
+
+  const contactK = Array.from(document.querySelectorAll(".footer-contact .footer-contact-k"));
+  if (contactK.length >= 3) {
+    if (contactK[0] instanceof HTMLElement) contactK[0].textContent = t("footer.contact.email");
+    if (contactK[1] instanceof HTMLElement) contactK[1].textContent = t("footer.contact.phone");
+    if (contactK[2] instanceof HTMLElement) contactK[2].textContent = t("footer.contact.address");
+  }
   setTextAll(".footer-note", t("footer.newsletter.note"));
   setAttrAll(".footer-newsletter input[type=\"email\"]", "placeholder", t("footer.newsletter.placeholder"));
   setAttrAll(".footer-newsletter button[aria-label]", "aria-label", t("footer.newsletter.submitAria"));
@@ -2194,7 +2236,7 @@ function applyHomePage() {
       if (aria.includes("site en construction") || aria.includes("under construction")) {
         card.setAttribute("aria-label", `${card.querySelector(".partner-name")?.textContent || "DCKI CLEAN SERVICE"} — ${t("toast.construction")}`);
       }
-      card.setAttribute("data-construction-toast", t("toast.construction"));
+      card.removeAttribute("data-construction-toast");
     }
   }
 
@@ -2517,12 +2559,19 @@ function applyBiensPage() {
 
     const meta = card.querySelector(".meta");
     if (meta instanceof HTMLElement) {
+      const ico = meta.querySelector(".meta-ico");
+      const icoHtml = ico instanceof HTMLElement ? ico.outerHTML : "";
       let v = meta.textContent || "";
       v = v.replace(/\bpièces\b/gi, getLang() === "en" ? "rooms" : "pièces");
       v = v.replace(/\bAppartement\b/g, translateType("Appartement"));
       v = v.replace(/\bMaison\b/g, translateType("Maison"));
       v = v.replace(/\bVilla\b/g, translateType("Villa"));
-      meta.textContent = v;
+      if (icoHtml) {
+        meta.innerHTML = icoHtml;
+        meta.appendChild(document.createTextNode(v));
+      } else {
+        meta.textContent = v;
+      }
     }
   }
 }

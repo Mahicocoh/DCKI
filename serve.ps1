@@ -56,7 +56,7 @@ while ($listener.IsListening) {
       $res.StatusCode = 403
       $bytes = [System.Text.Encoding]::UTF8.GetBytes("403 Forbidden")
       $res.ContentType = "text/plain; charset=utf-8"
-      $res.ContentLength64 = $bytes.Length
+      try { $res.ContentLength64 = $bytes.Length } catch {}
       $res.OutputStream.Write($bytes, 0, $bytes.Length)
       continue
     }
@@ -69,7 +69,7 @@ while ($listener.IsListening) {
       $res.StatusCode = 404
       $bytes = [System.Text.Encoding]::UTF8.GetBytes("404 Not Found")
       $res.ContentType = "text/plain; charset=utf-8"
-      $res.ContentLength64 = $bytes.Length
+      try { $res.ContentLength64 = $bytes.Length } catch {}
       $res.OutputStream.Write($bytes, 0, $bytes.Length)
       continue
     }
@@ -78,14 +78,14 @@ while ($listener.IsListening) {
     $bytes = [System.IO.File]::ReadAllBytes($full)
     $res.StatusCode = 200
     $res.ContentType = Get-ContentType $ext
-    $res.ContentLength64 = $bytes.Length
+    try { $res.ContentLength64 = $bytes.Length } catch {}
     $res.OutputStream.Write($bytes, 0, $bytes.Length)
   } catch {
     $res.StatusCode = 500
     $bytes = [System.Text.Encoding]::UTF8.GetBytes("500 Server Error")
     $res.ContentType = "text/plain; charset=utf-8"
-    $res.ContentLength64 = $bytes.Length
-    $res.OutputStream.Write($bytes, 0, $bytes.Length)
+    try { $res.ContentLength64 = $bytes.Length } catch {}
+    try { $res.OutputStream.Write($bytes, 0, $bytes.Length) } catch {}
   } finally {
     $res.OutputStream.Close()
   }

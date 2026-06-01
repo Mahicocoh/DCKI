@@ -1,46 +1,49 @@
 import { mountLoader } from "./loader.js?v=202605301300";
 import { initI18n } from "./i18n.js?v=202605301300";
-import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202605301300";
+import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202605301300";
 import { initRecherche } from "./recherche.js?v=202605301300";
 import { initBiens } from "./biens.js?v=202605301300";
 import { initHome } from "./home.js?v=202605301300";
 import { initVideoFallbacks } from "./video-fallback.js?v=202605301300";
 import { initListingPage } from "./listing-page.js?v=202605301300";
 import { initVoiceSearch } from "./voice-search.js?v=202605301300";
-
-mountLoader();
-
-initI18n();
-initVoiceSearch();
-
-setActiveNav();
-mountTopbarMenu();
-mountConstructionToasts();
-mountAdviceNav();
-mountBudgetCalculator();
-mountM2Calculator();
-mountRentMaxCalculator();
-mountRateCalculator();
-wireForms();
-mountSmartSearch();
-mountHomeSearchRanges();
-mountCantonBubbles();
-mountAppointmentPlanner();
-mountTypewriters();
-mountDossierPrefill();
-initVideoFallbacks();
-mountWhatsAppFab();
-mountToTopFab();
-mountCardGalleries();
-mountFavorites();
-mountScrollIndicators();
-mountReveals();
-mountCountUps();
-mountTestimonials();
-mountHeroTopbar();
+import { initComingSoon } from "./coming-soon.js?v=202606011230";
 
 const page = document.body.getAttribute("data-page");
+if (page !== "coming-soon") {
+  mountLoader();
+  initI18n();
+  initVoiceSearch();
+
+  setActiveNav();
+  mountTopbarMenu();
+  mountConstructionToasts();
+  mountPartnerComingSoonModal();
+  mountAdviceNav();
+  mountBudgetCalculator();
+  mountM2Calculator();
+  mountRentMaxCalculator();
+  mountRateCalculator();
+  wireForms();
+  mountSmartSearch();
+  mountHomeSearchRanges();
+  mountCantonBubbles();
+  mountAppointmentPlanner();
+  mountTypewriters();
+  mountDossierPrefill();
+  initVideoFallbacks();
+  mountWhatsAppFab();
+  mountToTopFab();
+  mountCardGalleries();
+  mountFavorites();
+  mountScrollIndicators();
+  mountReveals();
+  mountCountUps();
+  mountTestimonials();
+  mountHeroTopbar();
+}
 if (page === "home") initHome();
 if (page === "recherche") initRecherche();
 if (page === "biens") initBiens();
 if (page === "listing") initListingPage();
+if (page === "coming-soon") initComingSoon();
