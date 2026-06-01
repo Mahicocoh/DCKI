@@ -1,6 +1,17 @@
 import { getLang, t } from "./i18n.js?v=202605301300";
 import { showToast } from "./ui.js?v=202605301300";
 
+function isIOS() {
+  const ua = String(navigator.userAgent || "");
+  if (/iPhone|iPad|iPod/i.test(ua)) return true;
+  return navigator.platform === "MacIntel" && (navigator.maxTouchPoints || 0) > 1;
+}
+
+function isMobileLike() {
+  if (window.matchMedia?.("(pointer: coarse)")?.matches) return true;
+  return (navigator.maxTouchPoints || 0) > 0 && window.innerWidth <= 1024;
+}
+
 function getRecognition() {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (typeof SR !== "function") return null;
@@ -26,6 +37,7 @@ function getRecognitionLang() {
 }
 
 export function initVoiceSearch() {
+  const allowVoiceUI = isIOS() && isMobileLike();
   const SR = getRecognition();
   const btns = Array.from(document.querySelectorAll("[data-voice-btn]"));
   if (!btns.length) return;
@@ -42,9 +54,20 @@ export function initVoiceSearch() {
     const wrap = btn.closest(".autocomplete-wrapper");
     if (wrap instanceof HTMLElement) wrap.classList.add("has-voice");
 
-    if (!SR) {
+    if (!allowVoiceUI) {
       btn.remove();
       if (wrap instanceof HTMLElement) wrap.classList.remove("has-voice");
+      continue;
+    }
+
+    if (!SR) {
+      btn.setAttribute("aria-pressed", "false");
+      btn.setAttribute("aria-label", btn.getAttribute("aria-label") || "");
+      btn.setAttribute("title", btn.getAttribute("title") || "");
+      btn.addEventListener("click", () => {
+        input.focus();
+        showToast(t("toast.voice.iosKeyboard"));
+      });
       continue;
     }
 

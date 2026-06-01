@@ -360,6 +360,8 @@ const DICT = {
     "toast.voice.noSpeech": "On n’a rien entendu. Réessaie.",
     "toast.voice.network": "Dictée indisponible (connexion/service bloqué).",
     "toast.voice.unavailable": "Dictée indisponible sur ce navigateur.",
+    "toast.voice.iosKeyboard": "Sur iPhone: utilise le micro du clavier pour dicter.",
+    "toast.pano360.missing": "Ajoute une photo 360° pour activer la visite.",
     "toast.form.sent": "{label} envoyé.",
     "toast.form.fail": "Impossible d’envoyer. Réessayez.",
     "toast.form.demo": "{label} prêt. Ajoutez un lien d’envoi pour recevoir les fichiers.",
@@ -504,6 +506,8 @@ const DICT = {
     "listing.amenityGroup.equipment": "Équipement",
     "listing.requestDossier": "Demande de dossier",
     "listing.requestVisit": "Demander une visite",
+    "listing.visit360": "Visite 360°",
+    "listing.visit360.hint": "Glisse pour bouger • 360°",
     "listing.contact": "Contact",
     "listing.contact.name": "Deniz Demirci",
     "listing.contact.phone": "Téléphone",
@@ -1082,6 +1086,8 @@ const DICT = {
     "toast.voice.noSpeech": "We didn’t hear anything. Try again.",
     "toast.voice.network": "Dictation unavailable (network/service blocked).",
     "toast.voice.unavailable": "Dictation unavailable on this browser.",
+    "toast.voice.iosKeyboard": "On iPhone: use the keyboard mic to dictate.",
+    "toast.pano360.missing": "Add a 360° photo to enable the tour.",
     "toast.form.sent": "{label} sent.",
     "toast.form.fail": "Could not send. Please try again.",
     "toast.form.demo": "{label} ready. Add a submit endpoint to receive files.",
@@ -1226,6 +1232,8 @@ const DICT = {
     "listing.amenityGroup.equipment": "Equipment",
     "listing.requestDossier": "Application file",
     "listing.requestVisit": "Request a viewing",
+    "listing.visit360": "360° tour",
+    "listing.visit360.hint": "Drag to look • 360°",
     "listing.contact": "Contact",
     "listing.contact.name": "Deniz Demirci",
     "listing.contact.phone": "Phone",
@@ -2564,6 +2572,14 @@ function applyListingPage() {
   if (ctaDossier instanceof HTMLAnchorElement) ctaDossier.textContent = t("listing.requestDossier");
   const ctaVisit = document.querySelector(".cta a.btn[href^=\"#demande-visite\"]");
   if (ctaVisit instanceof HTMLAnchorElement) ctaVisit.textContent = t("listing.requestVisit");
+  const cta360 = document.querySelector(".cta [data-open-360]");
+  if (cta360 instanceof HTMLButtonElement) {
+    cta360.textContent = t("listing.visit360");
+    cta360.setAttribute("aria-label", t("listing.visit360"));
+    cta360.setAttribute("title", t("listing.visit360"));
+  }
+  const hint360 = document.querySelector("[data-pano-hint]");
+  if (hint360 instanceof HTMLElement) hint360.textContent = t("listing.visit360.hint");
 
   const contactKs = Array.from(document.querySelectorAll(".contact-cards .contact-card .k"));
   if (contactKs[0] instanceof HTMLElement) contactKs[0].textContent = t("listing.contact");

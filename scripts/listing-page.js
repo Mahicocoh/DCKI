@@ -207,6 +207,15 @@ function updateListingShare(listing, titleText) {
 }
 
 function metaIcon(kind) {
+  if (kind === "map") {
+    return `
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6Z"></path>
+        <path d="M9 4v14"></path>
+        <path d="M15 6v14"></path>
+      </svg>
+    `.trim();
+  }
   if (kind === "pin") {
     return `
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -782,7 +791,7 @@ function render(listing) {
   }
   if (meta) {
     meta.innerHTML = [
-      metaItem(metaIcon("pin"), regionText),
+      metaItem(metaIcon("map"), regionText),
       metaItem(metaIcon("pin"), listing.locality),
       metaItem(metaIcon("bed"), formatRooms(listing.rooms)),
       metaItem(metaIcon("surface"), `${listing.surface} m²`),
@@ -879,6 +888,42 @@ function render(listing) {
     );
   }
 
+  const btn360 = document.querySelector(".cta [data-open-360]");
+  const panoSrcRaw = String(listing?.pano360 || listing?.tour360 || listing?.photo360 || listing?.vr360 || "").trim();
+  if (btn360 instanceof HTMLButtonElement) {
+    const lbl = t("listing.visit360");
+    btn360.hidden = false;
+    btn360.textContent = lbl;
+    btn360.setAttribute("aria-label", lbl);
+    btn360.setAttribute("title", lbl);
+    btn360.onclick = () => {
+      if (!panoSrcRaw) {
+        showToast(t("toast.pano360.missing"));
+        return;
+      }
+      const panoLb = document.getElementById("pano360-lightbox");
+      const stage = panoLb?.querySelector("[data-pano-stage]");
+      const hint = panoLb?.querySelector("[data-pano-hint]");
+      if (!(panoLb instanceof HTMLElement) || !(stage instanceof HTMLElement)) return;
+      try {
+        stage.style.backgroundImage = `url("${new URL(panoSrcRaw, window.location.href).href}")`;
+      } catch {
+        stage.style.backgroundImage = `url("${panoSrcRaw}")`;
+      }
+      stage.dataset.panX = "0";
+      stage.dataset.panY = "50";
+      stage.style.backgroundPosition = "0% 50%";
+      if (hint instanceof HTMLElement) {
+        hint.style.opacity = "";
+        hint.style.display = "";
+      }
+      panoLb.dataset.prevOverflow = document.body.style.overflow || "";
+      document.body.style.overflow = "hidden";
+      panoLb.classList.add("show");
+      panoLb.setAttribute("aria-hidden", "false");
+    };
+  }
+
   const isUnavailable = isSold || isRented;
   if (isUnavailable) {
     const cta = document.querySelector(".cta");
@@ -962,6 +1007,95 @@ function render(listing) {
         else if (el instanceof HTMLButtonElement) el.disabled = false;
       }
     }
+  }
+
+  const panoLb = document.getElementById("pano360-lightbox");
+  const panoStage = panoLb?.querySelector("[data-pano-stage]");
+  const panoClose = panoLb?.querySelector("[data-pano-close]");
+  const panoHint = panoLb?.querySelector("[data-pano-hint]");
+  const closePano = () => {
+    if (!(panoLb instanceof HTMLElement)) return;
+    panoLb.classList.remove("show");
+    panoLb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = panoLb.dataset.prevOverflow || "";
+  };
+  if (panoLb instanceof HTMLElement && panoStage instanceof HTMLElement && panoLb.dataset.bound !== "1") {
+    panoLb.dataset.bound = "1";
+
+    panoClose?.addEventListener("click", closePano);
+    panoLb.addEventListener("click", (e) => {
+      if (e.target === panoLb) closePano();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (!panoLb.classList.contains("show")) return;
+      if (e.key === "Escape") closePano();
+    });
+
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    let baseX = 0;
+    let baseY = 50;
+
+    const wrap01 = (n) => {
+      const v = Number(n);
+      if (!Number.isFinite(v)) return 0;
+      return ((v % 100) + 100) % 100;
+    };
+    const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
+    const writePos = (x, y) => {
+      const xx = wrap01(x);
+      const yy = clamp(y, 35, 65);
+      panoStage.dataset.panX = String(xx);
+      panoStage.dataset.panY = String(yy);
+      panoStage.style.backgroundPosition = `${xx}% ${yy}%`;
+    };
+    const readPos = () => {
+      const x = Number(panoStage.dataset.panX || "0");
+      const y = Number(panoStage.dataset.panY || "50");
+      return { x: Number.isFinite(x) ? x : 0, y: Number.isFinite(y) ? y : 50 };
+    };
+
+    panoStage.addEventListener("pointerdown", (e) => {
+      if (!(e instanceof PointerEvent)) return;
+      dragging = true;
+      const cur = readPos();
+      baseX = cur.x;
+      baseY = cur.y;
+      startX = e.clientX;
+      startY = e.clientY;
+      try {
+        panoStage.setPointerCapture(e.pointerId);
+      } catch {
+      }
+      if (panoHint instanceof HTMLElement) {
+        panoHint.style.opacity = "0";
+        window.setTimeout(() => {
+          if (panoHint instanceof HTMLElement) panoHint.style.display = "none";
+        }, 220);
+      }
+    });
+    panoStage.addEventListener("pointermove", (e) => {
+      if (!(e instanceof PointerEvent)) return;
+      if (!dragging) return;
+      const w = panoStage.clientWidth || 1;
+      const h = panoStage.clientHeight || 1;
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      const nx = baseX + (-dx / w) * 100;
+      const ny = baseY + (-dy / h) * 40;
+      writePos(nx, ny);
+    });
+    const end = (e) => {
+      if (!(e instanceof PointerEvent)) return;
+      dragging = false;
+      try {
+        panoStage.releasePointerCapture(e.pointerId);
+      } catch {
+      }
+    };
+    panoStage.addEventListener("pointerup", end);
+    panoStage.addEventListener("pointercancel", end);
   }
 
   const lb = document.getElementById("photo-lightbox");

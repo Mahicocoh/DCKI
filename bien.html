@@ -328,6 +328,7 @@
                 <div class="cta" style="margin-top:18px">
                   <a class="btn primary" href="./dossier.html">Demande de dossier</a>
                   <a class="btn" href="#demande-visite" data-open-appointment data-appointment-target="listing-form">Demander une visite</a>
+                  <button class="btn" type="button" data-open-360 hidden>Visite 360°</button>
                 </div>
 
                 <h3 style="margin:18px 0 8px">Contact</h3>
@@ -403,6 +404,14 @@
         <button class="nav prev" type="button" aria-label="Photo précédente">‹</button>
         <button class="nav next" type="button" aria-label="Photo suivante">›</button>
         <button class="close" type="button" aria-label="Fermer">×</button>
+      </div>
+    </div>
+
+    <div class="lightbox pano360" id="pano360-lightbox" aria-hidden="true">
+      <div class="inner">
+        <div class="pano360-stage" data-pano-stage></div>
+        <div class="pano360-hint" data-pano-hint>Glisse pour bouger • 360°</div>
+        <button class="close" type="button" aria-label="Fermer" data-pano-close>×</button>
       </div>
     </div>
 
