@@ -279,6 +279,8 @@ const DICT = {
     "search.region.all": "Toutes",
     "search.type": "Type",
     "search.type.all": "Tous",
+    "search.voice": "Dicter la recherche",
+    "search.voice.stop": "Arrêter la dictée",
     "search.surfaceMin": "Surface min (m²)",
     "search.cityExact": "Commune (exacte)",
     "search.proximity": "Proximité",
@@ -354,6 +356,10 @@ const DICT = {
     "feature.office": "Bureau",
 
     "toast.construction": "Site en construction",
+    "toast.voice.permission": "Autorise le micro dans ton navigateur.",
+    "toast.voice.noSpeech": "On n’a rien entendu. Réessaie.",
+    "toast.voice.network": "Dictée indisponible (connexion/service bloqué).",
+    "toast.voice.unavailable": "Dictée indisponible sur ce navigateur.",
     "toast.form.sent": "{label} envoyé.",
     "toast.form.fail": "Impossible d’envoyer. Réessayez.",
     "toast.form.demo": "{label} prêt. Ajoutez un lien d’envoi pour recevoir les fichiers.",
@@ -995,6 +1001,8 @@ const DICT = {
     "search.region.all": "All",
     "search.type": "Type",
     "search.type.all": "Any",
+    "search.voice": "Dictate search",
+    "search.voice.stop": "Stop dictation",
     "search.surfaceMin": "Min area (m²)",
     "search.cityExact": "City (exact)",
     "search.proximity": "Nearby",
@@ -1070,6 +1078,10 @@ const DICT = {
     "feature.office": "Office",
 
     "toast.construction": "Site under construction",
+    "toast.voice.permission": "Allow microphone access in your browser.",
+    "toast.voice.noSpeech": "We didn’t hear anything. Try again.",
+    "toast.voice.network": "Dictation unavailable (network/service blocked).",
+    "toast.voice.unavailable": "Dictation unavailable on this browser.",
     "toast.form.sent": "{label} sent.",
     "toast.form.fail": "Could not send. Please try again.",
     "toast.form.demo": "{label} ready. Add a submit endpoint to receive files.",
@@ -1773,6 +1785,14 @@ function applyHomePage() {
     if (where instanceof HTMLElement) where.textContent = t("search.where");
     const q = qs.querySelector("#home-q");
     if (q instanceof HTMLInputElement) q.placeholder = t("search.where.placeholder");
+
+    const voice = qs.querySelector("[data-voice-btn][data-voice-input=\"#home-q\"]");
+    if (voice instanceof HTMLElement) {
+      voice.setAttribute("data-voice-start", t("search.voice"));
+      voice.setAttribute("data-voice-stop", t("search.voice.stop"));
+      voice.setAttribute("aria-label", t("search.voice"));
+      voice.setAttribute("title", t("search.voice"));
+    }
 
     const homeType = qs.querySelector("#home-type");
     const homeTypeLabel = homeType?.closest(".is24-field")?.querySelector(".is24-label");
@@ -2609,6 +2629,14 @@ function applyRecherchePage() {
   if (where instanceof HTMLElement) where.textContent = t("search.where");
   const q = document.getElementById("search-q");
   if (q instanceof HTMLInputElement) q.placeholder = t("search.where.placeholder");
+
+  const voice = document.querySelector("[data-voice-btn][data-voice-input=\"#search-q\"]");
+  if (voice instanceof HTMLElement) {
+    voice.setAttribute("data-voice-start", t("search.voice"));
+    voice.setAttribute("data-voice-stop", t("search.voice.stop"));
+    voice.setAttribute("aria-label", t("search.voice"));
+    voice.setAttribute("title", t("search.voice"));
+  }
 
   const priceUpTo = document.querySelector(".is24-field:nth-of-type(2) .is24-label");
   if (priceUpTo instanceof HTMLElement) priceUpTo.textContent = t("search.priceUpTo");

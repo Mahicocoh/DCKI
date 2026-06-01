@@ -6,10 +6,12 @@ import { initBiens } from "./biens.js?v=202605301300";
 import { initHome } from "./home.js?v=202605301300";
 import { initVideoFallbacks } from "./video-fallback.js?v=202605301300";
 import { initListingPage } from "./listing-page.js?v=202605301300";
+import { initVoiceSearch } from "./voice-search.js?v=202605301300";
 
 mountLoader();
 
 initI18n();
+initVoiceSearch();
 
 setActiveNav();
 mountTopbarMenu();

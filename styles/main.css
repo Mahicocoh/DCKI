@@ -6195,6 +6195,51 @@ body[data-page="listing"] .listing-top-row .fav-btn{
   position: relative;
   width: 100%;
 }
+.autocomplete-wrapper.has-voice .is24-control{
+  padding-right:54px;
+}
+.is24-voice{
+  position:absolute;
+  top:24px;
+  right:10px;
+  transform:translateY(-50%);
+  width:38px;
+  height:38px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.92);
+  color:rgba(11,42,58,.86);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:transform .14s ease, background .14s ease, color .14s ease, border-color .14s ease, box-shadow .14s ease;
+  z-index:2;
+}
+.is24-voice:hover{
+  border-color:transparent;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#fff;
+  box-shadow:0 14px 36px rgba(11,42,58,.18);
+  transform:translateY(calc(-50% - 1px));
+}
+.is24-voice:focus-visible{
+  outline:3px solid rgba(11,42,58,.26);
+  outline-offset:3px;
+}
+.is24-voice.is-listening{
+  border-color:transparent;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  color:#fff;
+  box-shadow:0 14px 36px rgba(11,42,58,.18);
+}
+.is24-voice.is-listening svg{
+  animation:voicePulse .9s ease-in-out infinite;
+}
+@keyframes voicePulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.12)}
+}
 .autocomplete-list {
   position: absolute;
   top: 100%;
