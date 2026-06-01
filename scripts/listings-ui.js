@@ -2,16 +2,6 @@ import { getListingFacts } from "./listings-data.js";
 import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202605301300";
 import { formatCHF, formatRooms, mountCardGalleries } from "./ui.js?v=202605301300";
 
-function regionIcon() {
-  return `
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M3 6l6-2 6 2 6-2v14l-6 2-6-2-6 2V6Z"></path>
-      <path d="M9 4v14"></path>
-      <path d="M15 6v14"></path>
-    </svg>
-  `.trim();
-}
-
 export function listingCard(listing) {
   const rawStatus = String(listing.status || "")
     .trim()
@@ -45,7 +35,7 @@ export function listingCard(listing) {
   const facts = getListingFacts(listing);
   const avail = facts.availableFrom ? t("listing.availableFrom", { date: facts.availableFrom }) : "";
   const meta = [
-    `<span class="meta-ico">${regionIcon()}</span>${escapeHtml(regionText)} — ${escapeHtml(listing.locality)}`,
+    `${escapeHtml(regionText)} — ${escapeHtml(listing.locality)}`,
     `${escapeHtml(typeText)} • ${formatRooms(listing.rooms)} • ${escapeHtml(String(listing.surface))} m²`,
   ].join(" • ");
 
