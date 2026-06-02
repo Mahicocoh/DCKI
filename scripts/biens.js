@@ -3,6 +3,7 @@ import { renderListings } from "./listings-ui.js?v=202605301300";
 import { loadListings } from "./listings-store.js?v=202605301300";
 
 let rerenderBound = false;
+let hashBound = false;
 let last = {
   saleGrid: null,
   rentGrid: null,
@@ -229,6 +230,31 @@ export async function initBiens() {
   if (saleSection) saleSection.style.display = categories.includes("sale") ? "" : "none";
   if (rentSection) rentSection.style.display = categories.includes("rent") ? "" : "none";
 
+  const scrollToEl = (el) => {
+    if (!(el instanceof HTMLElement)) return;
+    const header = document.querySelector("header.topbar");
+    const headerH = header instanceof HTMLElement ? Math.ceil(header.getBoundingClientRect().height) : 0;
+    const pad = window.matchMedia && window.matchMedia("(max-width: 720px)").matches ? 10 : 14;
+    const y = window.scrollY + el.getBoundingClientRect().top - headerH - pad;
+    window.scrollTo({ top: Math.max(0, Math.round(y)), behavior: "auto" });
+  };
+
+  const alignToHash = () => {
+    const h = (window.location.hash || "").replace("#", "");
+    if (!h) return;
+
+    if (h === "louer") {
+      if (rentSection instanceof HTMLElement && rentSection.style.display === "none") return;
+      const first = rentGrid instanceof HTMLElement ? rentGrid.querySelector("article.card.listing") : null;
+      scrollToEl(first instanceof HTMLElement ? first : rentSection);
+    }
+    if (h === "vendre") {
+      if (saleSection instanceof HTMLElement && saleSection.style.display === "none") return;
+      const first = saleGrid instanceof HTMLElement ? saleGrid.querySelector("article.card.listing") : null;
+      scrollToEl(first instanceof HTMLElement ? first : saleSection);
+    }
+  };
+
   last = { saleGrid, rentGrid, saleCount, rentCount, count, saleItems, rentItems };
   if (!rerenderBound) {
     rerenderBound = true;
@@ -238,4 +264,11 @@ export async function initBiens() {
       renderListings(last.rentGrid, last.rentItems);
     });
   }
+
+  if (!hashBound) {
+    hashBound = true;
+    window.addEventListener("hashchange", () => window.setTimeout(alignToHash, 0));
+  }
+  window.setTimeout(alignToHash, 0);
+  window.setTimeout(alignToHash, 200);
 }
