@@ -3816,12 +3816,13 @@ body[data-page="contact"] .contact-team-card{
     margin-top:12px;
     border-radius:12px;
   }
-  .team-panel.reveal .contact-team-badge-row{
-    opacity:0;
-    transform:translateX(-16px);
-    transition:opacity .26s ease, transform .26s cubic-bezier(.2,.9,.2,1);
+  .team-panel.reveal.is-visible .contact-team-badge-row{
+    animation:teamBadgeIn .55s cubic-bezier(.2,.9,.2,1) both;
   }
-  .team-panel.reveal.is-visible .contact-team-badge-row{opacity:1;transform:none}
+  @keyframes teamBadgeIn{
+    from{opacity:0;transform:translateX(-18px)}
+    to{opacity:1;transform:none}
+  }
   .contact-team-name{margin-top:18px}
   .contact-team-sep{margin-left:auto;margin-right:auto}
   .contact-team-showcase .team-proof{display:flex;justify-content:center}
@@ -7219,8 +7220,37 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
 }
 .trust-strip .dot{opacity:.55}
 .trust-strip .item{white-space:nowrap}
+.catalog-hero-panel .trust-strip .item{white-space:normal;text-align:center;flex:1 1 100%}
+.trust-strip.trust-strip--quote{
+  border:0;
+  border-top:1px solid rgba(15,23,32,.10);
+  border-radius:0;
+  background:transparent;
+  padding:26px 12px 0;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  text-align:center;
+}
+.trust-strip--quote .dot{display:none}
+.trust-strip--quote .trust-quote{
+  font-size:56px;
+  line-height:1;
+  color:rgba(15,23,32,.26);
+  font-weight:950;
+}
+.trust-strip--quote .item{
+  white-space:normal;
+  max-width:60ch;
+  font-style:italic;
+  font-weight:500;
+  color:rgba(15,23,32,.72);
+}
 @media (max-width: 640px){
   .trust-strip{justify-content:center;font-size:12.5px}
+  .trust-strip.trust-strip--quote{padding-top:22px}
+  .trust-strip--quote .trust-quote{font-size:52px}
 }
 
 .trust-grid{

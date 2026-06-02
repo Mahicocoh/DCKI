@@ -478,6 +478,7 @@ const DICT = {
     "biens.btn.rent": "À louer",
     "biens.btn.search": "Recherche",
     "biens.trust.aria": "Réassurance",
+    "biens.trust.lead": "Votre projet immobilier, accompagné du premier contact à la signature.",
     "biens.trust.one": "Interlocuteur unique",
     "biens.trust.two": "Accompagnement sur mesure",
     "biens.trust.three": "Suivi transparent",
@@ -582,6 +583,7 @@ const DICT = {
     "search.trust.two": "Contact direct",
     "search.trust.three": "Réponse rapide",
     "search.trust.four": "Visites 7j/7",
+    "search.trust.lead": "Votre projet immobilier, accompagné du premier contact à la signature.",
 
     "page.conseils.title": "Conseils — DCKImmo",
 
@@ -1219,6 +1221,7 @@ const DICT = {
     "biens.btn.rent": "For rent",
     "biens.btn.search": "Search",
     "biens.trust.aria": "Trust",
+    "biens.trust.lead": "Your real estate project, supported from first contact to signature.",
     "biens.trust.one": "Single point of contact",
     "biens.trust.two": "Tailored support",
     "biens.trust.three": "Transparent follow-up",
@@ -1323,6 +1326,7 @@ const DICT = {
     "search.trust.two": "Direct contact",
     "search.trust.three": "Fast reply",
     "search.trust.four": "Viewings 7/7",
+    "search.trust.lead": "Your real estate project, supported from first contact to signature.",
 
     "page.conseils.title": "Advice — DCKImmo",
 
@@ -2488,10 +2492,13 @@ function applyBiensPage() {
 
   const trust = document.querySelector(".catalog-hero-panel .trust-strip");
   if (trust instanceof HTMLElement) trust.setAttribute("aria-label", t("biens.trust.aria"));
+  const trustLead = document.querySelector(".catalog-hero-panel .trust-strip [data-biens-trust]");
+  if (trustLead instanceof HTMLElement) trustLead.textContent = t("biens.trust.lead");
   const trustItems = Array.from(document.querySelectorAll(".catalog-hero-panel .trust-strip .item"));
-  if (trustItems[0] instanceof HTMLElement) trustItems[0].textContent = t("biens.trust.one");
-  if (trustItems[1] instanceof HTMLElement) trustItems[1].textContent = t("biens.trust.two");
-  if (trustItems[2] instanceof HTMLElement) trustItems[2].textContent = t("biens.trust.three");
+  if (!trustLead && trustItems[0] instanceof HTMLElement) trustItems[0].textContent = t("biens.trust.lead");
+  for (let i = 1; i < trustItems.length; i += 1) {
+    if (trustItems[i] instanceof HTMLElement) trustItems[i].textContent = "";
+  }
 
   const saleTitle = document.querySelector("#vendre > div > h2");
   if (saleTitle instanceof HTMLElement) saleTitle.textContent = t("biens.btn.sale");
@@ -2733,11 +2740,13 @@ function applyRecherchePage() {
 
   const trust = document.querySelector("main .trust-strip");
   if (trust instanceof HTMLElement) trust.setAttribute("aria-label", t("biens.trust.aria"));
+  const trustLead = document.querySelector("main .trust-strip [data-search-trust]");
+  if (trustLead instanceof HTMLElement) trustLead.textContent = t("search.trust.lead");
   const trustItems = Array.from(document.querySelectorAll("main .trust-strip .item"));
-  if (trustItems[0] instanceof HTMLElement) trustItems[0].textContent = t("search.trust.one");
-  if (trustItems[1] instanceof HTMLElement) trustItems[1].textContent = t("search.trust.two");
-  if (trustItems[2] instanceof HTMLElement) trustItems[2].textContent = t("search.trust.three");
-  if (trustItems[3] instanceof HTMLElement) trustItems[3].textContent = t("search.trust.four");
+  if (!trustLead && trustItems[0] instanceof HTMLElement) trustItems[0].textContent = t("search.trust.lead");
+  for (let i = 1; i < trustItems.length; i += 1) {
+    if (trustItems[i] instanceof HTMLElement) trustItems[i].textContent = "";
+  }
 
   const emptyTitle = document.querySelector("[data-empty] h3");
   if (emptyTitle instanceof HTMLElement) emptyTitle.textContent = t("search.noneFoundTitle");
