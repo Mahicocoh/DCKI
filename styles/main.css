@@ -1797,6 +1797,17 @@ body[data-page="listing"]::after{
   body[data-page="biens"] .catalog-action-rent{grid-area:rent}
 }
 
+body[data-page="biens"] #vendre,
+body[data-page="biens"] #louer{
+  scroll-margin-top:110px;
+}
+@media (max-width: 720px){
+  body[data-page="biens"] #vendre,
+  body[data-page="biens"] #louer{
+    scroll-margin-top:92px;
+  }
+}
+
 .pill.listing-pill{
   display:inline-flex;
   flex-direction:row;
@@ -3229,12 +3240,14 @@ body[data-page="contact"] .contact-who-frame{
   margin:0;
   padding:0;
   background:transparent;
-  text-align:center;
+  text-align:left;
 }
 @media (max-width: 720px){
   body[data-page="contact"] .contact-who-frame{text-align:left}
   body[data-page="contact"] .contact-who-title{margin:0;display:block}
 }
+
+body[data-page="contact"] .contact-who-title{margin:0;display:block}
 
 body[data-page="legal"],
 body[data-page="privacy"]{
@@ -3425,9 +3438,9 @@ body[data-page="privacy"] .panel .inner{
 .contact-who-title::after{display:none}
 .contact-who-text{margin-top:20px;max-width:920px}
 body[data-page="contact"] .contact-who-text{
-  margin-left:auto;
-  margin-right:auto;
-  max-width:1080px;
+  margin-left:0;
+  margin-right:0;
+  max-width:none;
   padding:18px 18px 16px;
   border-radius:14px;
   border:1px solid rgba(15,23,32,.10);
@@ -7003,8 +7016,8 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
   .hero h1{font-size:38px;line-height:1.1}
   .hero p{font-size:16px;margin-left:auto;margin-right:auto}
   .hero .overlay{background:linear-gradient(180deg, rgba(7,11,16,.18), rgba(7,11,16,.46) 62%, rgba(7,11,16,.62))}
-  .topbar{background:#ffffff}
-  .topbar::before{background:#ffffff}
+  .topbar{background:#ffffff;backdrop-filter:none}
+  .topbar::before{background:#ffffff;backdrop-filter:none}
   .brand img{height:56px;filter:brightness(1.03) contrast(1.03)}
   .topbar-inner{padding:8px 0}
   .topbar .nav{gap:4px}
