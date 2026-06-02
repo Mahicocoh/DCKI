@@ -2559,6 +2559,42 @@ export function mountReveals() {
   }
 }
 
+export function mountTeamBadgeSlide() {
+  if (document.body.getAttribute("data-page") !== "contact") return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!(window.matchMedia && window.matchMedia("(max-width: 720px)").matches)) return;
+
+  const section = document.querySelector("#equipe");
+  const badge = document.querySelector("#equipe .contact-team-badge-row");
+  if (!(section instanceof HTMLElement) || !(badge instanceof HTMLElement)) return;
+
+  badge.classList.add("team-badge-slide");
+
+  if (!("IntersectionObserver" in window)) {
+    badge.classList.add("is-visible");
+    return;
+  }
+
+  let io = null;
+  try {
+    io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          badge.classList.add("is-visible");
+          io.unobserve(e.target);
+        }
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -35% 0px" }
+    );
+  } catch {
+    badge.classList.add("is-visible");
+    return;
+  }
+
+  io.observe(section);
+}
+
 export function mountTypewriters() {
   if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const els = Array.from(document.querySelectorAll("[data-typewriter]"));

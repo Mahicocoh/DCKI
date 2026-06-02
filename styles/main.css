@@ -3816,7 +3816,8 @@ body[data-page="contact"] .contact-team-card{
     margin-top:12px;
     border-radius:12px;
   }
-  .team-panel.reveal.is-visible .contact-team-badge-row{
+  .contact-team-badge-row.team-badge-slide{opacity:0;transform:translateX(-18px)}
+  .contact-team-badge-row.team-badge-slide.is-visible{
     animation:teamBadgeIn .55s cubic-bezier(.2,.9,.2,1) both;
   }
   @keyframes teamBadgeIn{
@@ -7246,6 +7247,11 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
   font-style:italic;
   font-weight:500;
   color:rgba(15,23,32,.72);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:6px;
+  line-height:1.35;
 }
 @media (max-width: 640px){
   .trust-strip{justify-content:center;font-size:12.5px}

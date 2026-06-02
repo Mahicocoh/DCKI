@@ -479,6 +479,8 @@ const DICT = {
     "biens.btn.search": "Recherche",
     "biens.trust.aria": "Réassurance",
     "biens.trust.lead": "Votre projet immobilier, accompagné du premier contact à la signature.",
+    "biens.trust.lead1": "Votre projet immobilier,",
+    "biens.trust.lead2": "accompagné du premier contact à la signature.",
     "biens.trust.one": "Interlocuteur unique",
     "biens.trust.two": "Accompagnement sur mesure",
     "biens.trust.three": "Suivi transparent",
@@ -584,6 +586,8 @@ const DICT = {
     "search.trust.three": "Réponse rapide",
     "search.trust.four": "Visites 7j/7",
     "search.trust.lead": "Votre projet immobilier, accompagné du premier contact à la signature.",
+    "search.trust.lead1": "Votre projet immobilier,",
+    "search.trust.lead2": "accompagné du premier contact à la signature.",
 
     "page.conseils.title": "Conseils — DCKImmo",
 
@@ -1222,6 +1226,8 @@ const DICT = {
     "biens.btn.search": "Search",
     "biens.trust.aria": "Trust",
     "biens.trust.lead": "Your real estate project, supported from first contact to signature.",
+    "biens.trust.lead1": "Your real estate project,",
+    "biens.trust.lead2": "supported from first contact to signature.",
     "biens.trust.one": "Single point of contact",
     "biens.trust.two": "Tailored support",
     "biens.trust.three": "Transparent follow-up",
@@ -1327,6 +1333,8 @@ const DICT = {
     "search.trust.three": "Fast reply",
     "search.trust.four": "Viewings 7/7",
     "search.trust.lead": "Your real estate project, supported from first contact to signature.",
+    "search.trust.lead1": "Your real estate project,",
+    "search.trust.lead2": "supported from first contact to signature.",
 
     "page.conseils.title": "Advice — DCKImmo",
 
@@ -2493,7 +2501,13 @@ function applyBiensPage() {
   const trust = document.querySelector(".catalog-hero-panel .trust-strip");
   if (trust instanceof HTMLElement) trust.setAttribute("aria-label", t("biens.trust.aria"));
   const trustLead = document.querySelector(".catalog-hero-panel .trust-strip [data-biens-trust]");
-  if (trustLead instanceof HTMLElement) trustLead.textContent = t("biens.trust.lead");
+  if (trustLead instanceof HTMLElement) {
+    const l1 = trustLead.querySelector("[data-biens-trust-line=\"1\"]");
+    const l2 = trustLead.querySelector("[data-biens-trust-line=\"2\"]");
+    if (l1 instanceof HTMLElement) l1.textContent = t("biens.trust.lead1");
+    if (l2 instanceof HTMLElement) l2.textContent = t("biens.trust.lead2");
+    if (!l1 && !l2) trustLead.textContent = t("biens.trust.lead");
+  }
   const trustItems = Array.from(document.querySelectorAll(".catalog-hero-panel .trust-strip .item"));
   if (!trustLead && trustItems[0] instanceof HTMLElement) trustItems[0].textContent = t("biens.trust.lead");
   for (let i = 1; i < trustItems.length; i += 1) {
@@ -2741,7 +2755,13 @@ function applyRecherchePage() {
   const trust = document.querySelector("main .trust-strip");
   if (trust instanceof HTMLElement) trust.setAttribute("aria-label", t("biens.trust.aria"));
   const trustLead = document.querySelector("main .trust-strip [data-search-trust]");
-  if (trustLead instanceof HTMLElement) trustLead.textContent = t("search.trust.lead");
+  if (trustLead instanceof HTMLElement) {
+    const l1 = trustLead.querySelector("[data-search-trust-line=\"1\"]");
+    const l2 = trustLead.querySelector("[data-search-trust-line=\"2\"]");
+    if (l1 instanceof HTMLElement) l1.textContent = t("search.trust.lead1");
+    if (l2 instanceof HTMLElement) l2.textContent = t("search.trust.lead2");
+    if (!l1 && !l2) trustLead.textContent = t("search.trust.lead");
+  }
   const trustItems = Array.from(document.querySelectorAll("main .trust-strip .item"));
   if (!trustLead && trustItems[0] instanceof HTMLElement) trustItems[0].textContent = t("search.trust.lead");
   for (let i = 1; i < trustItems.length; i += 1) {
