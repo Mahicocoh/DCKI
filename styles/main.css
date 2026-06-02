@@ -3451,7 +3451,13 @@ body[data-page="contact"] .contact-who-text{
   hyphens:auto;
 }
 @media (max-width: 720px){
-  body[data-page="contact"] .contact-who-text{padding:16px 14px 14px;border-radius:12px}
+  body[data-page="contact"] .contact-who-text{padding:0;border-radius:0;border:0}
+  body[data-page="contact"] .contact-who-frame.reveal .contact-who-text{
+    opacity:0;
+    transform:translateY(14px);
+    transition:opacity .26s ease, transform .26s cubic-bezier(.2,.9,.2,1);
+  }
+  body[data-page="contact"] .contact-who-frame.reveal.is-visible .contact-who-text{opacity:1;transform:none}
 }
 .contact-who-text p{
   margin:0 0 14px;
@@ -3810,6 +3816,12 @@ body[data-page="contact"] .contact-team-card{
     margin-top:12px;
     border-radius:12px;
   }
+  .team-panel.reveal .contact-team-badge-row{
+    opacity:0;
+    transform:translateX(-16px);
+    transition:opacity .26s ease, transform .26s cubic-bezier(.2,.9,.2,1);
+  }
+  .team-panel.reveal.is-visible .contact-team-badge-row{opacity:1;transform:none}
   .contact-team-name{margin-top:18px}
   .contact-team-sep{margin-left:auto;margin-right:auto}
   .contact-team-showcase .team-proof{display:flex;justify-content:center}
