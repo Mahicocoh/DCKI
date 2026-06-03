@@ -3490,6 +3490,15 @@ body[data-page="contact"] .contact-who-text{
   clip-path:none;
   transition:transform .18s ease, border-color .18s ease;
 }
+.contact-values-list li.values-slide{opacity:0;transform:translateX(-18px)}
+.contact-values-list li.values-slide.is-visible{
+  animation:valuesSlideIn .95s cubic-bezier(.2,.9,.2,1) both;
+  animation-delay:var(--values-delay, 0ms);
+}
+@keyframes valuesSlideIn{
+  from{opacity:0;transform:translateX(-18px)}
+  to{opacity:1;transform:none}
+}
 .contact-values.reveal .contact-values-list li{clip-path:inset(0 100% 0 0);opacity:0}
 .contact-values-list li::before{
   content:"";
@@ -3818,7 +3827,7 @@ body[data-page="contact"] .contact-team-card{
   }
   .contact-team-badge-row.team-badge-slide{opacity:0;transform:translateX(-18px)}
   .contact-team-badge-row.team-badge-slide.is-visible{
-    animation:teamBadgeIn .55s cubic-bezier(.2,.9,.2,1) both;
+    animation:teamBadgeIn .95s cubic-bezier(.2,.9,.2,1) both;
   }
   @keyframes teamBadgeIn{
     from{opacity:0;transform:translateX(-18px)}
@@ -3827,6 +3836,16 @@ body[data-page="contact"] .contact-team-card{
   .contact-team-name{margin-top:18px}
   .contact-team-sep{margin-left:auto;margin-right:auto}
   .contact-team-showcase .team-proof{display:flex;justify-content:center}
+  .contact-team-showcase .team-proof-item{justify-content:center;gap:10px}
+  .contact-team-showcase .team-proof-ico{
+    width:28px;
+    height:28px;
+    border-radius:999px;
+    border:1px solid rgba(15,23,32,.14);
+    background:rgba(255,255,255,.70);
+    box-shadow:0 10px 24px rgba(15,23,32,.08);
+  }
+  .contact-team-showcase .team-proof-ico svg{width:16px;height:16px}
   .contact-team-highlights{grid-template-columns:1fr;border-top:0;padding-top:0}
   .contact-team-highlight + .contact-team-highlight{border-left:0;border-top:1px solid rgba(15,23,32,.10)}
   .contact-hero{
@@ -4242,7 +4261,7 @@ body[data-page="contact"] .contact-team-card{
   font-weight:700;
   letter-spacing:.01em;
 }
-.contact-team-showcase .team-proof-item{display:inline-flex;align-items:center;gap:8px}
+.contact-team-showcase .team-proof-item{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
 .contact-team-showcase .team-proof-ico{
   width:20px;height:20px;
   display:inline-flex;

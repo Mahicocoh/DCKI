@@ -2,7 +2,7 @@ import { getListingSearchText, normalizeForSearch, getListingFeatures, getAllTag
 import { renderListings } from "./listings-ui.js?v=202605301300";
 import { getQueryParams, initAutocomplete, smartSearchToFilters } from "./ui.js?v=202605301300";
 import { loadListings } from "./listings-store.js?v=202605301300";
-import { getLang, t } from "./i18n.js?v=202605301300";
+import { getLang, t } from "./i18n.js?v=202606031330";
 
 let langBound = false;
 

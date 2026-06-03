@@ -1,12 +1,12 @@
-import { mountLoader } from "./loader.js?v=202605301300";
-import { initI18n } from "./i18n.js?v=202605301300";
-import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202605301300";
-import { initRecherche } from "./recherche.js?v=202605301300";
+import { mountLoader } from "./loader.js?v=202606031330";
+import { initI18n } from "./i18n.js?v=202606031330";
+import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202606031330";
+import { initRecherche } from "./recherche.js?v=202606031330";
 import { initBiens } from "./biens.js?v=202606021200";
-import { initHome } from "./home.js?v=202605301300";
-import { initVideoFallbacks } from "./video-fallback.js?v=202605301300";
-import { initListingPage } from "./listing-page.js?v=202605301300";
-import { initVoiceSearch } from "./voice-search.js?v=202605301300";
+import { initHome } from "./home.js?v=202606031330";
+import { initVideoFallbacks } from "./video-fallback.js?v=202606031330";
+import { initListingPage } from "./listing-page.js?v=202606031330";
+import { initVoiceSearch } from "./voice-search.js?v=202606031330";
 import { initComingSoon } from "./coming-soon.js?v=202606011230";
 
 const page = document.body.getAttribute("data-page");
@@ -39,6 +39,7 @@ if (page !== "coming-soon") {
   mountScrollIndicators();
   mountReveals();
   mountTeamBadgeSlide();
+  mountContactValuesSlide();
   mountCountUps();
   mountTestimonials();
   mountHeroTopbar();

@@ -1698,14 +1698,33 @@ function applyNav() {
     { href: "./admin/login.html", title: t("nav.admin"), sub: t("nav.admin.sub") },
   ];
 
+  const stripQuery = (href) => String(href || "").split("?")[0];
+  const stripHash = (href) => String(href || "").split("#")[0];
+
+  const allLinks = Array.from(document.querySelectorAll("[data-nav] a"));
   for (const it of items) {
-    const links = Array.from(document.querySelectorAll(`[data-nav] a[href="${CSS.escape(it.href)}"]`));
-    for (const a of links) {
+    const targetNoQuery = stripQuery(it.href);
+    const targetHasHash = targetNoQuery.includes("#");
+    const targetMain = targetHasHash ? targetNoQuery : stripHash(targetNoQuery);
+    const targetEnd = targetMain.startsWith("./") ? targetMain.slice(2) : targetMain;
+
+    for (const a of allLinks) {
       if (!(a instanceof HTMLAnchorElement)) continue;
+      const hrefAttr = a.getAttribute("href") || "";
+      const hrefNoQuery = stripQuery(hrefAttr);
+      if (!hrefNoQuery) continue;
+
+      const isMatch = targetHasHash
+        ? hrefNoQuery === targetMain
+        : stripHash(hrefNoQuery) === targetMain || stripHash(hrefNoQuery).endsWith(targetEnd);
+
+      if (!isMatch) continue;
+
       const title = a.querySelector(".nav-title");
       const sub = a.querySelector(".nav-sub");
       if (title instanceof HTMLElement) title.textContent = it.title;
       if (sub instanceof HTMLElement) sub.textContent = it.sub;
+      if (!(title instanceof HTMLElement) && !(sub instanceof HTMLElement)) a.textContent = it.title;
     }
   }
 

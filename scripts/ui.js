@@ -1,6 +1,6 @@
 import { LOCALITIES, normalizeForSearch, getListingPhotos } from "./listings-data.js";
 import { loadListings } from "./listings-store.js?v=202605301300";
-import { getLang, t } from "./i18n.js?v=202605301300";
+import { getLang, t } from "./i18n.js?v=202606031330";
 
 export function setActiveNav() {
   const path = window.location.pathname.split("/").pop() || "index.html";
@@ -2589,6 +2589,51 @@ export function mountTeamBadgeSlide() {
     );
   } catch {
     badge.classList.add("is-visible");
+    return;
+  }
+
+  io.observe(section);
+}
+
+export function mountContactValuesSlide() {
+  if (document.body.getAttribute("data-page") !== "contact") return;
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  const section = document.querySelector(".contact-values-section");
+  const items = Array.from(document.querySelectorAll(".contact-values-section .contact-values-list li")).filter(
+    (el) => el instanceof HTMLElement
+  );
+  if (!(section instanceof HTMLElement) || !items.length) return;
+
+  for (let i = 0; i < items.length; i += 1) {
+    const el = items[i];
+    el.classList.add("values-slide");
+    el.style.setProperty("--values-delay", `${i * 90}ms`);
+  }
+
+  const show = () => {
+    for (const el of items) el.classList.add("is-visible");
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    show();
+    return;
+  }
+
+  let io = null;
+  try {
+    io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          show();
+          io.unobserve(e.target);
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -35% 0px" }
+    );
+  } catch {
+    show();
     return;
   }
 
