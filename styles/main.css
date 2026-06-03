@@ -7422,13 +7422,13 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
   min-width:160px;
 }
 .trust-step-ico{
-  width:74px;
-  height:74px;
+  width:86px;
+  height:86px;
   border-radius:999px !important;
   clip-path:circle(50% at 50% 50%);
-  border:1px solid rgba(15,23,32,.12);
-  background:rgba(255,255,255,.95);
-  box-shadow:0 16px 40px rgba(15,23,32,.12);
+  border:1px solid rgba(15,23,32,.24);
+  background:rgba(255,255,255,.92);
+  box-shadow:none;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -7436,7 +7436,7 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
   position:relative;
   overflow:hidden;
 }
-.trust-step-ico svg{width:34px;height:34px}
+.trust-step-ico svg{width:40px;height:40px}
 .trust-step-text{
   margin-top:10px;
   font-size:12.5px;
