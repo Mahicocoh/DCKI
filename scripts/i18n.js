@@ -21,6 +21,7 @@ const DICT = {
     "nav.dossier.sub": "Documents et formulaire",
     "nav.contact": "Contact",
     "nav.contact.sub": "Parlons de votre projet",
+    "nav.contact.menu": "À propos / Contact",
     "nav.admin": "Connexion",
     "nav.admin.sub": "Accès administrateur",
     "nav.useful": "Liens utiles",
@@ -400,13 +401,12 @@ const DICT = {
     "dossier.form.type.sale": "Achat",
     "dossier.form.ref": "Bien concerné (référence optionnelle)",
     "dossier.form.message": "Message",
-    "dossier.form.files": "Ajouter votre dossier (PDF / photos)",
     "dossier.form.chooseFiles": "Choisir des fichiers",
     "dossier.form.send": "Envoyer la demande",
     "dossier.contact.title": "Contact & adresse",
     "dossier.contact.contact": "Contact",
     "dossier.contact.address": "Adresse",
-    "dossier.docs.title": "Exemples de pièces demandées",
+    "dossier.docs.title": "Documents à préparer",
     "dossier.docs.note": "À adapter selon vos procédures et exigences légales.",
     "dossier.docs.id": "Pièce d’identité",
     "dossier.docs.paySlips3": "3 dernières fiches de salaire",
@@ -415,6 +415,20 @@ const DICT = {
     "dossier.docs.contactDetails": "Coordonnées",
     "dossier.form.message.placeholder": "Informations utiles...",
     "dossier.hero.imageAlt": "Demande de dossier",
+    "dossier.check.title": "Documents à préparer",
+    "dossier.check.note": "Vous pouvez nous transmettre ces documents après votre demande, par email ou WhatsApp.",
+    "dossier.check.copy": "Copier la liste",
+    "dossier.docs.rent.i1": "Pièce d’identité",
+    "dossier.docs.rent.i2": "3 dernières fiches de salaire",
+    "dossier.docs.rent.i3": "Attestation de poursuites",
+    "dossier.docs.rent.i4": "Assurance ménage",
+    "dossier.docs.rent.i5": "Assurance ménage",
+    "dossier.docs.rent.m1": "Extrait du casier judiciaire (si demandé)",
+    "dossier.docs.buy.i1": "Pièce d’identité",
+    "dossier.docs.buy.i2": "Accord de principe / capacité de financement",
+    "dossier.docs.buy.i3": "Justificatif d’apport",
+    "dossier.docs.buy.i4": "Dernières déclarations fiscales",
+    "dossier.docs.buy.i5": "Délai souhaité",
 
     "contact.kicker": "Vente • Location • Dossier",
     "contact.title": "Parlons de votre projet",
@@ -768,6 +782,7 @@ const DICT = {
     "nav.dossier.sub": "Documents and form",
     "nav.contact": "Contact",
     "nav.contact.sub": "Let’s talk about your project",
+    "nav.contact.menu": "About / Contact",
     "nav.admin": "Login",
     "nav.admin.sub": "Admin access",
     "nav.useful": "Useful links",
@@ -1147,13 +1162,12 @@ const DICT = {
     "dossier.form.type.sale": "Buy",
     "dossier.form.ref": "Property (optional reference)",
     "dossier.form.message": "Message",
-    "dossier.form.files": "Attach your file (PDF / photos)",
     "dossier.form.chooseFiles": "Choose files",
     "dossier.form.send": "Send request",
     "dossier.contact.title": "Contact & address",
     "dossier.contact.contact": "Contact",
     "dossier.contact.address": "Address",
-    "dossier.docs.title": "Example required documents",
+    "dossier.docs.title": "Documents to prepare",
     "dossier.docs.note": "Adjust to your procedures and legal requirements.",
     "dossier.docs.id": "ID document",
     "dossier.docs.paySlips3": "Last 3 payslips",
@@ -1162,6 +1176,20 @@ const DICT = {
     "dossier.docs.contactDetails": "Contact details",
     "dossier.form.message.placeholder": "Useful information...",
     "dossier.hero.imageAlt": "Application file",
+    "dossier.check.title": "Documents to prepare",
+    "dossier.check.note": "You can send these documents after your request, by email or WhatsApp.",
+    "dossier.check.copy": "Copy the list",
+    "dossier.docs.rent.i1": "ID document",
+    "dossier.docs.rent.i2": "Last 3 payslips",
+    "dossier.docs.rent.i3": "Debt collection certificate",
+    "dossier.docs.rent.i4": "Household insurance",
+    "dossier.docs.rent.i5": "Household insurance",
+    "dossier.docs.rent.m1": "Criminal record extract (if requested)",
+    "dossier.docs.buy.i1": "ID document",
+    "dossier.docs.buy.i2": "Bank pre-approval / financing capacity",
+    "dossier.docs.buy.i3": "Proof of funds (down payment)",
+    "dossier.docs.buy.i4": "Latest tax returns",
+    "dossier.docs.buy.i5": "Desired timeline",
 
     "contact.kicker": "Sales • Rentals • Application file",
     "contact.title": "Let’s talk about your project",
@@ -1694,7 +1722,7 @@ function applyNav() {
     { href: "./index.html#recherche-rapide", title: t("nav.search"), sub: t("nav.search.sub") },
     { href: "./conseils.html", title: t("nav.advice"), sub: t("nav.advice.sub") },
     { href: "./dossier.html", title: t("nav.dossier"), sub: t("nav.dossier.sub") },
-    { href: "./contact.html", title: t("nav.contact"), sub: t("nav.contact.sub") },
+    { href: "./contact.html", title: t("nav.contact.menu"), sub: t("nav.contact.sub") },
     { href: "./admin/login.html", title: t("nav.admin"), sub: t("nav.admin.sub") },
   ];
 
@@ -2308,6 +2336,15 @@ function applyDossierPage() {
   setTextAll(".dossier-contact h2", t("dossier.contact.title"));
   setTextAll(".dossier-docs h3", t("dossier.docs.title"));
   setTextAll(".dossier-docs .fine", t("dossier.docs.note"));
+  setTextAll(".dossier-checklist-title", t("dossier.check.title"));
+  setTextAll(".dossier-checklist-note", t("dossier.check.note"));
+
+  const copy = document.querySelector("[data-dossier-checklist-copy]");
+  if (copy instanceof HTMLButtonElement) {
+    const copyText = copy.querySelector("[data-dossier-checklist-copy-text]");
+    if (copyText instanceof HTMLElement) copyText.textContent = t("dossier.check.copy");
+    else copy.textContent = t("dossier.check.copy");
+  }
 
   setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(1) .label", t("dossier.form.name"));
   setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(2) .label", t("dossier.form.email"));
@@ -2315,7 +2352,6 @@ function applyDossierPage() {
   setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(4) .label", t("dossier.form.type"));
   setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(5) .label", t("dossier.form.ref"));
   setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(6) .label", t("dossier.form.message"));
-  setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(7) .label", t("dossier.form.files"));
 
   const heroImg = document.querySelector(".dossier-hero img[alt]");
   if (heroImg instanceof HTMLImageElement) heroImg.alt = t("dossier.hero.imageAlt");
@@ -2325,9 +2361,6 @@ function applyDossierPage() {
 
   const dossierName = document.querySelector("form[data-demo-form=\"Demande de dossier\"] input[name=\"name\"]");
   if (dossierName instanceof HTMLInputElement) dossierName.placeholder = t("placeholders.fullName");
-
-  const choose = document.querySelector("form[data-demo-form=\"Demande de dossier\"] label.btn[for=\"dossier-files\"]");
-  if (choose instanceof HTMLElement) choose.textContent = t("dossier.form.chooseFiles");
 
   const send = document.querySelector("form[data-demo-form=\"Demande de dossier\"] button[type=\"submit\"]");
   if (send instanceof HTMLButtonElement) send.textContent = t("dossier.form.send");

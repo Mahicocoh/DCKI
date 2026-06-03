@@ -1,4 +1,4 @@
-import { getLang, t } from "./i18n.js?v=202606031330";
+import { getLang, t } from "./i18n.js?v=202606031430";
 import { showToast } from "./ui.js?v=202605301300";
 
 function isIOS() {

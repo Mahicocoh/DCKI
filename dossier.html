@@ -230,7 +230,7 @@
             <div class="inner">
               <h2>Formulaire</h2>
               <p class="fine">Demande d’achat ou de location — réponse rapide par email.</p>
-              <form class="form" data-demo-form="Demande de dossier" method="post" enctype="multipart/form-data" data-form-endpoint="">
+              <form class="form" data-demo-form="Demande de dossier" method="post" data-form-endpoint="">
                 <div class="field">
                   <span class="label">Nom</span>
                   <input class="control" name="name" required placeholder="Nom Prénom" />
@@ -258,13 +258,21 @@
                   <span class="label">Message</span>
                   <textarea class="control" name="message" rows="5" required placeholder="Informations utiles, composition du ménage, délai…"></textarea>
                 </div>
-                <div class="field full">
-                  <span class="label">Ajouter votre dossier (PDF / photos)</span>
-                  <div class="file-field" data-file-field>
-                    <input class="file-input" id="dossier-files" type="file" name="attachments" accept="application/pdf,image/*" multiple />
-                    <label class="btn" for="dossier-files">Choisir des fichiers</label>
-                    <span class="file-meta" data-file-label>Aucun fichier sélectionné</span>
+                <div class="dossier-checklist" data-dossier-checklist hidden>
+                  <div class="dossier-checklist-head">
+                    <h3 class="dossier-checklist-title">Documents à préparer</h3>
+                    <button class="btn small dossier-checklist-copy" type="button" data-dossier-checklist-copy>
+                      <span class="btn-ico" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                      </span>
+                      <span data-dossier-checklist-copy-text>Copier la liste</span>
+                    </button>
                   </div>
+                  <p class="fine dossier-checklist-note">Vous pouvez nous transmettre ces documents après votre demande, par email ou WhatsApp.</p>
+                  <ul class="dossier-checklist-list" data-dossier-checklist-list></ul>
                 </div>
                 <div class="actions">
                   <button class="btn primary" type="submit">Envoyer la demande</button>
@@ -307,21 +315,6 @@
             </div>
           </div>
 
-          <div class="card dossier-docs">
-            <div class="body">
-              <h3>Exemples de pièces demandées</h3>
-              <div class="meta">
-                <span class="tag">Pièce d’identité</span>
-                <span class="tag">3 dernières fiches de salaire</span>
-                <span class="tag">Attestation poursuites</span>
-                <span class="tag">Extrait du casier judiciaire</span>
-                <span class="tag">Coordonnées</span>
-              </div>
-              <p class="fine">
-                À adapter selon vos procédures et exigences légales.
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </main>
@@ -467,7 +460,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606031330"></script>
+    <script type="module" src="./scripts/app.js?v=202606031430"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {

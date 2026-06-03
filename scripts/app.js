@@ -1,12 +1,12 @@
-import { mountLoader } from "./loader.js?v=202606031330";
-import { initI18n } from "./i18n.js?v=202606031330";
-import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202606031330";
-import { initRecherche } from "./recherche.js?v=202606031330";
+import { mountLoader } from "./loader.js?v=202606031430";
+import { initI18n } from "./i18n.js?v=202606031430";
+import { setActiveNav, wireForms, mountAdviceNav, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountHeroTopbar, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators } from "./ui.js?v=202606031430";
+import { initRecherche } from "./recherche.js?v=202606031430";
 import { initBiens } from "./biens.js?v=202606021200";
-import { initHome } from "./home.js?v=202606031330";
-import { initVideoFallbacks } from "./video-fallback.js?v=202606031330";
-import { initListingPage } from "./listing-page.js?v=202606031330";
-import { initVoiceSearch } from "./voice-search.js?v=202606031330";
+import { initHome } from "./home.js?v=202606031430";
+import { initVideoFallbacks } from "./video-fallback.js?v=202606031430";
+import { initListingPage } from "./listing-page.js?v=202606031430";
+import { initVoiceSearch } from "./voice-search.js?v=202606031430";
 import { initComingSoon } from "./coming-soon.js?v=202606011230";
 
 const page = document.body.getAttribute("data-page");
@@ -31,6 +31,7 @@ if (page !== "coming-soon") {
   mountAppointmentPlanner();
   mountTypewriters();
   mountDossierPrefill();
+  mountDossierChecklist();
   initVideoFallbacks();
   mountWhatsAppFab();
   mountToTopFab();

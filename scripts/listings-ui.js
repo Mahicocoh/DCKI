@@ -1,5 +1,5 @@
 import { getListingFacts } from "./listings-data.js";
-import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202606031330";
+import { pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202606031430";
 import { formatCHF, formatRooms, mountCardGalleries } from "./ui.js?v=202605301300";
 
 export function listingCard(listing) {
