@@ -2656,11 +2656,11 @@ export function mountDossierChecklist() {
 
   const byType = {
     Location: [
-      { key: "dossier.docs.rent.i1", icon: "id" },
-      { key: "dossier.docs.rent.i2", icon: "salary" },
-      { key: "dossier.docs.rent.i3", icon: "shield" },
-      { key: "dossier.docs.rent.i4", icon: "home" },
-      { key: "dossier.docs.rent.m1", icon: "court" },
+      "dossier.docs.rent.i1",
+      "dossier.docs.rent.i2",
+      "dossier.docs.rent.i3",
+      "dossier.docs.rent.i4",
+      "dossier.docs.rent.m1",
     ],
   };
 
@@ -2678,31 +2678,12 @@ export function mountDossierChecklist() {
     const checkSvg =
       '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
 
-    const rightIcon = (name) => {
-      if (name === "id") {
-        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><rect x="6.2" y="9" width="4.6" height="6" rx="1"/><path d="M12.6 10h5.8"/><path d="M12.6 12.9h5.1"/><path d="M12.6 15.4h3.6"/></svg>';
-      }
-      if (name === "salary") {
-        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/><path d="M14 2v5h5"/><path d="M9 13h6"/><path d="M10 17h4"/><path d="M12 9v2"/></svg>';
-      }
-      if (name === "shield") {
-        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 20 6v6c0 5-3.5 9.5-8 10-4.5-.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-5"/></svg>';
-      }
-      if (name === "home") {
-        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 3l9 8"/><path d="M5 10v11h14V10"/><path d="M9 21v-7h6v7"/></svg>';
-      }
-      if (name === "court") {
-        return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 8h20z"/><path d="M4 9v10"/><path d="M8 9v10"/><path d="M12 9v10"/><path d="M16 9v10"/><path d="M20 9v10"/><path d="M3 19h18"/><path d="M2 21h20"/></svg>';
-      }
-      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>';
-    };
-
     list.innerHTML = entries
       .map(
-        (e) =>
+        (key) =>
           `<li class="dossier-checklist-item"><span class="dossier-checklist-left" aria-hidden="true">${checkSvg}</span><span class="dossier-checklist-text">${String(
-            t(e.key)
-          )}</span><span class="dossier-checklist-right" aria-hidden="true">${rightIcon(e.icon)}</span></li>`
+            t(key)
+          )}</span></li>`
       )
       .join("");
 
@@ -2712,7 +2693,7 @@ export function mountDossierChecklist() {
   const copyText = async () => {
     const k = getType();
     if (k !== "Location") return;
-    const items = (byType.Location || []).map((e) => t(e.key));
+    const items = (byType.Location || []).map((key) => t(key));
     const text = `${t("dossier.check.title")} (${k})\n` + items.map((x) => `- ${x}`).join("\n");
 
     if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {

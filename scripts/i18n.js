@@ -19,9 +19,9 @@ const DICT = {
     "nav.advice.sub": "Nos guides et conseils",
     "nav.dossier": "Demande de dossier",
     "nav.dossier.sub": "Documents et formulaire",
-    "nav.contact": "Contact",
+    "nav.contact": "Contact / À propos",
     "nav.contact.sub": "Parlons de votre projet",
-    "nav.contact.menu": "À propos / Contact",
+    "nav.contact.menu": "Contact / À propos",
     "nav.admin": "Connexion",
     "nav.admin.sub": "Accès administrateur",
     "nav.useful": "Liens utiles",
@@ -498,6 +498,9 @@ const DICT = {
     "biens.trust.one": "Interlocuteur unique",
     "biens.trust.two": "Accompagnement sur mesure",
     "biens.trust.three": "Suivi transparent",
+    "biens.steps.search": "Recherchez votre bien",
+    "biens.steps.find": "Trouvez votre bonheur",
+    "biens.steps.move": "Emménagez sereinement",
     "biens.sort.label": "Trier",
     "biens.sort.newest": "Nouveautés",
     "biens.sort.priceAsc": "Prix ↑",
@@ -780,9 +783,9 @@ const DICT = {
     "nav.advice.sub": "Guides and tips",
     "nav.dossier": "Application file",
     "nav.dossier.sub": "Documents and form",
-    "nav.contact": "Contact",
+    "nav.contact": "Contact / About",
     "nav.contact.sub": "Let’s talk about your project",
-    "nav.contact.menu": "About / Contact",
+    "nav.contact.menu": "Contact / About",
     "nav.admin": "Login",
     "nav.admin.sub": "Admin access",
     "nav.useful": "Useful links",
@@ -1259,6 +1262,9 @@ const DICT = {
     "biens.trust.one": "Single point of contact",
     "biens.trust.two": "Tailored support",
     "biens.trust.three": "Transparent follow-up",
+    "biens.steps.search": "Search your property",
+    "biens.steps.find": "Find your match",
+    "biens.steps.move": "Move in smoothly",
     "biens.sort.label": "Sort",
     "biens.sort.newest": "Newest",
     "biens.sort.priceAsc": "Price ↑",
@@ -2565,6 +2571,12 @@ function applyBiensPage() {
   for (let i = 1; i < trustItems.length; i += 1) {
     if (trustItems[i] instanceof HTMLElement) trustItems[i].textContent = "";
   }
+  const stepSearch = document.querySelector('.catalog-hero-panel [data-biens-step="search"]');
+  if (stepSearch instanceof HTMLElement) stepSearch.textContent = t("biens.steps.search");
+  const stepFind = document.querySelector('.catalog-hero-panel [data-biens-step="find"]');
+  if (stepFind instanceof HTMLElement) stepFind.textContent = t("biens.steps.find");
+  const stepMove = document.querySelector('.catalog-hero-panel [data-biens-step="move"]');
+  if (stepMove instanceof HTMLElement) stepMove.textContent = t("biens.steps.move");
 
   const saleTitle = document.querySelector("#vendre > div > h2");
   if (saleTitle instanceof HTMLElement) saleTitle.textContent = t("biens.btn.sale");
