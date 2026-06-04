@@ -873,14 +873,52 @@ function render(listing) {
   let mapZoom = Number.isFinite(initialZoomRaw) ? initialZoomRaw : 18;
 
   const clampZoom = (z) => Math.min(20, Math.max(14, Math.round(z)));
+  let forceOsm = false;
+  let mapLoadSeq = 0;
+
+  const buildOsmEmbed = (z) => {
+    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return "";
+    const zz = clampZoom(z);
+    const d =
+      zz >= 20 ? 0.0015 : zz >= 19 ? 0.0025 : zz >= 18 ? 0.004 : zz >= 17 ? 0.007 : zz >= 16 ? 0.012 : 0.02;
+    const bbox = `${lng - d},${lat - d},${lng + d},${lat + d}`;
+    return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(
+      bbox
+    )}&layer=mapnik&marker=${encodeURIComponent(`${lat},${lng}`)}`;
+  };
+
   const setMap = () => {
     mapZoom = clampZoom(mapZoom);
     const ll = Number.isFinite(lat) && Number.isFinite(lng) ? encodeURIComponent(`${lat},${lng}`) : "";
     if (mapIframe) {
-      mapIframe.src = ll
-        ? `https://www.google.com/maps?ll=${ll}&t=m&z=${mapZoom}&output=embed`
+      const seq = (mapLoadSeq += 1);
+      const googleSrc = ll
+        ? `https://www.google.com/maps?q=${ll}&t=m&z=${mapZoom}&output=embed`
         : `https://www.google.com/maps?q=${openQ}&t=m&z=${mapZoom}&output=embed`;
+      const osmSrc = buildOsmEmbed(mapZoom);
+
+      let loaded = false;
+      mapIframe.onload = () => {
+        if (seq !== mapLoadSeq) return;
+        loaded = true;
+      };
+      mapIframe.onerror = () => {
+        if (seq !== mapLoadSeq) return;
+        loaded = false;
+      };
+
+      mapIframe.src = forceOsm && osmSrc ? osmSrc : googleSrc;
       mapIframe.title = openQuery;
+
+      if (!forceOsm && osmSrc) {
+        window.setTimeout(() => {
+          if (seq !== mapLoadSeq) return;
+          if (loaded) return;
+          forceOsm = true;
+          mapIframe.src = osmSrc;
+          mapIframe.title = openQuery;
+        }, 2500);
+      }
     }
     if (openMaps) openMaps.href = `https://www.google.com/maps?q=${openQ}&t=m&z=${mapZoom}`;
     if (openMaps3d) openMaps3d.href = `https://www.google.com/maps?q=${openQ}&t=k&z=19`;
