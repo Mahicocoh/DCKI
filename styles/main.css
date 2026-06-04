@@ -908,7 +908,7 @@ body.menu-open .topbar::before{backdrop-filter:none}
 .listing-page{display:grid;grid-template-columns:1.05fr .95fr;gap:16px;align-items:start}
 body[data-page="listing"] .listing-page > *{min-width:0}
 body[data-page="listing"] .listing-page{font-size:18px;line-height:1.55}
-body[data-page="listing"] .listing-title-row h2{font-size:26px;line-height:1.12;letter-spacing:-0.02em}
+body[data-page="listing"] .listing-title-row h2{font-size:26px;line-height:1.12;letter-spacing:-0.02em;text-wrap:balance}
 .listing-price{margin-top:12px;font-size:24px;font-weight:750;letter-spacing:-0.01em}
 body[data-page="listing"] .listing-price{
   font-size:34px;
@@ -1056,6 +1056,16 @@ body[data-page="listing"] .features .tag{font-size:12.5px}
 body[data-page="listing"] .listing-page h3{font-size:15px;letter-spacing:.08em;text-transform:uppercase;font-weight:950;color:rgba(15,23,32,.78)}
 body[data-page="listing"] .desc{font-size:16px;line-height:1.7}
 body[data-page="listing"] [data-listing-desc]{text-align:justify;text-justify:inter-word;hyphens:auto}
+@media (max-width: 720px){
+  body[data-page="listing"] [data-listing-desc]{
+    text-align:left;
+    text-justify:auto;
+    hyphens:none;
+    -webkit-hyphens:none;
+    overflow-wrap:normal;
+    word-break:normal;
+  }
+}
 body[data-page="listing"] .kv-table{
   margin-top:10px;
   border-top:1px solid rgba(15,23,32,.10);
@@ -1207,6 +1217,7 @@ body[data-page="listing"] .distances-v{
   body[data-page="listing"] main.section{
     padding-bottom:calc(44px + 120px + env(safe-area-inset-bottom));
   }
+  body[data-page="listing"] .listing-title-row h2{font-size:23px}
   body[data-page="listing"] .listing-price{font-size:28px;padding:14px 14px}
   body[data-page="listing"] .listing-page .cta{
     flex-direction:column;
@@ -1214,6 +1225,9 @@ body[data-page="listing"] .distances-v{
   body[data-page="listing"] .listing-page .cta .btn{
     width:100%;
   }
+}
+@media (max-width: 420px){
+  body[data-page="listing"] .listing-title-row h2{font-size:22px;line-height:1.13}
 }
 
 .listing-gallery .media{min-height:460px}

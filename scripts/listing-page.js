@@ -381,7 +381,7 @@ function normalizeCharacteristics(listing, facts, statusLabel, typeText) {
   return [
     { k: "Référence", v: ref },
     { k: "Disponibilité", v: availabilityText },
-    { k: "Sanitaire", v: sanitaire },
+    { k: "Salle de bain", v: sanitaire },
     { k: "Année de construction", v: builtYear },
     { k: "Dernières rénovations", v: renovatedYear },
     { k: "Pièces", v: rooms },
@@ -392,7 +392,6 @@ function normalizeCharacteristics(listing, facts, statusLabel, typeText) {
     { k: "Installation chauffage", v: heatingInstallation },
     { k: "Eau chaude sanitaire", v: hotWater },
     { k: "Surface habitable", v: surfaceLiving },
-    { k: "Nombre de WC", v: wc },
     { k: "Places de parc", v: parkingText },
     { k: "Charges", v: chargesText },
   ];
@@ -419,6 +418,7 @@ function kvTableHtml(rows) {
       "Référence": "Reference",
       "Disponibilité": "Availability",
       "Sanitaire": "Bathrooms",
+      "Salle de bain": "Bathrooms",
       "Année de construction": "Year built",
       "Dernières rénovations": "Last renovation",
       "Pièces": "Rooms",
@@ -429,7 +429,6 @@ function kvTableHtml(rows) {
       "Installation chauffage": "Heating system",
       "Eau chaude sanitaire": "Hot water",
       "Surface habitable": "Living area",
-      "Nombre de WC": "WC",
       "Places de parc": "Parking",
       "Charges": "Fees",
     };
@@ -884,7 +883,7 @@ function render(listing) {
     const bbox = `${lng - d},${lat - d},${lng + d},${lat + d}`;
     return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(
       bbox
-    )}&layer=mapnik&marker=${encodeURIComponent(`${lat},${lng}`)}`;
+    )}&layer=mapnik`;
   };
 
   const setMap = () => {
@@ -893,7 +892,7 @@ function render(listing) {
     if (mapIframe) {
       const seq = (mapLoadSeq += 1);
       const googleSrc = ll
-        ? `https://www.google.com/maps?q=${ll}&t=m&z=${mapZoom}&output=embed`
+        ? `https://www.google.com/maps?ll=${ll}&t=m&z=${mapZoom}&output=embed`
         : `https://www.google.com/maps?q=${openQ}&t=m&z=${mapZoom}&output=embed`;
       const osmSrc = buildOsmEmbed(mapZoom);
 
