@@ -20,13 +20,14 @@ export function listingCard(listing) {
     rawStatus === "louee" ||
     rawStatus.includes("rented");
   const statusLabel = isSold ? t("status.sold") : isRented ? t("status.rented") : "";
+  const isFeatured = listing?.featured === true;
 
   const titleText = pickListingText(listing, "title");
   const descText = pickListingText(listing, "description");
   const regionText = translateRegionName(listing.region);
   const typeText = translatePropertyType(listing.propertyType);
 
-  const tags = (listing.tags || [])
+  const chipTags = (listing?.showTopFacts && Array.isArray(listing?.topFacts) ? listing.topFacts : listing.tags || [])
     .slice(0, 3)
     .map((v) => `<span class="tag">${escapeHtml(translateListingFeature(v))}</span>`)
     .join("");
@@ -53,11 +54,12 @@ export function listingCard(listing) {
           <div class="pill listing-pill" style="margin-bottom:10px">
             <div class="listing-pill-ref">${escapeHtml(refText)}</div>
           </div>
+          ${isFeatured ? `<div class="deal-badge featured">${escapeHtml(t("listing.featured"))}</div>` : ""}
           <h3>${escapeHtml(titleText)}</h3>
           <div class="meta">${meta}</div>
           ${avail ? `<div class="meta" style="margin-top:8px">${escapeHtml(avail)}</div>` : ""}
           ${desc ? `<p class="desc">${escapeHtml(desc)}</p>` : ""}
-          <div class="chipRow">${tags}</div>
+          <div class="chipRow">${chipTags}</div>
           <div class="listing-bottom">
             <div class="price">${price}</div>
             <span class="btn small primary" style="pointer-events:none">${escapeHtml(t("listing.details"))}</span>

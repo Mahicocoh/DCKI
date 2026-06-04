@@ -1,4 +1,21 @@
 let cachePromise = null;
+const ONLY_LISTING_ID = "JU-GLO-009";
+
+function applyListingFilter(listings) {
+  const out = Array.isArray(listings) ? listings.filter((l) => l?.id === ONLY_LISTING_ID) : [];
+  return out;
+}
+
+async function applyCanonicalOverride(listings) {
+  const list = Array.isArray(listings) ? listings : [];
+  const mod = await import("./listings-data.js");
+  const seed = Array.isArray(mod?.LISTINGS) ? mod.LISTINGS : [];
+  const canonicalRaw = seed.find((l) => String(l?.id || "").trim() === ONLY_LISTING_ID);
+  if (!canonicalRaw) return list;
+  const canonical = normalizeListing(canonicalRaw);
+  const current = list.find((l) => l?.id === ONLY_LISTING_ID);
+  return [current ? { ...current, ...canonical } : canonical].filter(Boolean);
+}
 
 function norm(s) {
   return String(s ?? "")
@@ -23,6 +40,7 @@ function normalizeListing(l) {
   const out = { ...l };
   out.id = String(out.id ?? "").trim();
   out.category = normalizeCategory(out.category, out.priceSuffix);
+  if (out.id === ONLY_LISTING_ID) out.featured = true;
   return out;
 }
 
@@ -46,22 +64,22 @@ export async function loadListings() {
       const payload = await tryFetch("/api/listings");
       const data = Array.isArray(payload?.listings) ? payload.listings : payload;
       if (!Array.isArray(data)) throw new Error("Format de données invalide.");
-      const normalized = data.map(normalizeListing).filter(Boolean).filter((l) => !isAutoListing(l));
+      const normalized = applyListingFilter(data.map(normalizeListing).filter(Boolean).filter((l) => !isAutoListing(l)));
       if (!normalized.length) throw new Error("empty_api");
-      return normalized;
+      return await applyCanonicalOverride(normalized);
     } catch {
       try {
         const data = await tryFetch("data/listings.json");
         if (!Array.isArray(data)) throw new Error("Format de données invalide.");
-        const normalized = data.map(normalizeListing).filter(Boolean).filter((l) => !isAutoListing(l));
+        const normalized = applyListingFilter(data.map(normalizeListing).filter(Boolean).filter((l) => !isAutoListing(l)));
         if (!normalized.length) throw new Error("empty_data");
-        return normalized;
+        return await applyCanonicalOverride(normalized);
       } catch {
         const mod = await import("./listings-data.js");
         const data = Array.isArray(mod?.LISTINGS) ? mod.LISTINGS : [];
-        const normalized = data.map(normalizeListing).filter(Boolean).filter((l) => !isAutoListing(l));
+        const normalized = applyListingFilter(data.map(normalizeListing).filter(Boolean).filter((l) => !isAutoListing(l)));
         if (!normalized.length) throw new Error("empty_seed");
-        return normalized;
+        return await applyCanonicalOverride(normalized);
       }
     }
   })();

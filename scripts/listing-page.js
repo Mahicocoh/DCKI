@@ -1,6 +1,6 @@
 import { getListingFacts, getListingPhotos } from "./listings-data.js";
 import { formatCHF, formatRooms, showToast, getQueryParams, isFavorite } from "./ui.js?v=202605301300";
-import { loadListings } from "./listings-store.js?v=202605301300";
+import { loadListings } from "./listings-store.js?v=202606041900";
 import { getLang, pickListingText, t, translateListingFeature, translatePropertyType, translateRegionName } from "./i18n.js?v=202606031430";
 
 function escapeHtml(s) {
@@ -742,6 +742,8 @@ function render(listing) {
   const openMaps = document.querySelector("[data-listing-open-maps]");
   const openMaps3d = document.querySelector("[data-listing-open-maps-3d]");
   const statusRibbon = document.querySelector("[data-listing-status-ribbon]");
+  const zoomInBtn = document.querySelector("[data-map-zoom-in]");
+  const zoomOutBtn = document.querySelector("[data-map-zoom-out]");
 
   const titleText = pickListingText(listing, "title");
   const descText = pickListingText(listing, "description");
@@ -801,6 +803,12 @@ function render(listing) {
   }
 
   const facts = getListingFacts(listing);
+  const showTopFacts = Boolean(listing.showTopFacts);
+  const customTopFacts =
+    showTopFacts && Array.isArray(listing.topFacts)
+      ? listing.topFacts.map((x) => String(x || "").trim()).filter(Boolean)
+      : [];
+  const topFactsHtml = customTopFacts.length ? customTopFacts.map((x) => tagHtml(x)).join("") : "";
   if (availability) availability.textContent = facts.availableFrom ? t("listing.availableFrom", { date: facts.availableFrom }) : "";
 
   const priceText = `${formatCHF(listing.price)}${listing.priceSuffix ? ` ${listing.priceSuffix}` : ""}`;
@@ -810,19 +818,24 @@ function render(listing) {
   updateListingShare(listing, titleText);
 
   if (factsEl) {
-    factsEl.innerHTML = [
-      facts.floor != null ? tagHtml(`${t("listing.floor")} ${String(facts.floor)}`) : "",
-      facts.bathrooms != null ? tagHtml(`${String(facts.bathrooms)} ${t("listing.bath")}`) : "",
-      facts.newBuild ? tagHtml(t("listing.newBuild")) : "",
-      facts.parking ? tagHtml(t("listing.parking")) : "",
-      facts.quietArea ? tagHtml(t("listing.quietArea")) : "",
-      facts.childrenFriendly ? tagHtml(t("listing.childrenFriendly")) : "",
-    ]
-      .filter(Boolean)
-      .join("");
+    factsEl.innerHTML = topFactsHtml
+      ? topFactsHtml
+      : [
+          facts.floor != null ? tagHtml(`${t("listing.floor")} ${String(facts.floor)}`) : "",
+          facts.bathrooms != null ? tagHtml(`${String(facts.bathrooms)} ${t("listing.bath")}`) : "",
+          facts.newBuild ? tagHtml(t("listing.newBuild")) : "",
+          facts.parking ? tagHtml(t("listing.parking")) : "",
+          facts.quietArea ? tagHtml(t("listing.quietArea")) : "",
+          facts.childrenFriendly ? tagHtml(t("listing.childrenFriendly")) : "",
+        ]
+          .filter(Boolean)
+          .join("");
   }
 
-  if (desc) desc.textContent = descText || "";
+  if (desc) {
+    const safe = escapeHtml(descText || "");
+    desc.innerHTML = safe.replaceAll("\n\n", "<br><br>").replaceAll("\n", "<br>");
+  }
 
   const communeText = pickListingText(listing, "commune") || "";
   if (communeBlock instanceof HTMLElement) communeBlock.hidden = !String(communeText).trim();
@@ -852,14 +865,51 @@ function render(listing) {
     if (distancesEl) distancesEl.innerHTML = distancesTableHtml(rows);
   }
 
-  const mapQuery = `${listing.locality}, ${regionText}, Suisse`;
-  const mapQ = encodeURIComponent(mapQuery);
-  if (mapIframe) {
-    mapIframe.src = `https://www.google.com/maps?q=${mapQ}&t=m&z=16&output=embed`;
-    mapIframe.title = mapQuery;
+  const openQuery = String(accessText || "").trim() || `${listing.locality}, ${regionText}, Suisse`;
+  const openQ = encodeURIComponent(openQuery);
+  const lat = Number(listing?.mapCenterLat);
+  const lng = Number(listing?.mapCenterLng);
+  const initialZoomRaw = Number(listing?.mapZoom);
+  let mapZoom = Number.isFinite(initialZoomRaw) ? initialZoomRaw : 18;
+
+  const clampZoom = (z) => Math.min(20, Math.max(14, Math.round(z)));
+  const setMap = () => {
+    mapZoom = clampZoom(mapZoom);
+    const ll = Number.isFinite(lat) && Number.isFinite(lng) ? encodeURIComponent(`${lat},${lng}`) : "";
+    if (mapIframe) {
+      mapIframe.src = ll
+        ? `https://www.google.com/maps?ll=${ll}&t=m&z=${mapZoom}&output=embed`
+        : `https://www.google.com/maps?q=${openQ}&t=m&z=${mapZoom}&output=embed`;
+      mapIframe.title = openQuery;
+    }
+    if (openMaps) openMaps.href = `https://www.google.com/maps?q=${openQ}&t=m&z=${mapZoom}`;
+    if (openMaps3d) openMaps3d.href = `https://www.google.com/maps?q=${openQ}&t=k&z=19`;
+  };
+
+  setMap();
+
+  if (zoomInBtn instanceof HTMLButtonElement && !zoomInBtn.dataset.bound) {
+    zoomInBtn.dataset.bound = "1";
+    zoomInBtn.addEventListener("click", () => {
+      mapZoom = mapZoom + 1;
+      setMap();
+    });
   }
-  if (openMaps) openMaps.href = `https://www.google.com/maps?q=${mapQ}&t=m&z=16`;
-  if (openMaps3d) openMaps3d.href = `https://www.google.com/maps?q=${mapQ}&t=k&z=19`;
+  if (zoomOutBtn instanceof HTMLButtonElement && !zoomOutBtn.dataset.bound) {
+    zoomOutBtn.dataset.bound = "1";
+    zoomOutBtn.addEventListener("click", () => {
+      mapZoom = mapZoom - 1;
+      setMap();
+    });
+  }
+
+  const mapPin = document.querySelector(".map-pin");
+  if (mapPin instanceof HTMLElement) {
+    const x = Number(listing?.mapPinX);
+    const y = Number(listing?.mapPinY);
+    if (Number.isFinite(x)) mapPin.style.setProperty("--map-pin-x", `${x}%`);
+    if (Number.isFinite(y)) mapPin.style.setProperty("--map-pin-y", `${y}%`);
+  }
 
   state.photos = getListingPhotos(listing, 10);
   setPhoto(0);
