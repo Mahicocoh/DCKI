@@ -206,6 +206,64 @@ function updateListingShare(listing, titleText) {
   }
 }
 
+function hasChargesIncluded(listing) {
+  const suffix = String(listing?.priceSuffix || "").toLowerCase();
+  const isRent = suffix.includes("mois") || suffix.includes("month");
+  const chars = Array.isArray(listing?.characteristics) ? listing.characteristics : [];
+  const tags = Array.isArray(listing?.tags) ? listing.tags : [];
+  const inChars = chars.some((x) => {
+    const k = String(x?.k || "").trim().toLowerCase();
+    const v = String(x?.v || "").trim().toLowerCase();
+    if (k !== "charges") return false;
+    return v.includes("compris") || v.includes("comprises") || v.includes("included") || v.includes("include");
+  });
+  const inTags = tags.some((x) => /charges\s+comprises|charges\s+compris|charges\s+included|utilities\s+included/i.test(String(x || "")));
+  return Boolean(isRent && (inChars || inTags));
+}
+
+function mountListingPriceInfo(root) {
+  if (!(root instanceof HTMLElement)) return;
+  if (root.getAttribute("data-priceinfo-mounted") === "1") return;
+  root.setAttribute("data-priceinfo-mounted", "1");
+
+  const btn = root.querySelector("[data-price-info-btn]");
+  const pop = root.querySelector("[data-price-info-pop]");
+  if (!(btn instanceof HTMLButtonElement) || !(pop instanceof HTMLElement)) return;
+
+  const setOpen = (open) => {
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+    pop.hidden = !open;
+  };
+
+  setOpen(false);
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const open = btn.getAttribute("aria-expanded") === "true";
+    setOpen(!open);
+  });
+
+  document.addEventListener(
+    "click",
+    (e) => {
+      const t = e.target;
+      if (!(t instanceof Element)) return;
+      if (t.closest("[data-listing-price]") === root) return;
+      setOpen(false);
+    },
+    { capture: true }
+  );
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const open = btn.getAttribute("aria-expanded") === "true";
+    if (!open) return;
+    setOpen(false);
+    btn.focus();
+  });
+}
+
 function metaIcon(kind) {
   if (kind === "map") {
     return `
@@ -811,7 +869,41 @@ function render(listing) {
   if (availability) availability.textContent = facts.availableFrom ? t("listing.availableFrom", { date: facts.availableFrom }) : "";
 
   const priceText = `${formatCHF(listing.price)}${listing.priceSuffix ? ` ${listing.priceSuffix}` : ""}`;
-  if (price) price.textContent = priceText;
+  if (price) {
+    const showInfo = hasChargesIncluded(listing);
+    if (showInfo) {
+      const label = t("listing.priceInfo.aria");
+      const prefix = t("listing.priceInfo.rentIncludesPrefix");
+      const accent = t("listing.priceInfo.rentIncludesHighlight");
+      const textEl = price.querySelector(".listing-price-text");
+      const popInner = price.querySelector(".price-info-pop-inner");
+      const btn = price.querySelector("[data-price-info-btn]");
+      if (!(textEl instanceof HTMLElement) || !(popInner instanceof HTMLElement) || !(btn instanceof HTMLButtonElement)) {
+        price.innerHTML = `
+          <span class="listing-price-text">${escapeHtml(priceText)}</span>
+          <span class="price-info">
+            <button class="price-info-btn" type="button" aria-label="${escapeHtml(label)}" aria-expanded="false" data-price-info-btn>
+              <span class="price-info-icon" aria-hidden="true">i</span>
+            </button>
+            <div class="price-info-pop" role="tooltip" hidden data-price-info-pop>
+              <div class="price-info-pop-inner">${escapeHtml(prefix)} <span class="price-info-accent">${escapeHtml(accent)}</span>.</div>
+            </div>
+          </span>
+        `.trim();
+        mountListingPriceInfo(price);
+      } else {
+        textEl.textContent = priceText;
+        btn.setAttribute("aria-label", label);
+        if (!(btn.querySelector(".price-info-icon") instanceof HTMLElement)) {
+          btn.innerHTML = `<span class="price-info-icon" aria-hidden="true">i</span>`;
+        }
+        popInner.innerHTML = `${escapeHtml(prefix)} <span class="price-info-accent">${escapeHtml(accent)}</span>.`;
+      }
+    } else {
+      price.textContent = priceText;
+      price.removeAttribute("data-priceinfo-mounted");
+    }
+  }
 
   mountListingShare();
   updateListingShare(listing, titleText);
