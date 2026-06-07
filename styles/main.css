@@ -6273,6 +6273,18 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
   border-radius:6px;
 }
 
+@media (max-width: 720px){
+  .field.form-consent{
+    display:grid;
+    grid-template-columns:22px 1fr;
+    column-gap:12px;
+    row-gap:6px;
+    align-items:start;
+  }
+  .form-consent .consent-label{align-self:start}
+  .form-consent .consent-copy{align-items:flex-start}
+}
+
 .is24-search{
   background: #ffffff;
   border-radius: var(--radius);
