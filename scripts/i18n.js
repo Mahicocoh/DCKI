@@ -2787,6 +2787,9 @@ function applyListingPage() {
         if (v === "question" || v === "Question") opt.textContent = t("req.question");
       }
     }
+    const apptKs = Array.from(form.querySelectorAll(".appointment-k"));
+    if (apptKs[0] instanceof HTMLElement) apptKs[0].textContent = t("appointment.calendar");
+    if (apptKs[1] instanceof HTMLElement) apptKs[1].textContent = t("appointment.times");
     const btn = form.querySelector("button[type=\"submit\"]");
     if (btn instanceof HTMLButtonElement) btn.textContent = t("contact.form.send");
   }

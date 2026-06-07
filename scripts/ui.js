@@ -376,41 +376,31 @@ export function mountConseilsMobileHover() {
   if (document.body.getAttribute("data-page") !== "conseils") return;
   if (!(window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches)) return;
 
-  const intros = Array.from(document.querySelectorAll(".advice-intro")).filter((el) => el instanceof HTMLElement);
-  if (intros.length && "IntersectionObserver" in window) {
-    let io = null;
-    try {
-      io = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (!(e.target instanceof HTMLElement)) continue;
-            e.target.classList.toggle("is-touch", Boolean(e.isIntersecting));
-          }
-        },
-        { threshold: 0.18, rootMargin: "0px 0px -18% 0px" }
-      );
-    } catch {
-      io = null;
-    }
-    if (io) {
-      for (const el of intros) io.observe(el);
-    }
-  }
-
   const steps = Array.from(document.querySelectorAll(".advice-step")).filter((el) => el instanceof HTMLElement);
-  if (!steps.length) return;
+  const intros = Array.from(document.querySelectorAll(".advice-intro")).filter((el) => el instanceof HTMLElement);
+  if (!steps.length && !intros.length) return;
   if (document.body.dataset.adviceTouchHoverBound === "1") return;
   document.body.dataset.adviceTouchHoverBound = "1";
 
-  let t = 0;
   const clearAll = () => {
     for (const s of steps) s.classList.remove("is-touch");
+    for (const i of intros) i.classList.remove("is-touch");
   };
-  const activate = (step) => {
+
+  let tStep = 0;
+  let tIntro = 0;
+  const activateStep = (step) => {
     clearAll();
     step.classList.add("is-touch");
-    window.clearTimeout(t);
-    t = window.setTimeout(() => step.classList.remove("is-touch"), 1200);
+    window.clearTimeout(tStep);
+    tStep = window.setTimeout(() => step.classList.remove("is-touch"), 1200);
+  };
+
+  const activateIntro = (intro) => {
+    clearAll();
+    intro.classList.add("is-touch");
+    window.clearTimeout(tIntro);
+    tIntro = window.setTimeout(() => intro.classList.remove("is-touch"), 800);
   };
 
   document.addEventListener(
@@ -418,9 +408,10 @@ export function mountConseilsMobileHover() {
     (e) => {
       const target = e.target;
       if (!(target instanceof Element)) return;
+      const intro = target.closest(".advice-intro");
+      if (intro instanceof HTMLElement) activateIntro(intro);
       const step = target.closest(".advice-step");
-      if (!(step instanceof HTMLElement)) return;
-      activate(step);
+      if (step instanceof HTMLElement) activateStep(step);
     },
     { passive: true }
   );

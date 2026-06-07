@@ -384,8 +384,14 @@
                   <div class="field full appointment-planner" data-appointment-planner hidden>
                     <span class="label">Disponibilités pour la visite</span>
                     <div class="appointment-grid">
-                      <input class="control" type="date" data-appointment-date />
-                      <input class="control" type="time" data-appointment-time />
+                      <div class="appointment-field">
+                        <div class="appointment-k">Calendrier</div>
+                        <input class="control" type="date" name="appointment_date" data-appointment-date />
+                      </div>
+                      <div class="appointment-field">
+                        <div class="appointment-k">Horaires</div>
+                        <input class="control" type="time" name="appointment_time" data-appointment-time />
+                      </div>
                     </div>
                   </div>
                   <div class="field full">
