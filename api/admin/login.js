@@ -1,9 +1,14 @@
 import { json, readBody } from "../_lib/http.js";
-import { isValidLogin, makeSessionCookie } from "../_lib/auth.js";
+import { isAdminConfigured, isValidLogin, makeSessionCookie } from "../_lib/auth.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     json(res, 405, { ok: false, error: "Method not allowed" });
+    return;
+  }
+
+  if (!isAdminConfigured()) {
+    json(res, 500, { ok: false, error: "Admin non configuré." });
     return;
   }
 

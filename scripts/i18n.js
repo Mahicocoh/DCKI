@@ -137,6 +137,10 @@ const DICT = {
     "common.maps3d": "Vue 3D Google Maps",
     "common.close": "Fermer",
 
+    "consent.pre": "J'accepte la",
+    "consent.link": "politique de confidentialité",
+    "consent.post": "et le traitement de mes données.",
+
     "home.tagline": "Trouver le bien idéal, près de chez vous.",
     "home.services.aria": "Services",
     "home.services.sale": "Ventes",
@@ -534,7 +538,7 @@ const DICT = {
     "listing.distance": "Distance",
     "listing.walk": "À pied",
     "listing.transit": "En train",
-    "listing.car": "En voiture",
+    "listing.car": "En voiture",
     "listing.amenityGroup.environment": "Environnement",
     "listing.amenityGroup.outdoor": "Extérieur",
     "listing.amenityGroup.indoor": "Intérieur",
@@ -900,6 +904,10 @@ const DICT = {
     "common.openMaps": "Open in Maps",
     "common.maps3d": "Google Maps 3D view",
     "common.close": "Close",
+
+    "consent.pre": "I accept the",
+    "consent.link": "privacy policy",
+    "consent.post": "and the processing of my data.",
 
     "home.tagline": "Find the right property, near you.",
     "home.services.aria": "Services",
@@ -2352,12 +2360,27 @@ function applyDossierPage() {
     else copy.textContent = t("dossier.check.copy");
   }
 
-  setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(1) .label", t("dossier.form.name"));
-  setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(2) .label", t("dossier.form.email"));
-  setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(3) .label", t("dossier.form.phone"));
-  setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(4) .label", t("dossier.form.type"));
-  setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(5) .label", t("dossier.form.ref"));
-  setTextAll("form[data-demo-form=\"Demande de dossier\"] .field:nth-of-type(6) .label", t("dossier.form.message"));
+  const dossierForm = document.querySelector("form[data-demo-form=\"Demande de dossier\"]");
+  if (dossierForm instanceof HTMLFormElement) {
+    const setFieldLabel = (selector, value) => {
+      const el = dossierForm.querySelector(selector);
+      const field = el?.closest(".field");
+      const label = field?.querySelector(".label");
+      if (label instanceof HTMLElement) label.textContent = value;
+    };
+    setFieldLabel('input[name="name"]', t("dossier.form.name"));
+    setFieldLabel('input[name="email"]', t("dossier.form.email"));
+    setFieldLabel('input[name="phone"]', t("dossier.form.phone"));
+    setFieldLabel('select[name="type"]', t("dossier.form.type"));
+    setFieldLabel('input[name="ref"]', t("dossier.form.ref"));
+    setFieldLabel('textarea[name="message"]', t("dossier.form.message"));
+    const pre = dossierForm.querySelector("[data-consent-pre]");
+    if (pre instanceof HTMLElement) pre.textContent = t("consent.pre");
+    const link = dossierForm.querySelector("[data-consent-link]");
+    if (link instanceof HTMLAnchorElement) link.textContent = t("consent.link");
+    const post = dossierForm.querySelector("[data-consent-post]");
+    if (post instanceof HTMLElement) post.textContent = t("consent.post");
+  }
 
   const heroImg = document.querySelector(".dossier-hero img[alt]");
   if (heroImg instanceof HTMLImageElement) heroImg.alt = t("dossier.hero.imageAlt");
@@ -2516,13 +2539,27 @@ function applyContactPage() {
 
   const cf = document.getElementById("contact-form");
   if (cf instanceof HTMLFormElement) {
-    setTextAll("#contact-form .field:nth-of-type(1) .label", t("contact.form.name"));
-    setTextAll("#contact-form .field:nth-of-type(2) .label", t("contact.form.email"));
-    setTextAll("#contact-form .field:nth-of-type(3) .label", t("contact.form.phone"));
-    setTextAll("#contact-form .field:nth-of-type(4) .label", t("contact.form.type"));
-    setTextAll("#contact-form .field:nth-of-type(5) .label", t("contact.form.availability"));
+    const setFieldLabel = (selector, value) => {
+      const el = cf.querySelector(selector);
+      const field = el?.closest(".field");
+      const label = field?.querySelector(".label");
+      if (label instanceof HTMLElement) label.textContent = value;
+    };
+    setFieldLabel('input[name="name"]', t("contact.form.name"));
+    setFieldLabel('input[name="email"]', t("contact.form.email"));
+    setFieldLabel('input[name="phone"]', t("contact.form.phone"));
+    setFieldLabel('#contact-request-type', t("contact.form.type"));
+    const apptField = cf.querySelector(".appointment-planner")?.querySelector(".label");
+    if (apptField instanceof HTMLElement) apptField.textContent = t("contact.form.availability");
     setTextAll("#contact-form [data-attachments-field] .label", t("contact.form.files"));
-    setTextAll("#contact-form .field:last-of-type .label", t("contact.form.message"));
+    setFieldLabel('#contact-message', t("contact.form.message"));
+
+    const pre = cf.querySelector("[data-consent-pre]");
+    if (pre instanceof HTMLElement) pre.textContent = t("consent.pre");
+    const link = cf.querySelector("[data-consent-link]");
+    if (link instanceof HTMLAnchorElement) link.textContent = t("consent.link");
+    const post = cf.querySelector("[data-consent-post]");
+    if (post instanceof HTMLElement) post.textContent = t("consent.post");
     const msg = document.getElementById("contact-message");
     if (msg instanceof HTMLTextAreaElement) msg.placeholder = t("contact.form.message.placeholder");
     const name = cf.querySelector("input[name=\"name\"]");
@@ -2732,6 +2769,12 @@ function applyListingPage() {
     if (name instanceof HTMLInputElement && (name.placeholder || "").toLowerCase().includes("nom")) name.placeholder = t("placeholders.fullName");
     const msg = form.querySelector("textarea[data-appointment-message]");
     if (msg instanceof HTMLTextAreaElement) msg.placeholder = t("placeholders.visitMessage");
+    const pre = form.querySelector("[data-consent-pre]");
+    if (pre instanceof HTMLElement) pre.textContent = t("consent.pre");
+    const link = form.querySelector("[data-consent-link]");
+    if (link instanceof HTMLAnchorElement) link.textContent = t("consent.link");
+    const post = form.querySelector("[data-consent-post]");
+    if (post instanceof HTMLElement) post.textContent = t("consent.post");
     const apptSel = form.querySelector("[data-appointment-request-type]");
     if (apptSel instanceof HTMLSelectElement) {
       for (const opt of Array.from(apptSel.options)) {

@@ -23,13 +23,20 @@ function getSecret() {
 }
 
 export function getAdminCredentials() {
-  const user = process.env.ADMIN_USER || process.env.DCKI_ADMIN_USER || "admin";
-  const pass = process.env.ADMIN_PASS || process.env.DCKI_ADMIN_PASS || "admin";
+  const user = process.env.ADMIN_USER || process.env.DCKI_ADMIN_USER || "";
+  const pass = process.env.ADMIN_PASS || process.env.DCKI_ADMIN_PASS || "";
   return { user, pass };
+}
+
+export function isAdminConfigured() {
+  const secret = getSecret();
+  const creds = getAdminCredentials();
+  return Boolean(secret && creds.user && creds.pass);
 }
 
 export function isValidLogin(user, password) {
   const creds = getAdminCredentials();
+  if (!creds.user || !creds.pass) return false;
   return timingSafeEq(user, creds.user) && timingSafeEq(password, creds.pass);
 }
 

@@ -1091,7 +1091,15 @@ function render(listing) {
         if (el instanceof HTMLInputElement) el.disabled = false;
         else if (el instanceof HTMLSelectElement) el.disabled = false;
         else if (el instanceof HTMLTextAreaElement) el.disabled = false;
-        else if (el instanceof HTMLButtonElement) el.disabled = false;
+        else if (el instanceof HTMLButtonElement) {
+          if (el.type === "submit") continue;
+          el.disabled = false;
+        }
+      }
+      const consent = visitForm.querySelector("[data-privacy-consent]");
+      const submit = visitForm.querySelector("button[type=\"submit\"]");
+      if (consent instanceof HTMLInputElement && consent.type === "checkbox" && submit instanceof HTMLButtonElement) {
+        submit.disabled = !consent.checked;
       }
     }
   }

@@ -19,6 +19,28 @@ export function mountTopbarMenu() {
   const getButton = (menu) => menu.querySelector("[data-topbar-menu-btn]");
   const getOverlay = (menu) => menu.querySelector("[data-topbar-menu-overlay]");
   const getPanel = (menu) => menu.querySelector(".topbar-menu-panel");
+  const isMobile = () => window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
+  const autoScrollUseful = (menu, useful) => {
+    if (!isMobile()) return;
+    const panel = getPanel(menu);
+    if (!(panel instanceof HTMLElement) || !(useful instanceof HTMLElement)) return;
+    const doScroll = () => {
+      const pr = panel.getBoundingClientRect();
+      const ur = useful.getBoundingClientRect();
+      const deltaTop = ur.top - pr.top;
+      const targetTop = panel.scrollTop + deltaTop - 10;
+      if (Number.isFinite(targetTop)) {
+        panel.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
+      }
+      const ur2 = useful.getBoundingClientRect();
+      if (ur2.bottom > pr.bottom - 14) {
+        const deltaBottom = ur2.bottom - pr.bottom + 14;
+        panel.scrollTo({ top: panel.scrollTop + deltaBottom, behavior: "smooth" });
+      }
+    };
+    window.setTimeout(doScroll, 30);
+    window.setTimeout(doScroll, 160);
+  };
 
   document.body.classList.remove("menu-open");
   for (const menu of menus) {
@@ -91,6 +113,7 @@ export function mountTopbarMenu() {
         const next = !useful.classList.contains("open");
         useful.classList.toggle("open", next);
         toggle.setAttribute("aria-expanded", next ? "true" : "false");
+        if (next) autoScrollUseful(menu, useful);
       });
     }
 
@@ -151,6 +174,77 @@ export function mountTopbarMenu() {
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") closeAll();
   });
+}
+
+export function mountBnsRate() {
+  const target = document.querySelector("[data-bns-rate]");
+  if (!(target instanceof HTMLElement)) return;
+  if (target.dataset.bnsBound === "1") return;
+  target.dataset.bnsBound = "1";
+
+  const format = (rate) => {
+    const n = Number(rate);
+    if (!Number.isFinite(n)) return null;
+    const locale = getLang() === "en" ? "en-CH" : "fr-CH";
+    const out = new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
+    return `${out}%`;
+  };
+
+  const render = () => {
+    const s = target.dataset.bnsRate || "";
+    const out = format(s);
+    if (out) target.textContent = out;
+  };
+
+  const apply = (rate, date) => {
+    const n = Number(rate);
+    if (!Number.isFinite(n)) return;
+    target.dataset.bnsRate = String(n);
+    if (date) target.setAttribute("title", String(date));
+    render();
+  };
+
+  const parseSnb = (data) => {
+    const values = data?.timeseries?.[0]?.values;
+    if (!Array.isArray(values) || !values.length) return null;
+    const last = values[values.length - 1];
+    const rate = Number(last?.value);
+    if (!Number.isFinite(rate)) return null;
+    const date = String(last?.date || "");
+    return { rate, date };
+  };
+
+  const load = async () => {
+    try {
+      const res = await fetch("/api/bns-rate", { headers: { Accept: "application/json" } });
+      if (res.ok) {
+        const data = await res.json();
+        if (data?.ok === true && Number.isFinite(Number(data.rate))) {
+          apply(data.rate, data.date);
+          return;
+        }
+      }
+    } catch {}
+
+    try {
+      const now = new Date();
+      const from = new Date(now.getTime() - 120 * 24 * 60 * 60 * 1000);
+      const y = from.getUTCFullYear();
+      const m = String(from.getUTCMonth() + 1).padStart(2, "0");
+      const d = String(from.getUTCDate()).padStart(2, "0");
+      const fromDate = `${y}-${m}-${d}`;
+      const url = `https://data.snb.ch/api/cube/snbgwdzid/data/json/en?fromDate=${encodeURIComponent(fromDate)}`;
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      if (!res.ok) return;
+      const data = await res.json();
+      const parsed = parseSnb(data);
+      if (parsed) apply(parsed.rate, parsed.date);
+    } catch {}
+  };
+
+  window.addEventListener("dcki:lang", render);
+  render();
+  load();
 }
 
 export function mountAdviceNav() {
@@ -958,6 +1052,25 @@ export function wireForms() {
     }
   };
 
+  const mountPrivacyConsent = (form) => {
+    if (!(form instanceof HTMLFormElement)) return;
+    const checkbox = form.querySelector("[data-privacy-consent]");
+    if (!(checkbox instanceof HTMLInputElement)) return;
+    if (checkbox.type !== "checkbox") return;
+    const submitBtn = form.querySelector("button[type=\"submit\"]");
+    if (!(submitBtn instanceof HTMLButtonElement)) return;
+
+    const apply = () => {
+      submitBtn.disabled = !checkbox.checked;
+    };
+
+    checkbox.addEventListener("change", apply);
+    form.addEventListener("reset", () => {
+      requestAnimationFrame(apply);
+    });
+    apply();
+  };
+
   for (const form of document.querySelectorAll("form[data-demo-form]")) {
     form.addEventListener("submit", (e) => {
       const endpoint = (form.getAttribute("data-form-endpoint") || "").trim();
@@ -990,6 +1103,7 @@ export function wireForms() {
 
     toggleContactAttachments(form);
     mountFilePickers(form);
+    mountPrivacyConsent(form);
   }
 }
 
