@@ -1068,6 +1068,11 @@ body[data-page="listing"] [data-listing-desc]{text-align:justify;text-justify:in
     word-break:normal;
   }
 }
+@media (max-width: 640px) and (prefers-reduced-motion: no-preference){
+  .hero-actions .hero-cta{will-change:transform,opacity}
+  .hero-actions .hero-cta:nth-child(1){animation:hero-cta-in-left .95s cubic-bezier(.2,.8,.2,1) .10s both}
+  .hero-actions .hero-cta:nth-child(2){animation:hero-cta-in-right .95s cubic-bezier(.2,.8,.2,1) .30s both}
+}
 body[data-page="listing"] .kv-table{
   margin-top:10px;
   border-top:1px solid rgba(15,23,32,.10);
@@ -1255,11 +1260,11 @@ body[data-page="listing"] .distances-v{
   to{opacity:1;transform:translateY(0)}
 }
 @keyframes hero-cta-in-left{
-  from{opacity:0;transform:translateX(-28px)}
+  from{opacity:0;transform:translateX(-70px)}
   to{opacity:1;transform:translateX(0)}
 }
 @keyframes hero-cta-in-right{
-  from{opacity:0;transform:translateX(28px)}
+  from{opacity:0;transform:translateX(70px)}
   to{opacity:1;transform:translateX(0)}
 }
 .bns-pill{
@@ -6740,8 +6745,8 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
 }
 .appointment-planner{transition:opacity .2s ease, transform .2s ease}
 .appointment-planner.is-open{animation:appointmentIn .22s ease-out both}
-.appointment-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.appointment-field{display:flex;flex-direction:column;gap:6px}
+.appointment-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;max-width:100%;min-width:0}
+.appointment-field{display:flex;flex-direction:column;gap:6px;min-width:0}
 .appointment-k{font-size:12px;font-weight:850;color:rgba(15,23,32,.72);display:inline-flex;align-items:center;gap:8px}
 .appointment-k::before{content:"";width:16px;height:16px;display:block;flex:0 0 auto;background:currentColor;opacity:.9}
 .appointment-field:nth-child(1) .appointment-k::before{
@@ -6756,6 +6761,9 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
 .appointment-field .control[type="time"]{
   color-scheme:light;
   -webkit-text-fill-color:var(--text);
+  width:100%;
+  max-width:100%;
+  min-width:0;
 }
 @keyframes appointmentIn{
   from{opacity:0;transform:translateY(-4px)}
@@ -7413,11 +7421,6 @@ body[data-page="listing"] .map iframe{pointer-events:none}
   .hero .pill{justify-content:center;flex-wrap:wrap;gap:6px;padding:7px 10px}
   .hero-actions{flex-direction:column;align-items:stretch}
   .hero-actions .btn{width:100%}
-  @media (prefers-reduced-motion: no-preference){
-    .hero-actions .hero-cta{will-change:transform,opacity}
-    .hero-actions .hero-cta:nth-child(1){animation:hero-cta-in-left .55s cubic-bezier(.2,.8,.2,1) .06s both}
-    .hero-actions .hero-cta:nth-child(2){animation:hero-cta-in-right .55s cubic-bezier(.2,.8,.2,1) .14s both}
-  }
   .quick-search .panel{margin-top:0}
   .page-hero{min-height:44vh;padding:30px 0 22px;align-items:flex-end}
   .page-hero h1{font-size:30px}
