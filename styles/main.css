@@ -932,8 +932,8 @@ body[data-page="listing"] .listing-price{
 body[data-page="listing"] .listing-price-text{display:inline-flex;align-items:baseline}
 body[data-page="listing"] .price-info{position:relative;display:inline-flex;align-items:center}
 body[data-page="listing"] .price-info-btn{
-  width:28px;
-  height:28px;
+  width:26px;
+  height:26px;
   border-radius:999px !important;
   border:3px solid rgba(11,42,58,.78);
   background:rgba(255,255,255,.98);
@@ -945,8 +945,8 @@ body[data-page="listing"] .price-info-btn{
   cursor:pointer;
   transition:border-color .16s ease, background .16s ease, box-shadow .16s ease, color .16s ease, transform .16s ease;
 }
-body[data-page="listing"] .price-info{transform:translateX(3px)}
-body[data-page="listing"] .price-info-icon{font-size:17px;line-height:1;font-weight:800;font-family:Georgia,"Times New Roman",serif;transform:translateY(0.5px)}
+body[data-page="listing"] .price-info{transform:translateX(3px) translateY(2px)}
+body[data-page="listing"] .price-info-icon{font-size:16px;line-height:1;font-weight:800;font-family:Georgia,"Times New Roman",serif;transform:none}
 body[data-page="listing"] .price-info-btn:hover{border-color:rgba(11,42,58,.88);background:rgba(255,255,255,.98)}
 body[data-page="listing"] .price-info-btn[aria-expanded="true"]{border-color:rgba(11,42,58,.70);background:rgba(255,255,255,.92);box-shadow:0 12px 28px rgba(15,23,32,.10)}
 body[data-page="listing"] .price-info-btn:focus-visible{outline:3px solid rgba(11,42,58,.26);outline-offset:3px}
