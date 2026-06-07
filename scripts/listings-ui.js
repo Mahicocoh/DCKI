@@ -27,8 +27,14 @@ export function listingCard(listing) {
   const regionText = translateRegionName(listing.region);
   const typeText = translatePropertyType(listing.propertyType);
 
+  const isMobile = () => {
+    if (typeof window === "undefined") return false;
+    if (!window.matchMedia) return false;
+    return window.matchMedia("(max-width: 720px)").matches;
+  };
+  const maxTags = isMobile() ? 4 : 3;
   const chipTags = (listing?.showTopFacts && Array.isArray(listing?.topFacts) ? listing.topFacts : listing.tags || [])
-    .slice(0, 3)
+    .slice(0, maxTags)
     .map((v) => `<span class="tag">${escapeHtml(translateListingFeature(v))}</span>`)
     .join("");
   const price = `${formatCHF(listing.price)}${listing.priceSuffix ? ` <span>${escapeHtml(listing.priceSuffix)}</span>` : ""}`;

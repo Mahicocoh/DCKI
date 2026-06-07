@@ -6282,7 +6282,11 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
     align-items:start;
   }
   .form-consent .consent-label{align-self:start}
-  .form-consent .consent-copy{align-items:flex-start}
+  .form-consent .consent-copy{
+    display:block;
+    text-align:left;
+  }
+  .form-consent .consent-box{margin-top:2px}
 }
 
 .is24-search{
