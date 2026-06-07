@@ -43,6 +43,49 @@ export function mountTopbarMenu() {
   };
 
   document.body.classList.remove("menu-open");
+  document.documentElement.classList.remove("menu-open");
+  let locked = false;
+  let lockedScrollY = 0;
+
+  const lockPageScroll = (on) => {
+    const next = Boolean(on && isMobile());
+    if (next === locked) return;
+    locked = next;
+    if (locked) {
+      lockedScrollY = window.scrollY || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${lockedScrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+      document.documentElement.classList.add("menu-open");
+    } else {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      document.documentElement.classList.remove("menu-open");
+      window.scrollTo(0, lockedScrollY);
+    }
+  };
+
+  if (document.body.dataset.menuLockBound !== "1") {
+    document.body.dataset.menuLockBound = "1";
+    document.addEventListener(
+      "touchmove",
+      (e) => {
+        if (!locked) return;
+        const openPanel = document.querySelector(".topbar-menu.open .topbar-menu-panel");
+        if (openPanel instanceof HTMLElement && openPanel.contains(e.target)) return;
+        e.preventDefault();
+      },
+      { passive: false, capture: true }
+    );
+  }
+
   for (const menu of menus) {
     menu.classList.remove("open");
     const btn = getButton(menu);
@@ -58,6 +101,7 @@ export function mountTopbarMenu() {
   const syncBodyLock = () => {
     const anyOpen = menus.some((m) => m.classList.contains("open"));
     document.body.classList.toggle("menu-open", anyOpen);
+    lockPageScroll(anyOpen);
   };
 
   const close = (menu) => {
@@ -326,6 +370,60 @@ export function mountAdviceNav() {
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", onScroll);
   updateActiveOnScroll();
+}
+
+export function mountConseilsMobileHover() {
+  if (document.body.getAttribute("data-page") !== "conseils") return;
+  if (!(window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches)) return;
+
+  const intros = Array.from(document.querySelectorAll(".advice-intro")).filter((el) => el instanceof HTMLElement);
+  if (intros.length && "IntersectionObserver" in window) {
+    let io = null;
+    try {
+      io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (!(e.target instanceof HTMLElement)) continue;
+            e.target.classList.toggle("is-touch", Boolean(e.isIntersecting));
+          }
+        },
+        { threshold: 0.18, rootMargin: "0px 0px -18% 0px" }
+      );
+    } catch {
+      io = null;
+    }
+    if (io) {
+      for (const el of intros) io.observe(el);
+    }
+  }
+
+  const steps = Array.from(document.querySelectorAll(".advice-step")).filter((el) => el instanceof HTMLElement);
+  if (!steps.length) return;
+  if (document.body.dataset.adviceTouchHoverBound === "1") return;
+  document.body.dataset.adviceTouchHoverBound = "1";
+
+  let t = 0;
+  const clearAll = () => {
+    for (const s of steps) s.classList.remove("is-touch");
+  };
+  const activate = (step) => {
+    clearAll();
+    step.classList.add("is-touch");
+    window.clearTimeout(t);
+    t = window.setTimeout(() => step.classList.remove("is-touch"), 1200);
+  };
+
+  document.addEventListener(
+    "pointerdown",
+    (e) => {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
+      const step = target.closest(".advice-step");
+      if (!(step instanceof HTMLElement)) return;
+      activate(step);
+    },
+    { passive: true }
+  );
 }
 
 export function mountBudgetCalculator() {
