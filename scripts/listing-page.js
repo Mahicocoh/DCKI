@@ -159,8 +159,13 @@ function mountListingPrint() {
   const btn = document.querySelector("[data-listing-print-btn]");
   if (!(btn instanceof HTMLButtonElement) || btn.dataset.printBound === "1") return;
   btn.dataset.printBound = "1";
+  let frameCleanupTimer = 0;
 
   const teardownFrame = () => {
+    if (frameCleanupTimer) {
+      window.clearTimeout(frameCleanupTimer);
+      frameCleanupTimer = 0;
+    }
     const frame = document.getElementById("listing-print-frame");
     if (frame instanceof HTMLIFrameElement) frame.remove();
   };
@@ -191,7 +196,7 @@ function mountListingPrint() {
       frame.style.pointerEvents = "none";
       frame.style.border = "0";
       document.body.appendChild(frame);
-      window.setTimeout(teardownFrame, 20000);
+      frameCleanupTimer = window.setTimeout(teardownFrame, 120000);
       return;
     }
 
@@ -1506,6 +1511,17 @@ export async function initListingPage() {
     document.title = "\u00A0";
     document.body.classList.add("print-view");
     const openPrintView = async () => {
+      let notifiedParent = false;
+      const notifyParentDone = () => {
+        if (notifiedParent) return;
+        notifiedParent = true;
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage("dcki-print-done", window.location.origin);
+          }
+        } catch {}
+      };
+
       for (const item of document.querySelectorAll(".amenity-group[data-amenity-accordion-item]")) {
         const btn = item.querySelector(".amenity-head");
         const panel = item.querySelector(".amenity-panel");
@@ -1530,20 +1546,22 @@ export async function initListingPage() {
         )
       );
 
+      if (document.fonts?.ready) {
+        try {
+          await document.fonts.ready;
+        } catch {}
+      }
+
       await new Promise((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)));
-      await new Promise((resolve) => window.setTimeout(resolve, 700));
+      await new Promise((resolve) => window.setTimeout(resolve, 1200));
+
+      window.addEventListener("afterprint", notifyParentDone, { once: true });
 
       try {
         window.print();
       } catch {}
 
-      window.setTimeout(() => {
-        try {
-          if (window.parent && window.parent !== window) {
-            window.parent.postMessage("dcki-print-done", window.location.origin);
-          }
-        } catch {}
-      }, 400);
+      window.setTimeout(notifyParentDone, 45000);
     };
     window.setTimeout(() => {
       openPrintView();
