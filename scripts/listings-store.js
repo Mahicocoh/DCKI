@@ -6,6 +6,22 @@ function applyListingFilter(listings) {
   return out;
 }
 
+function hasMeaningfulValue(value) {
+  if (Array.isArray(value)) return value.length > 0;
+  if (typeof value === "string") return value.trim() !== "";
+  return value !== undefined && value !== null;
+}
+
+function mergeListingWithFallback(canonical, current) {
+  const base = { ...canonical };
+  for (const [key, value] of Object.entries(current || {})) {
+    if (hasMeaningfulValue(value)) {
+      base[key] = value;
+    }
+  }
+  return base;
+}
+
 async function applyCanonicalOverride(listings) {
   const list = Array.isArray(listings) ? listings : [];
   const mod = await import("./listings-data.js");
@@ -14,7 +30,8 @@ async function applyCanonicalOverride(listings) {
   if (!canonicalRaw) return list;
   const canonical = normalizeListing(canonicalRaw);
   const current = list.find((l) => l?.id === ONLY_LISTING_ID);
-  return [current ? { ...current, ...canonical } : canonical].filter(Boolean);
+  // Keep local seed data only as a fallback; non-empty admin/API values must stay authoritative.
+  return [current ? mergeListingWithFallback(canonical, current) : canonical].filter(Boolean);
 }
 
 function norm(s) {
