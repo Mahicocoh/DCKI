@@ -159,61 +159,87 @@ function mountListingPrint() {
   const btn = document.querySelector("[data-listing-print-btn]");
   if (!(btn instanceof HTMLButtonElement) || btn.dataset.printBound === "1") return;
   btn.dataset.printBound = "1";
-  let frameCleanupTimer = 0;
+  const waitForPrintAssets = async () => {
+    const imgs = Array.from(document.images);
+    await Promise.all(
+      imgs.map(
+        (img) =>
+          new Promise((resolve) => {
+            if (img.complete) {
+              resolve();
+              return;
+            }
+            const done = () => resolve();
+            img.addEventListener("load", done, { once: true });
+            img.addEventListener("error", done, { once: true });
+            window.setTimeout(done, 1500);
+          })
+      )
+    );
 
-  const teardownFrame = () => {
-    if (frameCleanupTimer) {
-      window.clearTimeout(frameCleanupTimer);
-      frameCleanupTimer = 0;
+    if (document.fonts?.ready) {
+      try {
+        await document.fonts.ready;
+      } catch {}
     }
-    const frame = document.getElementById("listing-print-frame");
-    if (frame instanceof HTMLIFrameElement) frame.remove();
+
+    await new Promise((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)));
+    await new Promise((resolve) => window.setTimeout(resolve, 1200));
   };
 
-  const onMessage = (e) => {
-    if (e.origin !== window.location.origin) return;
-    if (e.data !== "dcki-print-done") return;
-    teardownFrame();
+  const collectAmenityState = () =>
+    Array.from(document.querySelectorAll(".amenity-group[data-amenity-accordion-item]")).map((item) => {
+      const btn = item.querySelector(".amenity-head");
+      const panel = item.querySelector(".amenity-panel");
+      return {
+        btn: btn instanceof HTMLButtonElement ? btn : null,
+        panel: panel instanceof HTMLElement ? panel : null,
+        expanded: btn instanceof HTMLButtonElement ? btn.getAttribute("aria-expanded") : null,
+        hidden: panel instanceof HTMLElement ? panel.hidden : null,
+      };
+    });
+
+  const restoreAmenityState = (items) => {
+    for (const item of items) {
+      if (item.btn && item.expanded !== null) item.btn.setAttribute("aria-expanded", item.expanded);
+      if (item.panel && typeof item.hidden === "boolean") item.panel.hidden = item.hidden;
+    }
   };
-  window.addEventListener("message", onMessage);
 
   btn.addEventListener("click", (e) => {
     e.preventDefault();
-    const url = btn.getAttribute("data-print-url") || "";
-    if (url) {
-      teardownFrame();
-      const frame = document.createElement("iframe");
-      frame.id = "listing-print-frame";
-      frame.src = url;
-      frame.setAttribute("aria-hidden", "true");
-      frame.tabIndex = -1;
-      frame.style.position = "fixed";
-      frame.style.width = "1px";
-      frame.style.height = "1px";
-      frame.style.right = "0";
-      frame.style.bottom = "0";
-      frame.style.opacity = "0";
-      frame.style.pointerEvents = "none";
-      frame.style.border = "0";
-      document.body.appendChild(frame);
-      frameCleanupTimer = window.setTimeout(teardownFrame, 120000);
-      return;
-    }
-
     const prevTitle = document.title;
     const nextTitle = btn.getAttribute("data-print-title") || prevTitle;
+    const hadPrintView = document.body.classList.contains("print-view");
+    const amenityState = collectAmenityState();
     let restored = false;
     const restore = () => {
       if (restored) return;
       restored = true;
       document.title = prevTitle;
+      if (!hadPrintView) document.body.classList.remove("print-view");
+      restoreAmenityState(amenityState);
       window.removeEventListener("afterprint", restore);
     };
 
+    for (const item of amenityState) {
+      if (item.btn) item.btn.setAttribute("aria-expanded", "true");
+      if (item.panel) item.panel.hidden = false;
+    }
+
     document.title = nextTitle;
+    document.body.classList.add("print-view");
     window.addEventListener("afterprint", restore, { once: true });
-    window.print();
-    window.setTimeout(restore, 1200);
+
+    void waitForPrintAssets()
+      .then(() => {
+        window.print();
+        window.setTimeout(restore, 45000);
+      })
+      .catch(() => {
+        window.print();
+        window.setTimeout(restore, 45000);
+      });
   });
 }
 
