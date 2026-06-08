@@ -65,6 +65,10 @@ function tagHtml(label) {
 }
 
 function getPublicBaseUrl() {
+  const liveOrigin = String(window.location.origin || "").trim();
+  if (liveOrigin && !/^file:$/i.test(window.location.protocol || "")) {
+    return `${liveOrigin}/`;
+  }
   const meta = document.querySelector('meta[name="dcki-public-base-url"]');
   if (meta instanceof HTMLMetaElement) {
     const v = String(meta.content || "").trim();
@@ -92,10 +96,18 @@ async function copyToClipboard(text) {
 }
 
 function getShareUrl(listing) {
-  const base = ensureTrailingSlash(getPublicBaseUrl());
-  const url = new URL("bien.html", base);
-  url.searchParams.set("id", String(listing?.id || ""));
-  return url.toString();
+  try {
+    const url = new URL(window.location.href);
+    url.searchParams.set("id", String(listing?.id || ""));
+    url.searchParams.delete("print");
+    url.searchParams.delete("ts");
+    return url.toString();
+  } catch {
+    const base = ensureTrailingSlash(getPublicBaseUrl());
+    const url = new URL("bien.html", base);
+    url.searchParams.set("id", String(listing?.id || ""));
+    return url.toString();
+  }
 }
 
 function mountListingShare() {
