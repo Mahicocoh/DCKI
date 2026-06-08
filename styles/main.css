@@ -1148,6 +1148,9 @@ body[data-page="listing"] .listing-print-head{display:none}
 }
 body[data-page="listing"].print-view{
   background:#ffffff;
+  background-image:none !important;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
 }
 body[data-page="listing"].print-view,
 body[data-page="listing"].print-view main,
@@ -1158,6 +1161,8 @@ body[data-page="listing"].print-view .inner{
   height:auto !important;
   max-height:none !important;
   overflow:visible !important;
+  background:#ffffff !important;
+  background-image:none !important;
 }
 body[data-page="listing"].print-view .topbar,
 body[data-page="listing"].print-view .footer,
@@ -1316,6 +1321,7 @@ body[data-page="listing"].print-view .listing-print-summary .price-info-pop{
 body[data-page="listing"].print-view .listing-page{
   display:block !important;
   gap:0 !important;
+  background:#ffffff !important;
 }
 body[data-page="listing"].print-view .panel{
   border:none !important;
@@ -1390,6 +1396,7 @@ body[data-page="listing"].print-view .contact-card,
 body[data-page="listing"].print-view .listing-print-section{
   break-inside:avoid;
   page-break-inside:avoid;
+  background:#ffffff !important;
 }
 body[data-page="listing"].print-view .listing-print-section--summary{
   display:none !important;
@@ -1563,6 +1570,12 @@ body[data-page="listing"].print-view a{
   color:inherit !important;
   text-decoration:none !important;
 }
+body[data-page="listing"].print-view a[href]::before,
+body[data-page="listing"].print-view a[href]::after,
+body[data-page="listing"].print-view abbr[title]::after{
+  content:none !important;
+  display:none !important;
+}
 @media print{
   @page{size:A4;margin:8mm}
   html,body{background:#ffffff !important;height:auto !important;overflow:visible !important}
@@ -1579,6 +1592,12 @@ body[data-page="listing"].print-view a{
   body[data-page="listing"] .fav-btn,
   body[data-page="listing"] .to-top-fab,
   body[data-page="listing"] .whatsapp-fab{
+    display:none !important;
+  }
+  body[data-page="listing"] a[href]::before,
+  body[data-page="listing"] a[href]::after,
+  body[data-page="listing"] abbr[title]::after{
+    content:none !important;
     display:none !important;
   }
   body[data-page="listing"] main.section{
