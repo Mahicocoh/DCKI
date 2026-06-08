@@ -155,6 +155,63 @@ function mountListingShare() {
   }
 }
 
+function mountListingPrint() {
+  const btn = document.querySelector("[data-listing-print-btn]");
+  if (!(btn instanceof HTMLButtonElement) || btn.dataset.printBound === "1") return;
+  btn.dataset.printBound = "1";
+
+  const teardownFrame = () => {
+    const frame = document.getElementById("listing-print-frame");
+    if (frame instanceof HTMLIFrameElement) frame.remove();
+  };
+
+  const onMessage = (e) => {
+    if (e.origin !== window.location.origin) return;
+    if (e.data !== "dcki-print-done") return;
+    teardownFrame();
+  };
+  window.addEventListener("message", onMessage);
+
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    const url = btn.getAttribute("data-print-url") || "";
+    if (url) {
+      teardownFrame();
+      const frame = document.createElement("iframe");
+      frame.id = "listing-print-frame";
+      frame.src = url;
+      frame.setAttribute("aria-hidden", "true");
+      frame.tabIndex = -1;
+      frame.style.position = "fixed";
+      frame.style.width = "1px";
+      frame.style.height = "1px";
+      frame.style.right = "0";
+      frame.style.bottom = "0";
+      frame.style.opacity = "0";
+      frame.style.pointerEvents = "none";
+      frame.style.border = "0";
+      document.body.appendChild(frame);
+      window.setTimeout(teardownFrame, 20000);
+      return;
+    }
+
+    const prevTitle = document.title;
+    const nextTitle = btn.getAttribute("data-print-title") || prevTitle;
+    let restored = false;
+    const restore = () => {
+      if (restored) return;
+      restored = true;
+      document.title = prevTitle;
+      window.removeEventListener("afterprint", restore);
+    };
+
+    document.title = nextTitle;
+    window.addEventListener("afterprint", restore, { once: true });
+    window.print();
+    window.setTimeout(restore, 1200);
+  });
+}
+
 function updateListingShare(listing, titleText) {
   const root = document.querySelector("[data-listing-share]");
   if (!(root instanceof HTMLElement)) return;
@@ -171,9 +228,6 @@ function updateListingShare(listing, titleText) {
   const title = String(titleText || listing?.id || "").trim() || "DCKImmo";
   const msg = `${title} — ${shareUrl}`;
 
-  const fb = root.querySelector("[data-share-facebook]");
-  if (fb instanceof HTMLAnchorElement) fb.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
-
   const wa = root.querySelector("[data-share-whatsapp]");
   if (wa instanceof HTMLAnchorElement) wa.href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
 
@@ -188,10 +242,6 @@ function updateListingShare(listing, titleText) {
     copy.setAttribute("aria-label", t("listing.share.copy"));
     copy.setAttribute("title", t("listing.share.copy"));
   }
-  if (fb instanceof HTMLElement) {
-    fb.setAttribute("aria-label", t("listing.share.facebook"));
-    fb.setAttribute("title", t("listing.share.facebook"));
-  }
   if (ig instanceof HTMLElement) {
     ig.setAttribute("aria-label", t("listing.share.instagram"));
     ig.setAttribute("title", t("listing.share.instagram"));
@@ -203,6 +253,65 @@ function updateListingShare(listing, titleText) {
   if (email instanceof HTMLElement) {
     email.setAttribute("aria-label", t("listing.share.email"));
     email.setAttribute("title", t("listing.share.email"));
+  }
+}
+
+function updateListingPrint(listing, titleText) {
+  const btn = document.querySelector("[data-listing-print-btn]");
+  const label = t("listing.print");
+  const aria = t("listing.print.aria");
+  const printTitle = String(titleText || listing?.id || "DCKImmo").trim() || "DCKImmo";
+  const printUrl = (() => {
+    try {
+      const u = new URL(window.location.href);
+      u.searchParams.set("id", String(listing?.id || ""));
+      u.searchParams.set("print", "1");
+      u.searchParams.set("ts", String(Date.now()));
+      return u.toString();
+    } catch {
+      return "";
+    }
+  })();
+
+  if (btn instanceof HTMLButtonElement) {
+    btn.setAttribute("aria-label", aria);
+    btn.setAttribute("title", aria);
+    btn.setAttribute("data-print-title", printTitle);
+    if (printUrl) btn.setAttribute("data-print-url", printUrl);
+  }
+
+  const printTitleEl = document.querySelector("[data-listing-print-title]");
+  if (printTitleEl instanceof HTMLElement) printTitleEl.textContent = printTitle;
+
+  const printDateLabelEl = document.querySelector("[data-listing-print-date-label]");
+  const printRefLabelEl = document.querySelector("[data-listing-print-ref-label]");
+  const printStampEl = document.querySelector("[data-listing-print-stamp]");
+  const printRefEl = document.querySelector("[data-listing-print-ref]");
+  const printOverlineEl = document.querySelector("[data-listing-print-overline]");
+
+  const locale = getLang() === "en" ? "en-CH" : "fr-CH";
+  const stamp = new Intl.DateTimeFormat(locale, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(new Date());
+
+  const dateLabel = getLang() === "en" ? "Print date:" : "Date d'edition:";
+  const refLabel = getLang() === "en" ? "Reference:" : "Reference:";
+  const typeText = translatePropertyType(listing.propertyType).toUpperCase();
+  const catText =
+    listing.category === "sale"
+      ? (getLang() === "en" ? "FOR SALE" : "A VENDRE")
+      : listing.category === "rent"
+        ? (getLang() === "en" ? "FOR RENT" : "A LOUER")
+        : "";
+
+  if (printDateLabelEl instanceof HTMLElement) printDateLabelEl.textContent = dateLabel;
+  if (printRefLabelEl instanceof HTMLElement) printRefLabelEl.textContent = refLabel;
+  if (printStampEl instanceof HTMLElement) printStampEl.textContent = stamp;
+  if (printRefEl instanceof HTMLElement) printRefEl.textContent = String(listing?.id || "").toUpperCase();
+  if (printOverlineEl instanceof HTMLElement) {
+    printOverlineEl.textContent = [catText, typeText].filter(Boolean).join(" • ");
   }
 }
 
@@ -906,7 +1015,9 @@ function render(listing) {
   }
 
   mountListingShare();
+  mountListingPrint();
   updateListingShare(listing, titleText);
+  updateListingPrint(listing, titleText);
 
   if (factsEl) {
     factsEl.innerHTML = topFactsHtml
@@ -1321,6 +1432,7 @@ function render(listing) {
 export async function initListingPage() {
   const qp = getQueryParams();
   const id = qp.id || "";
+  const isPrint = String(qp.print || "") === "1";
   const LISTINGS = await loadListings();
   const listing = LISTINGS.find((l) => l.id === id);
   if (!listing) {
@@ -1331,6 +1443,54 @@ export async function initListingPage() {
 
   currentListing = listing;
   render(listing);
+
+  if (isPrint) {
+    document.title = "\u00A0";
+    document.body.classList.add("print-view");
+    const openPrintView = async () => {
+      for (const item of document.querySelectorAll(".amenity-group[data-amenity-accordion-item]")) {
+        const btn = item.querySelector(".amenity-head");
+        const panel = item.querySelector(".amenity-panel");
+        if (btn instanceof HTMLButtonElement) btn.setAttribute("aria-expanded", "true");
+        if (panel instanceof HTMLElement) panel.hidden = false;
+      }
+
+      const imgs = Array.from(document.images);
+      await Promise.all(
+        imgs.map(
+          (img) =>
+            new Promise((resolve) => {
+              if (img.complete) {
+                resolve();
+                return;
+              }
+              const done = () => resolve();
+              img.addEventListener("load", done, { once: true });
+              img.addEventListener("error", done, { once: true });
+              window.setTimeout(done, 1200);
+            })
+        )
+      );
+
+      await new Promise((resolve) => window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)));
+      await new Promise((resolve) => window.setTimeout(resolve, 700));
+
+      try {
+        window.print();
+      } catch {}
+
+      window.setTimeout(() => {
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage("dcki-print-done", window.location.origin);
+          }
+        } catch {}
+      }, 400);
+    };
+    window.setTimeout(() => {
+      openPrintView();
+    }, 250);
+  }
 
   window.addEventListener("dcki:lang", () => {
     if (currentListing) render(currentListing);
