@@ -1490,8 +1490,10 @@ body[data-page="listing"] .distances-v{
 .hero .hero-video{display:block}
 .hero.video-failed .hero-video{display:none !important}
 .hero .hero-video::-webkit-media-controls{display:none !important}
+.hero .hero-video::-webkit-media-controls-enclosure{display:none !important}
 .hero .hero-video::-webkit-media-controls-panel{display:none !important}
 .hero .hero-video::-webkit-media-controls-play-button{display:none !important}
+.hero .hero-video::-webkit-media-controls-overlay-play-button{display:none !important}
 .hero .hero-video::-webkit-media-controls-start-playback-button{display:none !important}
 .hero .overlay{
   position:absolute;inset:0;
