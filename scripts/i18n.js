@@ -300,6 +300,10 @@ const DICT = {
     "search.type.all": "Tous",
     "search.voice": "Dicter la recherche",
     "search.voice.stop": "Arrêter la dictée",
+    "search.smart": "Recherche intelligente",
+    "search.smart.help": "Écris ta phrase (ex : 3,5 pièces à louer, max 1800, proche gare)",
+    "search.proximity.nearStation": "Proche d’une gare",
+    "search.proximity.nearSchool": "Proche d’une école",
     "search.surfaceMin": "Surface min (m²)",
     "search.cityExact": "Commune (exacte)",
     "search.proximity": "Proximité",
@@ -1073,6 +1077,10 @@ const DICT = {
     "search.type.all": "Any",
     "search.voice": "Dictate search",
     "search.voice.stop": "Stop dictation",
+    "search.smart": "Smart search",
+    "search.smart.help": "Type your request (e.g. 3.5-room rental, max 1800, near station)",
+    "search.proximity.nearStation": "Near a station",
+    "search.proximity.nearSchool": "Near a school",
     "search.surfaceMin": "Min area (m²)",
     "search.cityExact": "City (exact)",
     "search.proximity": "Nearby",
@@ -1766,8 +1774,9 @@ function applyNav() {
       const hrefNoQuery = stripQuery(hrefAttr);
       if (!hrefNoQuery) continue;
 
+      const hashOnly = targetHasHash ? `#${targetMain.split("#")[1]}` : "";
       const isMatch = targetHasHash
-        ? hrefNoQuery === targetMain
+        ? hrefNoQuery === targetMain || hrefNoQuery === hashOnly || hrefNoQuery.endsWith(targetMain)
         : stripHash(hrefNoQuery) === targetMain || stripHash(hrefNoQuery).endsWith(targetEnd);
 
       if (!isMatch) continue;
@@ -1926,6 +1935,10 @@ function applyHomePage() {
       voice.setAttribute("aria-label", t("search.voice"));
       voice.setAttribute("title", t("search.voice"));
     }
+    const smartToggle = qs.querySelector(".is24-smart-toggle span");
+    if (smartToggle instanceof HTMLElement) smartToggle.textContent = t("search.smart");
+    const smartHelp = qs.querySelector("[data-smart-help]");
+    if (smartHelp instanceof HTMLElement) smartHelp.textContent = t("search.smart.help");
 
     const homeType = qs.querySelector("#home-type");
     const homeTypeLabel = homeType?.closest(".is24-field")?.querySelector(".is24-label");
@@ -2029,9 +2042,14 @@ function applyHomePage() {
     const chips = Array.from(qs.querySelectorAll(".filter-chip"));
     for (const chip of chips) {
       if (!(chip instanceof HTMLLabelElement)) continue;
-      const v = chip.querySelector("input")?.getAttribute("value") || "";
+      const input = chip.querySelector("input");
+      const v = input?.getAttribute("value") || "";
+      const name = input?.getAttribute("name") || "";
       const s = chip.querySelector("span");
       if (!(s instanceof HTMLElement)) continue;
+      if (name === "nearStation") s.textContent = t("search.proximity.nearStation");
+      if (name === "nearSchool") s.textContent = t("search.proximity.nearSchool");
+      if (name === "nearHighway") s.textContent = t("feature.highwayAccess");
       if (v === "Cheminée") s.textContent = t("tag.fireplace");
       if (v === "Jardin") s.textContent = t("tag.garden");
       if (v === "Terrasse") s.textContent = t("tag.terrace");
@@ -2042,6 +2060,9 @@ function applyHomePage() {
       if (v === "Rénové") s.textContent = t("tag.renovated");
       if (v === "Neuf") s.textContent = t("tag.new");
       if (v === "Proche gare") s.textContent = t("tag.nearStation");
+      if (v === "Proche d’une gare") s.textContent = t("search.proximity.nearStation");
+      if (v === "Proche d’une école") s.textContent = t("search.proximity.nearSchool");
+      if (v === "Accès autoroute") s.textContent = t("feature.highwayAccess");
     }
 
     const submit = qs.querySelector("button[type=\"submit\"].is24-btn.primary");
