@@ -271,9 +271,11 @@
             v.muted = true;
             v.defaultMuted = true;
             v.playsInline = true;
+            v.preload = "auto";
             v.setAttribute("autoplay", "");
             v.setAttribute("loop", "");
             v.setAttribute("muted", "");
+            v.setAttribute("preload", "auto");
             v.setAttribute("playsinline", "");
             v.setAttribute("webkit-playsinline", "");
             v.setAttribute("disableremoteplayback", "");
@@ -307,6 +309,11 @@
             step();
           };
 
+          if (v.readyState >= 2) markReady();
+          else v.load();
+
+          v.addEventListener("loadeddata", markReady, { once: true });
+          v.addEventListener("canplay", markReady, { once: true });
           v.addEventListener("timeupdate", markReady, { once: true });
           v.addEventListener("playing", markReady);
           v.addEventListener("error", markFailed, { once: true });
