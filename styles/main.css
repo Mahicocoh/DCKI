@@ -1335,7 +1335,7 @@ body[data-page="listing"].print-view .listing-print-thumb{
 }
 body[data-page="listing"].print-view .listing-print-thumb img{
   width:100%;
-  height:92px;
+  height:112px;
   aspect-ratio:auto;
   object-fit:cover;
   display:block;
@@ -1535,7 +1535,7 @@ body[data-page="listing"].print-view a{
   }
   body[data-page="listing"] .listing-print-thumb img{
     width:100%;
-    height:16mm;
+    height:18mm;
     aspect-ratio:auto;
     object-fit:cover;
     display:block;
