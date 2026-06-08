@@ -1089,25 +1089,26 @@ body[data-page="listing"] .listing-share-pop [data-share-whatsapp] svg{width:22p
 body[data-page="listing"] .listing-print-head{display:none}
 @media (max-width: 420px){
   body[data-page="listing"] .listing-share-row{
-    align-items:flex-start;
-    flex-wrap:wrap;
+    align-items:center;
+    flex-wrap:nowrap;
   }
   body[data-page="listing"] .listing-share-actions{
-    width:100%;
-    justify-content:space-between;
+    width:auto;
+    margin-left:auto;
+    justify-content:flex-end;
   }
   body[data-page="listing"] .listing-print-btn{
     flex:1 1 auto;
     justify-content:center;
   }
   body[data-page="listing"] .listing-share-pop{
-    left:0;
+    left:auto;
     right:0;
-    justify-content:space-between;
+    justify-content:flex-end;
   }
 }
 body[data-page="listing"].print-view{
-  background:#f3f4f6;
+  background:#ffffff;
 }
 body[data-page="listing"].print-view,
 body[data-page="listing"].print-view main,
@@ -1136,12 +1137,15 @@ body[data-page="listing"].print-view main > .container > .panel:first-child{
   display:none !important;
 }
 body[data-page="listing"].print-view main.section{
-  padding:0 0 28px !important;
+  padding:8px 0 28px !important;
 }
 body[data-page="listing"].print-view .listing-print-head{
   display:block;
-  margin:0 0 14px;
-  padding:0;
+  margin:0 0 10px;
+  padding:12px 14px 14px;
+  background:#ffffff;
+  border:1px solid rgba(15,23,32,.08);
+  box-shadow:0 16px 40px rgba(15,23,32,.08);
   page-break-after:avoid;
 }
 body[data-page="listing"].print-view .listing-print-head-top{
@@ -1151,11 +1155,11 @@ body[data-page="listing"].print-view .listing-print-head-bar{
   display:flex;
   align-items:flex-start;
   justify-content:space-between;
-  gap:24px;
-  padding:10px 0 12px;
+  gap:14px;
+  padding:5px 0 8px;
 }
 body[data-page="listing"].print-view .listing-print-brand img{
-  width:90px;
+  width:68px;
   height:auto;
   display:block;
 }
@@ -1170,8 +1174,8 @@ body[data-page="listing"].print-view .listing-print-head-meta{
 body[data-page="listing"].print-view .listing-print-head-line{
   display:flex;
   align-items:baseline;
-  gap:6px;
-  font-size:13px;
+  gap:4px;
+  font-size:11px;
   line-height:1.25;
 }
 body[data-page="listing"].print-view .listing-print-head-k{
@@ -1182,28 +1186,103 @@ body[data-page="listing"].print-view .listing-print-head-v{
   color:rgba(15,23,32,.92);
 }
 body[data-page="listing"].print-view .listing-print-head-rule{
-  height:1px;
-  background:rgba(200,161,74,.74);
+  margin-top:4px;
+  height:3px;
+  background:rgba(200,161,74,.96);
 }
 body[data-page="listing"].print-view .listing-print-overline{
-  margin-top:14px;
+  margin-top:8px;
   color:rgba(200,161,74,.98);
-  font-size:12px;
+  font-size:10px;
   font-weight:900;
   letter-spacing:.18em;
   text-transform:uppercase;
 }
 body[data-page="listing"].print-view .listing-print-title{
-  margin-top:8px;
+  margin-top:5px;
   font-size:24px;
-  line-height:1.12;
+  line-height:1.08;
   font-weight:950;
   color:rgba(15,23,32,.98);
   letter-spacing:-0.02em;
 }
+body[data-page="listing"].print-view .listing-print-location{
+  margin-top:4px;
+  color:rgba(15,23,32,.68);
+  font-size:12px;
+  font-weight:700;
+}
+body[data-page="listing"].print-view .listing-print-summary{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px solid rgba(15,23,32,.1);
+}
+body[data-page="listing"].print-view .listing-print-summary-main{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+body[data-page="listing"].print-view .listing-print-summary .listing-pill{
+  margin-bottom:5px;
+}
+body[data-page="listing"].print-view .listing-print-summary .meta{
+  margin-top:0 !important;
+  width:100%;
+  display:grid;
+  grid-template-columns:repeat(4, minmax(0, 1fr));
+  gap:6px;
+  font-size:10px;
+  overflow:visible;
+}
+body[data-page="listing"].print-view .listing-print-summary .meta .meta-item{
+  margin-right:0;
+  padding:6px 8px;
+  border:1px solid rgba(15,23,32,.10);
+  background:rgba(255,255,255,.92);
+  gap:5px;
+  min-width:0;
+}
+body[data-page="listing"].print-view .listing-print-summary .meta .meta-item:not(:last-child)::after{
+  content:none;
+}
+body[data-page="listing"].print-view .listing-print-summary .meta .meta-ico svg{
+  width:12px;
+  height:12px;
+}
+body[data-page="listing"].print-view .listing-print-summary .listing-print-summary-availability{
+  margin-top:5px !important;
+  font-size:10px;
+}
+body[data-page="listing"].print-view .listing-print-summary .listing-price{
+  margin-top:6px;
+  padding:7px 10px;
+  font-size:20px;
+  display:inline-flex;
+  align-items:center;
+  width:auto;
+  max-width:100%;
+}
+body[data-page="listing"].print-view .listing-print-summary .facts{
+  margin-top:6px !important;
+  gap:6px;
+}
+body[data-page="listing"].print-view .listing-print-summary .facts .tag{
+  padding:4px 6px;
+  font-size:9px;
+}
+body[data-page="listing"].print-view .listing-print-summary .price-info,
+body[data-page="listing"].print-view .listing-print-summary .price-info-pop{
+  display:none !important;
+}
 body[data-page="listing"].print-view .listing-page{
   display:block !important;
   gap:0 !important;
+}
+body[data-page="listing"].print-view .panel{
+  border:none !important;
+}
+body[data-page="listing"].print-view .panel .inner{
+  padding:0 !important;
 }
 body[data-page="listing"].print-view .listing-gallery,
 body[data-page="listing"].print-view .card,
@@ -1212,15 +1291,23 @@ body[data-page="listing"].print-view .panel{
   background:#ffffff !important;
 }
 body[data-page="listing"].print-view .listing-gallery{
-  margin-bottom:10px;
+  margin-bottom:8px;
+  padding:7px;
+  border:1px solid rgba(15,23,32,.08);
 }
 body[data-page="listing"].print-view .listing-gallery .media{
   min-height:0 !important;
+  max-height:320px !important;
+  height:auto !important;
+  aspect-ratio:auto !important;
+  background:transparent !important;
+  overflow:hidden !important;
 }
 body[data-page="listing"].print-view .listing-gallery .media img{
   width:100%;
-  aspect-ratio:16/9;
-  max-height:360px;
+  height:320px !important;
+  aspect-ratio:auto !important;
+  max-height:320px;
   object-fit:cover;
   display:block;
 }
@@ -1228,6 +1315,30 @@ body[data-page="listing"].print-view .listing-gallery .nav,
 body[data-page="listing"].print-view .listing-gallery .count,
 body[data-page="listing"].print-view .map{
   display:none !important;
+}
+body[data-page="listing"] .listing-print-thumbs{
+  display:none;
+}
+body[data-page="listing"].print-view .listing-print-thumbs{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:6px;
+  margin:0 0 8px;
+}
+body[data-page="listing"].print-view .listing-print-thumbs[hidden]{
+  display:none !important;
+}
+body[data-page="listing"].print-view .listing-print-thumb{
+  border:1px solid rgba(15,23,32,.08);
+  background:#ffffff;
+  overflow:hidden;
+}
+body[data-page="listing"].print-view .listing-print-thumb img{
+  width:100%;
+  height:92px;
+  aspect-ratio:auto;
+  object-fit:cover;
+  display:block;
 }
 body[data-page="listing"].print-view .distances-table{
   overflow:visible !important;
@@ -1242,66 +1353,98 @@ body[data-page="listing"].print-view .listing-print-section{
   page-break-inside:avoid;
 }
 body[data-page="listing"].print-view .listing-print-section--summary{
-  break-inside:auto;
-  page-break-inside:auto;
-  margin-top:8px;
+  display:none !important;
 }
-body[data-page="listing"].print-view .listing-top-row{
-  gap:8px;
-  margin-bottom:6px;
-}
-body[data-page="listing"].print-view .pill.listing-pill{
-  padding:8px 10px;
-}
-body[data-page="listing"].print-view .pill.listing-pill .listing-pill-main{
-  font-size:13px;
-}
-body[data-page="listing"].print-view .pill.listing-pill .listing-pill-sub{
-  font-size:11.5px;
-}
-body[data-page="listing"].print-view .listing-title-row h2{
-  margin:8px 0 6px !important;
-  font-size:22px;
-}
-body[data-page="listing"].print-view .meta{
-  font-size:12.5px;
-  gap:8px;
-}
-body[data-page="listing"].print-view .meta-item{
-  padding-right:10px;
-  margin-right:10px;
-}
-body[data-page="listing"].print-view .listing-price{
-  margin-top:10px;
+body[data-page="listing"].print-view .listing-print-section{
+  margin:0 0 10px;
   padding:10px 12px;
-  font-size:24px;
+  border:1px solid rgba(15,23,32,.08);
+  background:#ffffff;
 }
-body[data-page="listing"].print-view .facts{
-  margin-top:10px !important;
-  gap:8px;
-}
-body[data-page="listing"].print-view .facts .tag{
-  padding:5px 8px;
-  font-size:11.5px;
+body[data-page="listing"].print-view .listing-print-section--media{
+  margin-bottom:8px;
+  padding:0;
+  border:none;
+  background:transparent;
 }
 body[data-page="listing"].print-view .listing-print-section--description{
-  page-break-before:always;
-  break-before:page;
+  page-break-before:auto;
+  break-before:auto;
 }
 body[data-page="listing"].print-view .listing-print-section h3{
+  margin:0 0 8px !important;
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  font-weight:950;
+  color:rgba(15,23,32,.58);
   break-after:avoid;
   page-break-after:avoid;
 }
 body[data-page="listing"].print-view [data-listing-desc]{
   text-align:left !important;
   hyphens:none !important;
+  color:rgba(15,23,32,.86);
+  font-size:12px;
+  line-height:1.5;
+}
+body[data-page="listing"].print-view .kv-table{
+  margin-top:0;
+}
+body[data-page="listing"].print-view .kv-row{
+  padding:7px 0;
+}
+body[data-page="listing"].print-view .amenity-group,
+body[data-page="listing"].print-view .contact-card{
+  padding:8px 10px;
+  border:1px solid rgba(15,23,32,.08);
+  background:rgba(248,248,246,.9);
+}
+body[data-page="listing"].print-view .amenities-groups{
+  margin-top:0;
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:8px;
+}
+body[data-page="listing"].print-view .amenity-head{
+  padding:0 0 6px;
+}
+body[data-page="listing"].print-view .amenity-k{
+  font-size:10px;
+}
+body[data-page="listing"].print-view .amenity-list{
+  font-size:11px;
+  line-height:1.35;
+}
+body[data-page="listing"].print-view .amenity-list li{
+  padding:5px 0;
+}
+body[data-page="listing"].print-view .distances-table{
+  margin-top:0;
+}
+body[data-page="listing"].print-view .distances-head,
+body[data-page="listing"].print-view .distances-row{
+  column-gap:8px;
+  min-width:0;
+  padding:6px 0;
+  font-size:10px;
+}
+body[data-page="listing"].print-view .contact-cards{
+  margin-top:0;
+  gap:8px;
+}
+body[data-page="listing"].print-view .contact-card .k{
+  font-size:10px;
+}
+body[data-page="listing"].print-view .contact-card .v{
+  font-size:11px;
 }
 body[data-page="listing"].print-view a{
   color:inherit !important;
   text-decoration:none !important;
 }
 @media print{
-  @page{size:A4;margin:12mm}
+  @page{size:A4;margin:8mm}
   html,body{background:#ffffff !important;height:auto !important;overflow:visible !important}
   body[data-page="listing"] .topbar,
   body[data-page="listing"] .footer,
@@ -1352,19 +1495,50 @@ body[data-page="listing"].print-view a{
     overflow:visible !important;
   }
   body[data-page="listing"] .listing-gallery{
-    margin-bottom:14px;
+    margin-bottom:6px;
+    padding:1.4mm;
+    border:0.3mm solid rgba(15,23,32,.08);
   }
   body[data-page="listing"] .listing-gallery .media{
     min-height:0 !important;
+    max-height:56mm !important;
+    height:auto !important;
+    aspect-ratio:auto !important;
+    background:transparent !important;
+    overflow:hidden !important;
   }
   body[data-page="listing"] .listing-gallery .media img{
-    max-height:64mm;
+    width:100% !important;
+    height:56mm !important;
+    max-height:56mm;
+    aspect-ratio:auto !important;
     object-fit:cover;
   }
   body[data-page="listing"] .listing-gallery .nav,
   body[data-page="listing"] .listing-gallery .count,
   body[data-page="listing"] .map{
     display:none !important;
+  }
+  body[data-page="listing"] .listing-print-thumbs{
+    display:grid !important;
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+    gap:1.1mm;
+    margin:0 0 2mm;
+  }
+  body[data-page="listing"] .listing-print-thumbs[hidden]{
+    display:none !important;
+  }
+  body[data-page="listing"] .listing-print-thumb{
+    border:0.3mm solid rgba(15,23,32,.08);
+    background:#ffffff;
+    overflow:hidden;
+  }
+  body[data-page="listing"] .listing-print-thumb img{
+    width:100%;
+    height:16mm;
+    aspect-ratio:auto;
+    object-fit:cover;
+    display:block;
   }
   body[data-page="listing"] .listing-price{
     box-shadow:none !important;
@@ -1373,8 +1547,10 @@ body[data-page="listing"].print-view a{
   }
   body[data-page="listing"] .listing-print-head{
     display:block !important;
-    margin:0 0 8mm;
-    padding:0;
+    margin:0 0 3.2mm;
+    padding:2.6mm 3mm 3mm;
+    background:#ffffff !important;
+    border:0.3mm solid rgba(15,23,32,.08);
     page-break-after:avoid;
   }
   body[data-page="listing"] .listing-print-head-top{
@@ -1384,11 +1560,11 @@ body[data-page="listing"].print-view a{
     display:flex;
     align-items:flex-start;
     justify-content:space-between;
-    gap:10mm;
-    padding:2mm 0 3mm;
+    gap:4mm;
+    padding:.8mm 0 1.2mm;
   }
   body[data-page="listing"] .listing-print-brand img{
-    width:21mm;
+    width:14mm;
     height:auto;
     display:block;
   }
@@ -1403,8 +1579,8 @@ body[data-page="listing"].print-view a{
   body[data-page="listing"] .listing-print-head-line{
     display:flex;
     align-items:baseline;
-    gap:1.5mm;
-    font-size:9.5pt;
+    gap:1mm;
+    font-size:7.4pt;
     line-height:1.2;
   }
   body[data-page="listing"] .listing-print-head-k{
@@ -1415,24 +1591,93 @@ body[data-page="listing"].print-view a{
     color:rgba(15,23,32,.92);
   }
   body[data-page="listing"] .listing-print-head-rule{
-    height:.4mm;
-    background:rgba(200,161,74,.74);
+    margin-top:1mm;
+    height:.95mm;
+    background:rgba(200,161,74,.96);
   }
   body[data-page="listing"] .listing-print-overline{
-    margin-top:4mm;
+    margin-top:1.4mm;
     color:rgba(200,161,74,.98);
-    font-size:9pt;
+    font-size:7pt;
     font-weight:900;
     letter-spacing:.16em;
     text-transform:uppercase;
   }
   body[data-page="listing"] .listing-print-title{
-    margin-top:3mm;
-    font-size:20pt;
-    line-height:1.15;
+    margin-top:1.2mm;
+    font-size:15.5pt;
+    line-height:1.06;
     font-weight:950;
     color:#0f1720;
     letter-spacing:-0.02em;
+  }
+  body[data-page="listing"] .listing-print-location{
+    margin-top:.6mm;
+    color:rgba(15,23,32,.68);
+    font-size:7.8pt;
+    font-weight:700;
+  }
+  body[data-page="listing"] .listing-print-summary{
+    margin-top:1.4mm;
+    padding-top:1.6mm;
+    border-top:0.3mm solid rgba(15,23,32,.1);
+  }
+  body[data-page="listing"] .listing-print-summary-main{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  body[data-page="listing"] .listing-print-summary .listing-pill{
+    margin-bottom:1mm;
+  }
+  body[data-page="listing"] .listing-print-summary .meta{
+    margin-top:0 !important;
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(4, minmax(0, 1fr));
+    gap:1mm;
+    font-size:7.6pt;
+    overflow:visible;
+  }
+  body[data-page="listing"] .listing-print-summary .meta .meta-item{
+    margin-right:0;
+    padding:1.1mm 1.4mm;
+    border:0.3mm solid rgba(15,23,32,.10);
+    background:rgba(255,255,255,.92);
+    gap:1mm;
+    min-width:0;
+  }
+  body[data-page="listing"] .listing-print-summary .meta .meta-item:not(:last-child)::after{
+    content:none;
+  }
+  body[data-page="listing"] .listing-print-summary .meta .meta-ico svg{
+    width:10px;
+    height:10px;
+  }
+  body[data-page="listing"] .listing-print-summary .listing-print-summary-availability{
+    margin-top:.8mm !important;
+    font-size:7.2pt;
+  }
+  body[data-page="listing"] .listing-print-summary .listing-price{
+    margin-top:1mm;
+    padding:1.2mm 1.8mm;
+    font-size:12.5pt;
+    display:inline-flex;
+    align-items:center;
+    width:auto;
+    max-width:100%;
+  }
+  body[data-page="listing"] .listing-print-summary .facts{
+    margin-top:1.1mm !important;
+    gap:1mm;
+  }
+  body[data-page="listing"] .listing-print-summary .facts .tag{
+    padding:.7mm 1.1mm;
+    font-size:6.8pt;
+  }
+  body[data-page="listing"] .listing-print-summary .price-info,
+  body[data-page="listing"] .listing-print-summary .price-info-pop{
+    display:none !important;
   }
   body[data-page="listing"] [data-listing-desc]{
     text-align:left !important;
@@ -1451,59 +1696,93 @@ body[data-page="listing"].print-view a{
     page-break-inside:avoid;
   }
   body[data-page="listing"] .listing-print-section--summary{
-    break-inside:auto;
-    page-break-inside:auto;
-    margin-top:2mm;
-  }
-  body[data-page="listing"] .listing-top-row{
-    gap:2mm;
-    margin-bottom:1.5mm;
-  }
-  body[data-page="listing"] .pill.listing-pill{
-    padding:2.2mm 2.8mm;
-  }
-  body[data-page="listing"] .pill.listing-pill .listing-pill-main{
-    font-size:10.5pt;
-  }
-  body[data-page="listing"] .pill.listing-pill .listing-pill-sub{
-    font-size:9pt;
-  }
-  body[data-page="listing"] .listing-title-row h2{
-    margin:2mm 0 1.5mm !important;
-    font-size:18pt;
-  }
-  body[data-page="listing"] .meta{
-    font-size:10pt;
-    gap:2mm;
-  }
-  body[data-page="listing"] .meta-item{
-    padding-right:2.5mm;
-    margin-right:2.5mm;
-  }
-  body[data-page="listing"] .listing-price{
-    margin-top:2.2mm;
-    padding:2.5mm 3mm;
-    font-size:18pt;
-  }
-  body[data-page="listing"] .facts{
-    margin-top:2.5mm !important;
-    gap:2mm;
-  }
-  body[data-page="listing"] .facts .tag{
-    padding:1.4mm 2mm;
-    font-size:8.8pt;
+    display:none !important;
   }
   body[data-page="listing"] .listing-print-section--description{
-    page-break-before:always;
-    break-before:page;
+    page-break-before:auto;
+    break-before:auto;
   }
   body[data-page="listing"] .listing-print-section h3{
+    margin:0 0 2.2mm !important;
+    font-size:7.6pt;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:950;
+    color:rgba(15,23,32,.58);
     break-after:avoid;
     page-break-after:avoid;
+  }
+  body[data-page="listing"] .listing-print-section{
+    margin:0 0 2.8mm;
+    padding:2.8mm 3.2mm;
+    border:0.3mm solid rgba(15,23,32,.08);
+    background:#ffffff;
+  }
+  body[data-page="listing"] .listing-print-section--media{
+    margin-bottom:2mm;
+    padding:0;
+    border:none;
+    background:transparent;
   }
   body[data-page="listing"] a{
     color:inherit !important;
     text-decoration:none !important;
+  }
+  body[data-page="listing"] [data-listing-desc]{
+    color:rgba(15,23,32,.86) !important;
+    font-size:9pt !important;
+    line-height:1.52 !important;
+  }
+  body[data-page="listing"] .kv-table{
+    margin-top:0;
+  }
+  body[data-page="listing"] .kv-row{
+    padding:1.6mm 0;
+  }
+  body[data-page="listing"] .amenity-group,
+  body[data-page="listing"] .contact-card{
+    padding:1.8mm 2.2mm;
+    border:0.3mm solid rgba(15,23,32,.08);
+    background:rgba(248,248,246,.96);
+  }
+  body[data-page="listing"] .amenities-groups{
+    margin-top:0;
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:2.2mm;
+  }
+  body[data-page="listing"] .amenity-head{
+    padding:0 0 1.4mm;
+  }
+  body[data-page="listing"] .amenity-k{
+    font-size:7.4pt;
+  }
+  body[data-page="listing"] .amenity-list{
+    font-size:8.5pt;
+    line-height:1.38;
+  }
+  body[data-page="listing"] .amenity-list li{
+    padding:1.2mm 0;
+  }
+  body[data-page="listing"] .distances-table{
+    margin-top:0;
+  }
+  body[data-page="listing"] .distances-head,
+  body[data-page="listing"] .distances-row{
+    column-gap:2mm;
+    min-width:0;
+    padding:1.5mm 0;
+    font-size:8.2pt;
+  }
+  body[data-page="listing"] .contact-cards{
+    margin-top:0;
+    gap:2mm;
+  }
+  body[data-page="listing"] .contact-card .k{
+    font-size:7.2pt;
+  }
+  body[data-page="listing"] .contact-card .v{
+    font-size:8.4pt;
   }
 }
 .cta{display:flex;gap:10px;flex-wrap:wrap}
@@ -2439,6 +2718,20 @@ body[data-page="listing"] .pill.listing-pill .listing-pill-state{font-weight:850
 }
 .pill.listing-pill .listing-pill-status{
   letter-spacing:.02em;
+}
+body[data-page="listing"] .pill.listing-pill .listing-pill-status{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+}
+body[data-page="listing"] .pill.listing-pill .listing-pill-status::before{
+  content:"";
+  width:10px;
+  height:10px;
+  flex:0 0 10px;
+  background:#c8a14a;
+  border-radius:0;
+  box-shadow:0 0 0 1px rgba(200,161,74,.18);
 }
 .pill.listing-pill .listing-pill-sep{
   opacity:.65;

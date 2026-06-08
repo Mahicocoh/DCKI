@@ -288,6 +288,7 @@ function updateListingPrint(listing, titleText) {
   const printStampEl = document.querySelector("[data-listing-print-stamp]");
   const printRefEl = document.querySelector("[data-listing-print-ref]");
   const printOverlineEl = document.querySelector("[data-listing-print-overline]");
+  const printLocationEl = document.querySelector("[data-listing-print-location]");
 
   const locale = getLang() === "en" ? "en-CH" : "fr-CH";
   const stamp = new Intl.DateTimeFormat(locale, {
@@ -312,6 +313,50 @@ function updateListingPrint(listing, titleText) {
   if (printRefEl instanceof HTMLElement) printRefEl.textContent = String(listing?.id || "").toUpperCase();
   if (printOverlineEl instanceof HTMLElement) {
     printOverlineEl.textContent = [catText, typeText].filter(Boolean).join(" • ");
+  }
+  if (printLocationEl instanceof HTMLElement) {
+    const localityText = String(pickListingText(listing, "locality") || listing?.locality || "").trim();
+    const regionRaw = String(listing?.region || listing?.canton || listing?.state || "").trim();
+    const regionText = regionRaw ? translateRegionName(regionRaw) : "";
+    printLocationEl.textContent = [localityText, regionText].filter(Boolean).join(", ");
+  }
+
+  const printSummaryEl = document.querySelector("[data-listing-print-summary]");
+  const printThumbsEl = document.querySelector("[data-listing-print-thumbs]");
+  const pill = document.querySelector("[data-listing-pill]");
+  const meta = document.querySelector("[data-listing-meta]");
+  const availability = document.querySelector("[data-listing-availability]");
+  const price = document.querySelector("[data-listing-price]");
+  const facts = document.querySelector("[data-listing-facts]");
+  if (printSummaryEl instanceof HTMLElement) {
+    const pillHtml = pill instanceof HTMLElement ? pill.innerHTML.trim() : "";
+    const metaHtml = meta instanceof HTMLElement ? meta.innerHTML.trim() : "";
+    const availabilityHtml = availability instanceof HTMLElement ? availability.innerHTML.trim() : "";
+    const priceHtml = price instanceof HTMLElement ? price.innerHTML.trim() : "";
+    const factsHtml = facts instanceof HTMLElement ? facts.innerHTML.trim() : "";
+
+    printSummaryEl.innerHTML = `
+      <div class="listing-print-summary-main">
+        ${pillHtml ? `<div class="pill listing-pill">${pillHtml}</div>` : ""}
+        ${metaHtml ? `<div class="meta">${metaHtml}</div>` : ""}
+        ${availabilityHtml ? `<div class="meta listing-print-summary-availability">${availabilityHtml}</div>` : ""}
+        ${priceHtml ? `<div class="listing-price">${priceHtml}</div>` : ""}
+        ${factsHtml ? `<div class="facts">${factsHtml}</div>` : ""}
+      </div>
+    `.trim();
+  }
+  if (printThumbsEl instanceof HTMLElement) {
+    const photos = getListingPhotos(listing, 4).slice(1, 4);
+    printThumbsEl.innerHTML = photos
+      .map(
+        (src, index) => `
+          <div class="listing-print-thumb">
+            <img src="${escapeHtml(src)}" alt="${escapeHtml(`${printTitle} ${index + 2}`)}" loading="eager" />
+          </div>
+        `
+      )
+      .join("");
+    printThumbsEl.hidden = photos.length === 0;
   }
 }
 
@@ -888,6 +933,7 @@ function setPhoto(idx) {
 }
 
 function render(listing) {
+  const isPrintView = String(getQueryParams().print || "") === "1";
   const pill = document.querySelector("[data-listing-pill]");
   const title = document.querySelector("[data-listing-title]");
   const meta = document.querySelector("[data-listing-meta]");
@@ -1049,6 +1095,16 @@ function render(listing) {
 
   if (characteristicsEl) {
     const rows = normalizeCharacteristics(listing, facts, statusLabel, typeText);
+    if (isPrintView && String(accessText).trim()) {
+      const accessRow = { k: getLang() === "en" ? "Access" : "Accès", v: accessText };
+      const insertAfter = rows.findIndex((row) => {
+        const key = String(row?.k || "").trim().toLowerCase();
+        return key === "dernières rénovations" || key === "last renovation";
+      });
+      if (insertAfter >= 0) rows.splice(insertAfter + 1, 0, accessRow);
+      else rows.push(accessRow);
+      if (accessBlock instanceof HTMLElement) accessBlock.hidden = true;
+    }
     characteristicsEl.innerHTML = kvTableHtml(rows);
   }
 
@@ -1066,6 +1122,8 @@ function render(listing) {
     distancesBlock.hidden = false;
     if (distancesEl) distancesEl.innerHTML = distancesTableHtml(rows);
   }
+
+  updateListingPrint(listing, titleText);
 
   const openQuery = String(accessText || "").trim() || `${listing.locality}, ${regionText}, Suisse`;
   const openQ = encodeURIComponent(openQuery);
