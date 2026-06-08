@@ -339,6 +339,17 @@ body.menu-open .topbar::before{backdrop-filter:none}
 }
 .topbar-menu-btn:hover{transform:translateY(-1px);border-color:rgba(11,42,58,.45);background:rgba(255,255,255,.98);color:var(--accent2)}
 .topbar-menu-btn:active{transform:translateY(0)}
+@media (max-width: 720px){
+  .topbar-menu-btn svg{overflow:visible}
+  .topbar-menu-btn svg line{
+    transform-box:fill-box;
+    transform-origin:center;
+    transition:transform .28s cubic-bezier(.4,0,.2,1), opacity .18s ease;
+  }
+  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(1){transform:translateY(5px) rotate(45deg)}
+  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(2){opacity:0;transform:scaleX(.3)}
+  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(3){transform:translateY(-5px) rotate(-45deg)}
+}
 .topbar-actions .topbar-menu-btn,
 .topbar-actions > .btn.small:not(.primary){
   border:0;
