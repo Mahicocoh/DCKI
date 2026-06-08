@@ -346,6 +346,19 @@ body.menu-open .topbar::before{backdrop-filter:none}
     transform-origin:center;
     transition:transform .28s cubic-bezier(.4,0,.2,1), opacity .18s ease;
   }
+  .topbar-menu.open .topbar-menu-btn{
+    position:fixed;
+    top:16px;
+    right:16px;
+    z-index:281;
+    width:42px;
+    height:42px;
+    border-radius:10px;
+    border:1px solid rgba(15,23,32,.10);
+    background:rgba(255,255,255,.98);
+    box-shadow:0 10px 24px rgba(15,23,32,.12);
+    color:var(--accent2);
+  }
   .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(1){transform:translateY(5px) rotate(45deg)}
   .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(2){opacity:0;transform:scaleX(.3)}
   .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(3){transform:translateY(-5px) rotate(-45deg)}
