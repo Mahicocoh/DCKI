@@ -328,10 +328,10 @@ body.menu-open .topbar::before{backdrop-filter:none}
   color:var(--accent2);
   display:inline-flex;align-items:center;justify-content:center;
   cursor:pointer;
-  transition:transform .12s ease, border-color .12s ease, background .12s ease;
+  transition:transform .28s cubic-bezier(.22,1,.36,1), border-color .24s ease, background .24s ease, color .24s ease, box-shadow .24s ease;
 }
 .topbar-menu-btn svg{width:26px;height:26px}
-.topbar-menu-btn svg line{transition:transform .18s ease}
+.topbar-menu-btn svg line{transition:transform .24s cubic-bezier(.22,1,.36,1), opacity .16s ease}
 @media (hover: hover) and (pointer: fine){
   .topbar-menu-btn:hover svg line:nth-of-type(1){transform:translateX(2px)}
   .topbar-menu-btn:hover svg line:nth-of-type(2){transform:translateX(-2px)}
@@ -340,28 +340,29 @@ body.menu-open .topbar::before{backdrop-filter:none}
 .topbar-menu-btn:hover{transform:translateY(-1px);border-color:rgba(11,42,58,.45);background:rgba(255,255,255,.98);color:var(--accent2)}
 .topbar-menu-btn:active{transform:translateY(0)}
 @media (max-width: 720px){
+  .topbar-menu{--topbar-menu-mobile-offset:clamp(70px, 11vw, 82px)}
   .topbar-menu-btn svg{overflow:visible}
   .topbar-menu-btn svg line{
     transform-box:fill-box;
     transform-origin:center;
-    transition:transform .28s cubic-bezier(.4,0,.2,1), opacity .18s ease;
+    transition:transform .42s cubic-bezier(.22,1,.36,1), opacity .2s ease;
   }
   .topbar-menu.open .topbar-menu-btn{
     position:fixed;
-    top:16px;
-    right:16px;
+    top:20px;
+    right:14px;
     z-index:281;
     width:42px;
     height:42px;
     border-radius:10px;
     border:1px solid rgba(15,23,32,.10);
-    background:rgba(255,255,255,.98);
-    box-shadow:0 10px 24px rgba(15,23,32,.12);
+    background:rgba(255,255,255,.995);
+    box-shadow:0 14px 34px rgba(15,23,32,.16);
     color:var(--accent2);
   }
-  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(1){transform:translateY(5px) rotate(45deg)}
-  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(2){opacity:0;transform:scaleX(.3)}
-  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(3){transform:translateY(-5px) rotate(-45deg)}
+  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(1){transform:translateY(5px) rotate(45deg) scaleX(1.02)}
+  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(2){opacity:0;transform:scaleX(.12)}
+  .topbar-menu.open .topbar-menu-btn svg line:nth-of-type(3){transform:translateY(-5px) rotate(-45deg) scaleX(1.02)}
 }
 .topbar-actions .topbar-menu-btn,
 .topbar-actions > .btn.small:not(.primary){
@@ -844,6 +845,7 @@ body.menu-open{overflow:hidden}
 }
 
 @media (max-width: 880px){
+  .topbar-menu{--topbar-menu-mobile-offset:72px}
   .topbar-inner{flex-wrap:nowrap;justify-content:space-between}
   .topbar .nav{width:auto;flex-wrap:nowrap;overflow:auto;-webkit-overflow-scrolling:touch}
   .topbar .nav a{white-space:nowrap;padding:8px 10px;border-radius:0;font-size:13px}
@@ -852,12 +854,12 @@ body.menu-open{overflow:hidden}
   .topbar-menu.open .topbar-menu-overlay{opacity:1;visibility:visible}
   .topbar-menu-panel{
     position:fixed;
-    top:0;
+    top:var(--topbar-menu-mobile-offset);
     right:0;
-    height:100dvh;
+    height:calc(100dvh - var(--topbar-menu-mobile-offset));
     width:min(92vw, 720px);
     min-width:0;
-    padding:16px;
+    padding:18px 16px 16px;
     border-radius:0;
     border:0;
     background:#ffffff;
@@ -880,6 +882,7 @@ body.menu-open{overflow:hidden}
     flex:1 1 auto;
     overflow:auto;
     -webkit-overflow-scrolling:touch;
+    padding-top:10px;
     padding-bottom:12px;
   }
   .topbar-menu-links > a,
@@ -1329,7 +1332,7 @@ body[data-page="listing"] .distances-v{
   overflow:hidden;
   border-bottom:0;
   color:#ffffff;
-  background:#070b10 url("https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=2000&q=70") center/cover no-repeat;
+  background:#070b10;
 }
 .hero-content{animation:hero-content-in .9s cubic-bezier(.2,.8,.2,1) .05s both}
 @keyframes hero-content-in{
