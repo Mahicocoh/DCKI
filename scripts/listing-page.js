@@ -217,6 +217,7 @@ function mountListingPrint() {
       if (restored) return;
       restored = true;
       document.title = prevTitle;
+      document.body.classList.remove("print-preparing");
       if (!hadPrintView) document.body.classList.remove("print-view");
       restoreAmenityState(amenityState);
       window.removeEventListener("afterprint", restore);
@@ -228,6 +229,7 @@ function mountListingPrint() {
     }
 
     document.title = nextTitle;
+    document.body.classList.add("print-preparing");
     document.body.classList.add("print-view");
     window.addEventListener("afterprint", restore, { once: true });
 
