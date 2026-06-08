@@ -2729,9 +2729,9 @@ body[data-page="listing"] .pill.listing-pill .listing-pill-status::before{
   width:10px;
   height:10px;
   flex:0 0 10px;
-  background:#c8a14a;
+  background:linear-gradient(90deg, #c8a14a, #ff9f1c);
   border-radius:0;
-  box-shadow:0 0 0 1px rgba(200,161,74,.18);
+  box-shadow:0 0 0 1px rgba(200,161,74,.18), 0 2px 6px rgba(200,161,74,.22);
 }
 .pill.listing-pill .listing-pill-sep{
   opacity:.65;

@@ -197,7 +197,7 @@ const SEED_LISTINGS = [
       { label: "École", distance: "700 m", walk: "9 min", transit: "—", car: "2 min" },
       { label: "Commerces", distance: "450 m", walk: "5 min", transit: "—", car: "2 min" },
       { label: "Restaurants", distance: "600 m", walk: "5 min", transit: "—", car: "2 min" },
-      { label: "Transports publics (Gare)", distance: "500 m", walk: "6 min", transit: "—", car: "2 min" },
+      { label: "Gare", distance: "500 m", walk: "6 min", transit: "—", car: "2 min" },
       { label: "Bassecourt", distance: "5 km", walk: "—", transit: "4 min", car: "5 min" },
       { label: "Delémont", distance: "12 km", walk: "—", transit: "10 min", car: "12 min" },
       { label: "Porrentruy", distance: "16 km", walk: "—", transit: "12 min", car: "15 min" },
