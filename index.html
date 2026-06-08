@@ -201,8 +201,7 @@
 
     <main>
       <section class="hero">
-        <div class="hero-fallback" aria-hidden="true"></div>
-        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture>
+        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture x-webkit-airplay="deny" controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
           <source src="./assets/178.mp4" type="video/mp4" />
         </video>
         <div class="overlay"></div>
@@ -272,7 +271,9 @@
             v.muted = true;
             v.defaultMuted = true;
             v.playsInline = true;
+            v.disableRemotePlayback = true;
             v.preload = "auto";
+            v.controls = false;
             v.setAttribute("autoplay", "");
             v.setAttribute("loop", "");
             v.setAttribute("muted", "");
@@ -281,6 +282,8 @@
             v.setAttribute("webkit-playsinline", "");
             v.setAttribute("disableremoteplayback", "");
             v.setAttribute("disablepictureinpicture", "");
+            v.setAttribute("x-webkit-airplay", "deny");
+            v.setAttribute("controlslist", "nodownload nofullscreen noplaybackrate noremoteplayback");
             v.removeAttribute("controls");
           };
 
