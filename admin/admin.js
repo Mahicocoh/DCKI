@@ -40,6 +40,18 @@ let stateTags = [];
 let stateGallery = [];
 let dragIndex = null;
 
+async function ensureAdminSession() {
+  try {
+    const res = await fetch("/api/admin/session", { cache: "no-store" });
+    const data = await res.json().catch(() => ({}));
+    if (res.ok && data?.authed) return true;
+  } catch {}
+
+  const next = encodeURIComponent(window.location.pathname + window.location.search);
+  window.location.replace(`/admin/login.html?next=${next}`);
+  return false;
+}
+
 initI18n();
 mountToTopFab();
 
@@ -499,6 +511,9 @@ galleryHost?.addEventListener("drop", (e) => {
   setGallery(next);
 });
 
-load().catch(() => {
-  window.location.replace("/admin/login.html");
+void ensureAdminSession().then((ok) => {
+  if (!ok) return;
+  load().catch(() => {
+    window.location.replace("/admin/login.html");
+  });
 });

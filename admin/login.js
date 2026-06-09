@@ -8,11 +8,19 @@ const form = document.querySelector("[data-admin-login]");
 const hint = document.querySelector("[data-admin-login-hint]");
 
 initI18n();
-mountToTopFab();
 
 if (hint) {
   hint.textContent = t("admin.login.tip");
 }
+
+void fetch("/api/admin/session", { cache: "no-store" })
+  .then((res) => res.json().catch(() => ({})))
+  .then((data) => {
+    if (data?.authed) {
+      window.location.replace(next);
+    }
+  })
+  .catch(() => {});
 
 form?.addEventListener("submit", async (e) => {
   e.preventDefault();

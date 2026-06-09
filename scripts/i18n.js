@@ -3459,6 +3459,9 @@ function applyAdminPage() {
 }
 
 export function mountLanguageToggle() {
+  const page = document.body?.getAttribute("data-page") || "";
+  if (page === "admin" || page === "admin-login") return;
+
   const host =
     document.querySelector(".topbar-menu-panel .topbar-menu-card-networks") ||
     document.querySelector(".topbar-menu-card-networks") ||

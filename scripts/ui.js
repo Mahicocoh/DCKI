@@ -1915,33 +1915,56 @@ export function mountToTopFab() {
   update();
   window.setTimeout(update, 140);
 
-  a.addEventListener("click", () => {
+  const smoothScrollToTop = (duration = 700) => {
+    const start = getScrollTop();
+    if (start <= 0) return;
+
+    const startTime = performance.now();
+    const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3);
+
+    const step = (now) => {
+      const progress = Math.min(1, (now - startTime) / duration);
+      const nextTop = Math.max(0, Math.round(start * (1 - easeOutCubic(progress))));
+
+      try {
+        window.scrollTo(0, nextTop);
+      } catch {}
+      try {
+        if (scroller && typeof scroller.scrollTo === "function") scroller.scrollTo(0, nextTop);
+      } catch {}
+      try {
+        document.documentElement.scrollTop = nextTop;
+        document.body.scrollTop = nextTop;
+      } catch {}
+
+      if (progress < 1) window.requestAnimationFrame(step);
+    };
+
+    window.requestAnimationFrame(step);
+  };
+
+  a.addEventListener("click", (e) => {
+    e.preventDefault();
     document.body.classList.remove("menu-open");
     for (const menu of document.querySelectorAll("[data-topbar-menu]")) menu.classList.remove("open");
 
-    const topEl = document.getElementById("top");
-    const doScroll = () => {
-      try {
-        if (topEl && typeof topEl.scrollIntoView === "function") topEl.scrollIntoView(true);
-      } catch (_err0) {}
+    const isMobile = window.matchMedia ? window.matchMedia("(max-width: 720px)").matches : window.innerWidth <= 720;
+    if (isMobile) {
+      smoothScrollToTop(1100);
+      return;
+    }
 
+    try {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch {
       try {
         if (scroller && typeof scroller.scrollTo === "function") scroller.scrollTo(0, 0);
-      } catch (_err1) {}
-
-      try {
-        window.scrollTo(0, 0);
-      } catch (_err2) {}
-
+      } catch {}
       try {
         document.documentElement.scrollTop = 0;
         document.body.scrollTop = 0;
-      } catch (_err3) {}
-    };
-
-    doScroll();
-    window.requestAnimationFrame(doScroll);
-    window.setTimeout(doScroll, 80);
+      } catch {}
+    }
   });
 
   document.body.appendChild(a);
