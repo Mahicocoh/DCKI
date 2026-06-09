@@ -833,7 +833,7 @@ body.menu-open{overflow:hidden}
     height:100dvh;
     width:min(92vw, 720px);
     min-width:0;
-    padding:16px;
+    padding:16px 16px 16px 86px;
     border-radius:0;
     border:0;
     background:#ffffff;
@@ -847,6 +847,36 @@ body.menu-open{overflow:hidden}
     overflow:hidden;
     pointer-events:none;
   }
+  .topbar-menu-panel::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:64px;
+    background:
+      linear-gradient(180deg, rgba(9,19,28,.18), rgba(9,19,28,.56)),
+      url("../assets/1.jpg") center 16px / 54px auto no-repeat,
+      linear-gradient(180deg, rgba(245,246,248,.98), rgba(226,229,234,.94));
+    border-right:1px solid rgba(15,23,32,.08);
+    box-shadow:inset -1px 0 0 rgba(255,255,255,.45);
+  }
+  .topbar-menu-panel::after{
+    content:"\2192";
+    position:absolute;
+    left:18px;
+    top:104px;
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#c8a14a;
+    font-size:20px;
+    font-weight:900;
+    text-shadow:0 6px 16px rgba(15,23,32,.26);
+    z-index:1;
+  }
   .topbar-menu.open .topbar-menu-panel{transform:translateX(0);pointer-events:auto}
   .topbar-menu-footer{
     margin-top:14px;
@@ -857,6 +887,8 @@ body.menu-open{overflow:hidden}
     overflow:auto;
     -webkit-overflow-scrolling:touch;
     padding-bottom:12px;
+    position:relative;
+    z-index:1;
   }
   .topbar-menu-links > a,
   .topbar-menu-links > .topbar-menu-useful > .topbar-menu-useful-btn{
@@ -904,6 +936,10 @@ body.menu-open{overflow:hidden}
   }
   .topbar-menu-links a .nav-ico{display:inline-flex}
   .topbar-menu-footer{margin-top:14px}
+  .topbar-menu-footer{
+    position:relative;
+    z-index:1;
+  }
 }
 
 .listing-link{display:block}
