@@ -1106,6 +1106,17 @@ body[data-page="listing"] .listing-print-head{display:none}
     right:0;
     justify-content:flex-end;
   }
+  body[data-page="listing"] .listing-share-pop .social-btn{
+    font-size:0;
+    line-height:0;
+    text-indent:-9999px;
+    white-space:nowrap;
+    overflow:hidden;
+  }
+  body[data-page="listing"] .listing-share-pop .social-btn svg{
+    flex:0 0 auto;
+    text-indent:0;
+  }
 }
 @media screen{
   body[data-page="listing"].print-preparing{
@@ -1465,6 +1476,25 @@ body[data-page="listing"].print-view .listing-print-section--media{
     margin-top:8px;
     padding-top:8px;
   }
+  body[data-page="listing"].print-view .listing-print-summary-main{
+    width:100%;
+  }
+  body[data-page="listing"].print-view .listing-print-summary .listing-pill{
+    order:1;
+  }
+  body[data-page="listing"].print-view .listing-print-summary .listing-price{
+    order:2;
+    align-self:flex-start;
+  }
+  body[data-page="listing"].print-view .listing-print-summary .meta:not(.listing-print-summary-availability){
+    order:3;
+  }
+  body[data-page="listing"].print-view .listing-print-summary .listing-print-summary-availability{
+    order:4;
+  }
+  body[data-page="listing"].print-view .listing-print-summary .facts{
+    order:5;
+  }
   body[data-page="listing"].print-view .listing-print-summary .meta{
     grid-template-columns:repeat(2, minmax(0, 1fr));
     gap:5px;
@@ -1494,8 +1524,12 @@ body[data-page="listing"].print-view .listing-print-section--media{
   }
   body[data-page="listing"].print-view .listing-print-thumbs{
     grid-template-columns:repeat(3, minmax(0, 1fr));
-    gap:4px;
+    width:100%;
+    gap:3px;
     margin:0 0 6px;
+  }
+  body[data-page="listing"].print-view .listing-print-thumb{
+    min-width:0;
   }
   body[data-page="listing"].print-view .listing-print-thumb img{
     height:100%;
