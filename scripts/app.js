@@ -1,13 +1,13 @@
-import { mountLoader } from "./loader.js?v=202606081300";
-import { initI18n } from "./i18n.js?v=202606081300";
-import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate } from "./ui.js?v=202606081300";
-import { initRecherche } from "./recherche.js?v=202606081300";
-import { initBiens } from "./biens.js?v=202606081300";
-import { initHome } from "./home.js?v=202606081300";
-import { initVideoFallbacks } from "./video-fallback.js?v=202606081300";
-import { initListingPage } from "./listing-page.js?v=202606081300";
-import { initVoiceSearch } from "./voice-search.js?v=202606081300";
-import { initComingSoon } from "./coming-soon.js?v=202606081300";
+import { mountLoader } from "./loader.js?v=202606081915";
+import { initI18n } from "./i18n.js?v=202606081915";
+import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate } from "./ui.js?v=202606081915";
+import { initRecherche } from "./recherche.js?v=202606081915";
+import { initBiens } from "./biens.js?v=202606081915";
+import { initHome } from "./home.js?v=202606081915";
+import { initVideoFallbacks } from "./video-fallback.js?v=202606081915";
+import { initListingPage } from "./listing-page.js?v=202606081915";
+import { initVoiceSearch } from "./voice-search.js?v=202606081915";
+import { initComingSoon } from "./coming-soon.js?v=202606081915";
 
 const FALLBACK_PUBLIC_BASE_URL = "https://dckimmo.ch/";
 const FALLBACK_CONTACT_EMAIL = "contact@dckimmo.ch";
