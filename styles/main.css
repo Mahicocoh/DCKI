@@ -8418,7 +8418,12 @@ body[data-page="listing"] .map iframe{pointer-events:none}
   .hero .overlay{background:linear-gradient(180deg, rgba(7,11,16,.18), rgba(7,11,16,.46) 62%, rgba(7,11,16,.62))}
   .topbar{background:#ffffff;backdrop-filter:none}
   .topbar::before{background:#ffffff;backdrop-filter:none}
-  .brand img{height:56px;filter:brightness(1.03) contrast(1.03)}
+  .brand img{
+    height:56px;
+    filter:brightness(1.03) contrast(1.03);
+    clip-path:inset(4px 3px 5px 3px);
+    mix-blend-mode:multiply;
+  }
   .topbar-inner{padding:8px 0}
   .topbar .nav{gap:4px}
   .topbar .nav a{padding:6px 6px;border-radius:9px;font-size:11px}
