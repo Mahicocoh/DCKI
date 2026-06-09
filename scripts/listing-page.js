@@ -97,12 +97,7 @@ async function copyToClipboard(text) {
 
 function getShareUrl(listing) {
   try {
-    const isLocal =
-      /^localhost$/i.test(window.location.hostname || "") ||
-      /^127(?:\.\d+){3}$/i.test(window.location.hostname || "") ||
-      /^0\.0\.0\.0$/i.test(window.location.hostname || "");
-
-    const u = isLocal ? new URL("bien.html", window.location.origin) : new URL("/bien", window.location.origin);
+    const u = new URL("bien.html", window.location.origin);
     u.searchParams.set("id", String(listing?.id || ""));
     return u.toString();
   } catch {
@@ -258,97 +253,6 @@ function mountListingPrint() {
         window.setTimeout(restore, 45000);
       });
   });
-}
-
-function updateListingJsonLd(listing, titleText, descText, statusLabel) {
-  const host = document.head || document.documentElement;
-  if (!(host instanceof HTMLElement)) return;
-
-  const existing = document.getElementById("dcki-jsonld");
-  const script = existing instanceof HTMLScriptElement ? existing : document.createElement("script");
-  script.id = "dcki-jsonld";
-  script.type = "application/ld+json";
-
-  const toAbs = (u) => {
-    const s = String(u || "").trim();
-    if (!s) return "";
-    try {
-      return new URL(s, window.location.origin || getPublicBaseUrl()).toString();
-    } catch {
-      return s;
-    }
-  };
-
-  const uniq = (arr) => {
-    const out = [];
-    const set = new Set();
-    for (const v of Array.isArray(arr) ? arr : []) {
-      const s = String(v || "").trim();
-      if (!s) continue;
-      const k = s.toLowerCase();
-      if (set.has(k)) continue;
-      set.add(k);
-      out.push(s);
-    }
-    return out;
-  };
-
-  const cleanText = (s) =>
-    String(s ?? "")
-      .replace(/<[^>]*>/g, " ")
-      .replace(/\s+/g, " ")
-      .trim();
-
-  const url = (() => {
-    try {
-      return getShareUrl(listing);
-    } catch {
-      return "";
-    }
-  })();
-
-  const images = uniq([listing?.image, ...(Array.isArray(listing?.gallery) ? listing.gallery : [])])
-    .map(toAbs)
-    .filter(Boolean)
-    .slice(0, 10);
-
-  const isSold = String(statusLabel || "").trim().toLowerCase() === String(t("status.sold") || "").trim().toLowerCase();
-  const isRented = String(statusLabel || "").trim().toLowerCase() === String(t("status.rented") || "").trim().toLowerCase();
-  const availability = isSold || isRented ? "https://schema.org/SoldOut" : "https://schema.org/InStock";
-
-  const actionType = listing?.category === "sale" ? "BuyAction" : "RentAction";
-
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "RealEstateListing",
-    name: cleanText(titleText || listing?.title || ""),
-    url: url || undefined,
-    image: images.length ? images : undefined,
-    description: cleanText(descText || listing?.description || "") || undefined,
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: String(listing?.locality || "").trim() || undefined,
-      addressRegion: String(listing?.region || "").trim() || undefined,
-      addressCountry: "CH",
-    },
-    offers: {
-      "@type": "Offer",
-      priceCurrency: "CHF",
-      price: Number.isFinite(Number(listing?.price)) ? Number(listing.price) : undefined,
-      availability,
-      potentialAction: { "@type": actionType },
-      url: url || undefined,
-    },
-    numberOfRooms: Number.isFinite(Number(listing?.rooms)) ? Number(listing.rooms) : undefined,
-    floorSize: Number.isFinite(Number(listing?.surface))
-      ? { "@type": "QuantitativeValue", value: Number(listing.surface), unitText: "MTK" }
-      : undefined,
-  };
-
-  const compact = JSON.parse(JSON.stringify(schema));
-  script.textContent = JSON.stringify(compact);
-
-  if (!existing) host.appendChild(script);
 }
 
 function updateListingShare(listing, titleText) {
@@ -1203,7 +1107,6 @@ function render(listing) {
   mountListingPrint();
   updateListingShare(listing, titleText);
   updateListingPrint(listing, titleText);
-  updateListingJsonLd(listing, titleText, descText, statusLabel);
 
   if (factsEl) {
     factsEl.innerHTML = topFactsHtml
