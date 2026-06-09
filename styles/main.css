@@ -1152,6 +1152,12 @@ body[data-page="listing"].print-view{
   -webkit-print-color-adjust:exact;
   print-color-adjust:exact;
 }
+body[data-page="listing"].print-view::before,
+body[data-page="listing"].print-view::after{
+  content:none !important;
+  display:none !important;
+  background:none !important;
+}
 body[data-page="listing"].print-view,
 body[data-page="listing"].print-view main,
 body[data-page="listing"].print-view .section,
@@ -1298,13 +1304,16 @@ body[data-page="listing"].print-view .listing-print-summary .listing-print-summa
   font-size:10px;
 }
 body[data-page="listing"].print-view .listing-print-summary .listing-price{
-  margin-top:6px;
+  margin-top:4px;
   padding:7px 10px;
   font-size:20px;
   display:inline-flex;
   align-items:center;
   width:auto;
   max-width:100%;
+}
+body[data-page="listing"].print-view .listing-print-summary .listing-price + .meta{
+  margin-top:6px !important;
 }
 body[data-page="listing"].print-view .listing-print-summary .facts{
   margin-top:6px !important;
@@ -1377,11 +1386,12 @@ body[data-page="listing"].print-view .listing-print-thumb{
   border:1px solid rgba(15,23,32,.08);
   background:#ffffff;
   overflow:hidden;
+  aspect-ratio:1 / 1;
 }
 body[data-page="listing"].print-view .listing-print-thumb img{
   width:100%;
-  height:112px;
-  aspect-ratio:auto;
+  height:100%;
+  aspect-ratio:1 / 1;
   object-fit:cover;
   display:block;
 }
@@ -1483,11 +1493,13 @@ body[data-page="listing"].print-view .listing-print-section--media{
     max-height:200px;
   }
   body[data-page="listing"].print-view .listing-print-thumbs{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
     gap:4px;
     margin:0 0 6px;
   }
   body[data-page="listing"].print-view .listing-print-thumb img{
-    height:72px;
+    height:100%;
+    aspect-ratio:1 / 1;
   }
   body[data-page="listing"].print-view .listing-print-section{
     margin:0 0 8px;
@@ -1578,6 +1590,12 @@ body[data-page="listing"].print-view abbr[title]::after{
 }
 @media print{
   @page{size:A4;margin:8mm}
+  body[data-page="listing"]::before,
+  body[data-page="listing"]::after{
+    content:none !important;
+    display:none !important;
+    background:none !important;
+  }
   html,body{background:#ffffff !important;height:auto !important;overflow:visible !important}
   body[data-page="listing"] .topbar,
   body[data-page="listing"] .footer,
@@ -1671,11 +1689,12 @@ body[data-page="listing"].print-view abbr[title]::after{
     border:0.3mm solid rgba(15,23,32,.08);
     background:#ffffff;
     overflow:hidden;
+    aspect-ratio:1 / 1;
   }
   body[data-page="listing"] .listing-print-thumb img{
     width:100%;
-    height:18mm;
-    aspect-ratio:auto;
+    height:100%;
+    aspect-ratio:1 / 1;
     object-fit:cover;
     display:block;
   }

@@ -16,6 +16,10 @@
       "source": "/data/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "no-store" }]
     }
+  ],
+  "rewrites": [
+    { "source": "/bien", "destination": "/api/bien" },
+    { "source": "/bien/", "destination": "/api/bien" }
   ]
 }
 

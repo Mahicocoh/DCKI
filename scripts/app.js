@@ -59,10 +59,14 @@ function applyRuntimeSiteConfig() {
 
   document.querySelectorAll('a[href^="mailto:"]').forEach((link) => {
     if (!(link instanceof HTMLAnchorElement)) return;
+    if (link.closest("[data-listing-share]")) return;
+    if (link.classList.contains("social-btn")) return;
 
     const currentText = String(link.textContent || "").trim();
     const currentHref = String(link.getAttribute("href") || "").trim();
+    const canReplaceText = link.childElementCount === 0;
     const shouldReplaceText =
+      canReplaceText &&
       !currentText ||
       currentText === FALLBACK_CONTACT_EMAIL ||
       /^contact@/i.test(currentText);
