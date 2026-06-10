@@ -62,6 +62,7 @@ export function mountLoader() {
     window.clearInterval(timer);
     bar.style.width = "100%";
     window.setTimeout(() => {
+      document.body?.classList.remove("loader-active");
       el.style.opacity = "0";
       el.style.transition = "opacity .22s ease";
       window.setTimeout(() => el.remove(), 260);

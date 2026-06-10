@@ -9,9 +9,62 @@
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
     <link rel="preload" href="./assets/178.mp4" as="video" type="video/mp4" fetchpriority="high" />
+    <style>
+      body.loader-active{
+        overflow:hidden;
+        background:#ffffff;
+      }
+      body.loader-active > :not(.loader[data-loader-root]){
+        visibility:hidden;
+      }
+      .loader[data-loader-root]{
+        position:fixed;
+        inset:0;
+        z-index:9999;
+        background:#ffffff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+      .loader[data-loader-root] .box{
+        width:min(560px, calc(100% - 32px));
+        border-radius:22px;
+        background:rgba(255,255,255,.96);
+        box-shadow:0 22px 70px rgba(15,23,32,.12);
+        padding:22px 20px;
+      }
+      .loader[data-loader-root] .logo{
+        display:flex;
+        justify-content:center;
+      }
+      .loader[data-loader-root] .logo img{
+        width:min(380px, 92%);
+        height:auto;
+      }
+      .loader[data-loader-root] .bar{
+        margin-top:16px;
+        height:10px;
+        border-radius:999px;
+        overflow:hidden;
+        background:rgba(15,23,32,.08);
+        border:1px solid rgba(15,23,32,.10);
+      }
+      .loader[data-loader-root] .bar > div{
+        height:100%;
+        width:0%;
+        border-radius:999px;
+        background:linear-gradient(90deg, #caa74f 0%, #e2c980 100%);
+      }
+      .loader[data-loader-root] .hint{
+        margin:12px 0 0;
+        text-align:center;
+        color:rgba(15,23,32,.68);
+        font-size:13px;
+      }
+    </style>
     <link rel="stylesheet" href="./styles/main.css?v=202606081915" />
   </head>
-  <body data-page="home">
+  <body data-page="home" class="loader-active">
     <div class="loader" data-loader-root="1">
       <div class="box">
         <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
