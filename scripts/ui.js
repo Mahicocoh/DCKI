@@ -31,24 +31,7 @@ export function mountTopbarMenu() {
   };
   const autoScrollUseful = (menu, useful) => {
     if (!isMobile()) return;
-    const panel = getPanel(menu);
-    if (!(panel instanceof HTMLElement) || !(useful instanceof HTMLElement)) return;
-    const doScroll = () => {
-      const pr = panel.getBoundingClientRect();
-      const ur = useful.getBoundingClientRect();
-      const deltaTop = ur.top - pr.top;
-      const targetTop = panel.scrollTop + deltaTop - 10;
-      if (Number.isFinite(targetTop)) {
-        panel.scrollTo({ top: Math.max(0, targetTop), behavior: "smooth" });
-      }
-      const ur2 = useful.getBoundingClientRect();
-      if (ur2.bottom > pr.bottom - 14) {
-        const deltaBottom = ur2.bottom - pr.bottom + 14;
-        panel.scrollTo({ top: panel.scrollTop + deltaBottom, behavior: "smooth" });
-      }
-    };
-    window.setTimeout(doScroll, 30);
-    window.setTimeout(doScroll, 160);
+    if (!(menu instanceof HTMLElement) || !(useful instanceof HTMLElement)) return;
   };
 
   document.body.classList.remove("menu-open");

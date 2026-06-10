@@ -876,6 +876,9 @@ body.menu-open{overflow:hidden}
     pointer-events:none;
     overscroll-behavior:contain;
     -webkit-overflow-scrolling:touch;
+    display:grid;
+    grid-template-rows:minmax(0, 1fr) auto;
+    gap:8px;
   }
   .topbar-menu-panel::before{
     content:none;
@@ -892,32 +895,39 @@ body.menu-open{overflow:hidden}
   .topbar-menu-footer{
     margin-top:6px;
     padding:8px 8px max(8px, env(safe-area-inset-bottom));
-    position:sticky;
-    bottom:0;
-    z-index:2;
+    position:relative;
+    z-index:1;
     background:#ffffff;
-    box-shadow:0 -10px 22px rgba(15,23,32,.06);
+    box-shadow:none;
+    margin-top:0;
+    flex-shrink:0;
   }
   .topbar-menu-links{
     flex:1 1 auto;
     min-height:0;
-    overflow:auto;
-    -webkit-overflow-scrolling:touch;
-    padding-bottom:10px;
-  }
-  .topbar-menu-useful-links{
-    max-height:min(26svh, 220px);
     overflow:hidden;
     -webkit-overflow-scrolling:touch;
-    overscroll-behavior:contain;
+    padding-bottom:8px;
+  }
+  .topbar-menu-useful{
+    min-height:0;
+  }
+  .topbar-menu-useful-links{
+    max-height:0;
+    overflow:hidden;
     padding-left:0;
-    padding-right:10px;
-    scrollbar-width:thin;
-    scrollbar-color:rgba(200,161,74,.72) rgba(15,23,32,.08);
+    padding-right:0;
   }
   .topbar-menu-useful.open .topbar-menu-useful-links{
-    overflow-y:scroll;
+    display:flex;
+    max-height:min(24svh, 180px);
+    overflow-y:auto;
     overflow-x:hidden;
+    padding-right:8px;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(200,161,74,.72) rgba(15,23,32,.08);
   }
   .topbar-menu-useful-links::-webkit-scrollbar{
     width:4px;
@@ -925,12 +935,10 @@ body.menu-open{overflow:hidden}
   .topbar-menu-useful-links::-webkit-scrollbar-track{
     background:rgba(15,23,32,.08);
     border-radius:999px;
-    border:0;
   }
   .topbar-menu-useful-links::-webkit-scrollbar-thumb{
     background:rgba(200,161,74,.72);
     border-radius:999px;
-    border:0;
   }
   .topbar-menu-useful-links::-webkit-scrollbar-thumb:hover{
     background:rgba(200,161,74,.92);
