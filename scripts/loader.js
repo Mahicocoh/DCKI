@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=202606102540";
+import { t } from "./i18n.js?v=202606102610";
 
 export function mountLoader() {
   let isInternalNavigation = false;
@@ -8,11 +8,55 @@ export function mountLoader() {
   } catch {}
 
   if (isInternalNavigation) {
-    document.body?.classList.remove("loader-active");
-    document.body?.classList.remove("reload-masking");
-    document.documentElement?.classList.remove("boot-loading");
-    document.documentElement?.classList.remove("snapshot-blank");
     document.querySelector(".loader[data-loader-root]")?.remove();
+
+    const page = document.body?.getAttribute("data-page") || "";
+    const shouldWaitForHeroVideo = page === "home";
+    let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
+    let heroReady = !shouldWaitForHeroVideo;
+
+    if (shouldWaitForHeroVideo) {
+      const hero = document.querySelector(".hero");
+      const video = document.querySelector(".hero .hero-video");
+      heroReady = Boolean(
+        hero?.classList.contains("video-visible") ||
+        hero?.classList.contains("video-ready") ||
+        hero?.classList.contains("video-failed") ||
+        video?.getAttribute("data-show-controls") === "1"
+      );
+    }
+
+    let released = false;
+    const release = () => {
+      if (released) return;
+      if (!pageLoaded || !heroReady) return;
+      released = true;
+      document.body?.classList.remove("loader-active");
+      document.body?.classList.remove("reload-masking");
+      document.documentElement?.classList.remove("boot-loading");
+      document.documentElement?.classList.remove("snapshot-blank");
+    };
+
+    if (!pageLoaded) {
+      const eventName = shouldWaitForHeroVideo ? "DOMContentLoaded" : "load";
+      window.addEventListener(eventName, () => {
+        pageLoaded = true;
+        release();
+      }, { once: true });
+    }
+
+    if (shouldWaitForHeroVideo && !heroReady) {
+      const onHeroReady = () => {
+        heroReady = true;
+        release();
+      };
+      window.addEventListener("dcki:hero-video-visible", onHeroReady, { once: true });
+      window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
+      window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
+      window.setTimeout(onHeroReady, 1800);
+    }
+
+    release();
     return;
   }
 
@@ -27,8 +71,8 @@ export function mountLoader() {
         <div class="bar" aria-label="${t("loader.barAria")}"><div></div></div>
         <div class="status">
           <div class="status-line">
-            <svg class="status-spinner" viewBox="0 0 50 50" aria-hidden="true">
-              <circle class="head" cx="25" cy="25" r="20"></circle>
+            <svg class="status-spinner" viewBox="0 0 50 50" width="13" height="13" aria-hidden="true">
+              <circle class="head" cx="25" cy="25" r="20" fill="none" stroke="#caa74f" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="18 100"></circle>
             </svg>
             <p class="hint">${t("loader.hint")}</p>
           </div>

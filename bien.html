@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,9 +9,176 @@
     <meta name="dcki-public-base-url" content="https://dckimmo.ch/" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
-    <link rel="stylesheet" href="./styles/main.css?v=202606101930" />
+    <script>
+      document.documentElement.classList.add("boot-loading");
+    </script>
+    <style>
+      html.boot-loading,
+      html.snapshot-blank,
+      html.boot-loading body{
+        background:#ffffff;
+      }
+      html.snapshot-blank body{
+        background:#ffffff;
+      }
+      html.boot-loading body,
+      body.loader-active{
+        overflow:hidden;
+        background:#ffffff;
+      }
+      .boot-mask[data-boot-mask]{
+        position:fixed;
+        inset:0;
+        z-index:9998;
+        background:#ffffff;
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+        transition:none;
+        will-change:opacity;
+        transform:translateZ(0);
+      }
+      html.boot-loading body > :not(.loader[data-loader-root]):not(.boot-mask[data-boot-mask]),
+      body.loader-active > :not(.loader[data-loader-root]):not(.boot-mask[data-boot-mask]){
+        opacity:0;
+        visibility:hidden;
+        pointer-events:none;
+        transition:none !important;
+      }
+      body.reload-masking > :not(.loader[data-loader-root]):not(.boot-mask[data-boot-mask]){
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+        transition:none !important;
+      }
+      html.snapshot-blank body > :not(.boot-mask[data-boot-mask]){
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+        transition:none !important;
+      }
+      html.boot-loading body > .boot-mask[data-boot-mask],
+      body.loader-active > .boot-mask[data-boot-mask],
+      body.reload-masking > .boot-mask[data-boot-mask],
+      html.snapshot-blank body > .boot-mask[data-boot-mask]{
+        opacity:1;
+        visibility:visible;
+      }
+      html.boot-loading body > .loader[data-loader-root],
+      body.loader-active > .loader[data-loader-root]{
+        opacity:1;
+        visibility:visible;
+        pointer-events:auto;
+      }
+      body.reload-masking > .loader[data-loader-root]{
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+      }
+      .loader[data-loader-root]{
+        position:fixed;
+        inset:0;
+        z-index:9999;
+        background:#ffffff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      }
+      .loader[data-loader-root] .box{
+        width:min(560px, calc(100% - 32px));
+        border-radius:22px;
+        background:rgba(255,255,255,.96);
+        box-shadow:0 22px 70px rgba(15,23,32,.12);
+        padding:22px 20px;
+      }
+      .loader[data-loader-root] .logo{
+        display:flex;
+        justify-content:center;
+      }
+      .loader[data-loader-root] .logo img{
+        width:min(380px, 92%);
+        height:auto;
+      }
+      .loader[data-loader-root] .bar{
+        margin-top:16px;
+        height:10px;
+        border-radius:999px;
+        overflow:hidden;
+        background:rgba(15,23,32,.08);
+        border:1px solid rgba(15,23,32,.10);
+      }
+      .loader[data-loader-root] .bar > div{
+        height:100%;
+        width:0%;
+        border-radius:999px;
+        background:linear-gradient(90deg, #caa74f 0%, #e2c980 100%);
+      }
+      .loader[data-loader-root] .hint{
+        margin:0;
+        color:rgba(15,23,32,.68);
+        font-size:13px;
+        line-height:1.2;
+      }
+      .loader[data-loader-root] .status{
+        margin-top:12px;
+        display:grid;
+        gap:6px;
+        justify-items:center;
+      }
+      .loader[data-loader-root] .status-line{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        color:rgba(15,23,32,.72);
+      }
+      .loader[data-loader-root] .status-spinner{
+        display:inline-block;
+        flex:0 0 13px;
+        width:13px;
+        height:13px;
+        box-sizing:border-box;
+        animation:loaderSpin .8s linear infinite;
+        transform-origin:center;
+      }
+      .loader[data-loader-root] .status-spinner circle{
+        fill:none;
+        stroke-width:3.2;
+      }
+      .loader[data-loader-root] .status-spinner .head{
+        stroke:#caa74f;
+        stroke-linecap:round;
+        stroke-dasharray:18 100;
+      }
+      .loader[data-loader-root] .subhint{
+        margin:0;
+        text-align:center;
+        color:rgba(15,23,32,.52);
+        font-size:11px;
+        line-height:1.35;
+      }
+      @keyframes loaderSpin{
+        to{transform:rotate(360deg)}
+      }
+    </style>    <link rel="stylesheet" href="./styles/main.css?v=202606101930" />
   </head>
-  <body data-page="listing">
+  <body data-page="listing" class="loader-active" style="background:#ffffff">
+    <div class="boot-mask" data-boot-mask="1" aria-hidden="true"></div>
+    <div class="loader" data-loader-root="1">
+      <div class="box">
+        <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
+        <div class="bar" aria-label="Chargement"><div></div></div>
+        <div class="status">
+          <div class="status-line">
+            <svg class="status-spinner" viewBox="0 0 50 50" width="13" height="13" aria-hidden="true">
+              <circle class="head" cx="25" cy="25" r="20" fill="none" stroke="#caa74f" stroke-width="3.2" stroke-linecap="round" stroke-dasharray="18 100"></circle>
+            </svg>
+            <p class="hint">Chargement du site DCKIMMO.CH</p>
+          </div>
+          <p class="subhint">Merci de patienter, nous préparons votre expérience.</p>
+        </div>
+      </div>
+    </div>
     <header class="topbar">
       <div class="container topbar-inner">
         <a class="brand" href="./index.html" aria-label="Aller à l’accueil">
@@ -616,7 +783,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606102540"></script>
+    <script type="module" src="./scripts/app.js?v=202606102700"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
