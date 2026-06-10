@@ -2297,7 +2297,7 @@ body[data-page="listing"] .distances-v{
   overflow:hidden;
   border-bottom:0;
   color:#ffffff;
-  background:#070b10;
+  background:transparent;
 }
 .hero-content{animation:hero-content-in .9s cubic-bezier(.2,.8,.2,1) .05s both}
 @keyframes hero-content-in{
@@ -2446,7 +2446,7 @@ body[data-page="listing"] .distances-v{
   object-fit:cover;
   filter:saturate(1.08) contrast(1.02) brightness(.92);
   z-index:0;
-  background:#070b10;
+  background:transparent;
   opacity:1;
   pointer-events:none;
   transition:none;
