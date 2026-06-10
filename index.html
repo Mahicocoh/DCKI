@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -114,13 +114,54 @@
         background:linear-gradient(90deg, #caa74f 0%, #e2c980 100%);
       }
       .loader[data-loader-root] .hint{
-        margin:12px 0 0;
-        text-align:center;
+        margin:0;
         color:rgba(15,23,32,.68);
         font-size:13px;
+        line-height:1.2;
+      }
+      .loader[data-loader-root] .status{
+        margin-top:12px;
+        display:grid;
+        gap:6px;
+        justify-items:center;
+      }
+      .loader[data-loader-root] .status-line{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        color:rgba(15,23,32,.72);
+      }
+      .loader[data-loader-root] .status-spinner{
+        display:inline-block;
+        flex:0 0 13px;
+        width:13px;
+        height:13px;
+        box-sizing:border-box;
+        animation:loaderSpin .8s linear infinite;
+        transform-origin:center;
+      }
+      .loader[data-loader-root] .status-spinner circle{
+        fill:none;
+        stroke-width:3.2;
+      }
+      .loader[data-loader-root] .status-spinner .head{
+        stroke:#caa74f;
+        stroke-linecap:round;
+        stroke-dasharray:18 100;
+      }
+      .loader[data-loader-root] .subhint{
+        margin:0;
+        text-align:center;
+        color:rgba(15,23,32,.52);
+        font-size:11px;
+        line-height:1.35;
+      }
+      @keyframes loaderSpin{
+        to{transform:rotate(360deg)}
       }
     </style>
-    <link rel="stylesheet" href="./styles/main.css?v=202606102010" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606101930" />
   </head>
   <body data-page="home" class="loader-active" style="background:#ffffff">
     <div class="boot-mask" data-boot-mask="1" aria-hidden="true"></div>
@@ -128,7 +169,15 @@
       <div class="box">
         <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
         <div class="bar" aria-label="Chargement"><div></div></div>
-        <p class="hint">Chargement de DCKIMMO.CH</p>
+        <div class="status">
+          <div class="status-line">
+            <svg class="status-spinner" viewBox="0 0 50 50" aria-hidden="true">
+              <circle class="head" cx="25" cy="25" r="20"></circle>
+            </svg>
+            <p class="hint">Chargement du site DCKIMMO.CH</p>
+          </div>
+          <p class="subhint">Merci de patienter, nous préparons votre expérience.</p>
+        </div>
       </div>
     </div>
     <a id="top"></a>
@@ -1489,18 +1538,33 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606102255"></script>
+    <script type="module" src="./scripts/app.js?v=202606102540"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
+        const loaderMarkup = `
+          <div class="box">
+            <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
+            <div class="bar" aria-label="Chargement"><div></div></div>
+            <div class="status">
+              <div class="status-line">
+                <svg class="status-spinner" viewBox="0 0 50 50" aria-hidden="true">
+                  <circle class="head" cx="25" cy="25" r="20"></circle>
+                </svg>
+                <p class="hint">Chargement du site DCKIMMO.CH</p>
+              </div>
+              <p class="subhint">Merci de patienter, nous préparons votre expérience.</p>
+            </div>
+          </div>
+        `;
         const ensureReloadMask = () => {
           const root = document.documentElement;
           const body = document.body;
           if (!root || !body) return;
+          const isInternalNavigation = window.sessionStorage?.getItem("dcki_internal_nav") === "1";
 
           root.classList.add("boot-loading");
           root.classList.add("snapshot-blank");
-          body.classList.add("loader-active");
           body.classList.add("reload-masking");
           root.style.background = "#ffffff";
           body.style.background = "#ffffff";
@@ -1517,6 +1581,24 @@
           }
           mask.style.opacity = "1";
           mask.style.visibility = "visible";
+
+          if (isInternalNavigation) {
+            body.classList.remove("loader-active");
+            body.querySelector(".loader[data-loader-root]")?.remove();
+            return;
+          }
+
+          body.classList.add("loader-active");
+          let loader = body.querySelector(".loader[data-loader-root]");
+          if (!(loader instanceof HTMLDivElement)) {
+            loader = document.createElement("div");
+            loader.className = "loader";
+            loader.setAttribute("data-loader-root", "1");
+            loader.innerHTML = loaderMarkup;
+            body.prepend(loader);
+          }
+          loader.style.opacity = "1";
+          loader.style.visibility = "visible";
         };
 
         document.addEventListener("visibilitychange", () => {

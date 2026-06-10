@@ -188,6 +188,7 @@ body[data-page="home"] .topbar{
 body[data-page="home"] .topbar::before{
   background:#ffffff;
 }
+body[data-page="home"] .topbar-inner{padding:12px 0 10px}
 body[data-page="home"].hero-past .topbar{
   background:#ffffff;
   border-bottom-color:var(--line);
@@ -857,6 +858,8 @@ body.menu-open{overflow:hidden}
     height:calc(100dvh - var(--mobile-topbar-offset, 90px));
     width:100%;
     max-height:calc(100dvh - var(--mobile-topbar-offset, 90px));
+    height:calc(100svh - var(--mobile-topbar-offset, 90px));
+    max-height:calc(100svh - var(--mobile-topbar-offset, 90px));
     min-width:0;
     padding:4px 10px calc(18px + env(safe-area-inset-bottom));
     border-radius:0;
@@ -869,7 +872,7 @@ body.menu-open{overflow:hidden}
     transform:translateY(-14px);
     transition:opacity .22s ease, transform .26s ease, visibility .22s ease;
     z-index:260;
-    overflow:auto;
+    overflow:hidden;
     pointer-events:none;
     overscroll-behavior:contain;
     -webkit-overflow-scrolling:touch;
@@ -892,7 +895,8 @@ body.menu-open{overflow:hidden}
   }
   .topbar-menu-links{
     flex:1 1 auto;
-    overflow:visible;
+    min-height:0;
+    overflow:auto;
     -webkit-overflow-scrolling:touch;
     padding-bottom:4px;
   }
@@ -4698,7 +4702,8 @@ body[data-page="contact"] .contact-who-text{
   text-justify:auto;
   hyphens:none;
   -webkit-hyphens:none;
-  overflow-wrap:break-word;
+  overflow-wrap:normal;
+  word-break:normal;
 }
 
 body[data-page="contact"] .contact-who-frame.reveal{

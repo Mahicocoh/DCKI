@@ -1,5 +1,5 @@
-import { mountLoader } from "./loader.js?v=202606102255";
-import { initI18n } from "./i18n.js?v=202606102215";
+import { mountLoader } from "./loader.js?v=202606102540";
+import { initI18n } from "./i18n.js?v=202606102540";
 import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate, mountMobileHorizontalGuard } from "./ui.js?v=202606101600";
 import { initRecherche } from "./recherche.js?v=202606081915";
 import { initBiens } from "./biens.js?v=202606081915";
@@ -32,13 +32,6 @@ function getRuntimeContactEmail() {
   if (meta instanceof HTMLMetaElement) {
     const v = String(meta.content || "").trim();
     if (v) return v;
-  }
-
-  const host = String(window.location.hostname || "")
-    .trim()
-    .replace(/^www\./i, "");
-  if (host && !/^(localhost|127(?:\.\d+){3}|0\.0\.0\.0)$/i.test(host) && !host.endsWith(".local")) {
-    return `contact@${host}`;
   }
   return FALLBACK_CONTACT_EMAIL;
 }

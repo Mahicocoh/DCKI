@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=202606102215";
+import { t } from "./i18n.js?v=202606102540";
 
 export function mountLoader() {
   let isInternalNavigation = false;
@@ -25,7 +25,15 @@ export function mountLoader() {
       <div class="box">
         <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
         <div class="bar" aria-label="${t("loader.barAria")}"><div></div></div>
-        <p class="hint">${t("loader.hint")}</p>
+        <div class="status">
+          <div class="status-line">
+            <svg class="status-spinner" viewBox="0 0 50 50" aria-hidden="true">
+              <circle class="head" cx="25" cy="25" r="20"></circle>
+            </svg>
+            <p class="hint">${t("loader.hint")}</p>
+          </div>
+          <p class="subhint">${t("loader.subhint")}</p>
+        </div>
       </div>
     `;
     document.body.appendChild(el);
@@ -33,11 +41,15 @@ export function mountLoader() {
 
   const barWrap = el.querySelector(".bar");
   const hint = el.querySelector(".hint");
+  const subhint = el.querySelector(".subhint");
   if (barWrap instanceof HTMLDivElement) {
     barWrap.setAttribute("aria-label", t("loader.barAria"));
   }
   if (hint instanceof HTMLElement) {
     hint.textContent = t("loader.hint");
+  }
+  if (subhint instanceof HTMLElement) {
+    subhint.textContent = t("loader.subhint");
   }
 
   const bar = el.querySelector(".bar > div");
