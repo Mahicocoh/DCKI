@@ -316,11 +316,42 @@
 
           let failed = false;
           let settled = false;
+          let visible = false;
+          let attemptCount = 0;
+          let retryTimer = 0;
+          let failTimer = 0;
           const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
+          const retryBaseDelay = isMobile ? 120 : 240;
+          const maxAttempts = isMobile ? 8 : 5;
+          const failDelay = isMobile ? 1500 : 2400;
+
+          const clearRetryTimer = () => {
+            if (!retryTimer) return;
+            window.clearTimeout(retryTimer);
+            retryTimer = 0;
+          };
+
+          const clearFailTimer = () => {
+            if (!failTimer) return;
+            window.clearTimeout(failTimer);
+            failTimer = 0;
+          };
+
+          const markVisible = () => {
+            if (visible) return;
+            visible = true;
+            hero.classList.add("video-visible");
+            v.style.opacity = "1";
+            window.dispatchEvent(new CustomEvent("dcki:hero-video-visible"));
+          };
+
           const markFailed = () => {
             if (failed || settled) return;
             failed = true;
             settled = true;
+            clearRetryTimer();
+            clearFailTimer();
+            markVisible();
             hero.classList.add("video-failed");
             hero.classList.remove("video-ready");
             v.controls = true;
@@ -337,6 +368,9 @@
           const markReady = () => {
             if (settled) return;
             settled = true;
+            clearRetryTimer();
+            clearFailTimer();
+            markVisible();
             hero.classList.add("video-ready");
             hero.classList.remove("video-failed");
             v.controls = false;
@@ -353,6 +387,8 @@
             !v.ended &&
             Number.isFinite(v.currentTime) &&
             v.currentTime > 0;
+
+          const hasFirstFrame = () => v.readyState >= 2 || isActuallyPlaying();
 
           const configure = () => {
             v.autoplay = true;
@@ -382,6 +418,7 @@
               if (v.preload !== "auto") v.preload = "auto";
               if (v.readyState < 2) v.load();
             } catch {}
+            if (hasFirstFrame()) markVisible();
           };
 
           const tryPlay = async () => {
@@ -389,55 +426,76 @@
               warmup();
               const p = v.play();
               if (p && typeof p.then === "function") await p;
+              if (hasFirstFrame()) markVisible();
               if (isActuallyPlaying()) markReady();
-              return true;
+              return isActuallyPlaying();
             } catch {
+              if (hasFirstFrame()) markVisible();
               return false;
             }
           };
 
-          const runAttempts = () => {
-            let n = 0;
-            const step = async () => {
+          const armFailTimer = () => {
+            clearFailTimer();
+            failTimer = window.setTimeout(() => {
+              if (!settled) markFailed();
+            }, failDelay);
+          };
+
+          const scheduleAttempt = (delay = 0) => {
+            if (settled || retryTimer) return;
+            retryTimer = window.setTimeout(async () => {
+              retryTimer = 0;
               if (settled) return;
-              n += 1;
+              attemptCount += 1;
               const ok = await tryPlay();
-              if (ok) return;
-              if (n >= 3) {
+              if (ok || settled) return;
+              if (attemptCount >= maxAttempts) {
                 markFailed();
                 return;
               }
-              window.setTimeout(step, (isMobile ? 160 : 320) * n);
-            };
-            step();
+              scheduleAttempt(retryBaseDelay * Math.min(attemptCount + 1, 4));
+            }, delay);
           };
 
-          window.setTimeout(() => {
-            if (!settled) markFailed();
-          }, isMobile ? 700 : 1400);
+          const pokePlayback = () => {
+            if (settled) return;
+            armFailTimer();
+            scheduleAttempt();
+          };
 
           warmup();
+          armFailTimer();
+          if (hasFirstFrame()) markVisible();
           if (isActuallyPlaying()) markReady();
 
-          v.addEventListener("loadedmetadata", runAttempts, { once: true });
-          v.addEventListener("loadeddata", runAttempts, { once: true });
-          v.addEventListener("canplay", runAttempts, { once: true });
-          v.addEventListener("canplaythrough", runAttempts, { once: true });
+          v.addEventListener("loadedmetadata", pokePlayback, { once: true });
+          v.addEventListener("loadeddata", () => {
+            markVisible();
+            pokePlayback();
+          }, { once: true });
+          v.addEventListener("canplay", () => {
+            markVisible();
+            pokePlayback();
+          }, { once: true });
+          v.addEventListener("canplaythrough", pokePlayback, { once: true });
           v.addEventListener("timeupdate", () => {
+            if (hasFirstFrame()) markVisible();
             if (isActuallyPlaying()) markReady();
           });
           v.addEventListener("playing", markReady);
           v.addEventListener("error", markFailed, { once: true });
 
           document.addEventListener("visibilitychange", () => {
-            if (!document.hidden) runAttempts();
+            if (!document.hidden) pokePlayback();
           });
+          window.addEventListener("pageshow", pokePlayback);
 
-          const onGesture = () => runAttempts();
+          const onGesture = () => pokePlayback();
           document.addEventListener("touchstart", onGesture, { once: true, passive: true });
           document.addEventListener("click", onGesture, { once: true });
 
-          runAttempts();
+          scheduleAttempt();
         })();
       </script>
 
@@ -1326,7 +1384,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606081915"></script>
+    <script type="module" src="./scripts/app.js?v=202606101215"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
