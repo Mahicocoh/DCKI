@@ -87,7 +87,7 @@ export function mountLoader() {
   if (shouldWaitForHeroVideo) {
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
     window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
-    window.setTimeout(onHeroReady, prefersReduced ? 900 : isMobile ? 1100 : 1600);
+    window.setTimeout(onHeroReady, prefersReduced ? 700 : isMobile ? 750 : 1400);
   } else {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
   }

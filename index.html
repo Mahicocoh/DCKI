@@ -14,9 +14,6 @@
         overflow:hidden;
         background:#ffffff;
       }
-      body.loader-active > :not(.loader[data-loader-root]){
-        visibility:hidden;
-      }
       .loader[data-loader-root]{
         position:fixed;
         inset:0;
@@ -325,6 +322,8 @@
             v.controls = true;
             v.muted = true;
             v.loop = false;
+            v.style.opacity = "1";
+            v.style.pointerEvents = "auto";
             v.removeAttribute("autoplay");
             v.setAttribute("controls", "");
             v.setAttribute("data-show-controls", "1");
@@ -338,6 +337,8 @@
             hero.classList.remove("video-failed");
             v.controls = false;
             v.loop = true;
+            v.style.opacity = "1";
+            v.style.pointerEvents = "none";
             v.removeAttribute("controls");
             v.removeAttribute("data-show-controls");
             window.dispatchEvent(new CustomEvent("dcki:hero-video-ready"));
@@ -402,14 +403,14 @@
                 markFailed();
                 return;
               }
-              window.setTimeout(step, (isMobile ? 220 : 320) * n);
+              window.setTimeout(step, (isMobile ? 160 : 320) * n);
             };
             step();
           };
 
           window.setTimeout(() => {
             if (!settled) markFailed();
-          }, isMobile ? 900 : 1400);
+          }, isMobile ? 700 : 1400);
 
           warmup();
           if (isActuallyPlaying()) markReady();
