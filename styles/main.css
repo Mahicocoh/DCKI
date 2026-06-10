@@ -892,16 +892,21 @@ body.menu-open{overflow:hidden}
   .topbar-menu-footer{
     margin-top:6px;
     padding:8px 8px max(8px, env(safe-area-inset-bottom));
+    position:sticky;
+    bottom:0;
+    z-index:2;
+    background:#ffffff;
+    box-shadow:0 -10px 22px rgba(15,23,32,.06);
   }
   .topbar-menu-links{
     flex:1 1 auto;
     min-height:0;
     overflow:auto;
     -webkit-overflow-scrolling:touch;
-    padding-bottom:4px;
+    padding-bottom:10px;
   }
   .topbar-menu-useful-links{
-    max-height:min(46dvh, 420px);
+    max-height:min(26svh, 220px);
     overflow:hidden;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
