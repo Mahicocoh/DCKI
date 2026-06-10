@@ -1,6 +1,6 @@
 import { mountLoader } from "./loader.js?v=202606101345";
 import { initI18n } from "./i18n.js?v=202606081915";
-import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate } from "./ui.js?v=202606081915";
+import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate, mountMobileHorizontalGuard } from "./ui.js?v=202606101430";
 import { initRecherche } from "./recherche.js?v=202606081915";
 import { initBiens } from "./biens.js?v=202606081915";
 import { initHome } from "./home.js?v=202606081915";
@@ -87,6 +87,7 @@ if (page !== "coming-soon") {
 
   setActiveNav();
   mountTopbarMenu();
+  mountMobileHorizontalGuard();
   mountConstructionToasts();
   mountPartnerComingSoonModal();
   mountAdviceNav();

@@ -31,6 +31,11 @@ body{
   color:var(--text);
   background:var(--bg);
 }
+@media (max-width: 820px){
+  html,body,main{
+    touch-action:pan-y pinch-zoom;
+  }
+}
 @media (min-width: 1280px){
   :root{--container:1720px}
   body{font-size:clamp(22px, 1.16vw, 25px)}
@@ -629,7 +634,7 @@ body.menu-open{overflow:hidden}
 .topbar-menu-card-networks-social .social-btn:active{transform:scale(.98)}
 .topbar-menu-card-networks-social{flex-wrap:wrap}
 @media (max-width: 520px){
-  .topbar-menu-panel{width:min(96vw, 720px);padding:16px 16px 16px 64px}
+  .topbar-menu-panel{width:min(96vw, 720px);padding:16px}
   .topbar-menu-links{padding-bottom:10px}
   .topbar-menu-footer{gap:12px;padding:12px 10px 10px;padding-bottom:max(18px, env(safe-area-inset-bottom))}
 
@@ -837,7 +842,7 @@ body.menu-open{overflow:hidden}
     height:100dvh;
     width:min(96vw, 720px);
     min-width:0;
-    padding:16px 18px 16px 58px;
+    padding:16px;
     border-radius:0;
     border:0;
     background:#ffffff;
@@ -850,43 +855,12 @@ body.menu-open{overflow:hidden}
     z-index:260;
     overflow:hidden;
     pointer-events:none;
-    touch-action:pan-y;
   }
   .topbar-menu-panel::before{
-    content:"";
-    position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-    width:44px;
-    background:
-      linear-gradient(180deg, rgba(245,246,248,.98), rgba(226,229,234,.94));
-    border-right:1px solid rgba(15,23,32,.08);
-    box-shadow:inset -1px 0 0 rgba(255,255,255,.45);
+    content:none;
   }
   .topbar-menu-panel::after{
-    content:"\2192";
-    position:absolute;
-    left:5px;
-    top:104px;
-    width:28px;
-    height:28px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#c8a14a;
-    font-size:20px;
-    font-weight:900;
-    text-shadow:0 6px 16px rgba(15,23,32,.26);
-    z-index:1;
-    animation:dcki-menu-arrow-nudge 1.25s ease-in-out infinite;
-  }
-  @keyframes dcki-menu-arrow-nudge{
-    0%,100%{transform:translateX(0)}
-    50%{transform:translateX(8px)}
-  }
-  @media (prefers-reduced-motion: reduce){
-    .topbar-menu-panel::after{animation:none}
+    content:none;
   }
   .topbar-menu.open .topbar-menu-panel{transform:translateX(0);pointer-events:auto}
   .topbar-menu-footer{
@@ -898,8 +872,6 @@ body.menu-open{overflow:hidden}
     overflow:hidden;
     -webkit-overflow-scrolling:touch;
     padding-bottom:12px;
-    position:relative;
-    z-index:1;
   }
   .topbar-menu-useful-links{
     max-height:min(46dvh, 420px);
@@ -1000,10 +972,6 @@ body.menu-open{overflow:hidden}
   }
   .topbar-menu-links a .nav-ico{display:inline-flex}
   .topbar-menu-footer{margin-top:14px}
-  .topbar-menu-footer{
-    position:relative;
-    z-index:1;
-  }
 }
 
 .listing-link{display:block}

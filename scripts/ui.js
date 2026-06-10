@@ -220,6 +220,68 @@ export function mountTopbarMenu() {
   });
 }
 
+export function mountMobileHorizontalGuard() {
+  if (document.body?.dataset.horizontalGuardBound === "1") return;
+  document.body.dataset.horizontalGuardBound = "1";
+
+  const isMobile = () => window.matchMedia && window.matchMedia("(max-width: 820px)").matches;
+  const allowHorizontalSelector = [
+    ".hscroll",
+    "[data-news-track]",
+    ".advice-news-track",
+    ".distances-table",
+    ".listing-gallery",
+    ".topbar-menu-panel",
+    ".topbar-menu-useful-links",
+    ".lightbox.pano360",
+    ".pano360-stage"
+  ].join(", ");
+
+  let startX = 0;
+  let startY = 0;
+  let active = false;
+
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!isMobile()) return;
+      const touch = e.touches && e.touches[0];
+      if (!touch) return;
+      startX = touch.clientX;
+      startY = touch.clientY;
+      active = true;
+    },
+    { passive: true, capture: true }
+  );
+
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!active || !isMobile()) return;
+      const touch = e.touches && e.touches[0];
+      if (!touch) return;
+
+      const dx = touch.clientX - startX;
+      const dy = touch.clientY - startY;
+      const absX = Math.abs(dx);
+      const absY = Math.abs(dy);
+      if (absX < 14 || absX <= absY + 6) return;
+
+      const target = e.target instanceof Element ? e.target : null;
+      if (target?.closest(allowHorizontalSelector)) return;
+      e.preventDefault();
+    },
+    { passive: false, capture: true }
+  );
+
+  const reset = () => {
+    active = false;
+  };
+
+  document.addEventListener("touchend", reset, { passive: true, capture: true });
+  document.addEventListener("touchcancel", reset, { passive: true, capture: true });
+}
+
 export function mountBnsRate() {
   const target = document.querySelector("[data-bns-rate]");
   if (!(target instanceof HTMLElement)) return;
