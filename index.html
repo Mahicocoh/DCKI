@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="./styles/main.css?v=202606081915" />
   </head>
   <body data-page="home">
+    <div class="loader" data-loader-root="1">
+      <div class="box">
+        <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
+        <div class="bar" aria-label="Chargement"><div></div></div>
+        <p class="hint">Chargement de DCKImmo…</p>
+      </div>
+    </div>
     <a id="top"></a>
     <header class="topbar">
       <div class="container topbar-inner">
@@ -254,16 +261,32 @@
           if (!hero || !v) return;
 
           let failed = false;
+          let settled = false;
           const markFailed = () => {
-            if (failed) return;
+            if (failed || settled) return;
             failed = true;
+            settled = true;
             hero.classList.add("video-failed");
             hero.classList.remove("video-ready");
+            v.controls = true;
+            v.muted = true;
+            v.loop = false;
+            v.removeAttribute("autoplay");
+            v.setAttribute("controls", "");
+            v.setAttribute("data-show-controls", "1");
+            window.dispatchEvent(new CustomEvent("dcki:hero-video-failed"));
           };
 
           const markReady = () => {
+            if (settled) return;
+            settled = true;
             hero.classList.add("video-ready");
             hero.classList.remove("video-failed");
+            v.controls = false;
+            v.loop = true;
+            v.removeAttribute("controls");
+            v.removeAttribute("data-show-controls");
+            window.dispatchEvent(new CustomEvent("dcki:hero-video-ready"));
           };
 
           const configure = () => {
@@ -310,6 +333,7 @@
           const runAttempts = () => {
             let n = 0;
             const step = async () => {
+              if (settled) return;
               n += 1;
               const ok = await tryPlay();
               if (ok) return;
@@ -317,10 +341,14 @@
                 markFailed();
                 return;
               }
-              window.setTimeout(step, 1400 * n);
+              window.setTimeout(step, 450 * n);
             };
             step();
           };
+
+          window.setTimeout(() => {
+            if (!settled) markFailed();
+          }, 1800);
 
           warmup();
           if (v.readyState >= 2) markReady();

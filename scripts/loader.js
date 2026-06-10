@@ -1,20 +1,33 @@
 import { t } from "./i18n.js?v=202606031430";
 
 export function mountLoader() {
-  const el = document.createElement("div");
-  el.className = "loader";
-  el.innerHTML = `
-    <div class="box">
-      <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
-      <div class="bar" aria-label="${t("loader.barAria")}"><div></div></div>
-      <p class="hint">${t("loader.hint")}</p>
-    </div>
-  `;
+  const existing = document.querySelector(".loader[data-loader-root]");
+  const el = existing instanceof HTMLDivElement ? existing : document.createElement("div");
+  if (!(existing instanceof HTMLDivElement)) {
+    el.className = "loader";
+    el.setAttribute("data-loader-root", "1");
+    el.innerHTML = `
+      <div class="box">
+        <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
+        <div class="bar" aria-label="${t("loader.barAria")}"><div></div></div>
+        <p class="hint">${t("loader.hint")}</p>
+      </div>
+    `;
+    document.body.appendChild(el);
+  }
+
+  const barWrap = el.querySelector(".bar");
+  const hint = el.querySelector(".hint");
+  if (barWrap instanceof HTMLDivElement) {
+    barWrap.setAttribute("aria-label", t("loader.barAria"));
+  }
+  if (hint instanceof HTMLElement) {
+    hint.textContent = t("loader.hint");
+  }
 
   const bar = el.querySelector(".bar > div");
+  if (!(bar instanceof HTMLDivElement)) return;
   const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-
-  document.body.appendChild(el);
 
   let pct = 0;
   const step = () => {
@@ -25,8 +38,24 @@ export function mountLoader() {
   const timer = window.setInterval(step, prefersReduced ? 90 : 140);
   step();
 
+  const page = document.body?.getAttribute("data-page") || "";
+  const shouldWaitForHeroVideo = page === "home";
+  let pageLoaded = document.readyState === "complete";
+  let heroReady = !shouldWaitForHeroVideo;
+
+  if (shouldWaitForHeroVideo) {
+    const hero = document.querySelector(".hero");
+    const video = document.querySelector(".hero .hero-video");
+    heroReady = Boolean(
+      hero?.classList.contains("video-ready") ||
+      hero?.classList.contains("video-failed") ||
+      video?.getAttribute("data-show-controls") === "1"
+    );
+  }
+
   let doneOnce = false;
   const done = () => {
+    if (!pageLoaded || !heroReady) return;
     if (doneOnce) return;
     doneOnce = true;
     window.clearInterval(timer);
@@ -38,6 +67,27 @@ export function mountLoader() {
     }, prefersReduced ? 80 : 180);
   };
 
-  window.addEventListener("load", done, { once: true });
-  window.setTimeout(done, prefersReduced ? 200 : 1200);
+  const onPageLoaded = () => {
+    pageLoaded = true;
+    done();
+  };
+
+  const onHeroReady = () => {
+    heroReady = true;
+    done();
+  };
+
+  if (!pageLoaded) {
+    window.addEventListener("load", onPageLoaded, { once: true });
+  }
+
+  if (shouldWaitForHeroVideo) {
+    window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
+    window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
+    window.setTimeout(onHeroReady, prefersReduced ? 1400 : 2600);
+  } else {
+    window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
+  }
+
+  done();
 }
