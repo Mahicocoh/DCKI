@@ -625,7 +625,7 @@ body.menu-open{overflow:hidden}
 .topbar-menu-card-networks-social .social-btn:active{transform:scale(.98)}
 .topbar-menu-card-networks-social{flex-wrap:wrap}
 @media (max-width: 520px){
-  .topbar-menu-panel{width:min(96vw, 720px);padding:16px}
+  .topbar-menu-panel{width:min(96vw, 720px);padding:16px 16px 16px 76px}
   .topbar-menu-links{padding-bottom:10px}
   .topbar-menu-footer{gap:12px;padding:12px 10px 10px;padding-bottom:max(18px, env(safe-area-inset-bottom))}
 
@@ -833,7 +833,7 @@ body.menu-open{overflow:hidden}
     height:100dvh;
     width:min(96vw, 720px);
     min-width:0;
-    padding:16px 16px 16px 86px;
+    padding:16px 16px 16px 76px;
     border-radius:0;
     border:0;
     background:#ffffff;
@@ -862,7 +862,7 @@ body.menu-open{overflow:hidden}
   .topbar-menu-panel::after{
     content:"\2192";
     position:absolute;
-    left:18px;
+    left:12px;
     top:104px;
     width:28px;
     height:28px;
@@ -874,6 +874,14 @@ body.menu-open{overflow:hidden}
     font-weight:900;
     text-shadow:0 6px 16px rgba(15,23,32,.26);
     z-index:1;
+    animation:dcki-menu-arrow-nudge 1.25s ease-in-out infinite;
+  }
+  @keyframes dcki-menu-arrow-nudge{
+    0%,100%{transform:translateX(0)}
+    50%{transform:translateX(8px)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .topbar-menu-panel::after{animation:none}
   }
   .topbar-menu.open .topbar-menu-panel{transform:translateX(0);pointer-events:auto}
   .topbar-menu-footer{
@@ -882,11 +890,18 @@ body.menu-open{overflow:hidden}
   }
   .topbar-menu-links{
     flex:1 1 auto;
-    overflow:auto;
+    overflow:hidden;
     -webkit-overflow-scrolling:touch;
     padding-bottom:12px;
     position:relative;
     z-index:1;
+  }
+  .topbar-menu-useful-links{
+    max-height:min(46dvh, 420px);
+    overflow:auto;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior:contain;
+    padding-right:6px;
   }
   .topbar-menu-links > a,
   .topbar-menu-links > .topbar-menu-useful > .topbar-menu-useful-btn{
