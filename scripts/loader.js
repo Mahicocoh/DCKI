@@ -29,6 +29,8 @@ export function mountLoader() {
   if (!(bar instanceof HTMLDivElement)) return;
   const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
+  const startTs = Date.now();
+  const minVisibleMs = prefersReduced ? 1100 : isMobile ? 2600 : 2200;
 
   let pct = 0;
   const step = () => {
@@ -62,6 +64,8 @@ export function mountLoader() {
     doneOnce = true;
     window.clearInterval(timer);
     bar.style.width = "100%";
+    const elapsed = Date.now() - startTs;
+    const remaining = Math.max(0, minVisibleMs - elapsed);
     window.setTimeout(() => {
       document.body?.classList.remove("loader-active");
       document.body?.classList.remove("reload-masking");
@@ -69,7 +73,7 @@ export function mountLoader() {
       el.style.opacity = "0";
       el.style.transition = "opacity .22s ease";
       window.setTimeout(() => el.remove(), 260);
-    }, prefersReduced ? 80 : 180);
+    }, remaining + (prefersReduced ? 80 : 180));
   };
 
   const onPageLoaded = () => {
