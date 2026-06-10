@@ -262,6 +262,7 @@
 
           let failed = false;
           let settled = false;
+          const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
           const markFailed = () => {
             if (failed || settled) return;
             failed = true;
@@ -330,6 +331,7 @@
               warmup();
               const p = v.play();
               if (p && typeof p.then === "function") await p;
+              if (isActuallyPlaying()) markReady();
               return true;
             } catch {
               return false;
@@ -347,14 +349,14 @@
                 markFailed();
                 return;
               }
-              window.setTimeout(step, 450 * n);
+              window.setTimeout(step, (isMobile ? 220 : 320) * n);
             };
             step();
           };
 
           window.setTimeout(() => {
             if (!settled) markFailed();
-          }, 1800);
+          }, isMobile ? 900 : 1400);
 
           warmup();
           if (isActuallyPlaying()) markReady();

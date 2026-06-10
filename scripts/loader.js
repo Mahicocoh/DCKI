@@ -28,19 +28,20 @@ export function mountLoader() {
   const bar = el.querySelector(".bar > div");
   if (!(bar instanceof HTMLDivElement)) return;
   const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+  const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
 
   let pct = 0;
   const step = () => {
-    pct = Math.min(92, pct + (prefersReduced ? 20 : 7 + Math.random() * 10));
+    pct = Math.min(92, pct + (prefersReduced ? 22 : isMobile ? 12 + Math.random() * 14 : 7 + Math.random() * 10));
     bar.style.width = `${pct}%`;
   };
 
-  const timer = window.setInterval(step, prefersReduced ? 90 : 140);
+  const timer = window.setInterval(step, prefersReduced ? 80 : isMobile ? 100 : 140);
   step();
 
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  let pageLoaded = document.readyState === "complete";
+  let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
   let heroReady = !shouldWaitForHeroVideo;
 
   if (shouldWaitForHeroVideo) {
@@ -78,13 +79,14 @@ export function mountLoader() {
   };
 
   if (!pageLoaded) {
-    window.addEventListener("load", onPageLoaded, { once: true });
+    const eventName = shouldWaitForHeroVideo ? "DOMContentLoaded" : "load";
+    window.addEventListener(eventName, onPageLoaded, { once: true });
   }
 
   if (shouldWaitForHeroVideo) {
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
     window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
-    window.setTimeout(onHeroReady, prefersReduced ? 1400 : 2600);
+    window.setTimeout(onHeroReady, prefersReduced ? 900 : isMobile ? 1100 : 1600);
   } else {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
   }
