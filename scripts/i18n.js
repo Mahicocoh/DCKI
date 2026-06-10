@@ -394,7 +394,7 @@ const DICT = {
     "files.many": "{count} fichiers sélectionnés",
 
     "loader.barAria": "Chargement",
-    "loader.hint": "Chargement de DCKImmo",
+    "loader.hint": "Chargement de DCKIMMO.CH",
 
     "dossier.title": "Demande de dossier",
     "page.dossier.title": "Demande de dossier — DCKImmo",
@@ -1171,7 +1171,7 @@ const DICT = {
     "files.many": "{count} files selected",
 
     "loader.barAria": "Loading",
-    "loader.hint": "Loading DCKImmo",
+    "loader.hint": "Chargement de DCKIMMO.CH",
 
     "dossier.title": "Application file",
     "page.dossier.title": "Application file — DCKImmo",

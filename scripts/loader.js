@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=202606101900";
+import { t } from "./i18n.js?v=202606102215";
 
 export function mountLoader() {
   let isInternalNavigation = false;
