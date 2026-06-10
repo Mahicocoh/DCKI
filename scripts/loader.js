@@ -1,6 +1,12 @@
 import { t } from "./i18n.js?v=202606101900";
 
 export function mountLoader() {
+  let isInternalNavigation = false;
+  try {
+    isInternalNavigation = window.sessionStorage?.getItem("dcki_internal_nav") === "1";
+    window.sessionStorage?.removeItem("dcki_internal_nav");
+  } catch {}
+
   const existing = document.querySelector(".loader[data-loader-root]");
   const el = existing instanceof HTMLDivElement ? existing : document.createElement("div");
   if (!(existing instanceof HTMLDivElement)) {
@@ -30,7 +36,11 @@ export function mountLoader() {
   const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
   const startTs = Date.now();
-  const minVisibleMs = prefersReduced ? 1000 : isMobile ? 1850 : 2200;
+  const minVisibleMs = prefersReduced
+    ? 1000
+    : isInternalNavigation
+      ? isMobile ? 1100 : 950
+      : isMobile ? 2150 : 2200;
 
   let pct = 0;
   const step = () => {
@@ -95,9 +105,9 @@ export function mountLoader() {
     window.addEventListener("dcki:hero-video-visible", onHeroReady, { once: true });
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
     window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
-    window.setTimeout(onHeroReady, prefersReduced ? 700 : isMobile ? 1600 : 2400);
+    window.setTimeout(onHeroReady, prefersReduced ? 700 : isInternalNavigation ? (isMobile ? 900 : 1100) : isMobile ? 1600 : 2400);
   } else {
-    window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
+    window.setTimeout(onHeroReady, prefersReduced ? 200 : isInternalNavigation ? 450 : 1200);
   }
 
   done();

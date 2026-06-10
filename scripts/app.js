@@ -1,4 +1,4 @@
-import { mountLoader } from "./loader.js?v=202606102120";
+import { mountLoader } from "./loader.js?v=202606102145";
 import { initI18n } from "./i18n.js?v=202606101900";
 import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate, mountMobileHorizontalGuard } from "./ui.js?v=202606101600";
 import { initRecherche } from "./recherche.js?v=202606081915";
@@ -78,8 +78,44 @@ function applyRuntimeSiteConfig() {
   });
 }
 
+function markInternalNavigationIntent() {
+  if (document.body?.dataset.internalNavBound === "1") return;
+  document.body.dataset.internalNavBound = "1";
+
+  document.addEventListener(
+    "click",
+    (event) => {
+      const target = event.target instanceof Element ? event.target.closest("a[href]") : null;
+      if (!(target instanceof HTMLAnchorElement)) return;
+      if (target.hasAttribute("download")) return;
+      if (target.target && target.target !== "_self") return;
+      if (event.defaultPrevented) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+      const rawHref = String(target.getAttribute("href") || "").trim();
+      if (!rawHref || rawHref.startsWith("#")) return;
+
+      let url;
+      try {
+        url = new URL(target.href, window.location.href);
+      } catch {
+        return;
+      }
+
+      if (url.origin !== window.location.origin) return;
+      if (url.pathname === window.location.pathname && url.search === window.location.search) return;
+
+      try {
+        window.sessionStorage?.setItem("dcki_internal_nav", "1");
+      } catch {}
+    },
+    true
+  );
+}
+
 const page = document.body.getAttribute("data-page");
 if (page !== "coming-soon") {
+  markInternalNavigationIntent();
   mountLoader();
   applyRuntimeSiteConfig();
   initI18n();
