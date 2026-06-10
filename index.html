@@ -9,14 +9,30 @@
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
     <link rel="preload" href="./assets/178.mp4" as="video" type="video/mp4" fetchpriority="high" />
+    <script>
+      document.documentElement.classList.add("boot-loading");
+    </script>
     <style>
+      html.boot-loading,
+      html.boot-loading body{
+        background:#ffffff;
+      }
+      html.boot-loading body,
       body.loader-active{
         overflow:hidden;
         background:#ffffff;
       }
+      html.boot-loading body > :not(.loader[data-loader-root]),
       body.loader-active > :not(.loader[data-loader-root]){
         opacity:0;
+        visibility:hidden;
         pointer-events:none;
+      }
+      html.boot-loading body > .loader[data-loader-root],
+      body.loader-active > .loader[data-loader-root]{
+        opacity:1;
+        visibility:visible;
+        pointer-events:auto;
       }
       .loader[data-loader-root]{
         position:fixed;
@@ -65,7 +81,7 @@
     </style>
     <link rel="stylesheet" href="./styles/main.css?v=202606101305" />
   </head>
-  <body data-page="home" class="loader-active">
+  <body data-page="home" class="loader-active" style="background:#ffffff">
     <div class="loader" data-loader-root="1">
       <div class="box">
         <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
@@ -1431,7 +1447,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606101215"></script>
+    <script type="module" src="./scripts/app.js?v=202606101345"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
