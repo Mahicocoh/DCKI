@@ -897,13 +897,18 @@ body.menu-open{overflow:hidden}
     z-index:1;
   }
   .topbar-menu-useful-links{
-    max-height:min(46dvh, 420px);
-    overflow:auto;
+    max-height:none;
+    overflow:hidden;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
     padding-right:6px;
     scrollbar-width:thin;
     scrollbar-color:rgba(200,161,74,.72) rgba(15,23,32,.08);
+  }
+  .topbar-menu-useful.open .topbar-menu-useful-links{
+    max-height:136px;
+    overflow-y:scroll;
+    overflow-x:hidden;
   }
   .topbar-menu-useful-links::-webkit-scrollbar{
     width:4px;
