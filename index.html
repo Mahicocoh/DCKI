@@ -8,6 +8,7 @@
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="preload" href="./assets/178.mp4" as="video" type="video/mp4" fetchpriority="high" />
     <link rel="stylesheet" href="./styles/main.css?v=202606081915" />
   </head>
   <body data-page="home">
@@ -201,7 +202,7 @@
 
     <main>
       <section class="hero">
-        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture x-webkit-airplay="deny" controlslist="nodownload nofullscreen noplaybackrate noremoteplayback">
+        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture x-webkit-airplay="deny" controlslist="nodownload nofullscreen noplaybackrate noremoteplayback" aria-hidden="true" tabindex="-1">
           <source src="./assets/178.mp4" type="video/mp4" />
         </video>
         <div class="overlay"></div>
@@ -287,9 +288,17 @@
             v.removeAttribute("controls");
           };
 
+          const warmup = () => {
+            configure();
+            try {
+              if (v.preload !== "auto") v.preload = "auto";
+              if (v.readyState < 2) v.load();
+            } catch {}
+          };
+
           const tryPlay = async () => {
             try {
-              configure();
+              warmup();
               const p = v.play();
               if (p && typeof p.then === "function") await p;
               return true;
@@ -313,11 +322,13 @@
             step();
           };
 
+          warmup();
           if (v.readyState >= 2) markReady();
-          else v.load();
 
+          v.addEventListener("loadedmetadata", runAttempts, { once: true });
           v.addEventListener("loadeddata", markReady, { once: true });
           v.addEventListener("canplay", markReady, { once: true });
+          v.addEventListener("canplaythrough", markReady, { once: true });
           v.addEventListener("timeupdate", markReady, { once: true });
           v.addEventListener("playing", markReady);
           v.addEventListener("error", markFailed, { once: true });
