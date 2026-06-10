@@ -27,6 +27,7 @@
         opacity:0;
         visibility:hidden;
         pointer-events:none;
+        transition:none !important;
       }
       html.boot-loading body > .loader[data-loader-root],
       body.loader-active > .loader[data-loader-root]{
@@ -1450,6 +1451,39 @@
     <script type="module" src="./scripts/app.js?v=202606101345"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
+      (function () {
+        const ensureReloadMask = () => {
+          const root = document.documentElement;
+          const body = document.body;
+          if (!root || !body) return;
+
+          root.classList.add("boot-loading");
+          body.classList.add("loader-active");
+          body.style.background = "#ffffff";
+
+          let loader = body.querySelector(".loader[data-loader-root]");
+          if (!(loader instanceof HTMLDivElement)) {
+            loader = document.createElement("div");
+            loader.className = "loader";
+            loader.setAttribute("data-loader-root", "1");
+            loader.innerHTML = `
+              <div class="box">
+                <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
+                <div class="bar" aria-label="Chargement"><div style="width:72%"></div></div>
+                <p class="hint">Chargement de DCKImmo…</p>
+              </div>
+            `;
+            body.prepend(loader);
+          } else {
+            loader.style.opacity = "1";
+            loader.style.visibility = "visible";
+            loader.style.pointerEvents = "auto";
+          }
+        };
+
+        window.addEventListener("beforeunload", ensureReloadMask);
+        window.addEventListener("pagehide", ensureReloadMask);
+      })();
       (function () {
         const carousel = document.querySelector("[data-news-carousel]");
         if (!carousel) return;

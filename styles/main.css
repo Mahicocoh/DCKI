@@ -22,7 +22,7 @@
 }
 
 *{box-sizing:border-box}
-html,body{height:100%;overflow-x:hidden}
+html,body{height:100%;overflow-x:hidden;overscroll-behavior-x:none}
 html{scroll-behavior:smooth}
 body{
   margin:0;
@@ -835,7 +835,7 @@ body.menu-open{overflow:hidden}
     top:0;
     right:0;
     height:100dvh;
-    width:min(99vw, 780px);
+    width:min(96vw, 720px);
     min-width:0;
     padding:16px 18px 16px 58px;
     border-radius:0;
@@ -850,6 +850,7 @@ body.menu-open{overflow:hidden}
     z-index:260;
     overflow:hidden;
     pointer-events:none;
+    touch-action:pan-y;
   }
   .topbar-menu-panel::before{
     content:"";
@@ -901,36 +902,34 @@ body.menu-open{overflow:hidden}
     z-index:1;
   }
   .topbar-menu-useful-links{
-    max-height:0;
+    max-height:min(46dvh, 420px);
     overflow:hidden;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
     padding-left:0;
-    padding-right:8px;
-    scrollbar-width:auto;
-    scrollbar-color:rgba(11,42,58,.72) rgba(15,23,32,.14);
+    padding-right:10px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(200,161,74,.72) rgba(15,23,32,.08);
   }
   .topbar-menu-useful.open .topbar-menu-useful-links{
-    max-height:148px;
-    overflow-y:auto;
+    overflow-y:scroll;
     overflow-x:hidden;
-    scrollbar-gutter:stable;
   }
   .topbar-menu-useful-links::-webkit-scrollbar{
-    width:7px;
+    width:4px;
   }
   .topbar-menu-useful-links::-webkit-scrollbar-track{
-    background:rgba(15,23,32,.10);
+    background:rgba(15,23,32,.08);
     border-radius:999px;
     border:0;
   }
   .topbar-menu-useful-links::-webkit-scrollbar-thumb{
-    background:rgba(11,42,58,.64);
+    background:rgba(200,161,74,.72);
     border-radius:999px;
     border:0;
   }
   .topbar-menu-useful-links::-webkit-scrollbar-thumb:hover{
-    background:rgba(11,42,58,.82);
+    background:rgba(200,161,74,.92);
   }
   .topbar-menu-links > a,
   .topbar-menu-links > .topbar-menu-useful > .topbar-menu-useful-btn{
@@ -954,18 +953,19 @@ body.menu-open{overflow:hidden}
     margin-right:2px;
   }
   .topbar-menu-service-item{
-    grid-template-columns:minmax(0, 1fr) 132px;
+    display:flex;
     align-items:center;
     gap:10px;
     min-height:62px;
   }
   .topbar-menu-service-name{
+    flex:1 1 auto;
     font-size:14px;
     line-height:1.22;
   }
   .topbar-menu-service-pill{
-    align-self:center;
-    justify-self:end;
+    flex:0 0 132px;
+    margin-left:auto;
     min-width:132px;
     text-align:center;
     font-size:11px;
