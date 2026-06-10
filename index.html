@@ -354,19 +354,39 @@
             markVisible();
             hero.classList.add("video-failed");
             hero.classList.remove("video-ready");
-            v.controls = true;
             v.muted = true;
             v.loop = false;
             v.style.opacity = "1";
-            v.style.pointerEvents = "auto";
             v.removeAttribute("autoplay");
-            v.setAttribute("controls", "");
-            v.setAttribute("data-show-controls", "1");
+            if (isMobile) {
+              v.controls = false;
+              v.style.pointerEvents = "none";
+              v.removeAttribute("controls");
+              v.removeAttribute("data-show-controls");
+            } else {
+              v.controls = true;
+              v.style.pointerEvents = "auto";
+              v.setAttribute("controls", "");
+              v.setAttribute("data-show-controls", "1");
+            }
             window.dispatchEvent(new CustomEvent("dcki:hero-video-failed"));
+          };
+
+          const clearFailureState = () => {
+            failed = false;
+            settled = false;
+            hero.classList.remove("video-failed");
+            v.controls = false;
+            v.loop = true;
+            v.style.pointerEvents = "none";
+            v.removeAttribute("controls");
+            v.removeAttribute("data-show-controls");
+            configure();
           };
 
           const markReady = () => {
             if (settled) return;
+            failed = false;
             settled = true;
             clearRetryTimer();
             clearFailTimer();
@@ -464,6 +484,18 @@
             scheduleAttempt();
           };
 
+          const resumePlaybackFromGesture = async () => {
+            clearRetryTimer();
+            clearFailTimer();
+            if (failed || v.getAttribute("data-show-controls") === "1") {
+              clearFailureState();
+            }
+            const ok = await tryPlay();
+            if (ok || settled) return;
+            armFailTimer();
+            scheduleAttempt(retryBaseDelay);
+          };
+
           warmup();
           armFailTimer();
           if (hasFirstFrame()) markVisible();
@@ -487,13 +519,28 @@
           v.addEventListener("error", markFailed, { once: true });
 
           document.addEventListener("visibilitychange", () => {
-            if (!document.hidden) pokePlayback();
+            if (!document.hidden) {
+              if (failed) {
+                resumePlaybackFromGesture();
+                return;
+              }
+              pokePlayback();
+            }
           });
-          window.addEventListener("pageshow", pokePlayback);
+          window.addEventListener("pageshow", () => {
+            if (failed) {
+              resumePlaybackFromGesture();
+              return;
+            }
+            pokePlayback();
+          });
 
-          const onGesture = () => pokePlayback();
+          const onGesture = () => {
+            resumePlaybackFromGesture();
+          };
           document.addEventListener("touchstart", onGesture, { once: true, passive: true });
           document.addEventListener("click", onGesture, { once: true });
+          document.addEventListener("pointerdown", onGesture, { once: true, passive: true });
 
           scheduleAttempt();
         })();
