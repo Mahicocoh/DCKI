@@ -1,4 +1,4 @@
-import { t } from "./i18n.js?v=202606031430";
+import { t } from "./i18n.js?v=202606101900";
 
 export function mountLoader() {
   const existing = document.querySelector(".loader[data-loader-root]");
@@ -30,7 +30,7 @@ export function mountLoader() {
   const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
   const startTs = Date.now();
-  const minVisibleMs = prefersReduced ? 1100 : isMobile ? 2600 : 2200;
+  const minVisibleMs = prefersReduced ? 1000 : isMobile ? 2350 : 2200;
 
   let pct = 0;
   const step = () => {

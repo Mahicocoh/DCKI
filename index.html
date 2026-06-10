@@ -30,7 +30,9 @@
         opacity:0;
         visibility:hidden;
         pointer-events:none;
-        transition:opacity .18s ease, visibility .18s ease;
+        transition:none;
+        will-change:opacity;
+        transform:translateZ(0);
       }
       html.boot-loading body > :not(.loader[data-loader-root]):not(.boot-mask[data-boot-mask]),
       body.loader-active > :not(.loader[data-loader-root]):not(.boot-mask[data-boot-mask]){
@@ -107,7 +109,7 @@
         font-size:13px;
       }
     </style>
-    <link rel="stylesheet" href="./styles/main.css?v=202606101705" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606101840" />
   </head>
   <body data-page="home" class="loader-active" style="background:#ffffff">
     <div class="boot-mask" data-boot-mask="1" aria-hidden="true"></div>
@@ -115,7 +117,7 @@
       <div class="box">
         <div class="logo"><img src="./assets/1.jpg" alt="DCKImmo" /></div>
         <div class="bar" aria-label="Chargement"><div></div></div>
-        <p class="hint">Chargement de DCKImmo...</p>
+        <p class="hint">Chargement de DCKImmo</p>
       </div>
     </div>
     <a id="top"></a>
@@ -1476,7 +1478,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606101730"></script>
+    <script type="module" src="./scripts/app.js?v=202606101900"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
