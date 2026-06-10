@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -14,7 +14,11 @@
     </script>
     <style>
       html.boot-loading,
+      html.snapshot-blank,
       html.boot-loading body{
+        background:#ffffff;
+      }
+      html.snapshot-blank body{
         background:#ffffff;
       }
       html.boot-loading body,
@@ -47,9 +51,16 @@
         pointer-events:none !important;
         transition:none !important;
       }
+      html.snapshot-blank body > :not(.boot-mask[data-boot-mask]){
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+        transition:none !important;
+      }
       html.boot-loading body > .boot-mask[data-boot-mask],
       body.loader-active > .boot-mask[data-boot-mask],
-      body.reload-masking > .boot-mask[data-boot-mask]{
+      body.reload-masking > .boot-mask[data-boot-mask],
+      html.snapshot-blank body > .boot-mask[data-boot-mask]{
         opacity:1;
         visibility:visible;
       }
@@ -1478,7 +1489,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606102235"></script>
+    <script type="module" src="./scripts/app.js?v=202606102255"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
@@ -1488,6 +1499,7 @@
           if (!root || !body) return;
 
           root.classList.add("boot-loading");
+          root.classList.add("snapshot-blank");
           body.classList.add("loader-active");
           body.classList.add("reload-masking");
           root.style.background = "#ffffff";
@@ -1505,7 +1517,6 @@
           }
           mask.style.opacity = "1";
           mask.style.visibility = "visible";
-
         };
 
         document.addEventListener("visibilitychange", () => {

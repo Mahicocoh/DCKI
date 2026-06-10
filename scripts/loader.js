@@ -11,6 +11,7 @@ export function mountLoader() {
     document.body?.classList.remove("loader-active");
     document.body?.classList.remove("reload-masking");
     document.documentElement?.classList.remove("boot-loading");
+    document.documentElement?.classList.remove("snapshot-blank");
     document.querySelector(".loader[data-loader-root]")?.remove();
     return;
   }
@@ -84,6 +85,7 @@ export function mountLoader() {
       document.body?.classList.remove("loader-active");
       document.body?.classList.remove("reload-masking");
       document.documentElement?.classList.remove("boot-loading");
+      document.documentElement?.classList.remove("snapshot-blank");
       el.style.opacity = "0";
       el.style.transition = "opacity .22s ease";
       window.setTimeout(() => el.remove(), 260);
