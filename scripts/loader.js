@@ -64,6 +64,7 @@ export function mountLoader() {
     bar.style.width = "100%";
     window.setTimeout(() => {
       document.body?.classList.remove("loader-active");
+      document.body?.classList.remove("reload-masking");
       document.documentElement?.classList.remove("boot-loading");
       el.style.opacity = "0";
       el.style.transition = "opacity .22s ease";

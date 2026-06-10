@@ -22,6 +22,16 @@
         overflow:hidden;
         background:#ffffff;
       }
+      html.boot-loading body::before,
+      body.loader-active::before,
+      body.reload-masking::before{
+        content:"";
+        position:fixed;
+        inset:0;
+        z-index:9998;
+        background:#ffffff;
+        pointer-events:none;
+      }
       html.boot-loading body > :not(.loader[data-loader-root]),
       body.loader-active > :not(.loader[data-loader-root]){
         opacity:0;
@@ -29,8 +39,15 @@
         pointer-events:none;
         transition:none !important;
       }
+      body.reload-masking > :not(.loader[data-loader-root]){
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+        transition:none !important;
+      }
       html.boot-loading body > .loader[data-loader-root],
-      body.loader-active > .loader[data-loader-root]{
+      body.loader-active > .loader[data-loader-root],
+      body.reload-masking > .loader[data-loader-root]{
         opacity:1;
         visibility:visible;
         pointer-events:auto;
@@ -80,7 +97,7 @@
         font-size:13px;
       }
     </style>
-    <link rel="stylesheet" href="./styles/main.css?v=202606101305" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606101455" />
   </head>
   <body data-page="home" class="loader-active" style="background:#ffffff">
     <div class="loader" data-loader-root="1">
@@ -1448,7 +1465,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606101430"></script>
+    <script type="module" src="./scripts/app.js?v=202606101520"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
@@ -1459,7 +1476,9 @@
 
           root.classList.add("boot-loading");
           body.classList.add("loader-active");
+          body.classList.add("reload-masking");
           body.style.background = "#ffffff";
+          body.style.color = "#0f1720";
 
           let loader = body.querySelector(".loader[data-loader-root]");
           if (!(loader instanceof HTMLDivElement)) {
@@ -1479,6 +1498,7 @@
             loader.style.visibility = "visible";
             loader.style.pointerEvents = "auto";
           }
+          loader.style.zIndex = "9999";
         };
 
         window.addEventListener("beforeunload", ensureReloadMask);
