@@ -948,6 +948,10 @@ body.menu-open{overflow:hidden}
     padding:9px 10px;
     margin-right:2px;
   }
+  .topbar-menu-useful-links a{
+    font-size:14px;
+    line-height:1.22;
+  }
   .topbar-menu-service-item{
     display:flex;
     align-items:center;
@@ -8428,6 +8432,11 @@ body.menu-open .whatsapp-fab{
 .to-top-fab.show{opacity:1;pointer-events:auto;transform:translateY(0)}
 .to-top-fab:hover{transform:translateY(-2px) scale(1)}
 .to-top-fab:active{transform:translateY(0) scale(.98)}
+body.menu-open .to-top-fab{
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translateY(10px) scale(.92) !important;
+}
 
 .loader{
   position:fixed;inset:0;z-index:100;
