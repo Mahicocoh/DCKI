@@ -336,7 +336,14 @@ body.menu-open .topbar::before{backdrop-filter:none}
   transition:transform .12s ease, border-color .12s ease, background .12s ease;
 }
 .topbar-menu-btn svg{width:26px;height:26px}
-.topbar-menu-btn svg line{transition:transform .18s ease}
+.topbar-menu-btn svg line{
+  transform-box:fill-box;
+  transform-origin:center;
+  transition:transform .24s cubic-bezier(.2,.8,.2,1), opacity .18s ease;
+}
+.topbar-menu.open .topbar-menu-btn svg line:nth-of-type(1){transform:translateY(5px) rotate(45deg)}
+.topbar-menu.open .topbar-menu-btn svg line:nth-of-type(2){opacity:0}
+.topbar-menu.open .topbar-menu-btn svg line:nth-of-type(3){transform:translateY(-5px) rotate(-45deg)}
 @media (hover: hover) and (pointer: fine){
   .topbar-menu-btn:hover svg line:nth-of-type(1){transform:translateX(2px)}
   .topbar-menu-btn:hover svg line:nth-of-type(2){transform:translateX(-2px)}
@@ -835,20 +842,20 @@ body.menu-open{overflow:hidden}
   .topbar .nav::-webkit-scrollbar{height:0}
   .topbar-menu-btn{width:40px;height:38px;border-radius:0}
   .topbar-menu-overlay{
-    inset:90px 0 0 0;
+    inset:var(--mobile-topbar-offset, 90px) 0 0 0;
     background:rgba(15,23,32,.18);
   }
   .topbar-menu.open .topbar-menu-overlay{opacity:1;visibility:visible}
   .topbar-menu-panel{
     position:fixed;
-    top:90px;
+    top:var(--mobile-topbar-offset, 90px);
     left:0;
     right:0;
-    height:auto;
+    height:calc(100svh - var(--mobile-topbar-offset, 90px));
     width:100%;
-    max-height:calc(100dvh - 90px);
+    max-height:calc(100svh - var(--mobile-topbar-offset, 90px));
     min-width:0;
-    padding:14px 16px 16px;
+    padding:8px 16px calc(118px + env(safe-area-inset-bottom));
     border-radius:0;
     border:0;
     background:#ffffff;
@@ -861,6 +868,8 @@ body.menu-open{overflow:hidden}
     z-index:260;
     overflow:auto;
     pointer-events:none;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
   }
   .topbar-menu-panel::before{
     content:none;
@@ -876,7 +885,7 @@ body.menu-open{overflow:hidden}
   }
   .topbar-menu-footer{
     margin-top:14px;
-    padding-bottom:max(38px, env(safe-area-inset-bottom));
+    padding-bottom:max(12px, env(safe-area-inset-bottom));
   }
   .topbar-menu-links{
     flex:1 1 auto;
@@ -8336,9 +8345,18 @@ body[data-page="coming-soon"] main.section{padding:92px 0 72px}
   background:linear-gradient(135deg, rgba(37, 211, 102, .95), rgba(18, 140, 126, .95));
   box-shadow:0 18px 40px rgba(0,0,0,.20);
   z-index:200;
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0) scale(1);
+  transition:opacity .2s ease, transform .22s ease;
 }
 .whatsapp-fab svg{width:24px;height:24px}
 .whatsapp-fab:hover{transform:translateY(-2px)}
+body.menu-open .whatsapp-fab{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(10px) scale(.92);
+}
 
 .to-top-fab{
   position:fixed;

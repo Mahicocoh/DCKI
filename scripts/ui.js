@@ -20,6 +20,15 @@ export function mountTopbarMenu() {
   const getOverlay = (menu) => menu.querySelector("[data-topbar-menu-overlay]");
   const getPanel = (menu) => menu.querySelector(".topbar-menu-panel");
   const isMobile = () => window.matchMedia && window.matchMedia("(max-width: 720px)").matches;
+  const syncMobileTopbarOffset = () => {
+    const topbar = document.querySelector(".topbar");
+    if (!(topbar instanceof HTMLElement)) return;
+    const rect = topbar.getBoundingClientRect();
+    const offset = Math.max(0, Math.round(rect.height || rect.bottom || 0));
+    if (offset) {
+      document.documentElement.style.setProperty("--mobile-topbar-offset", `${offset}px`);
+    }
+  };
   const autoScrollUseful = (menu, useful) => {
     if (!isMobile()) return;
     const panel = getPanel(menu);
@@ -44,6 +53,9 @@ export function mountTopbarMenu() {
 
   document.body.classList.remove("menu-open");
   document.documentElement.classList.remove("menu-open");
+  syncMobileTopbarOffset();
+  window.addEventListener("resize", syncMobileTopbarOffset, { passive: true });
+  window.addEventListener("orientationchange", syncMobileTopbarOffset, { passive: true });
   let locked = false;
   let lockedScrollY = 0;
 
