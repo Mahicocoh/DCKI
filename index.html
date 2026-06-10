@@ -289,6 +289,12 @@
             window.dispatchEvent(new CustomEvent("dcki:hero-video-ready"));
           };
 
+          const isActuallyPlaying = () =>
+            !v.paused &&
+            !v.ended &&
+            Number.isFinite(v.currentTime) &&
+            v.currentTime > 0;
+
           const configure = () => {
             v.autoplay = true;
             v.loop = true;
@@ -351,13 +357,15 @@
           }, 1800);
 
           warmup();
-          if (v.readyState >= 2) markReady();
+          if (isActuallyPlaying()) markReady();
 
           v.addEventListener("loadedmetadata", runAttempts, { once: true });
-          v.addEventListener("loadeddata", markReady, { once: true });
-          v.addEventListener("canplay", markReady, { once: true });
-          v.addEventListener("canplaythrough", markReady, { once: true });
-          v.addEventListener("timeupdate", markReady, { once: true });
+          v.addEventListener("loadeddata", runAttempts, { once: true });
+          v.addEventListener("canplay", runAttempts, { once: true });
+          v.addEventListener("canplaythrough", runAttempts, { once: true });
+          v.addEventListener("timeupdate", () => {
+            if (isActuallyPlaying()) markReady();
+          });
           v.addEventListener("playing", markReady);
           v.addEventListener("error", markFailed, { once: true });
 
