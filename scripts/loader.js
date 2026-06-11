@@ -8,53 +8,43 @@ export function mountLoader() {
   } catch {}
 
   if (isInternalNavigation) {
-    document.querySelector(".loader[data-loader-root]")?.remove();
-
-    const page = document.body?.getAttribute("data-page") || "";
-    const shouldWaitForHeroVideo = page === "home";
-    let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
-    let heroReady = !shouldWaitForHeroVideo;
-
-    if (shouldWaitForHeroVideo) {
-      const hero = document.querySelector(".hero");
-      const video = document.querySelector(".hero .hero-video");
-      heroReady = Boolean(
-        hero?.classList.contains("video-visible") ||
-        hero?.classList.contains("video-ready") ||
-        hero?.classList.contains("video-failed") ||
-        video?.getAttribute("data-show-controls") === "1"
-      );
-    }
-
+    const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+    const startTs = Date.now();
+    const minVisibleMs = prefersReduced ? 220 : 160;
+    let pageLoaded = document.readyState !== "loading";
     let released = false;
-    const release = () => {
-      if (released) return;
-      if (!pageLoaded || !heroReady) return;
-      released = true;
+
+    const finish = () => {
       document.body?.classList.remove("loader-active");
       document.body?.classList.remove("reload-masking");
-      document.documentElement?.classList.remove("internal-navigation");
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
+      const loader = document.querySelector(".loader[data-loader-root]");
+      if (loader instanceof HTMLElement) {
+        loader.style.opacity = "0";
+        loader.style.transition = "opacity .12s ease";
+        window.setTimeout(() => loader.remove(), 160);
+      }
+    };
+
+    const release = () => {
+      if (released) return;
+      if (!pageLoaded) return;
+      const elapsed = Date.now() - startTs;
+      const remaining = Math.max(0, minVisibleMs - elapsed);
+      released = true;
+      window.setTimeout(finish, remaining);
     };
 
     if (!pageLoaded) {
-      const eventName = shouldWaitForHeroVideo ? "DOMContentLoaded" : "load";
-      window.addEventListener(eventName, () => {
-        pageLoaded = true;
-        release();
-      }, { once: true });
-    }
-
-    if (shouldWaitForHeroVideo && !heroReady) {
-      const onHeroReady = () => {
-        heroReady = true;
-        release();
-      };
-      window.addEventListener("dcki:hero-video-visible", onHeroReady, { once: true });
-      window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
-      window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
-      window.setTimeout(onHeroReady, 1800);
+      window.addEventListener(
+        "DOMContentLoaded",
+        () => {
+          pageLoaded = true;
+          release();
+        },
+        { once: true }
+      );
     }
 
     release();
@@ -141,7 +131,6 @@ export function mountLoader() {
     window.setTimeout(() => {
       document.body?.classList.remove("loader-active");
       document.body?.classList.remove("reload-masking");
-      document.documentElement?.classList.remove("internal-navigation");
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
       el.style.opacity = "0";

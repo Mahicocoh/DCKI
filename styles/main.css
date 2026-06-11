@@ -846,23 +846,23 @@ body.menu-open{overflow:hidden}
   .topbar .nav::-webkit-scrollbar{height:0}
   .topbar-menu-btn{width:40px;height:38px;border-radius:0}
   .topbar-menu{
-    --mobile-menu-gap:12px;
+    --mobile-menu-gap:0px;
   }
   .topbar-menu-overlay{
-    inset:calc(var(--mobile-topbar-offset, 132px) + var(--mobile-menu-gap, 12px)) 0 0 0;
+    inset:calc(var(--mobile-topbar-offset, 132px) + var(--mobile-menu-gap, 0px)) 0 0 0;
     background:rgba(15,23,32,.18);
   }
   .topbar-menu.open .topbar-menu-overlay{opacity:1;visibility:visible}
   .topbar-menu-panel{
     position:fixed;
-    top:calc(var(--mobile-topbar-offset, 132px) + var(--mobile-menu-gap, 12px));
+    top:calc(var(--mobile-topbar-offset, 132px) + var(--mobile-menu-gap, 0px));
     left:0;
     right:0;
-    height:calc(100dvh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 12px));
+    height:calc(100dvh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 0px));
     width:100%;
-    max-height:calc(100dvh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 12px));
-    height:calc(100svh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 12px));
-    max-height:calc(100svh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 12px));
+    max-height:calc(100dvh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 0px));
+    height:calc(100svh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 0px));
+    max-height:calc(100svh - var(--mobile-topbar-offset, 132px) - var(--mobile-menu-gap, 0px));
     min-width:0;
     padding:8px 10px calc(18px + env(safe-area-inset-bottom));
     border-radius:0;
