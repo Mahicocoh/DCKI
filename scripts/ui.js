@@ -268,6 +268,7 @@ export function mountMobileHorizontalGuard() {
   let startX = 0;
   let startY = 0;
   let active = false;
+  let startedNearLeftEdge = false;
 
   document.addEventListener(
     "touchstart",
@@ -278,6 +279,7 @@ export function mountMobileHorizontalGuard() {
       startX = touch.clientX;
       startY = touch.clientY;
       active = true;
+      startedNearLeftEdge = startX <= 28;
     },
     { passive: true, capture: true }
   );
@@ -293,6 +295,21 @@ export function mountMobileHorizontalGuard() {
       const dy = touch.clientY - startY;
       const absX = Math.abs(dx);
       const absY = Math.abs(dy);
+      const rootScrollLeft = Math.max(
+        window.scrollX || 0,
+        document.documentElement?.scrollLeft || 0,
+        document.body?.scrollLeft || 0
+      );
+
+      // Block the iOS/Android left-edge horizontal pull that can reveal hidden UI.
+      if (startedNearLeftEdge && dx > 6 && absX > absY) {
+        const target = e.target instanceof Element ? e.target : null;
+        if (!target?.closest(allowHorizontalSelector) && rootScrollLeft <= 0) {
+          e.preventDefault();
+          return;
+        }
+      }
+
       if (absX < 14 || absX <= absY + 6) return;
 
       const target = e.target instanceof Element ? e.target : null;
@@ -304,6 +321,7 @@ export function mountMobileHorizontalGuard() {
 
   const reset = () => {
     active = false;
+    startedNearLeftEdge = false;
   };
 
   document.addEventListener("touchend", reset, { passive: true, capture: true });
