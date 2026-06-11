@@ -92,7 +92,7 @@ export function mountLoader() {
   const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
   const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
   const startTs = Date.now();
-  const minVisibleMs = prefersReduced ? 1000 : isMobile ? 2150 : 2200;
+  const minVisibleMs = prefersReduced ? 700 : isMobile ? 1450 : 1500;
 
   let pct = 0;
   const step = () => {
