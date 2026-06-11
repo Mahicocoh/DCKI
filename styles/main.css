@@ -2554,9 +2554,7 @@ body[data-page="listing"] .distances-v{
 .hero.video-ready .hero-video{opacity:1}
 .hero .hero-video{display:block}
 .hero.video-failed .hero-video{display:block !important}
-.hero.video-visible .hero-video{opacity:1}
 @media (max-width: 820px){
-  .hero .hero-video{opacity:0}
   .hero.video-ready .hero-video{opacity:1}
 }
 .hero .hero-video{

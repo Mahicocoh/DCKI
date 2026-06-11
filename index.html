@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -504,7 +504,7 @@
             if (visible) return;
             visible = true;
             hero.classList.add("video-visible");
-            if (!isMobile) v.style.opacity = "1";
+            v.style.opacity = "1";
             window.dispatchEvent(new CustomEvent("dcki:hero-video-visible"));
           };
 
@@ -519,7 +519,7 @@
             hero.classList.remove("video-ready");
             v.muted = true;
             v.loop = true;
-            v.style.opacity = isMobile ? "0" : "1";
+            v.style.opacity = "1";
             v.controls = false;
             v.style.pointerEvents = "none";
             v.removeAttribute("controls");
