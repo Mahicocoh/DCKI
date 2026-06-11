@@ -845,23 +845,26 @@ body.menu-open{overflow:hidden}
   .topbar .nav a{white-space:nowrap;padding:8px 10px;border-radius:0;font-size:13px}
   .topbar .nav::-webkit-scrollbar{height:0}
   .topbar-menu-btn{width:40px;height:38px;border-radius:0}
+  .topbar-menu{
+    --mobile-menu-gap:8px;
+  }
   .topbar-menu-overlay{
-    inset:var(--mobile-topbar-offset, 90px) 0 0 0;
+    inset:calc(var(--mobile-topbar-offset, 90px) + var(--mobile-menu-gap, 8px)) 0 0 0;
     background:rgba(15,23,32,.18);
   }
   .topbar-menu.open .topbar-menu-overlay{opacity:1;visibility:visible}
   .topbar-menu-panel{
     position:fixed;
-    top:var(--mobile-topbar-offset, 90px);
+    top:calc(var(--mobile-topbar-offset, 90px) + var(--mobile-menu-gap, 8px));
     left:0;
     right:0;
-    height:calc(100dvh - var(--mobile-topbar-offset, 90px));
+    height:calc(100dvh - var(--mobile-topbar-offset, 90px) - var(--mobile-menu-gap, 8px));
     width:100%;
-    max-height:calc(100dvh - var(--mobile-topbar-offset, 90px));
-    height:calc(100svh - var(--mobile-topbar-offset, 90px));
-    max-height:calc(100svh - var(--mobile-topbar-offset, 90px));
+    max-height:calc(100dvh - var(--mobile-topbar-offset, 90px) - var(--mobile-menu-gap, 8px));
+    height:calc(100svh - var(--mobile-topbar-offset, 90px) - var(--mobile-menu-gap, 8px));
+    max-height:calc(100svh - var(--mobile-topbar-offset, 90px) - var(--mobile-menu-gap, 8px));
     min-width:0;
-    padding:4px 10px calc(18px + env(safe-area-inset-bottom));
+    padding:8px 10px calc(18px + env(safe-area-inset-bottom));
     border-radius:0;
     border:0;
     background:#ffffff;
