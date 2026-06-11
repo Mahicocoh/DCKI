@@ -107,18 +107,18 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 210 : isMobile ? 340 : 430;
-  const progressRampMs = prefersReduced ? 140 : isMobile ? 260 : 320;
+  const minVisibleMs = prefersReduced ? 240 : isMobile ? 420 : 520;
+  const progressRampMs = prefersReduced ? 150 : isMobile ? 300 : 360;
 
   let pct = 0;
   const step = () => {
     const elapsed = Date.now() - startTs;
-    const baseTarget = 18 + 74 * Math.min(1, elapsed / progressRampMs);
-    const target = Math.min(92, baseTarget);
+    const baseTarget = 14 + 68 * Math.min(1, elapsed / progressRampMs);
+    const target = Math.min(82, baseTarget);
     if (target <= pct + 0.4) return;
     const from = pct;
     pct = target;
-    animateBarWidth(bar, from, target, prefersReduced ? 90 : isMobile ? 120 : 140);
+    animateBarWidth(bar, from, target, prefersReduced ? 100 : isMobile ? 130 : 150);
   };
 
   const timer = window.setInterval(step, prefersReduced ? 70 : 90);
@@ -144,9 +144,9 @@ export function mountLoader() {
     if (doneOnce) return;
     doneOnce = true;
     window.clearInterval(timer);
-    const finalBarMs = prefersReduced ? 120 : isMobile ? 180 : 210;
-    const finalHoldMs = prefersReduced ? 40 : isMobile ? 90 : 110;
-    const finalFrom = Math.min(96, Math.max(pct, 90));
+    const finalBarMs = prefersReduced ? 150 : isMobile ? 260 : 300;
+    const finalHoldMs = prefersReduced ? 55 : isMobile ? 130 : 150;
+    const finalFrom = Math.min(84, Math.max(pct, 78));
     pct = 100;
     animateBarWidth(bar, finalFrom, 100, finalBarMs);
     const elapsed = Date.now() - startTs;
