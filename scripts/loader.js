@@ -144,11 +144,15 @@ export function mountLoader() {
     if (doneOnce) return;
     doneOnce = true;
     window.clearInterval(timer);
-    const finalBarMs = prefersReduced ? 90 : isMobile ? 130 : 150;
-    animateBarWidth(bar, pct, 100, finalBarMs);
+    const finalBarMs = prefersReduced ? 120 : isMobile ? 180 : 210;
+    const finalHoldMs = prefersReduced ? 40 : isMobile ? 90 : 110;
+    const finalFrom = Math.min(96, Math.max(pct, 90));
+    pct = 100;
+    animateBarWidth(bar, finalFrom, 100, finalBarMs);
     const elapsed = Date.now() - startTs;
     const remaining = Math.max(0, minVisibleMs - elapsed);
     window.setTimeout(() => {
+      bar.style.width = "100%";
       document.body?.classList.remove("loader-active");
       document.body?.classList.remove("reload-masking");
       document.documentElement?.classList.remove("boot-loading");
@@ -156,7 +160,7 @@ export function mountLoader() {
       el.style.opacity = "0";
       el.style.transition = "opacity .1s ease";
       window.setTimeout(() => el.remove(), 110);
-    }, Math.max(remaining, finalBarMs) + (prefersReduced ? 12 : 22));
+    }, Math.max(remaining, finalBarMs + finalHoldMs) + (prefersReduced ? 12 : 22));
   };
 
   const onPageLoaded = () => {
