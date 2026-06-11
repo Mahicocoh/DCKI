@@ -309,6 +309,69 @@ export function mountMobileHorizontalGuard() {
   document.addEventListener("touchcancel", reset, { passive: true, capture: true });
 }
 
+export function mountMobileTopPullGuard() {
+  if (document.body?.dataset.topPullGuardBound === "1") return;
+  document.body.dataset.topPullGuardBound = "1";
+
+  const isMobile = () => window.matchMedia && window.matchMedia("(max-width: 820px)").matches;
+  const allowVerticalScrollSelector = [
+    ".topbar-menu-panel",
+    ".topbar-menu-links",
+    ".topbar-menu-useful-links",
+    ".hscroll",
+    ".distances-table",
+    ".listing-gallery",
+    ".lightbox.pano360",
+    ".pano360-stage"
+  ].join(", ");
+
+  let startY = 0;
+  let active = false;
+
+  document.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!isMobile()) return;
+      const touch = e.touches && e.touches[0];
+      if (!touch) return;
+      startY = touch.clientY;
+      active = true;
+    },
+    { passive: true, capture: true }
+  );
+
+  document.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!active || !isMobile()) return;
+      const touch = e.touches && e.touches[0];
+      if (!touch) return;
+
+      const dy = touch.clientY - startY;
+      if (dy <= 10) return;
+
+      const target = e.target instanceof Element ? e.target : null;
+      if (target?.closest(allowVerticalScrollSelector)) return;
+
+      const scrollTop = Math.max(
+        window.scrollY || 0,
+        document.documentElement?.scrollTop || 0,
+        document.body?.scrollTop || 0
+      );
+      if (scrollTop > 0) return;
+      e.preventDefault();
+    },
+    { passive: false, capture: true }
+  );
+
+  const reset = () => {
+    active = false;
+  };
+
+  document.addEventListener("touchend", reset, { passive: true, capture: true });
+  document.addEventListener("touchcancel", reset, { passive: true, capture: true });
+}
+
 export function mountBnsRate() {
   const target = document.querySelector("[data-bns-rate]");
   if (!(target instanceof HTMLElement)) return;

@@ -23,8 +23,8 @@ export function mountLoader() {
   if (isInternalNavigation) {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     const startTs = Date.now();
-    const minVisibleMs = prefersReduced ? 120 : 140;
-    let pageLoaded = document.readyState !== "loading";
+    const minVisibleMs = prefersReduced ? 450 : 950;
+    let pageLoaded = document.readyState === "complete";
     let released = false;
 
     const finish = () => {
@@ -51,7 +51,7 @@ export function mountLoader() {
 
     if (!pageLoaded) {
       window.addEventListener(
-        "DOMContentLoaded",
+        "load",
         () => {
           pageLoaded = true;
           release();
@@ -124,6 +124,7 @@ export function mountLoader() {
   const timer = window.setInterval(step, prefersReduced ? 70 : 90);
   step();
 
+  const allowHeroVisibleRelease = shouldWaitForHeroVideo && isMobile;
   let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
   let heroReady = !shouldWaitForHeroVideo;
 
@@ -131,6 +132,7 @@ export function mountLoader() {
     const hero = document.querySelector(".hero");
     const video = document.querySelector(".hero .hero-video");
     heroReady = Boolean(
+      hero?.classList.contains("video-visible") ||
       hero?.classList.contains("video-ready") ||
       hero?.classList.contains("video-failed") ||
       video?.getAttribute("data-show-controls") === "1"
@@ -167,6 +169,15 @@ export function mountLoader() {
     done();
   };
 
+  const onHeroVisible = () => {
+    if (!allowHeroVisibleRelease || heroReady) return;
+    window.setTimeout(() => {
+      if (heroReady) return;
+      heroReady = true;
+      done();
+    }, prefersReduced ? 40 : 120);
+  };
+
   if (!pageLoaded) {
     const eventName = shouldWaitForHeroVideo ? "DOMContentLoaded" : "load";
     window.addEventListener(eventName, onPageLoaded, { once: true });
@@ -174,6 +185,9 @@ export function mountLoader() {
 
   if (shouldWaitForHeroVideo) {
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
+    if (allowHeroVisibleRelease) {
+      window.addEventListener("dcki:hero-video-visible", onHeroVisible, { once: true });
+    }
   } else {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
   }

@@ -1,16 +1,14 @@
-import { mountLoader } from "./loader.js?v=202606120045";
+import { mountLoader } from "./loader.js?v=202606120220";
 import { initI18n } from "./i18n.js?v=202606102610";
-import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate, mountMobileHorizontalGuard } from "./ui.js?v=202606101600";
-import { initRecherche } from "./recherche.js?v=202606081915";
-import { initBiens } from "./biens.js?v=202606081915";
-import { initHome } from "./home.js?v=202606081915";
-import { initVideoFallbacks } from "./video-fallback.js?v=202606081915";
-import { initListingPage } from "./listing-page.js?v=202606081915";
-import { initVoiceSearch } from "./voice-search.js?v=202606081915";
-import { initComingSoon } from "./coming-soon.js?v=202606081915";
+import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate, mountMobileHorizontalGuard, mountMobileTopPullGuard } from "./ui.js?v=202606120220";
 
 const FALLBACK_PUBLIC_BASE_URL = "https://dckimmo.ch/";
 const FALLBACK_CONTACT_EMAIL = "contact@dckimmo.ch";
+const loadPageScript = (loader) => {
+  Promise.resolve()
+    .then(loader)
+    .catch(() => {});
+};
 
 function ensureTrailingSlash(url) {
   const s = String(url || "").trim();
@@ -112,11 +110,14 @@ if (page !== "coming-soon") {
   mountLoader();
   applyRuntimeSiteConfig();
   initI18n();
-  initVoiceSearch();
+  if (page === "home" || page === "recherche") {
+    loadPageScript(() => import("./voice-search.js?v=202606081915").then((m) => m.initVoiceSearch()));
+  }
 
   setActiveNav();
   mountTopbarMenu();
   mountMobileHorizontalGuard();
+  mountMobileTopPullGuard();
   mountConstructionToasts();
   mountPartnerComingSoonModal();
   mountAdviceNav();
@@ -134,7 +135,6 @@ if (page !== "coming-soon") {
   mountTypewriters();
   mountDossierPrefill();
   mountDossierChecklist();
-  initVideoFallbacks();
   mountWhatsAppFab();
   mountToTopFab();
   mountCardGalleries();
@@ -145,9 +145,10 @@ if (page !== "coming-soon") {
   mountContactValuesSlide();
   mountCountUps();
   mountTestimonials();
+  loadPageScript(() => import("./video-fallback.js?v=202606081915").then((m) => m.initVideoFallbacks()));
 }
-if (page === "home") initHome();
-if (page === "recherche") initRecherche();
-if (page === "biens") initBiens();
-if (page === "listing") initListingPage();
-if (page === "coming-soon") initComingSoon();
+if (page === "home") loadPageScript(() => import("./home.js?v=202606081915").then((m) => m.initHome()));
+if (page === "recherche") loadPageScript(() => import("./recherche.js?v=202606081915").then((m) => m.initRecherche()));
+if (page === "biens") loadPageScript(() => import("./biens.js?v=202606081915").then((m) => m.initBiens()));
+if (page === "listing") loadPageScript(() => import("./listing-page.js?v=202606081915").then((m) => m.initListingPage()));
+if (page === "coming-soon") loadPageScript(() => import("./coming-soon.js?v=202606081915").then((m) => m.initComingSoon()));

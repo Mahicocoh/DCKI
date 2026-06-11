@@ -32,6 +32,9 @@ body{
   background:var(--bg);
 }
 @media (max-width: 820px){
+  html,body{
+    overscroll-behavior-y:none;
+  }
   html,body,main{
     touch-action:pan-y pinch-zoom;
   }
