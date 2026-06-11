@@ -150,6 +150,11 @@ export function mountTopbarMenu() {
         e.preventDefault();
         e.stopPropagation();
         const next = !useful.classList.contains("open");
+        for (const other of Array.from(menu.querySelectorAll("[data-useful-menu]"))) {
+          if (!(other instanceof HTMLElement) || other === useful) continue;
+          other.classList.remove("open");
+          other.querySelector("[data-useful-toggle]")?.setAttribute("aria-expanded", "false");
+        }
         useful.classList.toggle("open", next);
         toggle.setAttribute("aria-expanded", next ? "true" : "false");
         if (next) autoScrollUseful(menu, useful);

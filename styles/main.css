@@ -911,6 +911,8 @@ body.menu-open{overflow:hidden}
   }
   .topbar-menu-useful{
     min-height:0;
+    position:relative;
+    gap:6px;
   }
   .topbar-menu-useful-links{
     max-height:0;
@@ -920,14 +922,26 @@ body.menu-open{overflow:hidden}
   }
   .topbar-menu-useful.open .topbar-menu-useful-links{
     display:flex;
-    max-height:min(24svh, 180px);
+    position:absolute;
+    top:calc(100% + 6px);
+    left:0;
+    right:0;
+    z-index:3;
+    max-height:min(28svh, 220px);
     overflow-y:auto;
     overflow-x:hidden;
+    padding:8px 8px 8px 0;
+    border:1px solid rgba(15,23,32,.08);
+    background:#ffffff;
+    box-shadow:0 14px 28px rgba(15,23,32,.12);
     padding-right:8px;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
     scrollbar-width:thin;
     scrollbar-color:rgba(200,161,74,.72) rgba(15,23,32,.08);
+  }
+  .topbar-menu-useful.open{
+    z-index:4;
   }
   .topbar-menu-useful-links::-webkit-scrollbar{
     width:4px;
