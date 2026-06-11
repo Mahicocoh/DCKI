@@ -269,6 +269,23 @@ export function mountMobileHorizontalGuard() {
   let startY = 0;
   let active = false;
   let startedNearLeftEdge = false;
+  let restoringScrollX = false;
+
+  const forceRootScrollX = () => {
+    if (!isMobile()) return;
+    if (restoringScrollX) return;
+    const currentX = Math.max(
+      window.scrollX || 0,
+      document.documentElement?.scrollLeft || 0,
+      document.body?.scrollLeft || 0
+    );
+    if (currentX <= 0) return;
+    restoringScrollX = true;
+    window.requestAnimationFrame(() => {
+      window.scrollTo(0, window.scrollY || 0);
+      restoringScrollX = false;
+    });
+  };
 
   document.addEventListener(
     "touchstart",
@@ -315,8 +332,17 @@ export function mountMobileHorizontalGuard() {
       const target = e.target instanceof Element ? e.target : null;
       if (target?.closest(allowHorizontalSelector)) return;
       e.preventDefault();
+      forceRootScrollX();
     },
     { passive: false, capture: true }
+  );
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      forceRootScrollX();
+    },
+    { passive: true, capture: true }
   );
 
   const reset = () => {

@@ -124,7 +124,7 @@ export function mountLoader() {
   const timer = window.setInterval(step, prefersReduced ? 70 : 90);
   step();
 
-  const allowHeroVisibleRelease = shouldWaitForHeroVideo;
+  const allowHeroVisibleRelease = false;
   let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
   let heroReady = !shouldWaitForHeroVideo;
 
@@ -132,7 +132,6 @@ export function mountLoader() {
     const hero = document.querySelector(".hero");
     const video = document.querySelector(".hero .hero-video");
     heroReady = Boolean(
-      hero?.classList.contains("video-visible") ||
       hero?.classList.contains("video-ready") ||
       hero?.classList.contains("video-failed") ||
       video?.getAttribute("data-show-controls") === "1"
