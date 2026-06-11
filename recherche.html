@@ -10,6 +10,42 @@
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
     <script>
       document.documentElement.classList.add("boot-loading");
+      (function () {
+        const ensureReloadMask = () => {
+          const root = document.documentElement;
+          if (!root) return;
+          root.classList.add("boot-loading");
+          root.classList.add("snapshot-blank");
+          root.style.background = "#ffffff";
+          const body = document.body;
+          if (!body) return;
+          body.classList.add("reload-masking");
+          body.style.background = "#ffffff";
+          body.style.opacity = "1";
+          let mask = body.querySelector(".boot-mask[data-boot-mask]");
+          if (!(mask instanceof HTMLDivElement)) {
+            mask = document.createElement("div");
+            mask.className = "boot-mask";
+            mask.setAttribute("data-boot-mask", "1");
+            mask.setAttribute("aria-hidden", "true");
+            body.prepend(mask);
+          }
+          mask.style.opacity = "1";
+          mask.style.visibility = "visible";
+        };
+        window.__dckiEnsureReloadMask = ensureReloadMask;
+        window.__dckiReloadMaskBound = "1";
+        document.addEventListener(
+          "visibilitychange",
+          () => {
+            if (document.hidden) ensureReloadMask();
+          },
+          { capture: true }
+        );
+        window.addEventListener("beforeunload", ensureReloadMask, { capture: true });
+        window.addEventListener("pagehide", ensureReloadMask, { capture: true });
+        window.addEventListener("freeze", ensureReloadMask, { capture: true });
+      })();
     </script>
     <style>
       html.boot-loading,
