@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -484,9 +484,9 @@
           let retryTimer = 0;
           let failTimer = 0;
           const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
-          const retryBaseDelay = isMobile ? 120 : 240;
-          const maxAttempts = isMobile ? 8 : 5;
-          const failDelay = isMobile ? 1500 : 2400;
+          const retryBaseDelay = isMobile ? 180 : 240;
+          const maxAttempts = isMobile ? 24 : 5;
+          const failDelay = isMobile ? 6500 : 2400;
 
           const clearRetryTimer = () => {
             if (!retryTimer) return;
@@ -570,6 +570,7 @@
             v.loop = true;
             v.muted = true;
             v.defaultMuted = true;
+            v.volume = 0;
             v.playsInline = true;
             v.disableRemotePlayback = true;
             v.preload = "auto";
