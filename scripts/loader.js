@@ -94,8 +94,8 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 500 : isMobile ? 1050 : 1150;
-  const maxVisibleMs = page === "home" ? 1800 : null;
+  const minVisibleMs = prefersReduced ? 320 : isMobile ? 820 : 900;
+  const maxVisibleMs = page === "home" ? 1450 : null;
 
   let pct = 0;
   const step = () => {
@@ -134,9 +134,9 @@ export function mountLoader() {
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
       el.style.opacity = "0";
-      el.style.transition = "opacity .14s ease";
-      window.setTimeout(() => el.remove(), 180);
-    }, remaining + (prefersReduced ? 20 : 40));
+      el.style.transition = "opacity .1s ease";
+      window.setTimeout(() => el.remove(), 130);
+    }, remaining + (prefersReduced ? 10 : 20));
   };
 
   const onPageLoaded = () => {
