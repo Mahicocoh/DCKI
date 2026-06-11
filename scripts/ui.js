@@ -24,7 +24,7 @@ export function mountTopbarMenu() {
     const topbar = document.querySelector(".topbar");
     if (!(topbar instanceof HTMLElement)) return;
     const rect = topbar.getBoundingClientRect();
-    const offset = Math.max(0, Math.round((rect.height || rect.bottom || 0) + 8));
+    const offset = Math.max(0, Math.round((rect.height || rect.bottom || 0) + 11));
     if (offset) {
       document.documentElement.style.setProperty("--mobile-topbar-offset", `${offset}px`);
     }
