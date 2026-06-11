@@ -24,7 +24,7 @@ export function mountTopbarMenu() {
     const topbar = document.querySelector(".topbar");
     if (!(topbar instanceof HTMLElement)) return;
     const rect = topbar.getBoundingClientRect();
-    const offset = Math.max(0, Math.round(rect.height || rect.bottom || 0));
+    const offset = Math.max(0, Math.round((rect.height || rect.bottom || 0) + 2));
     if (offset) {
       document.documentElement.style.setProperty("--mobile-topbar-offset", `${offset}px`);
     }
@@ -37,6 +37,7 @@ export function mountTopbarMenu() {
   document.body.classList.remove("menu-open");
   document.documentElement.classList.remove("menu-open");
   syncMobileTopbarOffset();
+  window.addEventListener("load", syncMobileTopbarOffset, { passive: true, once: true });
   window.addEventListener("resize", syncMobileTopbarOffset, { passive: true });
   window.addEventListener("orientationchange", syncMobileTopbarOffset, { passive: true });
   let locked = false;
@@ -131,6 +132,9 @@ export function mountTopbarMenu() {
       const isOpen = menu.classList.contains("open");
       closeAll();
       if (!isOpen) {
+        syncMobileTopbarOffset();
+        window.requestAnimationFrame(syncMobileTopbarOffset);
+        window.setTimeout(syncMobileTopbarOffset, 60);
         menu.classList.add("open");
         btn.setAttribute("aria-expanded", "true");
         syncBodyLock();
