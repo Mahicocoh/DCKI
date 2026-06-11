@@ -1,4 +1,4 @@
-﻿﻿<!doctype html>
+﻿﻿﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -74,6 +74,26 @@
         opacity:0 !important;
         visibility:hidden !important;
         pointer-events:none !important;
+      }
+      html.boot-loading .hero,
+      html.snapshot-blank .hero,
+      body.loader-active .hero,
+      body.reload-masking .hero,
+      html.boot-loading .hero .hero-video,
+      html.snapshot-blank .hero .hero-video,
+      body.loader-active .hero .hero-video,
+      body.reload-masking .hero .hero-video,
+      html.boot-loading .hero .overlay,
+      html.snapshot-blank .hero .overlay,
+      body.loader-active .hero .overlay,
+      body.reload-masking .hero .overlay,
+      html.boot-loading .hero .hero-content,
+      html.snapshot-blank .hero .hero-content,
+      body.loader-active .hero .hero-content,
+      body.reload-masking .hero .hero-content{
+        opacity:0 !important;
+        visibility:hidden !important;
+        transition:none !important;
       }
       .loader[data-loader-root]{
         position:fixed;
@@ -1606,6 +1626,7 @@
         });
         window.addEventListener("beforeunload", ensureReloadMask);
         window.addEventListener("pagehide", ensureReloadMask);
+        window.addEventListener("unload", ensureReloadMask);
         window.addEventListener("freeze", ensureReloadMask);
       })();
       (function () {
