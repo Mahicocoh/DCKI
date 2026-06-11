@@ -125,7 +125,7 @@ export function mountLoader() {
   const timer = window.setInterval(step, prefersReduced ? 70 : 90);
   step();
 
-  const allowHeroVisibleRelease = false;
+  const allowHeroVisibleRelease = shouldWaitForHeroVideo;
   let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
   let heroReady = !shouldWaitForHeroVideo;
 
@@ -206,7 +206,9 @@ export function mountLoader() {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
   }
 
-  maxWaitTimer = window.setTimeout(forceAutoRelease, maxAutoReleaseMs);
+  if (!shouldWaitForHeroVideo) {
+    maxWaitTimer = window.setTimeout(forceAutoRelease, maxAutoReleaseMs);
+  }
 
   done();
 }
