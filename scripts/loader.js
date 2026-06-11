@@ -112,7 +112,6 @@ export function mountLoader() {
     const hero = document.querySelector(".hero");
     const video = document.querySelector(".hero .hero-video");
     heroReady = Boolean(
-      hero?.classList.contains("video-visible") ||
       hero?.classList.contains("video-ready") ||
       hero?.classList.contains("video-failed") ||
       video?.getAttribute("data-show-controls") === "1"
@@ -155,7 +154,6 @@ export function mountLoader() {
   }
 
   if (shouldWaitForHeroVideo) {
-    window.addEventListener("dcki:hero-video-visible", onHeroReady, { once: true });
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
     window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
     window.setTimeout(onHeroReady, prefersReduced ? 700 : isMobile ? 1600 : 2400);
