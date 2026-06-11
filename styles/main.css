@@ -2421,7 +2421,7 @@ body[data-page="listing"] .distances-v{
   overflow:hidden;
   border-bottom:0;
   color:#ffffff;
-  background:transparent;
+  background:#05070a;
 }
 .hero-content{animation:hero-content-in .9s cubic-bezier(.2,.8,.2,1) .05s both}
 @keyframes hero-content-in{
@@ -2570,28 +2570,84 @@ body[data-page="listing"] .distances-v{
   object-fit:cover;
   filter:saturate(1.08) contrast(1.02) brightness(.92);
   z-index:0;
-  background:transparent;
-  opacity:1;
+  background:#05070a;
+  opacity:0;
   pointer-events:none;
-  transition:none;
+  transition:opacity .24s ease;
 }
 .hero .hero-poster{
   position:absolute;
   inset:0;
   z-index:1;
-  background:url("../assets/MAISON FORET.png") center/cover no-repeat;
-  opacity:0;
+  background:
+    linear-gradient(180deg, rgba(5,7,10,.18), rgba(5,7,10,.42) 62%, rgba(5,7,10,.64)),
+    url("../assets/MAISON FORET.png") center/cover no-repeat;
+  opacity:1;
   pointer-events:none;
-  transition:none;
+  transition:opacity .24s ease;
 }
+.hero.video-visible .hero-video,
 .hero.video-ready .hero-video{opacity:1}
+.hero.video-visible .hero-poster,
 .hero.video-ready .hero-poster{opacity:0}
 .hero .hero-video{display:block}
 .hero.video-failed .hero-video{display:block !important}
-.hero .hero-poster{display:none}
+.hero .hero-poster{display:block}
 .hero .hero-video{
   -webkit-appearance:none;
   appearance:none;
+}
+.hero-play-trigger{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%) scale(.94);
+  z-index:4;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  min-width:220px;
+  padding:16px 22px;
+  border:1px solid rgba(255,255,255,.34);
+  background:rgba(7,11,16,.72);
+  color:#fff;
+  box-shadow:0 20px 48px rgba(0,0,0,.28);
+  backdrop-filter:blur(12px);
+  cursor:pointer;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease, transform .2s ease, border-color .2s ease;
+}
+.hero.needs-play .hero-play-trigger{
+  opacity:1;
+  pointer-events:auto;
+  transform:translate(-50%, -50%) scale(1);
+}
+.hero-play-trigger:hover{
+  border-color:rgba(255,255,255,.62);
+}
+.hero-play-trigger-ico{
+  width:52px;
+  height:52px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg, rgba(202,167,79,.98), rgba(226,201,128,.98));
+  color:#10161d;
+  box-shadow:0 10px 22px rgba(0,0,0,.22);
+}
+.hero-play-trigger-ico svg{
+  width:24px;
+  height:24px;
+  margin-left:2px;
+  display:block;
+}
+.hero-play-trigger-text{
+  font-size:16px;
+  font-weight:800;
+  letter-spacing:.01em;
 }
 .hero .hero-video::-webkit-media-controls{display:none !important}
 .hero .hero-video::-webkit-media-controls-overlay-enclosure{display:none !important}
@@ -8660,6 +8716,17 @@ body[data-page="listing"] .map iframe{pointer-events:none}
   .hero h1{font-size:38px;line-height:1.1}
   .hero p{font-size:16px;margin-left:auto;margin-right:auto}
   .hero .overlay{background:linear-gradient(180deg, rgba(7,11,16,.18), rgba(7,11,16,.46) 62%, rgba(7,11,16,.62))}
+  .hero-play-trigger{
+    min-width:0;
+    width:min(88vw, 320px);
+    padding:14px 18px;
+    gap:10px;
+  }
+  .hero-play-trigger-ico{
+    width:46px;
+    height:46px;
+  }
+  .hero-play-trigger-text{font-size:15px}
   .topbar{background:#ffffff;backdrop-filter:none}
   .topbar::before{background:#ffffff;backdrop-filter:none}
   .brand img{

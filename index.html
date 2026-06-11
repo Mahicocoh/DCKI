@@ -228,7 +228,7 @@
         to{transform:rotate(360deg)}
       }
     </style>
-    <link rel="stylesheet" href="./styles/main.css?v=202606101930" />
+    <link rel="stylesheet" href="./styles/main.css?v=202606121230" />
   </head>
   <body data-page="home" class="loader-active" style="background:#ffffff">
     <div class="boot-mask" data-boot-mask="1" aria-hidden="true"></div>
@@ -442,6 +442,14 @@
         </video>
         <div class="hero-poster" aria-hidden="true"></div>
         <div class="overlay"></div>
+        <button class="hero-play-trigger" type="button" aria-label="Lancer la video" hidden data-hero-play>
+          <span class="hero-play-trigger-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M8 6.5v11l9-5.5-9-5.5Z"></path>
+            </svg>
+          </span>
+          <span class="hero-play-trigger-text">Lancer la video</span>
+        </button>
 
         <div class="container hero-content">
           <h1>DCKI IMMOBILIER</h1>
@@ -487,6 +495,7 @@
         (function () {
           const hero = document.querySelector(".hero");
           const v = document.querySelector(".hero .hero-video");
+          const playBtn = document.querySelector("[data-hero-play]");
           if (!hero || !v) return;
 
           let failed = false;
@@ -514,6 +523,19 @@
             failTimer = 0;
           };
 
+          const setPlayButtonVisible = (show) => {
+            hero.classList.toggle("needs-play", show);
+            if (playBtn instanceof HTMLButtonElement) {
+              playBtn.hidden = !show;
+              playBtn.setAttribute("aria-hidden", show ? "false" : "true");
+            }
+            if (show) {
+              v.setAttribute("data-show-controls", "1");
+              return;
+            }
+            v.removeAttribute("data-show-controls");
+          };
+
           const markVisible = () => {
             if (visible) return;
             visible = true;
@@ -528,16 +550,16 @@
             settled = true;
             clearRetryTimer();
             clearFailTimer();
-            markVisible();
+            if (hasFirstFrame()) markVisible();
             hero.classList.add("video-failed");
             hero.classList.remove("video-ready");
             v.muted = true;
             v.loop = true;
-            v.style.opacity = isMobile ? "0" : "1";
+            v.style.opacity = hasFirstFrame() ? "1" : "0";
             v.controls = false;
             v.style.pointerEvents = "none";
             v.removeAttribute("controls");
-            v.removeAttribute("data-show-controls");
+            setPlayButtonVisible(true);
             window.dispatchEvent(new CustomEvent("dcki:hero-video-failed"));
           };
 
@@ -545,11 +567,11 @@
             failed = false;
             settled = false;
             hero.classList.remove("video-failed");
+            setPlayButtonVisible(false);
             v.controls = false;
             v.loop = true;
             v.style.pointerEvents = "none";
             v.removeAttribute("controls");
-            v.removeAttribute("data-show-controls");
             configure();
           };
 
@@ -562,12 +584,12 @@
             markVisible();
             hero.classList.add("video-ready");
             hero.classList.remove("video-failed");
+            setPlayButtonVisible(false);
             v.controls = false;
             v.loop = true;
             v.style.opacity = "1";
             v.style.pointerEvents = "none";
             v.removeAttribute("controls");
-            v.removeAttribute("data-show-controls");
             window.dispatchEvent(new CustomEvent("dcki:hero-video-ready"));
           };
 
@@ -731,6 +753,12 @@
           const onGesture = () => {
             resumePlaybackFromGesture();
           };
+          if (playBtn instanceof HTMLButtonElement) {
+            playBtn.addEventListener("click", (event) => {
+              event.preventDefault();
+              resumePlaybackFromGesture();
+            });
+          }
           document.addEventListener("touchstart", onGesture, { once: true, passive: true });
           document.addEventListener("click", onGesture, { once: true });
           document.addEventListener("pointerdown", onGesture, { once: true, passive: true });
