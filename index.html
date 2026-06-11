@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
+﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -426,9 +426,10 @@
 
     <main>
       <section class="hero">
-        <video class="hero-video" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture x-webkit-airplay="deny" controlslist="nodownload nofullscreen noplaybackrate noremoteplayback" aria-hidden="true" tabindex="-1">
+        <video class="hero-video" src="./assets/178.mp4" poster="./assets/MAISON FORET.png" autoplay muted loop playsinline webkit-playsinline preload="auto" disableremoteplayback disablepictureinpicture x-webkit-airplay="deny" controlslist="nodownload nofullscreen noplaybackrate noremoteplayback" aria-hidden="true" tabindex="-1">
           <source src="./assets/178.mp4" type="video/mp4" />
         </video>
+        <div class="hero-poster" aria-hidden="true"></div>
         <div class="overlay"></div>
 
         <div class="container hero-content">
@@ -504,7 +505,7 @@
             if (visible) return;
             visible = true;
             hero.classList.add("video-visible");
-            v.style.opacity = "1";
+            if (!isMobile) v.style.opacity = "1";
             window.dispatchEvent(new CustomEvent("dcki:hero-video-visible"));
           };
 
@@ -519,7 +520,7 @@
             hero.classList.remove("video-ready");
             v.muted = true;
             v.loop = true;
-            v.style.opacity = "1";
+            v.style.opacity = isMobile ? "0" : "1";
             v.controls = false;
             v.style.pointerEvents = "none";
             v.removeAttribute("controls");
