@@ -94,7 +94,7 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 320 : isMobile ? 820 : 900;
+  const minVisibleMs = prefersReduced ? 320 : isMobile ? 680 : 900;
 
   let pct = 0;
   const step = () => {
