@@ -1,4 +1,4 @@
-import { mountLoader } from "./loader.js?v=202606112355";
+import { mountLoader } from "./loader.js?v=202606120010";
 import { initI18n } from "./i18n.js?v=202606102610";
 import { setActiveNav, wireForms, mountAdviceNav, mountConseilsMobileHover, mountAppointmentPlanner, mountBudgetCalculator, mountM2Calculator, mountRentMaxCalculator, mountRateCalculator, mountWhatsAppFab, mountToTopFab, mountCardGalleries, mountFavorites, mountReveals, mountTeamBadgeSlide, mountContactValuesSlide, mountDossierChecklist, mountTopbarMenu, mountCountUps, mountTestimonials, mountTypewriters, mountDossierPrefill, mountConstructionToasts, mountPartnerComingSoonModal, mountSmartSearch, mountCantonBubbles, mountHomeSearchRanges, mountScrollIndicators, mountBnsRate, mountMobileHorizontalGuard } from "./ui.js?v=202606101600";
 import { initRecherche } from "./recherche.js?v=202606081915";

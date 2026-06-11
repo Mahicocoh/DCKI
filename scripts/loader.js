@@ -10,7 +10,7 @@ export function mountLoader() {
   if (isInternalNavigation) {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     const startTs = Date.now();
-    const minVisibleMs = prefersReduced ? 160 : 110;
+    const minVisibleMs = prefersReduced ? 90 : 45;
     let pageLoaded = document.readyState !== "loading";
     let released = false;
 
@@ -22,8 +22,8 @@ export function mountLoader() {
       const loader = document.querySelector(".loader[data-loader-root]");
       if (loader instanceof HTMLElement) {
         loader.style.opacity = "0";
-        loader.style.transition = "opacity .08s ease";
-        window.setTimeout(() => loader.remove(), 110);
+        loader.style.transition = "opacity .06s ease";
+        window.setTimeout(() => loader.remove(), 75);
       }
     };
 
