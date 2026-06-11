@@ -24,7 +24,7 @@ export function mountTopbarMenu() {
     const topbar = document.querySelector(".topbar");
     if (!(topbar instanceof HTMLElement)) return;
     const rect = topbar.getBoundingClientRect();
-    const offset = Math.max(0, Math.round((rect.height || rect.bottom || 0) + 2));
+    const offset = Math.max(0, Math.round(rect.height || rect.bottom || 0));
     if (offset) {
       document.documentElement.style.setProperty("--mobile-topbar-offset", `${offset}px`);
     }
@@ -32,6 +32,29 @@ export function mountTopbarMenu() {
   const autoScrollUseful = (menu, useful) => {
     if (!isMobile()) return;
     if (!(menu instanceof HTMLElement) || !(useful instanceof HTMLElement)) return;
+    const panel = getPanel(menu);
+    const scroller = menu.querySelector(".topbar-menu-links");
+    if (!(panel instanceof HTMLElement) || !(scroller instanceof HTMLElement)) return;
+    window.requestAnimationFrame(() => {
+      const dropdown = useful.querySelector(".topbar-menu-useful-links");
+      if (!(dropdown instanceof HTMLElement)) return;
+      const footer = menu.querySelector(".topbar-menu-footer");
+      const footerH = footer instanceof HTMLElement ? footer.getBoundingClientRect().height : 0;
+      const usefulRect = useful.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
+      const dropRect = dropdown.getBoundingClientRect();
+      const targetBottom = panelRect.bottom - footerH - 6;
+      const overflowBottom = usefulRect.bottom + dropRect.height + 6 - targetBottom;
+      if (overflowBottom > 1) {
+        scroller.scrollBy({ top: overflowBottom + 10, behavior: "smooth" });
+        return;
+      }
+      const targetTop = panelRect.top + 6;
+      const overflowTop = targetTop - usefulRect.top;
+      if (overflowTop > 1) {
+        scroller.scrollBy({ top: -overflowTop - 10, behavior: "smooth" });
+      }
+    });
   };
 
   document.body.classList.remove("menu-open");
