@@ -10,7 +10,7 @@ export function mountLoader() {
   if (isInternalNavigation) {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     const startTs = Date.now();
-    const minVisibleMs = prefersReduced ? 220 : 160;
+    const minVisibleMs = prefersReduced ? 160 : 110;
     let pageLoaded = document.readyState !== "loading";
     let released = false;
 
@@ -22,8 +22,8 @@ export function mountLoader() {
       const loader = document.querySelector(".loader[data-loader-root]");
       if (loader instanceof HTMLElement) {
         loader.style.opacity = "0";
-        loader.style.transition = "opacity .12s ease";
-        window.setTimeout(() => loader.remove(), 160);
+        loader.style.transition = "opacity .08s ease";
+        window.setTimeout(() => loader.remove(), 110);
       }
     };
 
@@ -94,15 +94,15 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 320 : isMobile ? 680 : 900;
+  const minVisibleMs = prefersReduced ? 220 : isMobile ? 420 : 560;
 
   let pct = 0;
   const step = () => {
-    pct = Math.min(92, pct + (prefersReduced ? 22 : isMobile ? 12 + Math.random() * 14 : 7 + Math.random() * 10));
+    pct = Math.min(92, pct + (prefersReduced ? 28 : isMobile ? 18 + Math.random() * 16 : 12 + Math.random() * 14));
     bar.style.width = `${pct}%`;
   };
 
-  const timer = window.setInterval(step, prefersReduced ? 80 : isMobile ? 100 : 140);
+  const timer = window.setInterval(step, prefersReduced ? 60 : isMobile ? 80 : 110);
   step();
 
   let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
@@ -133,9 +133,9 @@ export function mountLoader() {
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
       el.style.opacity = "0";
-      el.style.transition = "opacity .1s ease";
-      window.setTimeout(() => el.remove(), 130);
-    }, remaining + (prefersReduced ? 10 : 20));
+      el.style.transition = "opacity .08s ease";
+      window.setTimeout(() => el.remove(), 100);
+    }, remaining + (prefersReduced ? 0 : 8));
   };
 
   const onPageLoaded = () => {
@@ -155,7 +155,6 @@ export function mountLoader() {
 
   if (shouldWaitForHeroVideo) {
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
-    window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
   } else {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
   }
