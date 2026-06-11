@@ -2991,8 +2991,10 @@ body[data-page="listing"]{
 }
 body[data-page="biens"] header.topbar,
 body[data-page="listing"] header.topbar{
-  position:sticky;
+  position:fixed;
   top:0;
+  left:0;
+  right:0;
   z-index:300;
 }
 body[data-page="biens"] main,
@@ -4465,8 +4467,10 @@ body[data-page="contact"] footer{
   position:relative;
 }
 body[data-page="contact"] header.topbar{
-  position:sticky;
+  position:fixed;
   top:0;
+  left:0;
+  right:0;
 }
 body[data-page="contact"] header{z-index:90}
 body[data-page="contact"] main{z-index:1}
