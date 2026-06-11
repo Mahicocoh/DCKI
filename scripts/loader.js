@@ -155,6 +155,7 @@ export function mountLoader() {
 
   if (shouldWaitForHeroVideo) {
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
+    window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
   } else {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
   }
