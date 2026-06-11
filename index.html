@@ -498,7 +498,7 @@
           let loadRequested = false;
           let playInFlight = false;
           const isMobile = window.matchMedia?.("(max-width: 820px)")?.matches;
-          const retryBaseDelay = isMobile ? 180 : 220;
+          const retryBaseDelay = isMobile ? 140 : 220;
           const maxAttempts = isMobile ? 24 : 5;
           const failDelay = isMobile ? 6500 : 2400;
 
@@ -632,6 +632,15 @@
             }
           };
 
+          const nudgePlayback = () => {
+            if (settled) return;
+            void tryPlay();
+            window.setTimeout(() => {
+              if (settled) return;
+              void tryPlay();
+            }, isMobile ? 90 : 70);
+          };
+
           const armFailTimer = () => {
             clearFailTimer();
             failTimer = window.setTimeout(() => {
@@ -658,6 +667,7 @@
           const pokePlayback = () => {
             if (settled) return;
             armFailTimer();
+            nudgePlayback();
             scheduleAttempt();
           };
 
@@ -675,6 +685,7 @@
 
           warmup();
           armFailTimer();
+          nudgePlayback();
           if (hasFirstFrame()) markVisible();
           if (isActuallyPlaying()) markReady();
 
@@ -688,6 +699,8 @@
             pokePlayback();
           }, { once: true });
           v.addEventListener("canplaythrough", pokePlayback, { once: true });
+          v.addEventListener("suspend", pokePlayback);
+          v.addEventListener("stalled", pokePlayback);
           v.addEventListener("timeupdate", () => {
             if (hasFirstFrame()) markVisible();
             if (isActuallyPlaying()) markReady();
@@ -710,6 +723,9 @@
               return;
             }
             pokePlayback();
+          });
+          window.requestAnimationFrame(() => {
+            nudgePlayback();
           });
 
           const onGesture = () => {
@@ -1608,7 +1624,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606120520"></script>
+    <script type="module" src="./scripts/app.js?v=202606120610"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
       (function () {
