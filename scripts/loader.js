@@ -33,6 +33,7 @@ export function mountLoader() {
       released = true;
       document.body?.classList.remove("loader-active");
       document.body?.classList.remove("reload-masking");
+      document.documentElement?.classList.remove("internal-navigation");
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
     };
@@ -140,6 +141,7 @@ export function mountLoader() {
     window.setTimeout(() => {
       document.body?.classList.remove("loader-active");
       document.body?.classList.remove("reload-masking");
+      document.documentElement?.classList.remove("internal-navigation");
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
       el.style.opacity = "0";

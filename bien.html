@@ -10,7 +10,11 @@
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
     <script>
-      document.documentElement.classList.add("boot-loading");
+      const isInternalNavigation = window.sessionStorage?.getItem("dcki_internal_nav") === "1";
+      document.documentElement.classList.toggle("internal-navigation", isInternalNavigation);
+      if (!isInternalNavigation) {
+        document.documentElement.classList.add("boot-loading");
+      }
       (function () {
         const ensureReloadMask = () => {
           const root = document.documentElement;
@@ -61,6 +65,22 @@
       body.loader-active{
         overflow:hidden;
         background:#ffffff;
+      }
+      html.internal-navigation body{
+        overflow:auto;
+        background:#ffffff;
+      }
+      html.internal-navigation body > :not(.loader[data-loader-root]):not(.boot-mask[data-boot-mask]){
+        opacity:1 !important;
+        visibility:visible !important;
+        pointer-events:auto !important;
+        transition:none !important;
+      }
+      html.internal-navigation body > .boot-mask[data-boot-mask],
+      html.internal-navigation body > .loader[data-loader-root]{
+        opacity:0 !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
       }
       .boot-mask[data-boot-mask]{
         position:fixed;
