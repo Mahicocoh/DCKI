@@ -95,7 +95,6 @@ export function mountLoader() {
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
   const minVisibleMs = prefersReduced ? 320 : isMobile ? 820 : 900;
-  const maxVisibleMs = page === "home" ? 1450 : null;
 
   let pct = 0;
   const step = () => {
@@ -156,16 +155,8 @@ export function mountLoader() {
 
   if (shouldWaitForHeroVideo) {
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
-    window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
   } else {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
-  }
-
-  if (maxVisibleMs) {
-    window.setTimeout(() => {
-      heroReady = true;
-      done();
-    }, maxVisibleMs);
   }
 
   done();

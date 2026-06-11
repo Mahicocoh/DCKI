@@ -2564,12 +2564,7 @@ body[data-page="listing"] .distances-v{
 .hero.video-ready .hero-poster{opacity:0}
 .hero .hero-video{display:block}
 .hero.video-failed .hero-video{display:block !important}
-@media (max-width: 820px){
-  .hero .hero-poster{opacity:1}
-  .hero.video-ready .hero-video{opacity:1}
-  .hero.video-ready .hero-poster{opacity:0}
-  .hero .hero-video{opacity:0}
-}
+.hero .hero-poster{display:none}
 .hero .hero-video{
   -webkit-appearance:none;
   appearance:none;
