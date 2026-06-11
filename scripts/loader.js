@@ -107,18 +107,19 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 240 : isMobile ? 420 : 520;
-  const progressRampMs = prefersReduced ? 150 : isMobile ? 300 : 360;
+  const minVisibleMs = prefersReduced ? 1200 : isMobile ? 2200 : 2400;
+  const progressRampMs = prefersReduced ? 900 : isMobile ? 1900 : 2050;
+  const maxAutoReleaseMs = prefersReduced ? 1600 : isMobile ? 2800 : 3000;
 
   let pct = 0;
   const step = () => {
     const elapsed = Date.now() - startTs;
-    const baseTarget = 14 + 68 * Math.min(1, elapsed / progressRampMs);
-    const target = Math.min(82, baseTarget);
+    const baseTarget = 10 + 76 * Math.min(1, elapsed / progressRampMs);
+    const target = Math.min(86, baseTarget);
     if (target <= pct + 0.4) return;
     const from = pct;
     pct = target;
-    animateBarWidth(bar, from, target, prefersReduced ? 100 : isMobile ? 130 : 150);
+    animateBarWidth(bar, from, target, prefersReduced ? 140 : isMobile ? 190 : 220);
   };
 
   const timer = window.setInterval(step, prefersReduced ? 70 : 90);
@@ -139,14 +140,16 @@ export function mountLoader() {
   }
 
   let doneOnce = false;
+  let maxWaitTimer = 0;
   const done = () => {
     if (!pageLoaded || !heroReady) return;
     if (doneOnce) return;
     doneOnce = true;
     window.clearInterval(timer);
-    const finalBarMs = prefersReduced ? 150 : isMobile ? 260 : 300;
-    const finalHoldMs = prefersReduced ? 55 : isMobile ? 130 : 150;
-    const finalFrom = Math.min(84, Math.max(pct, 78));
+    if (maxWaitTimer) window.clearTimeout(maxWaitTimer);
+    const finalBarMs = prefersReduced ? 180 : isMobile ? 300 : 340;
+    const finalHoldMs = prefersReduced ? 70 : isMobile ? 150 : 170;
+    const finalFrom = Math.min(92, Math.max(pct, 84));
     pct = 100;
     animateBarWidth(bar, finalFrom, 100, finalBarMs);
     const elapsed = Date.now() - startTs;
@@ -173,6 +176,12 @@ export function mountLoader() {
     done();
   };
 
+  const forceAutoRelease = () => {
+    pageLoaded = true;
+    heroReady = true;
+    done();
+  };
+
   const onHeroVisible = () => {
     if (!allowHeroVisibleRelease || heroReady) return;
     window.setTimeout(() => {
@@ -189,12 +198,15 @@ export function mountLoader() {
 
   if (shouldWaitForHeroVideo) {
     window.addEventListener("dcki:hero-video-ready", onHeroReady, { once: true });
+    window.addEventListener("dcki:hero-video-failed", onHeroReady, { once: true });
     if (allowHeroVisibleRelease) {
       window.addEventListener("dcki:hero-video-visible", onHeroVisible, { once: true });
     }
   } else {
     window.setTimeout(onHeroReady, prefersReduced ? 200 : 1200);
   }
+
+  maxWaitTimer = window.setTimeout(forceAutoRelease, maxAutoReleaseMs);
 
   done();
 }
