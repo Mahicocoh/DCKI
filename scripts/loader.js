@@ -1,6 +1,19 @@
 import { t } from "./i18n.js?v=202606102610";
 
 export function mountLoader() {
+  const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3);
+  const animateBarWidth = (bar, from, to, duration) => {
+    if (!(bar instanceof HTMLDivElement)) return;
+    const start = performance.now();
+    const tick = (now) => {
+      const progress = duration <= 0 ? 1 : Math.min(1, (now - start) / duration);
+      const value = from + (to - from) * easeOutCubic(progress);
+      bar.style.width = `${value}%`;
+      if (progress < 1) window.requestAnimationFrame(tick);
+    };
+    window.requestAnimationFrame(tick);
+  };
+
   let isInternalNavigation = false;
   try {
     isInternalNavigation = window.sessionStorage?.getItem("dcki_internal_nav") === "1";
@@ -10,7 +23,7 @@ export function mountLoader() {
   if (isInternalNavigation) {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     const startTs = Date.now();
-    const minVisibleMs = prefersReduced ? 90 : 45;
+    const minVisibleMs = prefersReduced ? 120 : 140;
     let pageLoaded = document.readyState !== "loading";
     let released = false;
 
@@ -22,8 +35,8 @@ export function mountLoader() {
       const loader = document.querySelector(".loader[data-loader-root]");
       if (loader instanceof HTMLElement) {
         loader.style.opacity = "0";
-        loader.style.transition = "opacity .06s ease";
-        window.setTimeout(() => loader.remove(), 75);
+        loader.style.transition = "opacity .12s ease";
+        window.setTimeout(() => loader.remove(), 130);
       }
     };
 
@@ -94,15 +107,21 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 220 : isMobile ? 420 : 560;
+  const minVisibleMs = prefersReduced ? 240 : isMobile ? 460 : 620;
+  const progressRampMs = prefersReduced ? 180 : isMobile ? 420 : 520;
 
   let pct = 0;
   const step = () => {
-    pct = Math.min(92, pct + (prefersReduced ? 28 : isMobile ? 18 + Math.random() * 16 : 12 + Math.random() * 14));
-    bar.style.width = `${pct}%`;
+    const elapsed = Date.now() - startTs;
+    const baseTarget = 18 + 74 * Math.min(1, elapsed / progressRampMs);
+    const target = Math.min(92, baseTarget);
+    if (target <= pct + 0.4) return;
+    const from = pct;
+    pct = target;
+    animateBarWidth(bar, from, target, prefersReduced ? 90 : isMobile ? 120 : 140);
   };
 
-  const timer = window.setInterval(step, prefersReduced ? 60 : isMobile ? 80 : 110);
+  const timer = window.setInterval(step, prefersReduced ? 70 : 90);
   step();
 
   let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
@@ -124,7 +143,7 @@ export function mountLoader() {
     if (doneOnce) return;
     doneOnce = true;
     window.clearInterval(timer);
-    bar.style.width = "100%";
+    animateBarWidth(bar, pct, 100, prefersReduced ? 90 : 150);
     const elapsed = Date.now() - startTs;
     const remaining = Math.max(0, minVisibleMs - elapsed);
     window.setTimeout(() => {
@@ -133,9 +152,9 @@ export function mountLoader() {
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
       el.style.opacity = "0";
-      el.style.transition = "opacity .08s ease";
-      window.setTimeout(() => el.remove(), 100);
-    }, remaining + (prefersReduced ? 0 : 8));
+      el.style.transition = "opacity .14s ease";
+      window.setTimeout(() => el.remove(), 150);
+    }, remaining + (prefersReduced ? 8 : 18));
   };
 
   const onPageLoaded = () => {

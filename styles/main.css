@@ -8515,6 +8515,7 @@ body.menu-open .to-top-fab{
   border-radius:999px;
   background:linear-gradient(90deg, rgba(11,42,58,.96), rgba(200,161,74,.95));
   transition:width .22s ease;
+  will-change:width;
 }
 .loader .hint{margin:12px 0 0;text-align:center;color:rgba(15,23,32,.68);font-size:13px}
 
