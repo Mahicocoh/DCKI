@@ -23,7 +23,7 @@ export function mountLoader() {
   if (isInternalNavigation) {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
     const startTs = Date.now();
-    const minVisibleMs = prefersReduced ? 450 : 950;
+    const minVisibleMs = prefersReduced ? 150 : 260;
     let pageLoaded = document.readyState === "complete";
     let released = false;
 
@@ -107,8 +107,8 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 240 : isMobile ? 460 : 620;
-  const progressRampMs = prefersReduced ? 180 : isMobile ? 420 : 520;
+  const minVisibleMs = prefersReduced ? 170 : isMobile ? 280 : 360;
+  const progressRampMs = prefersReduced ? 110 : isMobile ? 220 : 280;
 
   let pct = 0;
   const step = () => {
@@ -124,7 +124,7 @@ export function mountLoader() {
   const timer = window.setInterval(step, prefersReduced ? 70 : 90);
   step();
 
-  const allowHeroVisibleRelease = shouldWaitForHeroVideo && isMobile;
+  const allowHeroVisibleRelease = shouldWaitForHeroVideo;
   let pageLoaded = shouldWaitForHeroVideo ? document.readyState !== "loading" : document.readyState === "complete";
   let heroReady = !shouldWaitForHeroVideo;
 
@@ -145,7 +145,8 @@ export function mountLoader() {
     if (doneOnce) return;
     doneOnce = true;
     window.clearInterval(timer);
-    animateBarWidth(bar, pct, 100, prefersReduced ? 90 : 150);
+    const finalBarMs = prefersReduced ? 60 : isMobile ? 85 : 100;
+    animateBarWidth(bar, pct, 100, finalBarMs);
     const elapsed = Date.now() - startTs;
     const remaining = Math.max(0, minVisibleMs - elapsed);
     window.setTimeout(() => {
@@ -154,9 +155,9 @@ export function mountLoader() {
       document.documentElement?.classList.remove("boot-loading");
       document.documentElement?.classList.remove("snapshot-blank");
       el.style.opacity = "0";
-      el.style.transition = "opacity .14s ease";
-      window.setTimeout(() => el.remove(), 150);
-    }, remaining + (prefersReduced ? 8 : 18));
+      el.style.transition = "opacity .1s ease";
+      window.setTimeout(() => el.remove(), 110);
+    }, Math.max(remaining, finalBarMs) + (prefersReduced ? 6 : 10));
   };
 
   const onPageLoaded = () => {

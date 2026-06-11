@@ -10,7 +10,14 @@
     <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
     <link rel="apple-touch-icon" href="./assets/1.jpg" />
     <script>
+            let __dckiSkipLoader = false;
+      try {
+        __dckiSkipLoader = window.sessionStorage?.getItem("dcki_internal_nav") === "1";
+      } catch {}
       document.documentElement.classList.add("boot-loading");
+      if (__dckiSkipLoader) {
+        document.documentElement.setAttribute("data-skip-loader", "1");
+      }
       (function () {
         const ensureReloadMask = () => {
           const root = document.documentElement;
@@ -61,6 +68,9 @@
       body.loader-active{
         overflow:hidden;
         background:#ffffff;
+      }
+      html[data-skip-loader="1"] body > .loader[data-loader-root]{
+        display:none !important;
       }
       .boot-mask[data-boot-mask]{
         position:fixed;
@@ -819,7 +829,7 @@
     </footer>
 
     <div class="toast" data-toast></div>
-    <script type="module" src="./scripts/app.js?v=202606120145"></script>
+    <script type="module" src="./scripts/app.js?v=202606120430"></script>
     <script>
       document.getElementById("y").textContent = new Date().getFullYear();
     </script>
