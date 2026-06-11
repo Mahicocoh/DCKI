@@ -107,8 +107,8 @@ export function mountLoader() {
   const startTs = Date.now();
   const page = document.body?.getAttribute("data-page") || "";
   const shouldWaitForHeroVideo = page === "home";
-  const minVisibleMs = prefersReduced ? 170 : isMobile ? 280 : 360;
-  const progressRampMs = prefersReduced ? 110 : isMobile ? 220 : 280;
+  const minVisibleMs = prefersReduced ? 210 : isMobile ? 340 : 430;
+  const progressRampMs = prefersReduced ? 140 : isMobile ? 260 : 320;
 
   let pct = 0;
   const step = () => {

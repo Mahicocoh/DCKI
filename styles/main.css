@@ -23,13 +23,17 @@
 
 *{box-sizing:border-box}
 html,body{height:100%;overflow-x:hidden;overscroll-behavior-x:none}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top:var(--topbar-height, 138px);
+}
 body{
   margin:0;
   font-family:var(--fontText);
   font-size:21.12px;
   color:var(--text);
   background:var(--bg);
+  padding-top:var(--topbar-height, 138px);
 }
 @media (max-width: 820px){
   html,body{
@@ -163,7 +167,11 @@ body[data-page="listing"] .pill{max-width:100%;flex-wrap:wrap;white-space:normal
 .unavailable-note .v{color:rgba(15,23,32,.70)}
 
 .topbar{
-  position:sticky;top:0;z-index:90;
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:90;
   border-bottom:1px solid var(--line);
   background:#ffffff;
   backdrop-filter:blur(10px);
