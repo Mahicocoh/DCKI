@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿<!doctype html>
+﻿﻿﻿﻿﻿﻿﻿﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -521,17 +521,10 @@
             v.loop = false;
             v.style.opacity = "1";
             v.removeAttribute("autoplay");
-            if (isMobile) {
-              v.controls = false;
-              v.style.pointerEvents = "none";
-              v.removeAttribute("controls");
-              v.removeAttribute("data-show-controls");
-            } else {
-              v.controls = true;
-              v.style.pointerEvents = "auto";
-              v.setAttribute("controls", "");
-              v.setAttribute("data-show-controls", "1");
-            }
+            v.controls = false;
+            v.style.pointerEvents = "none";
+            v.removeAttribute("controls");
+            v.removeAttribute("data-show-controls");
             window.dispatchEvent(new CustomEvent("dcki:hero-video-failed"));
           };
 
