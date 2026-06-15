@@ -34,6 +34,8 @@ const previewTitle = document.querySelector("[data-admin-preview-title]");
 const previewMeta = document.querySelector("[data-admin-preview-meta]");
 const previewDesc = document.querySelector("[data-admin-preview-desc]");
 
+const ONLY_LISTING_ID = "JU-GLO-009";
+
 let listings = [];
 let selectedId = "";
 let stateTags = [];
@@ -260,6 +262,7 @@ function renderList() {
 async function load() {
   const data = await api("/api/admin/listings");
   listings = Array.isArray(data.listings) ? data.listings : [];
+  listings = listings.filter((l) => String(l?.id || "").trim().toUpperCase() === ONLY_LISTING_ID);
   if (!selectedId && listings.length) selectedId = listings[0].id;
   const selected = listings.find((l) => l.id === selectedId);
   if (selected) setForm(selected);
@@ -513,6 +516,8 @@ galleryHost?.addEventListener("drop", (e) => {
 
 void ensureAdminSession().then((ok) => {
   if (!ok) return;
+  btnNew?.setAttribute("hidden", "hidden");
+  if (form?.id) form.id.readOnly = true;
   load().catch(() => {
     window.location.replace("/admin/login.html");
   });

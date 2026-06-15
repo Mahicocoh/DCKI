@@ -1,6 +1,12 @@
 import { kv } from "@vercel/kv";
 
 const KEY = "dcki:listings";
+const ONLY_LISTING_ID = "JU-GLO-009";
+
+function filterToSingleListing(listings) {
+  if (!Array.isArray(listings)) return [];
+  return listings.filter((l) => String(l?.id || "").trim().toUpperCase() === ONLY_LISTING_ID);
+}
 
 function hasOwn(obj, key) {
   return !!obj && Object.prototype.hasOwnProperty.call(obj, key);
@@ -8,7 +14,7 @@ function hasOwn(obj, key) {
 
 function normalizeListingPayload(payload, prev) {
   const out = {};
-  out.id = String(payload?.id || "").trim();
+  out.id = String(payload?.id || "").trim().toUpperCase();
   out.category = payload?.category === "sale" ? "sale" : "rent";
   out.status = payload?.status === "sold" ? "sold" : payload?.status === "rented" ? "rented" : "";
   out.propertyType = String(payload?.propertyType || "").trim();
@@ -48,19 +54,21 @@ async function loadSeedListings() {
   const modUrl = new URL("./../scripts/listings-data.js", import.meta.url);
   const mod = await import(modUrl.href);
   const all = Array.isArray(mod.LISTINGS) ? mod.LISTINGS : [];
-  return all.filter((l) => l && typeof l.id === "string" && !String(l.id).includes("-AUTO-"));
+  return all
+    .filter((l) => l && typeof l.id === "string" && !String(l.id).includes("-AUTO-"))
+    .filter((l) => String(l.id).trim() === ONLY_LISTING_ID);
 }
 
 export async function getListings() {
   const existing = await kv.get(KEY);
-  if (Array.isArray(existing) && existing.length) {
+  const filteredExisting = filterToSingleListing(existing);
+  if (filteredExisting.length) {
     const seed = await loadSeedListings();
-    const seedById = new Map(seed.map((l) => [l.id, l]));
-    let changed = false;
-    const merged = existing.map((l) => {
-      const s = seedById.get(l?.id);
-      if (!s) return l;
-      const next = { ...l };
+    const s = seed[0];
+    let out = filteredExisting.slice(0, 1);
+    if (s) {
+      const next = { ...out[0] };
+      let changed = false;
       if (!next.title_en && s.title_en) {
         next.title_en = s.title_en;
         changed = true;
@@ -69,37 +77,42 @@ export async function getListings() {
         next.description_en = s.description_en;
         changed = true;
       }
-      return next;
-    });
-    if (changed) await kv.set(KEY, merged);
-    return merged;
+      out = [next];
+      if (changed) await kv.set(KEY, out);
+    }
+    if (Array.isArray(existing) && existing.length !== out.length) await kv.set(KEY, out);
+    return out;
   }
+
   const seed = await loadSeedListings();
   await kv.set(KEY, seed);
   return seed;
 }
 
 export async function setListings(listings) {
-  await kv.set(KEY, listings);
+  await kv.set(KEY, filterToSingleListing(listings));
 }
 
 export async function createListing(payload) {
   const listing = normalizeListingPayload(payload, null);
+  if (listing.id !== ONLY_LISTING_ID) return { ok: false, error: "Création désactivée: un seul bien est géré via l’admin." };
   const err = validateListing(listing);
   if (err) return { ok: false, error: err };
   const listings = await getListings();
   if (listings.some((l) => l.id === listing.id)) return { ok: false, error: "Référence déjà existante.", status: 409 };
-  const next = [listing, ...listings];
+  const next = [listing];
   await setListings(next);
   return { ok: true, listing };
 }
 
 export async function updateListing(id, payload) {
+  const normalizedId = String(id || "").trim().toUpperCase();
+  if (normalizedId !== ONLY_LISTING_ID) return { ok: false, error: "Bien introuvable.", status: 404 };
   const listings = await getListings();
-  const idx = listings.findIndex((l) => l.id === id);
+  const idx = listings.findIndex((l) => l.id === normalizedId);
   if (idx === -1) return { ok: false, error: "Bien introuvable.", status: 404 };
   const prev = listings[idx];
-  const listing = normalizeListingPayload({ ...payload, id }, prev);
+  const listing = normalizeListingPayload({ ...payload, id: normalizedId }, prev);
   const err = validateListing(listing);
   if (err) return { ok: false, error: err };
   const next = listings.slice();
@@ -109,11 +122,13 @@ export async function updateListing(id, payload) {
 }
 
 export async function deleteListing(id) {
+  const normalizedId = String(id || "").trim().toUpperCase();
+  if (normalizedId !== ONLY_LISTING_ID) return { ok: false, error: "Bien introuvable.", status: 404 };
   const listings = await getListings();
-  const idx = listings.findIndex((l) => l.id === id);
+  const idx = listings.findIndex((l) => l.id === normalizedId);
   if (idx === -1) return { ok: false, error: "Bien introuvable.", status: 404 };
-  const next = listings.slice();
-  const removed = next.splice(idx, 1)[0];
+  const next = listings.filter((l) => l.id !== normalizedId);
+  const removed = listings[idx];
   await setListings(next);
   return { ok: true, listing: removed };
 }
