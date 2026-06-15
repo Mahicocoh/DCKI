@@ -284,8 +284,7 @@
       "Local vélos",
       "Place de parc extérieure"
     ],
-    "image": "/assets/22.jpg",
-    "gallery": ["/assets/22.jpg"]
+    "image": "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=70"
   },
   {
     "id": "JUB-TAV-010",

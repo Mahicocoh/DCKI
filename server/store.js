@@ -8,10 +8,6 @@ function filterToSingleListing(listings) {
   return listings.filter((l) => String(l?.id || "").trim().toUpperCase() === ONLY_LISTING_ID);
 }
 
-function isUnsplashUrl(value) {
-  return String(value || "").toLowerCase().includes("images.unsplash.com");
-}
-
 function hasOwn(obj, key) {
   return !!obj && Object.prototype.hasOwnProperty.call(obj, key);
 }
@@ -79,14 +75,6 @@ export async function getListings() {
       }
       if (!next.description_en && s.description_en) {
         next.description_en = s.description_en;
-        changed = true;
-      }
-      if (!next.image || isUnsplashUrl(next.image)) {
-        next.image = s.image;
-        changed = true;
-      }
-      if (!Array.isArray(next.gallery) || !next.gallery.length || next.gallery.every((u) => isUnsplashUrl(u))) {
-        next.gallery = Array.isArray(s.gallery) ? s.gallery.slice() : [];
         changed = true;
       }
       out = [next];
