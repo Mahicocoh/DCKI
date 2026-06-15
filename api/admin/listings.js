@@ -2,6 +2,27 @@ import { json, readBody } from "../../server/http.js";
 import { isAuthed } from "../../server/auth.js";
 import { getListings, createListing } from "../../server/store.js";
 
+function getDefaultListing() {
+  return {
+    id: "JU-GLO-009",
+    category: "rent",
+    status: "",
+    propertyType: "Studio",
+    title: "Magnifique studio entièrement rénové",
+    description:
+      "Très beau studio entièrement rénové à neuf, situé à Glovelier, au Village 2.\n\nCuisine équipée, triple vitrage, colonne de lavage, place de parc, cave et entrée indépendante.",
+    region: "Jura",
+    locality: "Glovelier",
+    rooms: 1,
+    surface: 31.4,
+    price: 750,
+    priceSuffix: "/mois",
+    tags: ["Entièrement rénové", "Place de parc", "Quartier calme", "Cave"],
+    image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=70",
+    gallery: ["https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=70"],
+  };
+}
+
 export default async function handler(req, res) {
   if (!isAuthed(req)) {
     json(res, 401, { ok: false, error: "Unauthorized" });
@@ -10,7 +31,11 @@ export default async function handler(req, res) {
 
   if (req.method === "GET") {
     try {
-      const listings = await getListings();
+      let listings = await getListings();
+      if (!Array.isArray(listings) || !listings.length) {
+        await createListing(getDefaultListing());
+        listings = await getListings();
+      }
       json(res, 200, { ok: true, listings });
     } catch (e) {
       json(res, 500, { ok: false, error: e?.message || "Erreur serveur." });
