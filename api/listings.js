@@ -1,5 +1,5 @@
-import { getListings } from "./_lib/store.js";
-import { json } from "./_lib/http.js";
+import { getListings } from "../server/store.js";
+import { json } from "../server/http.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
@@ -14,4 +14,3 @@ export default async function handler(req, res) {
     json(res, 500, { ok: false, error: e?.message || "Erreur serveur." });
   }
 }
-

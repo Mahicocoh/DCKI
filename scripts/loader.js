@@ -110,6 +110,7 @@ export function mountLoader() {
   const minVisibleMs = prefersReduced ? 1800 : 3000;
   const progressRampMs = prefersReduced ? 1500 : 2550;
   const maxAutoReleaseMs = prefersReduced ? 2200 : 3200;
+  const maxHeroAutoReleaseMs = prefersReduced ? 2600 : isMobile ? 6200 : 5200;
 
   let pct = 0;
   const step = () => {
@@ -208,6 +209,8 @@ export function mountLoader() {
 
   if (!shouldWaitForHeroVideo) {
     maxWaitTimer = window.setTimeout(forceAutoRelease, maxAutoReleaseMs);
+  } else {
+    maxWaitTimer = window.setTimeout(forceAutoRelease, maxHeroAutoReleaseMs);
   }
 
   done();

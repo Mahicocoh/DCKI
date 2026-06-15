@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -7,8 +7,8 @@
     <meta name="description" content="Détail d’un bien immobilier — DCKImmo." />
     <meta name="theme-color" content="#ffffff" />
     <meta name="dcki-public-base-url" content="https://dckimmo.ch/" />
-    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
-    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script>
             let __dckiSkipLoader = false;
       try {
@@ -415,7 +415,7 @@
       <div class="container">
         <div class="panel">
           <div class="inner">
-            <a class="btn ghost small" href="./biens.html">← Retour aux biens</a>
+            <a class="btn ghost small" href="./biens.html">â† Retour aux biens</a>
           </div>
         </div>
 
@@ -470,7 +470,7 @@
                   <div class="map-pin" aria-hidden="true"></div>
                   <div class="map-zoom" aria-label="Zoom">
                     <button class="map-zoom-btn" type="button" data-map-zoom-in aria-label="Zoom +">+</button>
-                    <button class="map-zoom-btn" type="button" data-map-zoom-out aria-label="Zoom -">−</button>
+                    <button class="map-zoom-btn" type="button" data-map-zoom-out aria-label="Zoom -">&minus;</button>
                   </div>
                 </div>
                 <div class="map-actions" style="margin-top:12px">
@@ -608,22 +608,23 @@
                 </div>
 
                 <h3 style="margin:18px 0 8px" id="demande-visite">Demande de visite</h3>
-                <form class="form" data-demo-form="Demande de visite" id="listing-form">
+                <form class="form" data-demo-form="Demande de visite" id="listing-form" method="post" enctype="multipart/form-data" data-form-endpoint="/api/contact">
+                  <input type="hidden" name="form_label" value="Demande de visite" />
                   <div class="field">
                     <span class="label">Nom</span>
-                    <input class="control" required placeholder="Nom Prénom" />
+                    <input class="control" name="name" required placeholder="Nom Prénom" />
                   </div>
                   <div class="field">
                     <span class="label">Email</span>
-                    <input class="control" type="email" required placeholder="vous@exemple.ch" />
+                    <input class="control" name="email" type="email" required placeholder="vous@exemple.ch" />
                   </div>
                   <div class="field">
                     <span class="label">Téléphone</span>
-                    <input class="control" required placeholder="+41 …" />
+                    <input class="control" name="phone" required placeholder="+41 …" />
                   </div>
                   <div class="field">
                     <span class="label">Type de demande</span>
-                    <select class="control" required data-appointment-request-type>
+                    <select class="control" name="request_type" required data-appointment-request-type>
                       <option value="visit">Demande de visite</option>
                       <option value="dossier">Demande de dossier</option>
                       <option value="rent">Louer un bien</option>
@@ -647,10 +648,10 @@
                   </div>
                   <div class="field full">
                     <span class="label">Message</span>
-                    <textarea class="control" rows="4" required placeholder="Vos disponibilités, questions, informations…" data-appointment-message></textarea>
+                    <textarea class="control" name="message" rows="4" required placeholder="Vos disponibilités, questions, informations…" data-appointment-message></textarea>
                   </div>
                   <div class="field full form-consent" data-form-consent>
-                    <input class="consent-input" type="checkbox" id="listing-privacy-consent" required data-privacy-consent aria-labelledby="listing-consent-copy" />
+                    <input class="consent-input" type="checkbox" id="listing-privacy-consent" name="privacy_consent" required data-privacy-consent aria-labelledby="listing-consent-copy" />
                     <label class="consent-label" for="listing-privacy-consent">
                       <span class="consent-box" aria-hidden="true"></span>
                     </label>
@@ -1153,7 +1154,7 @@
           if (el instanceof HTMLElement) el.textContent = txt;
         };
 
-        setText("a.btn.ghost.small[href=\"./biens.html\"]", pick("← Retour aux biens", "← Back to properties"));
+        setText("a.btn.ghost.small[href=\"./biens.html\"]", pick("â† Retour aux biens", "â† Back to properties"));
         setText(".panel .inner h3:nth-of-type(1)", pick("Description", "Description"));
         setText(".panel .inner h3:nth-of-type(2)", pick("Caractéristiques", "Features"));
         setText(".panel .inner h3:nth-of-type(3)", pick("Contact", "Contact"));

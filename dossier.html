@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -6,8 +6,8 @@
     <title>Demande de dossier — DCKImmo</title>
     <meta name="description" content="Demande de dossier de location/achat pour DCKImmo." />
     <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
-    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script>
             let __dckiSkipLoader = false;
       try {
@@ -443,7 +443,8 @@
             <div class="inner">
               <h2>Formulaire</h2>
               <p class="fine">Demande d’achat ou de location — réponse rapide par email.</p>
-              <form class="form" data-demo-form="Demande de dossier" method="post" data-form-endpoint="">
+              <form class="form" data-demo-form="Demande de dossier" method="post" enctype="multipart/form-data" data-form-endpoint="/api/contact">
+                <input type="hidden" name="form_label" value="Demande de dossier" />
                 <div class="field">
                   <span class="label">Nom</span>
                   <input class="control" name="name" required placeholder="Nom Prénom" />
@@ -706,3 +707,4 @@
     </script>
   </body>
 </html>
+

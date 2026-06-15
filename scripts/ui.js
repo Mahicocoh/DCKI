@@ -1367,7 +1367,29 @@ export function wireForms() {
         if (submitBtn instanceof HTMLButtonElement) submitBtn.disabled = true;
 
         const fd = new FormData(form);
-        fetch(endpoint, { method: "POST", body: fd })
+        let hasFile = false;
+        for (const [, v] of fd.entries()) {
+          if (v instanceof File && v.size > 0) {
+            hasFile = true;
+            break;
+          }
+        }
+
+        const makeBody = () => {
+          if (hasFile) return { body: fd, headers: undefined };
+          const params = new URLSearchParams();
+          for (const [k, v] of fd.entries()) {
+            if (v instanceof File) continue;
+            params.append(k, String(v));
+          }
+          return {
+            body: params,
+            headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" }
+          };
+        };
+
+        const payload = makeBody();
+        fetch(endpoint, { method: "POST", body: payload.body, headers: payload.headers })
           .then((r) => {
             if (!r.ok) throw new Error("Bad status");
             showToast(t("toast.form.sent", { label }));

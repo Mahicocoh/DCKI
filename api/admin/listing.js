@@ -1,6 +1,6 @@
-import { json, readBody } from "../_lib/http.js";
-import { isAuthed } from "../_lib/auth.js";
-import { updateListing, deleteListing } from "../_lib/store.js";
+import { json, readBody } from "../../server/http.js";
+import { isAuthed } from "../../server/auth.js";
+import { updateListing, deleteListing } from "../../server/store.js";
 
 export default async function handler(req, res) {
   if (!isAuthed(req)) {
@@ -54,4 +54,3 @@ export default async function handler(req, res) {
 
   json(res, 405, { ok: false, error: "Method not allowed" });
 }
-

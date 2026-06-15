@@ -1,11 +1,11 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Contact — DCKImmo</title>
-    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
-    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script>
             let __dckiSkipLoader = false;
       try {
@@ -583,7 +583,8 @@
             <div class="panel" id="formulaire">
               <div class="inner">
                 <h2 style="margin-top:0">Formulaire</h2>
-                <form class="form" data-demo-form="Formulaire de contact" id="contact-form" method="post" enctype="multipart/form-data" data-form-endpoint="">
+                <form class="form" data-demo-form="Formulaire de contact" id="contact-form" method="post" enctype="multipart/form-data" data-form-endpoint="/api/contact">
+                  <input type="hidden" name="form_label" value="Formulaire de contact" />
                   <div class="field">
                     <span class="label">Nom</span>
                     <input class="control" name="name" required placeholder="Nom Prénom" />
@@ -802,3 +803,4 @@
     <script type="module" src="./scripts/app.js?v=202606121300"></script>
   </body>
 </html>
+

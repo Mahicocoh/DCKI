@@ -10,6 +10,62 @@ const loadPageScript = (loader) => {
     .catch(() => {});
 };
 
+function clearReloadMask() {
+  const root = document.documentElement;
+  const body = document.body;
+  if (!root || !body) return;
+
+  root.classList.remove("snapshot-blank");
+  root.classList.remove("boot-loading");
+  body.classList.remove("reload-masking");
+
+  const mask = body.querySelector(".boot-mask[data-boot-mask]");
+  if (mask instanceof HTMLElement) {
+    mask.style.opacity = "0";
+    mask.style.visibility = "hidden";
+  }
+}
+
+function ensureFavicons() {
+  const head = document.head;
+  if (!head) return;
+
+  const ensure = (rel, attrs) => {
+    let link = head.querySelector(`link[rel="${rel}"]`);
+    if (!(link instanceof HTMLLinkElement)) {
+      link = document.createElement("link");
+      link.rel = rel;
+      head.appendChild(link);
+    }
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null) continue;
+      link.setAttribute(k, String(v));
+    }
+  };
+
+  ensure("icon", { href: "/favicon.png", type: "image/png", sizes: "32x32" });
+  ensure("apple-touch-icon", { href: "/apple-touch-icon.png" });
+}
+
+window.addEventListener(
+  "pageshow",
+  (e) => {
+    if (e?.persisted) clearReloadMask();
+  },
+  { capture: true }
+);
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+    if (!document.hidden) clearReloadMask();
+  },
+  { capture: true }
+);
+
+clearReloadMask();
+ensureFavicons();
+
 function ensureTrailingSlash(url) {
   const s = String(url || "").trim();
   if (!s) return "";

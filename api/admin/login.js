@@ -1,5 +1,5 @@
-import { json, readBody } from "../_lib/http.js";
-import { isAdminConfigured, isValidLogin, makeSessionCookie } from "../_lib/auth.js";
+import { json, readBody } from "../../server/http.js";
+import { isAdminConfigured, isValidLogin, makeSessionCookie } from "../../server/auth.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -35,4 +35,3 @@ export default async function handler(req, res) {
     json(res, 500, { ok: false, error: e?.message || "Erreur serveur." });
   }
 }
-

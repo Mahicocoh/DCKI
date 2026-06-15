@@ -1,4 +1,4 @@
-import { json } from "./_lib/http.js";
+import { json } from "../server/http.js";
 
 function isoDate(d) {
   const y = d.getUTCFullYear();
@@ -47,4 +47,3 @@ export default async function handler(req, res) {
     json(res, 502, { ok: false, error: "SNB fetch failed" }, { "Cache-Control": "no-store" });
   }
 }
-

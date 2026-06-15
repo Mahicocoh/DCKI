@@ -1,0 +1,21 @@
+{
+  "name": "DCKImmo",
+  "short_name": "DCKImmo",
+  "description": "Immobilier dans le Jura et le Jura bernois.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "768x768",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "768x768",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,7 +1,24 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "builds": [
-    { "src": "api/**/*.js", "use": "@vercel/node" },
+    { "src": "api/contact.js", "use": "@vercel/node" },
+    { "src": "api/listings.js", "use": "@vercel/node" },
+    { "src": "api/bns-rate.js", "use": "@vercel/node" },
+    { "src": "api/admin/*.js", "use": "@vercel/node" },
     { "src": "**/*", "use": "@vercel/static" }
+  ],
+  "rewrites": [
+    { "source": "/api/contact", "destination": "/api/contact.js" },
+    { "source": "/api/listings", "destination": "/api/listings.js" },
+    { "source": "/api/bns-rate", "destination": "/api/bns-rate.js" },
+    { "source": "/api/admin/:path*", "destination": "/api/admin/:path*.js" }
+  ],
+  "redirects": [
+    { "source": "/accueil", "destination": "/", "permanent": true },
+    { "source": "/conseil-contact", "destination": "/contact", "permanent": true },
+    { "source": "/conseils-contact", "destination": "/contact", "permanent": true },
+    { "source": "/conseil", "destination": "/conseils", "permanent": true }
   ],
   "headers": [
     {
@@ -14,16 +31,19 @@
     },
     {
       "source": "/scripts/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
       "source": "/styles/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
       "source": "/data/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=300, s-maxage=300, stale-while-revalidate=86400" }]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     }
   ]
 }
-

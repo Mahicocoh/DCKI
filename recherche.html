@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="fr" class="boot-loading" style="background:#ffffff">
   <head>
     <meta charset="UTF-8" />
@@ -6,8 +6,8 @@
     <title>Recherche — DCKImmo</title>
     <meta name="description" content="Recherche immobilière DCKImmo : à vendre / à louer, Jura et Jura bernois." />
     <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" href="./assets/1.jpg" type="image/jpeg" />
-    <link rel="apple-touch-icon" href="./assets/1.jpg" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script>
             let __dckiSkipLoader = false;
       try {
@@ -614,13 +614,13 @@
           <div class="panel">
             <div class="inner">
               <h2 style="margin-top:0">Contact</h2>
-              <p class="lead" style="margin-top:0">Deniz Demirci — Courtételle — <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a></p>
+              <p class="lead" style="margin-top:0">Deniz Demirci — CourteÌtelle — <a href="mailto:contact@dckimmo.ch">contact@dckimmo.ch</a></p>
               <div style="margin-top:14px" class="map" aria-label="Carte Google Maps">
                 <iframe
                   loading="lazy"
                   referrerpolicy="no-referrer-when-downgrade"
                   src="https://www.google.com/maps?q=Courtetelle%2C%20Suisse&t=k&z=19&output=embed"
-                  title="Courtételle"
+                  title="CourteÌtelle"
                   allowfullscreen
                 ></iframe>
               </div>
@@ -633,18 +633,19 @@
           <div class="panel">
             <div class="inner">
               <h2 style="margin-top:0">Demande</h2>
-              <form class="form" data-demo-form="Demande (visite / dossier)">
+              <form class="form" data-demo-form="Demande (visite / dossier)" method="post" enctype="multipart/form-data" data-form-endpoint="/api/contact">
+                <input type="hidden" name="form_label" value="Demande (visite / dossier)" />
                 <div class="field">
                   <span class="label">Nom</span>
-                  <input class="control" required placeholder="Nom Prénom" />
+                  <input class="control" name="name" required placeholder="Nom Prénom" />
                 </div>
                 <div class="field">
                   <span class="label">Email</span>
-                  <input class="control" type="email" required placeholder="vous@exemple.ch" />
+                  <input class="control" name="email" type="email" required placeholder="vous@exemple.ch" />
                 </div>
                 <div class="field">
                   <span class="label">Objet</span>
-                  <select class="control" required>
+                  <select class="control" name="request_type" required>
                     <option>Demande de visite</option>
                     <option>Demande de dossier</option>
                     <option>Estimation</option>
@@ -653,11 +654,11 @@
                 </div>
                 <div class="field">
                   <span class="label">Référence (optionnel)</span>
-                  <input class="control" placeholder="ex : JU-DEL-001" />
+                  <input class="control" name="ref" placeholder="ex : JU-DEL-001" />
                 </div>
                 <div class="field full">
                   <span class="label">Message</span>
-                  <textarea class="control" rows="4" required placeholder="Votre demande…"></textarea>
+                  <textarea class="control" name="message" rows="4" required placeholder="Votre demande…"></textarea>
                 </div>
                 <div class="actions">
                   <button class="btn primary" type="submit">Envoyer</button>
@@ -816,3 +817,4 @@
     </script>
   </body>
 </html>
+
