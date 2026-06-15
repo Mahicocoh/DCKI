@@ -18,8 +18,8 @@ function getDefaultListing() {
     price: 750,
     priceSuffix: "/mois",
     tags: ["Entièrement rénové", "Place de parc", "Quartier calme", "Cave"],
-    image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=70",
-    gallery: ["https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1600&q=70"],
+    image: "/assets/29299.png",
+    gallery: ["/assets/29299.png"],
   };
 }
 
