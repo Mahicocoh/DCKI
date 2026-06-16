@@ -6644,7 +6644,16 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   border-radius:999px;
   touch-action:none;
 }
+#bonnes-affaires .scroll-indicator{display:none}
 @media (max-width: 720px){
+  #bonnes-affaires .scroll-indicator{
+    display:block;
+    pointer-events:none;
+  }
+  #bonnes-affaires .scroll-indicator-thumb{
+    width:38%;
+    left:31%;
+  }
   #bonnes-affaires .hscroll{
     padding-bottom:26px;
     scrollbar-width:none;
