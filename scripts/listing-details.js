@@ -265,11 +265,15 @@ export function initListingDetails() {
       return;
     }
 
-    const card = t.closest(".card.listing");
+    const card = t.closest('.card.listing[data-photo-modal="1"]');
     if (!card) return;
+    if (!t.closest(".media")) return;
+    if (t.closest(".card-gallery-nav")) return;
 
     const id = card.getAttribute("data-id") || "";
     if (!id) return;
+    e.preventDefault();
+    e.stopPropagation();
     (async () => {
       const listings = await getListings();
       const listing = listings.find((l) => l.id === id);
@@ -295,8 +299,9 @@ export function initListingDetails() {
   document.addEventListener("keydown", (e) => {
     const t = e.target;
     if (!(t instanceof HTMLElement)) return;
-    const card = t.closest?.(".card.listing");
+    const card = t.closest?.('.card.listing[data-photo-modal="1"]');
     if (!card) return;
+    if (!t.closest(".media")) return;
     if (e.key !== "Enter" && e.key !== " ") return;
     e.preventDefault();
 

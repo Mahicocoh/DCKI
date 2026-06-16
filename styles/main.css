@@ -6619,6 +6619,15 @@ body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media{
   border:1px solid rgba(200, 161, 74, 0.4);
   box-shadow:0 12px 35px rgba(200, 161, 74, 0.15);
 }
+body[data-page="home"] #exemples-biens .card.premium{
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+}
+body[data-page="home"] #exemples-biens .card.premium:hover{
+  border-color:rgba(11,42,58,.16);
+  box-shadow:0 22px 60px rgba(15,23,32,.14);
+}
+body[data-page="home"] #exemples-biens .card.premium::after{display:none}
 body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media,
 body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media{
   border:1px solid rgba(200, 161, 74, 0.4);
