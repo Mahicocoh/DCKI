@@ -6597,11 +6597,9 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 .card.listing.compact{width:min(420px, 92vw)}
 .card.listing.compact .media{aspect-ratio:16/9}
 @media (max-width: 720px){
-  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-position:30% 42%}
+  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:30% 42%}
   body[data-page="home"] #exemples-biens .card.listing .media img{object-position:30% 50%}
   body[data-page="biens"] .card.listing .media img{object-position:24% 50%}
-  body[data-page="home"] #bonnes-affaires .card.home-deal .media{background:#ffffff}
-  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:contain;object-position:50% 45%}
   body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media{background:#ffffff}
   body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media img{object-fit:contain;object-position:42% 50%}
   body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media{background:#ffffff}
@@ -7094,6 +7092,63 @@ body[data-page="listing"] .pill.listing-pill .listing-pill-featured{
 .card .media{aspect-ratio:16/10;background:#eeece7;position:relative;overflow:hidden}
 .card .media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .card:hover .media img{transform:scale(1.05)}
+.card.listing[data-id="JU-GLO-009"] .media{
+  isolation:isolate;
+}
+.card.listing[data-id="JU-GLO-009"] .media img{
+  filter:saturate(.92) brightness(.82);
+}
+.card.listing[data-id="JU-GLO-009"] .media::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(11,42,58,.16), rgba(11,42,58,.24)),
+    radial-gradient(circle at center, rgba(255,255,255,.10), rgba(255,255,255,0) 62%);
+}
+.card.listing[data-id="JU-GLO-009"] .media::after{
+  content:"Photos\A bientôt\A disponibles";
+  white-space:pre-line;
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  z-index:2;
+  width:min(78%, 320px);
+  padding:18px 20px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.55);
+  background:rgba(255,255,255,.80);
+  backdrop-filter:blur(10px);
+  color:#0b2a3a;
+  text-align:center;
+  font-size:clamp(22px, 3.6vw, 34px);
+  line-height:1.08;
+  font-weight:900;
+  letter-spacing:-0.02em;
+  box-shadow:0 16px 40px rgba(15,23,32,.22);
+  pointer-events:none;
+}
+@media (max-width: 720px){
+  .card.listing[data-id="JU-GLO-009"] .media::after{
+    width:min(74%, 280px);
+    padding:16px 18px;
+    border-radius:20px;
+    font-size:clamp(18px, 5.8vw, 24px);
+  }
+  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media{
+    background:#ffffff;
+  }
+  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media::before,
+  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media::after{
+    content:none;
+  }
+  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media img{
+    filter:none;
+  }
+}
 .fav-btn{
   position:absolute;
   top:auto;

@@ -975,6 +975,12 @@ function setPhoto(idx) {
   if (count) count.textContent = `${state.index + 1} / ${state.photos.length}`;
 }
 
+function getMobileDetailPhotoOverride(listing) {
+  if (!listing || String(listing.id || "").trim().toUpperCase() !== "JU-GLO-009") return null;
+  if (!window.matchMedia || !window.matchMedia("(max-width: 720px)").matches) return null;
+  return "/assets/29299-detail-mobile.svg?v=202606162045";
+}
+
 function render(listing) {
   const isPrintView = String(getQueryParams().print || "") === "1";
   if (document.body) document.body.dataset.listingId = String(listing?.id || "");
@@ -1254,6 +1260,8 @@ function render(listing) {
   }
 
   state.photos = getListingPhotos(listing, 10);
+  const mobileDetailPhoto = getMobileDetailPhotoOverride(listing);
+  if (mobileDetailPhoto) state.photos = [mobileDetailPhoto];
   setPhoto(0);
 
   const img = document.querySelector("[data-gallery-img]");
