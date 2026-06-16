@@ -6652,7 +6652,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   }
   #bonnes-affaires .hscroll::-webkit-scrollbar{height:0}
   #bonnes-affaires .card.listing.compact{
-    width:min(420px, calc(100vw - 32px));
+    width:min(420px, calc(100vw - 44px));
     min-width:0;
   }
 }
