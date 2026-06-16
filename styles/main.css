@@ -6598,7 +6598,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 @media (max-width: 720px){
   body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-position:30% 46%}
   body[data-page="home"] #exemples-biens .card.listing .media img{object-position:30% 50%}
-  body[data-page="biens"] .card.listing .media img{object-position:10% 50%}
+  body[data-page="biens"] .card.listing .media img{object-position:30% 50%}
 }
 .deal-badge{
   display:inline-flex;
