@@ -1524,7 +1524,6 @@ function render(listing) {
   };
 
   const media = document.querySelector(".listing-gallery .media");
-  media?.addEventListener("click", () => openLightbox(state.index));
   lbPrev?.addEventListener("click", () => setLightbox(state.index - 1));
   lbNext?.addEventListener("click", () => setLightbox(state.index + 1));
   lbClose?.addEventListener("click", closeLightbox);

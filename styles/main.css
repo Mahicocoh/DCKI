@@ -2412,8 +2412,22 @@ body[data-page="listing"] .distances-v{
   .listing-gallery .media{min-height:280px}
 }
 @media (max-width: 640px){
-  body[data-page="listing"] .listing-gallery .media{background:#ffffff}
-  body[data-page="listing"] .listing-gallery .media img{object-fit:cover;object-position:50% 50%}
+  body[data-page="listing"] .listing-gallery .media{
+    background:#eeece7;
+    line-height:0;
+  }
+  body[data-page="listing"] .listing-gallery .media img{
+    display:block;
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:50% 50%;
+    transform:translateZ(0);
+    -webkit-transform:translateZ(0);
+    z-index:0;
+  }
   body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media{
     min-height:0;
     aspect-ratio:1586 / 992;
@@ -7096,6 +7110,8 @@ body[data-page="listing"] .pill.listing-pill .listing-pill-featured{
 .card .media{aspect-ratio:16/10;background:#eeece7;position:relative;overflow:hidden}
 .card .media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .card:hover .media img{transform:scale(1.05)}
+.card.listing .media img{transition:none;transform:none !important}
+.card.listing:hover .media img{transform:none !important}
 .fav-btn{
   position:absolute;
   top:auto;
@@ -7250,6 +7266,7 @@ body[data-page="listing"] .listing-top-row .fav-btn{
 .card.listing{cursor:pointer;transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease}
 .card.listing:hover{transform:translateY(-2px);border-color:rgba(11,42,58,.16);box-shadow:0 22px 60px rgba(15,23,32,.14)}
 .card.listing:focus{outline:none;box-shadow:0 0 0 3px rgba(11,42,58,.16), 0 22px 60px rgba(15,23,32,.14)}
+body[data-page="listing"] .listing-gallery .media{cursor:default}
 
 /* --- Effet Brillant Premium --- */
 @keyframes shimmerSweep {
