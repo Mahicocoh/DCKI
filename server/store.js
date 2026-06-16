@@ -1,12 +1,6 @@
 import { kv } from "@vercel/kv";
 
 const KEY = "dcki:listings";
-const ONLY_LISTING_ID = "JU-GLO-009";
-
-function filterToSingleListing(listings) {
-  if (!Array.isArray(listings)) return [];
-  return listings.filter((l) => String(l?.id || "").trim().toUpperCase() === ONLY_LISTING_ID);
-}
 
 function isUnsplashUrl(value) {
   return String(value || "").toLowerCase().includes("images.unsplash.com");
@@ -60,66 +54,47 @@ async function loadSeedListings() {
   const all = Array.isArray(mod.LISTINGS) ? mod.LISTINGS : [];
   return all
     .filter((l) => l && typeof l.id === "string" && !String(l.id).includes("-AUTO-"))
-    .filter((l) => String(l.id).trim() === ONLY_LISTING_ID);
+    .filter((l) => String(l.id).trim() === "JU-GLO-009");
 }
 
 export async function getListings() {
   const existing = await kv.get(KEY);
-  const filteredExisting = filterToSingleListing(existing);
-  if (filteredExisting.length) {
-    const seed = await loadSeedListings();
-    const s = seed[0];
-    let out = filteredExisting.slice(0, 1);
-    if (s) {
-      const next = { ...out[0] };
-      let changed = false;
-      if (!next.title_en && s.title_en) {
-        next.title_en = s.title_en;
-        changed = true;
-      }
-      if (!next.description_en && s.description_en) {
-        next.description_en = s.description_en;
-        changed = true;
-      }
-      if (!next.image || isUnsplashUrl(next.image)) {
-        next.image = s.image;
-        changed = true;
-      }
-      if (!Array.isArray(next.gallery) || !next.gallery.length || next.gallery.every((u) => isUnsplashUrl(u))) {
-        next.gallery = Array.isArray(s.gallery) ? s.gallery.slice() : [];
-        changed = true;
-      }
-      out = [next];
-      if (changed) await kv.set(KEY, out);
-    }
-    if (Array.isArray(existing) && existing.length !== out.length) await kv.set(KEY, out);
-    return out;
-  }
+  if (Array.isArray(existing) && existing.length) return existing;
 
   const seed = await loadSeedListings();
-  await kv.set(KEY, seed);
-  return seed;
+  if (Array.isArray(seed) && seed.length) {
+    const normalized = seed.map((l) => normalizeListingPayload(l, null));
+    const cleaned = normalized.map((l) => {
+      const next = { ...l };
+      if (isUnsplashUrl(next.image)) next.image = "";
+      if (Array.isArray(next.gallery)) next.gallery = next.gallery.filter((u) => !isUnsplashUrl(u));
+      return next;
+    });
+    await kv.set(KEY, cleaned);
+    return cleaned;
+  }
+
+  await kv.set(KEY, []);
+  return [];
 }
 
 export async function setListings(listings) {
-  await kv.set(KEY, filterToSingleListing(listings));
+  await kv.set(KEY, Array.isArray(listings) ? listings : []);
 }
 
 export async function createListing(payload) {
   const listing = normalizeListingPayload(payload, null);
-  if (listing.id !== ONLY_LISTING_ID) return { ok: false, error: "Création désactivée: un seul bien est géré via l’admin." };
   const err = validateListing(listing);
   if (err) return { ok: false, error: err };
   const listings = await getListings();
   if (listings.some((l) => l.id === listing.id)) return { ok: false, error: "Référence déjà existante.", status: 409 };
-  const next = [listing];
+  const next = [listing, ...listings];
   await setListings(next);
   return { ok: true, listing };
 }
 
 export async function updateListing(id, payload) {
   const normalizedId = String(id || "").trim().toUpperCase();
-  if (normalizedId !== ONLY_LISTING_ID) return { ok: false, error: "Bien introuvable.", status: 404 };
   const listings = await getListings();
   const idx = listings.findIndex((l) => l.id === normalizedId);
   if (idx === -1) return { ok: false, error: "Bien introuvable.", status: 404 };
@@ -135,12 +110,11 @@ export async function updateListing(id, payload) {
 
 export async function deleteListing(id) {
   const normalizedId = String(id || "").trim().toUpperCase();
-  if (normalizedId !== ONLY_LISTING_ID) return { ok: false, error: "Bien introuvable.", status: 404 };
   const listings = await getListings();
   const idx = listings.findIndex((l) => l.id === normalizedId);
   if (idx === -1) return { ok: false, error: "Bien introuvable.", status: 404 };
-  const next = listings.filter((l) => l.id !== normalizedId);
-  const removed = listings[idx];
+  const next = listings.slice();
+  const removed = next.splice(idx, 1)[0];
   await setListings(next);
   return { ok: true, listing: removed };
 }

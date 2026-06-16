@@ -34,8 +34,6 @@ const previewTitle = document.querySelector("[data-admin-preview-title]");
 const previewMeta = document.querySelector("[data-admin-preview-meta]");
 const previewDesc = document.querySelector("[data-admin-preview-desc]");
 
-const ONLY_LISTING_ID = "JU-GLO-009";
-
 let listings = [];
 let selectedId = "";
 let stateTags = [];
@@ -259,15 +257,21 @@ function renderList() {
     .join("");
 }
 
+function syncEditorState() {
+  const hasSelected = Boolean(selectedId);
+  if (form?.id) form.id.readOnly = hasSelected;
+  if (btnDelete instanceof HTMLButtonElement) btnDelete.disabled = listings.length <= 1 || !hasSelected;
+}
+
 async function load() {
   const data = await api("/api/admin/listings");
   listings = Array.isArray(data.listings) ? data.listings : [];
-  listings = listings.filter((l) => String(l?.id || "").trim().toUpperCase() === ONLY_LISTING_ID);
   if (!selectedId && listings.length) selectedId = listings[0].id;
   const selected = listings.find((l) => l.id === selectedId);
   if (selected) setForm(selected);
   rebuildTagSuggest();
   renderList();
+  syncEditorState();
 }
 
 function pick(id) {
@@ -275,10 +279,12 @@ function pick(id) {
   const selected = listings.find((l) => l.id === selectedId);
   if (selected) setForm(selected);
   renderList();
+  syncEditorState();
 }
 
 btnNew?.addEventListener("click", () => {
   selectedId = "";
+  if (form?.id) form.id.readOnly = false;
   setForm({
     id: "",
     category: "rent",
@@ -297,6 +303,7 @@ btnNew?.addEventListener("click", () => {
     gallery: [],
   });
   renderList();
+  syncEditorState();
 });
 
 btnRefresh?.addEventListener("click", async () => {
@@ -336,6 +343,10 @@ btnDelete?.addEventListener("click", async () => {
   try {
     const draft = normalizeDraftFromForm();
     if (!draft.id) return;
+    if (listings.length <= 1) {
+      showToast(getLang() === "en" ? "Cannot delete the last listing." : "Impossible de supprimer le dernier bien.");
+      return;
+    }
     const ok = window.confirm(t("admin.confirm.delete", { id: draft.id }));
     if (!ok) return;
     await api(`/api/admin/listing?id=${encodeURIComponent(draft.id)}`, { method: "DELETE" });
@@ -516,8 +527,6 @@ galleryHost?.addEventListener("drop", (e) => {
 
 void ensureAdminSession().then((ok) => {
   if (!ok) return;
-  btnNew?.setAttribute("hidden", "hidden");
-  if (form?.id) form.id.readOnly = true;
   load().catch(() => {
     window.location.replace("/admin/login.html");
   });
