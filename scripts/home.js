@@ -25,18 +25,40 @@ function mountHomePhotoLightbox() {
   const closeBtn = lightbox.querySelector(".close");
   if (!(img instanceof HTMLImageElement) || !(closeBtn instanceof HTMLButtonElement)) return;
 
+  let lockedScrollY = 0;
+
+  const lockScroll = () => {
+    lockedScrollY = window.scrollY || window.pageYOffset || 0;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${lockedScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+    document.body.style.overflow = "hidden";
+  };
+
+  const unlockScroll = () => {
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.width = "";
+    document.body.style.overflow = "";
+    window.scrollTo(0, lockedScrollY);
+  };
+
   const open = (src, alt) => {
     img.src = src;
     img.alt = alt || "";
     lightbox.classList.add("show");
     lightbox.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
+    lockScroll();
   };
 
   const close = () => {
     lightbox.classList.remove("show");
     lightbox.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
+    unlockScroll();
   };
 
   closeBtn.addEventListener("click", close);

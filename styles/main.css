@@ -1878,18 +1878,19 @@ body[data-page="listing"].print-view abbr[title]::after{
   }
   body[data-page="listing"] .listing-gallery .media{
     min-height:0 !important;
-    max-height:56mm !important;
+    max-height:none !important;
     height:auto !important;
     aspect-ratio:auto !important;
-    background:transparent !important;
-    overflow:hidden !important;
+    background:#ffffff !important;
+    overflow:visible !important;
   }
   body[data-page="listing"] .listing-gallery .media img{
     width:100% !important;
-    height:56mm !important;
-    max-height:56mm;
+    height:auto !important;
+    max-height:none !important;
     aspect-ratio:auto !important;
-    object-fit:cover;
+    object-fit:unset !important;
+    display:block;
   }
   body[data-page="listing"] .listing-gallery .nav,
   body[data-page="listing"] .listing-gallery .count,
@@ -6616,8 +6617,8 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 .card.listing.compact .media{aspect-ratio:16/9}
 body[data-page="home"] #bonnes-affaires .card.home-deal .media,
 body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media{
-  border:0;
-  box-shadow:none;
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:0 0 0 1px rgba(255,255,255,.14);
 }
 body[data-page="home"] #exemples-biens .card.premium{
   border:1px solid var(--line);
@@ -6630,15 +6631,22 @@ body[data-page="home"] #exemples-biens .card.premium:hover{
 body[data-page="home"] #exemples-biens .card.premium::after{display:none}
 body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media,
 body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media{
-  border:0;
-  box-shadow:none;
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:0 0 0 1px rgba(255,255,255,.14);
 }
 body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media img{object-fit:cover;object-position:50% 50%;transform:none !important}
 body[data-page="home"] #exemples-biens .card.listing .media img{object-position:50% 50%}
 body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 92%}
 @media (max-width: 720px){
   body[data-page="biens"] .card.listing .media img{object-position:24% 50%}
-  body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media img{object-fit:cover;object-position:42% 50%}
+  body[data-page="home"] #bonnes-affaires .card.home-deal .media,
+  body[data-page="home"] #exemples-biens .card.listing .media,
+  body[data-page="biens"] .card.listing .media{
+    border:1px solid rgba(255,255,255,.72);
+    box-shadow:0 0 0 1px rgba(255,255,255,.14);
+  }
+  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 92%;transform:none !important}
+  body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media img{object-fit:cover;object-position:42% 50%;transform:none !important}
   body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media img{object-fit:cover;object-position:50% 50%;transform:none !important}
 }
 .deal-badge{
@@ -7131,7 +7139,11 @@ body[data-page="listing"] .pill.listing-pill .listing-pill-featured{
 .card.listing .media img{transition:none;transform:none !important}
 .card.listing:hover .media img{transform:none !important}
 body[data-page="listing"] .listing-gallery.card{border:0;background:transparent;box-shadow:none}
-body[data-page="listing"] .listing-gallery.card .media{background:transparent}
+body[data-page="listing"] .listing-gallery.card .media{
+  background:transparent;
+  border:1px solid rgba(255,255,255,.72);
+  box-shadow:0 0 0 1px rgba(255,255,255,.14);
+}
 body[data-page="listing"] .listing-gallery.card .media img{transition:none;transform:none !important}
 body[data-page="listing"] .listing-gallery.card:hover .media img{transform:none !important}
 .fav-btn{
