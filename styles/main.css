@@ -2413,8 +2413,11 @@ body[data-page="listing"] .distances-v{
 }
 @media (max-width: 640px){
   body[data-page="listing"] .listing-gallery .media{background:#ffffff}
-  body[data-page="listing"] .listing-gallery .media img{object-fit:contain;object-position:50% 50%}
-  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media img{object-fit:cover;object-position:50% 50%}
+  body[data-page="listing"] .listing-gallery .media img{object-fit:cover;object-position:50% 50%}
+  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media{
+    min-height:0;
+    aspect-ratio:1586 / 992;
+  }
 }
 
 .hero{
@@ -7093,18 +7096,6 @@ body[data-page="listing"] .pill.listing-pill .listing-pill-featured{
 .card .media{aspect-ratio:16/10;background:#eeece7;position:relative;overflow:hidden}
 .card .media img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .card:hover .media img{transform:scale(1.05)}
-@media (max-width: 720px){
-  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media{
-    background:#ffffff;
-  }
-  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media::before,
-  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media::after{
-    content:none;
-  }
-  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media img{
-    filter:none;
-  }
-}
 .fav-btn{
   position:absolute;
   top:auto;
