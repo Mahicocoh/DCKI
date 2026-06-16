@@ -86,36 +86,28 @@ function mountLockedDealsScroller() {
   if (!(scroller instanceof HTMLElement)) return;
   if (scroller.dataset.lockedCenterBound === "1") return;
   scroller.dataset.lockedCenterBound = "1";
-  scroller.classList.add("is-locked-center");
 
-  let targetLeft = 0;
-  let syncing = false;
+  let touchStartX = 0;
+  let touchStartY = 0;
 
-  const centerScroller = () => {
-    const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
-    targetLeft = max > 0 ? Math.round(max / 2) : 0;
-    syncing = true;
-    scroller.scrollLeft = targetLeft;
-    window.requestAnimationFrame(() => {
-      syncing = false;
-    });
+  const onTouchStart = (e) => {
+    const touch = e.touches && e.touches[0];
+    if (!touch) return;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
   };
 
-  const keepCentered = (e) => {
-    if (e) e.preventDefault();
-    if (syncing) return;
-    if (Math.abs(scroller.scrollLeft - targetLeft) <= 1) return;
-    centerScroller();
+  const blockVerticalPan = (e) => {
+    const touch = e.touches && e.touches[0];
+    if (!touch) return;
+    const dx = Math.abs(touch.clientX - touchStartX);
+    const dy = Math.abs(touch.clientY - touchStartY);
+    if (dy <= dx) return;
+    e.preventDefault();
   };
 
-  scroller.addEventListener("touchmove", keepCentered, { passive: false });
-  scroller.addEventListener("wheel", keepCentered, { passive: false });
-  scroller.addEventListener("scroll", keepCentered, { passive: true });
-  window.addEventListener("resize", centerScroller, { passive: true });
-  window.addEventListener("orientationchange", centerScroller, { passive: true });
-
-  window.requestAnimationFrame(centerScroller);
-  window.setTimeout(centerScroller, 180);
+  scroller.addEventListener("touchstart", onTouchStart, { passive: true });
+  scroller.addEventListener("touchmove", blockVerticalPan, { passive: false });
 }
 
 export function initHome() {

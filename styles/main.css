@@ -1464,6 +1464,24 @@ body[data-page="listing"].print-view .listing-print-summary{
   padding-top:10px;
   border-top:1px solid rgba(15,23,32,.1);
 }
+body[data-page="listing"].print-view .listing-print-lead-photo{
+  display:none;
+}
+body[data-page="listing"].print-view.print-mobile .listing-print-lead-photo{
+  display:block;
+  margin-top:10px;
+  border:1px solid rgba(15,23,32,.08);
+  background:#ffffff;
+  overflow:hidden;
+  break-inside:avoid;
+  page-break-inside:avoid;
+}
+body[data-page="listing"].print-view.print-mobile .listing-print-lead-photo img{
+  display:block;
+  width:100%;
+  height:190px;
+  object-fit:cover;
+}
 body[data-page="listing"].print-view .listing-print-summary-main{
   display:flex;
   flex-direction:column;
@@ -1665,6 +1683,12 @@ body[data-page="listing"].print-view .listing-print-section--media{
   body[data-page="listing"].print-view .listing-print-summary{
     margin-top:10px;
     padding-top:10px;
+  }
+  body[data-page="listing"].print-view.print-mobile .listing-print-lead-photo{
+    margin-top:8px;
+  }
+  body[data-page="listing"].print-view.print-mobile .listing-print-lead-photo img{
+    height:170px;
   }
   body[data-page="listing"].print-view .listing-print-summary-main{
     display:flex;
@@ -6610,11 +6634,12 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   #bonnes-affaires .hscroll{
     padding-bottom:26px;
     scrollbar-width:none;
+    justify-content:center;
   }
   #bonnes-affaires .hscroll::-webkit-scrollbar{height:0}
   #bonnes-affaires .card.listing.compact{
-    width:100%;
-    min-width:calc(100% + 24px);
+    width:min(420px, calc(100vw - 32px));
+    min-width:0;
   }
 }
 .card.listing.compact{width:min(420px, 92vw)}
@@ -6642,6 +6667,11 @@ body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media img{object-fi
 body[data-page="home"] #exemples-biens .card.listing .media img{object-position:50% 50%}
 body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 92%}
 @media (max-width: 720px){
+  #bonnes-affaires .hscroll{
+    overflow-y:hidden;
+    overscroll-behavior-y:contain;
+    touch-action:pan-x;
+  }
   body[data-page="biens"] .card.listing .media img{object-position:24% 50%}
   body[data-page="home"] #bonnes-affaires .card.home-deal .media,
   body[data-page="home"] #exemples-biens .card.listing .media,
@@ -6650,7 +6680,12 @@ body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:co
     box-shadow:0 0 0 1px rgba(255,255,255,.14);
   }
   body[data-page="home"] #bonnes-affaires .card.home-deal .media{
-    box-shadow:0 0 0 1px rgba(255,255,255,.14), inset 0 2px 0 rgba(255,255,255,.72);
+    border-color:rgba(255,255,255,.82);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.16),
+      inset 1px 0 0 rgba(255,255,255,.84),
+      inset -1px 0 0 rgba(255,255,255,.84),
+      inset 0 2px 0 rgba(255,255,255,.72);
   }
   body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 92%;transform:none !important}
   body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media img{object-fit:cover;object-position:42% 50%;transform:none !important}

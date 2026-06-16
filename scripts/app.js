@@ -203,8 +203,8 @@ if (page !== "coming-soon") {
   mountTestimonials();
   loadPageScript(() => import("./video-fallback.js?v=202606081915").then((m) => m.initVideoFallbacks()));
 }
-if (page === "home") loadPageScript(() => import("./home.js?v=202606164410").then((m) => m.initHome()));
+if (page === "home") loadPageScript(() => import("./home.js?v=202606164620").then((m) => m.initHome()));
 if (page === "recherche") loadPageScript(() => import("./recherche.js?v=202606081915").then((m) => m.initRecherche()));
 if (page === "biens") loadPageScript(() => import("./biens.js?v=202606081915").then((m) => m.initBiens()));
-if (page === "listing") loadPageScript(() => import("./listing-page.js?v=202606163010").then((m) => m.initListingPage()));
+if (page === "listing") loadPageScript(() => import("./listing-page.js?v=202606164705").then((m) => m.initListingPage()));
 if (page === "coming-soon") loadPageScript(() => import("./coming-soon.js?v=202606081915").then((m) => m.initComingSoon()));

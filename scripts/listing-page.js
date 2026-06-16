@@ -169,6 +169,7 @@ function mountListingPrint() {
   const btn = document.querySelector("[data-listing-print-btn]");
   if (!(btn instanceof HTMLButtonElement) || btn.dataset.printBound === "1") return;
   btn.dataset.printBound = "1";
+  const isMobilePrintDevice = () => Boolean(window.matchMedia && window.matchMedia("(max-width: 820px)").matches);
   const waitForPrintAssets = async () => {
     const imgs = Array.from(document.images);
     await Promise.all(
@@ -228,6 +229,7 @@ function mountListingPrint() {
       restored = true;
       document.title = prevTitle;
       document.body.classList.remove("print-preparing");
+      document.body.classList.remove("print-mobile");
       if (!hadPrintView) document.body.classList.remove("print-view");
       restoreAmenityState(amenityState);
       window.removeEventListener("afterprint", restore);
@@ -241,6 +243,7 @@ function mountListingPrint() {
     document.title = nextTitle;
     document.body.classList.add("print-preparing");
     document.body.classList.add("print-view");
+    document.body.classList.toggle("print-mobile", isMobilePrintDevice());
     window.addEventListener("afterprint", restore, { once: true });
 
     void waitForPrintAssets()
@@ -366,6 +369,8 @@ function updateListingPrint(listing, titleText) {
 
   const printSummaryEl = document.querySelector("[data-listing-print-summary]");
   const printThumbsEl = document.querySelector("[data-listing-print-thumbs]");
+  const printLeadPhotoEl = document.querySelector("[data-listing-print-lead-photo]");
+  const printLeadImgEl = document.querySelector("[data-listing-print-lead-img]");
   const pill = document.querySelector("[data-listing-pill]");
   const meta = document.querySelector("[data-listing-meta]");
   const availability = document.querySelector("[data-listing-availability]");
@@ -400,6 +405,17 @@ function updateListingPrint(listing, titleText) {
       )
       .join("");
     printThumbsEl.hidden = photos.length === 0;
+  }
+  if (printLeadPhotoEl instanceof HTMLElement && printLeadImgEl instanceof HTMLImageElement) {
+    const leadPhoto = getListingPhotos(listing, 1)[0] || "";
+    printLeadPhotoEl.hidden = !leadPhoto;
+    if (leadPhoto) {
+      printLeadImgEl.src = leadPhoto;
+      printLeadImgEl.alt = printTitle;
+    } else {
+      printLeadImgEl.removeAttribute("src");
+      printLeadImgEl.alt = "";
+    }
   }
 }
 
@@ -1556,6 +1572,7 @@ export async function initListingPage() {
   if (isPrint) {
     document.title = "\u00A0";
     document.body.classList.add("print-view");
+    document.body.classList.toggle("print-mobile", Boolean(window.matchMedia && window.matchMedia("(max-width: 820px)").matches));
     const openPrintView = async () => {
       let notifiedParent = false;
       const notifyParentDone = () => {
