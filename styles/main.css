@@ -1650,21 +1650,35 @@ body[data-page="listing"].print-view .listing-print-section--media{
     padding:12px 14px 14px;
     box-shadow:0 16px 40px rgba(15,23,32,.08);
   }
+  body[data-page="listing"].print-view .listing-print-head-top{
+    margin-bottom:2px;
+  }
   body[data-page="listing"].print-view .listing-print-head-bar{
-    gap:14px;
-    padding:5px 0 8px;
+    display:grid;
+    grid-template-columns:54px minmax(0, 1fr);
+    align-items:start;
+    gap:10px;
+    padding:3px 0 8px;
   }
   body[data-page="listing"].print-view .listing-print-brand img{
-    width:68px;
+    width:54px;
   }
   body[data-page="listing"].print-view .listing-print-head-meta{
-    gap:6px;
+    margin-left:0;
+    min-width:0;
+    gap:4px;
+    justify-self:end;
   }
   body[data-page="listing"].print-view .listing-print-head-line{
-    font-size:11px;
+    justify-content:flex-end;
+    flex-wrap:wrap;
+    column-gap:4px;
+    row-gap:1px;
+    font-size:10px;
+    line-height:1.2;
   }
   body[data-page="listing"].print-view .listing-print-head-rule{
-    margin-top:4px;
+    margin-top:3px;
     height:3px;
   }
   body[data-page="listing"].print-view .listing-print-overline{
