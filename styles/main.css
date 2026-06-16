@@ -6596,9 +6596,9 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 }
 .card.listing.compact{width:min(420px, 92vw)}
 .card.listing.compact .media{aspect-ratio:16/9}
+body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-position:50% 50%}
+body[data-page="home"] #exemples-biens .card.listing .media img{object-position:50% 50%}
 @media (max-width: 720px){
-  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:30% 42%}
-  body[data-page="home"] #exemples-biens .card.listing .media img{object-position:30% 50%}
   body[data-page="biens"] .card.listing .media img{object-position:24% 50%}
   body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media{background:#ffffff}
   body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media img{object-fit:contain;object-position:42% 50%}
