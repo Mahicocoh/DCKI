@@ -2411,6 +2411,9 @@ body[data-page="listing"] .distances-v{
 @media (max-width: 780px){
   .listing-gallery .media{min-height:280px}
 }
+@media (max-width: 640px){
+  body[data-page="listing"] .listing-gallery .media img{object-position:45% 50%}
+}
 
 .hero{
   position:relative;
@@ -6591,6 +6594,9 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 }
 .card.listing.compact{width:min(420px, 92vw)}
 .card.listing.compact .media{aspect-ratio:16/9}
+@media (max-width: 720px){
+  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-position:50% 44%}
+}
 .deal-badge{
   display:inline-flex;
   align-items:center;
