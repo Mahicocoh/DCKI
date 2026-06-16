@@ -26,24 +26,21 @@ function mountHomePhotoLightbox() {
   if (!(img instanceof HTMLImageElement) || !(closeBtn instanceof HTMLButtonElement)) return;
 
   let lockedScrollY = 0;
+  let overlayScrollLocked = false;
+
+  const stopOverlayScroll = (e) => {
+    if (!overlayScrollLocked) return;
+    e.preventDefault();
+  };
 
   const lockScroll = () => {
     lockedScrollY = window.scrollY || window.pageYOffset || 0;
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${lockedScrollY}px`;
-    document.body.style.left = "0";
-    document.body.style.right = "0";
-    document.body.style.width = "100%";
-    document.body.style.overflow = "hidden";
+    overlayScrollLocked = true;
+    window.requestAnimationFrame(() => window.scrollTo(0, lockedScrollY));
   };
 
   const unlockScroll = () => {
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.left = "";
-    document.body.style.right = "";
-    document.body.style.width = "";
-    document.body.style.overflow = "";
+    overlayScrollLocked = false;
     window.scrollTo(0, lockedScrollY);
   };
 
@@ -65,6 +62,8 @@ function mountHomePhotoLightbox() {
   lightbox.addEventListener("click", (e) => {
     if (e.target === lightbox) close();
   });
+  lightbox.addEventListener("touchmove", stopOverlayScroll, { passive: false });
+  lightbox.addEventListener("wheel", stopOverlayScroll, { passive: false });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && lightbox.classList.contains("show")) close();
   });

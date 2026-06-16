@@ -1621,17 +1621,24 @@ body[data-page="listing"].print-view .listing-print-section--media{
   background:transparent;
 }
 @media (max-width: 640px){
+  body[data-page="listing"].print-view main > .container > .section{
+    display:flex;
+    flex-direction:column;
+  }
   body[data-page="listing"].print-view main.section{
-    padding:4px 0 18px !important;
+    padding:2px 0 14px !important;
   }
   body[data-page="listing"].print-view .listing-print-head{
-    margin:0 0 6px;
-    padding:9px 10px 10px;
+    order:2;
+  }
+  body[data-page="listing"].print-view .listing-print-head{
+    margin:0 0 4px;
+    padding:8px 9px 8px;
     box-shadow:none;
   }
   body[data-page="listing"].print-view .listing-print-head-bar{
     gap:10px;
-    padding:2px 0 6px;
+    padding:1px 0 4px;
   }
   body[data-page="listing"].print-view .listing-print-brand img{
     width:54px;
@@ -1647,20 +1654,20 @@ body[data-page="listing"].print-view .listing-print-section--media{
     height:2px;
   }
   body[data-page="listing"].print-view .listing-print-overline{
-    margin-top:6px;
+    margin-top:4px;
     font-size:9px;
   }
   body[data-page="listing"].print-view .listing-print-title{
-    margin-top:4px;
-    font-size:19px;
+    margin-top:3px;
+    font-size:18px;
     line-height:1.06;
   }
   body[data-page="listing"].print-view .listing-print-location{
     font-size:11px;
   }
   body[data-page="listing"].print-view .listing-print-summary{
-    margin-top:8px;
-    padding-top:8px;
+    margin-top:6px;
+    padding-top:6px;
   }
   body[data-page="listing"].print-view .listing-print-summary-main{
     width:100%;
@@ -1683,36 +1690,48 @@ body[data-page="listing"].print-view .listing-print-section--media{
   }
   body[data-page="listing"].print-view .listing-print-summary .meta{
     grid-template-columns:repeat(2, minmax(0, 1fr));
-    gap:5px;
+    gap:4px;
     font-size:9px;
   }
   body[data-page="listing"].print-view .listing-print-summary .meta .meta-item{
-    padding:5px 6px;
+    padding:4px 5px;
   }
   body[data-page="listing"].print-view .listing-print-summary .listing-price{
-    margin-top:5px;
-    padding:6px 8px;
-    font-size:17px;
+    margin-top:4px;
+    padding:5px 7px;
+    font-size:16px;
   }
   body[data-page="listing"].print-view .listing-print-summary .facts{
     display:none;
   }
-  body[data-page="listing"].print-view .listing-gallery{
+  body[data-page="listing"].print-view .listing-page{
+    display:flex !important;
+    flex-direction:column !important;
+  }
+  body[data-page="listing"].print-view .listing-print-section--media{
+    order:1;
     margin-bottom:6px;
-    padding:5px;
+    break-after:avoid-page;
+    page-break-after:avoid;
+  }
+  body[data-page="listing"].print-view .panel{
+    order:3;
+  }
+  body[data-page="listing"].print-view .listing-gallery{
+    margin-bottom:4px;
+    padding:4px;
+    break-before:avoid-page;
+    page-break-before:auto;
   }
   body[data-page="listing"].print-view .listing-gallery .media{
-    max-height:200px !important;
+    max-height:170px !important;
   }
   body[data-page="listing"].print-view .listing-gallery .media img{
-    height:200px !important;
-    max-height:200px;
+    height:170px !important;
+    max-height:170px;
   }
   body[data-page="listing"].print-view .listing-print-thumbs{
-    grid-template-columns:repeat(3, minmax(0, 1fr));
-    width:100%;
-    gap:3px;
-    margin:0 0 6px;
+    display:none !important;
   }
   body[data-page="listing"].print-view .listing-print-thumb{
     min-width:0;
@@ -6611,7 +6630,10 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
     scrollbar-width:none;
   }
   #bonnes-affaires .hscroll::-webkit-scrollbar{height:0}
-  #bonnes-affaires .card.listing.compact{width:100%}
+  #bonnes-affaires .card.listing.compact{
+    width:100%;
+    min-width:calc(100% + 24px);
+  }
 }
 .card.listing.compact{width:min(420px, 92vw)}
 .card.listing.compact .media{aspect-ratio:16/9}
@@ -6644,6 +6666,9 @@ body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:co
   body[data-page="biens"] .card.listing .media{
     border:1px solid rgba(255,255,255,.72);
     box-shadow:0 0 0 1px rgba(255,255,255,.14);
+  }
+  body[data-page="home"] #bonnes-affaires .card.home-deal .media{
+    box-shadow:0 0 0 1px rgba(255,255,255,.14), inset 0 2px 0 rgba(255,255,255,.72);
   }
   body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 92%;transform:none !important}
   body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media img{object-fit:cover;object-position:42% 50%;transform:none !important}
