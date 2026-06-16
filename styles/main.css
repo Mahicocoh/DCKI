@@ -6592,6 +6592,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
     scrollbar-width:none;
   }
   #bonnes-affaires .hscroll::-webkit-scrollbar{height:0}
+  #bonnes-affaires .card.listing.compact{width:100%}
 }
 .card.listing.compact{width:min(420px, 92vw)}
 .card.listing.compact .media{aspect-ratio:16/9}
