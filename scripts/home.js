@@ -81,6 +81,43 @@ function mountHomePhotoLightbox() {
   }
 }
 
+function mountLockedDealsScroller() {
+  const scroller = document.querySelector("#bonnes-affaires .hscroll");
+  if (!(scroller instanceof HTMLElement)) return;
+  if (scroller.dataset.lockedCenterBound === "1") return;
+  scroller.dataset.lockedCenterBound = "1";
+  scroller.classList.add("is-locked-center");
+
+  let targetLeft = 0;
+  let syncing = false;
+
+  const centerScroller = () => {
+    const max = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+    targetLeft = max > 0 ? Math.round(max / 2) : 0;
+    syncing = true;
+    scroller.scrollLeft = targetLeft;
+    window.requestAnimationFrame(() => {
+      syncing = false;
+    });
+  };
+
+  const keepCentered = (e) => {
+    if (e) e.preventDefault();
+    if (syncing) return;
+    if (Math.abs(scroller.scrollLeft - targetLeft) <= 1) return;
+    centerScroller();
+  };
+
+  scroller.addEventListener("touchmove", keepCentered, { passive: false });
+  scroller.addEventListener("wheel", keepCentered, { passive: false });
+  scroller.addEventListener("scroll", keepCentered, { passive: true });
+  window.addEventListener("resize", centerScroller, { passive: true });
+  window.addEventListener("orientationchange", centerScroller, { passive: true });
+
+  window.requestAnimationFrame(centerScroller);
+  window.setTimeout(centerScroller, 180);
+}
+
 export function initHome() {
   const map = document.querySelector(".area-img--map");
   const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -107,7 +144,10 @@ export function initHome() {
     }
   }
 
-  if (isMobile) mountHomePhotoLightbox();
+  if (isMobile) {
+    mountHomePhotoLightbox();
+    mountLockedDealsScroller();
+  }
 
   if (reduced || isMobile) {
     root.style.setProperty("--forest-shift", "0px");
