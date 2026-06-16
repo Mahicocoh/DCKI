@@ -977,6 +977,7 @@ function setPhoto(idx) {
 
 function render(listing) {
   const isPrintView = String(getQueryParams().print || "") === "1";
+  if (document.body) document.body.dataset.listingId = String(listing?.id || "");
   const pill = document.querySelector("[data-listing-pill]");
   const title = document.querySelector("[data-listing-title]");
   const meta = document.querySelector("[data-listing-meta]");
