@@ -978,7 +978,7 @@ function setPhoto(idx) {
 function getMobileDetailPhotoOverride(listing) {
   if (!listing || String(listing.id || "").trim().toUpperCase() !== "JU-GLO-009") return null;
   if (!window.matchMedia || !window.matchMedia("(max-width: 720px)").matches) return null;
-  return "/assets/29299-detail-mobile.svg?v=202606162045";
+  return "/assets/29299.png?v=202606162240";
 }
 
 function render(listing) {

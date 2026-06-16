@@ -2414,7 +2414,6 @@ body[data-page="listing"] .distances-v{
 @media (max-width: 640px){
   body[data-page="listing"] .listing-gallery .media{background:#ffffff}
   body[data-page="listing"] .listing-gallery .media img{object-fit:contain;object-position:50% 50%}
-  body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media img{object-position:42% 50%}
 }
 
 .hero{

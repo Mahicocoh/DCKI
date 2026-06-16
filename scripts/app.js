@@ -206,5 +206,5 @@ if (page !== "coming-soon") {
 if (page === "home") loadPageScript(() => import("./home.js?v=202606081915").then((m) => m.initHome()));
 if (page === "recherche") loadPageScript(() => import("./recherche.js?v=202606081915").then((m) => m.initRecherche()));
 if (page === "biens") loadPageScript(() => import("./biens.js?v=202606081915").then((m) => m.initBiens()));
-if (page === "listing") loadPageScript(() => import("./listing-page.js?v=202606162045").then((m) => m.initListingPage()));
+if (page === "listing") loadPageScript(() => import("./listing-page.js?v=202606162240").then((m) => m.initListingPage()));
 if (page === "coming-soon") loadPageScript(() => import("./coming-soon.js?v=202606081915").then((m) => m.initComingSoon()));
