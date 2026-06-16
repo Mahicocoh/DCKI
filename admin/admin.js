@@ -265,6 +265,7 @@ function syncEditorState() {
 
 async function load() {
   const data = await api("/api/admin/listings");
+  if (data?.warning) showToast(String(data.warning));
   listings = Array.isArray(data.listings) ? data.listings : [];
   if (!selectedId && listings.length) selectedId = listings[0].id;
   const selected = listings.find((l) => l.id === selectedId);
@@ -527,7 +528,7 @@ galleryHost?.addEventListener("drop", (e) => {
 
 void ensureAdminSession().then((ok) => {
   if (!ok) return;
-  load().catch(() => {
-    window.location.replace("/admin/login.html");
+  load().catch((e) => {
+    showToast(e?.message || t("admin.toast.error"));
   });
 });

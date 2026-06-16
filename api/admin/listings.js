@@ -33,8 +33,16 @@ export default async function handler(req, res) {
     try {
       let listings = await getListings();
       if (!Array.isArray(listings) || !listings.length) {
-        await createListing(getDefaultListing());
+        const created = await createListing(getDefaultListing());
+        if (created && created.ok === false) {
+          json(res, created.status || 400, { ok: false, error: created.error || "Seed impossible." });
+          return;
+        }
         listings = await getListings();
+      }
+      if (!Array.isArray(listings) || !listings.length) {
+        json(res, 200, { ok: true, listings: [getDefaultListing()], warning: "Aucun bien persisté (fallback)." });
+        return;
       }
       json(res, 200, { ok: true, listings });
     } catch (e) {
