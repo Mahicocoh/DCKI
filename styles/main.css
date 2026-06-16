@@ -1498,6 +1498,9 @@ body[data-page="listing"].print-view .listing-print-summary .meta{
   gap:6px;
   font-size:10px;
   overflow:visible;
+  overflow-wrap:normal;
+  word-break:normal;
+  hyphens:none;
 }
 body[data-page="listing"].print-view .listing-print-summary .meta .meta-item{
   margin-right:0;
@@ -1506,6 +1509,8 @@ body[data-page="listing"].print-view .listing-print-summary .meta .meta-item{
   background:rgba(255,255,255,.92);
   gap:5px;
   min-width:0;
+  justify-content:center;
+  text-align:center;
 }
 body[data-page="listing"].print-view .listing-print-summary .meta .meta-item:not(:last-child)::after{
   content:none;
@@ -1710,12 +1715,12 @@ body[data-page="listing"].print-view .listing-print-section--media{
     align-items:flex-start;
   }
   body[data-page="listing"].print-view .listing-print-summary .meta{
-    grid-template-columns:repeat(4, minmax(0, 1fr));
+    grid-template-columns:repeat(2, minmax(0, 1fr));
     gap:6px;
-    font-size:10px;
+    font-size:9.5px;
   }
   body[data-page="listing"].print-view .listing-print-summary .meta .meta-item{
-    padding:6px 8px;
+    padding:5px 7px;
   }
   body[data-page="listing"].print-view .listing-print-summary .listing-price{
     margin-top:4px;
@@ -6652,7 +6657,7 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   }
   #bonnes-affaires .scroll-indicator-thumb{
     width:38%;
-    left:31%;
+    left:0;
   }
   #bonnes-affaires .hscroll{
     padding-bottom:26px;
