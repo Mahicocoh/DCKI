@@ -6661,8 +6661,10 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
   }
   #bonnes-affaires .hscroll{
     padding-bottom:26px;
+    overflow-x:hidden;
     scrollbar-width:none;
     justify-content:center;
+    touch-action:pan-y;
   }
   #bonnes-affaires .hscroll::-webkit-scrollbar{height:0}
   #bonnes-affaires .card.listing.compact{
@@ -6697,8 +6699,7 @@ body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:co
 @media (max-width: 720px){
   #bonnes-affaires .hscroll{
     overflow-y:hidden;
-    overscroll-behavior-y:contain;
-    touch-action:pan-x;
+    overscroll-behavior-y:auto;
   }
   body[data-page="biens"] .card.listing .media img{object-position:24% 50%}
   body[data-page="home"] #bonnes-affaires .card.home-deal .media,
