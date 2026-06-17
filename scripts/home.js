@@ -86,28 +86,6 @@ function mountLockedDealsScroller() {
   if (!(scroller instanceof HTMLElement)) return;
   if (scroller.dataset.lockedCenterBound === "1") return;
   scroller.dataset.lockedCenterBound = "1";
-
-  let touchStartX = 0;
-  let touchStartY = 0;
-
-  const onTouchStart = (e) => {
-    const touch = e.touches && e.touches[0];
-    if (!touch) return;
-    touchStartX = touch.clientX;
-    touchStartY = touch.clientY;
-  };
-
-  const blockVerticalPan = (e) => {
-    const touch = e.touches && e.touches[0];
-    if (!touch) return;
-    const dx = Math.abs(touch.clientX - touchStartX);
-    const dy = Math.abs(touch.clientY - touchStartY);
-    if (dy <= dx) return;
-    e.preventDefault();
-  };
-
-  scroller.addEventListener("touchstart", onTouchStart, { passive: true });
-  scroller.addEventListener("touchmove", blockVerticalPan, { passive: false });
 }
 
 export function initHome() {
