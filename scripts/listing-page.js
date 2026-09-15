@@ -1521,6 +1521,8 @@ function render(listing) {
   const lbPrev = lb?.querySelector(".prev");
   const lbNext = lb?.querySelector(".next");
   const lbClose = lb?.querySelector(".close");
+  let touchStartX = 0;
+  let touchStartY = 0;
 
   const openLightbox = (idx) => {
     if (!lb || !lbImg) return;
@@ -1556,6 +1558,20 @@ function render(listing) {
   lb?.addEventListener("click", (e) => {
     if (e.target === lb) closeLightbox();
   });
+  lb?.addEventListener("touchstart", (e) => {
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }, { passive: true });
+  lb?.addEventListener("touchend", (e) => {
+    const touch = e.changedTouches[0];
+    if (!touch) return;
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+    if (Math.abs(deltaX) < 45 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+    setLightbox(state.index + (deltaX < 0 ? 1 : -1));
+  }, { passive: true });
   document.addEventListener("keydown", (e) => {
     if (!lb?.classList.contains("show")) return;
     if (e.key === "Escape") closeLightbox();

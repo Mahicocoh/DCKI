@@ -9264,6 +9264,7 @@ body[data-page="listing"] .map iframe{pointer-events:none}
 }
 .lightbox.show{display:flex;align-items:center;justify-content:center}
 .lightbox .inner{position:relative;max-width:90vw;max-height:86vh;display:flex;align-items:center;justify-content:center}
+.lightbox .inner{touch-action:pan-y}
 .lightbox img{max-width:90vw;max-height:86vh;object-fit:contain;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.45)}
 .lightbox .nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:999px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.28);color:#fff;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer}
 .lightbox .prev{left:-60px}
