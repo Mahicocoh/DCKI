@@ -987,14 +987,10 @@ function setPhoto(idx) {
   const img = document.querySelector("[data-gallery-img]");
   const count = document.querySelector("[data-gallery-count]");
   if (!img) return;
-  img.src = state.photos[state.index];
+  const photoUrl = state.photos[state.index];
+  img.src = photoUrl;
+  img.classList.toggle("gallery-photo-contain", /368F79F6-CAC9-4BCA-BB2F-F34CC040934D|7173a618-24eb-45e1-9541-e4ad9c28fcad/i.test(photoUrl));
   if (count) count.textContent = `${state.index + 1} / ${state.photos.length}`;
-}
-
-function getMobileDetailPhotoOverride(listing) {
-  if (!listing || String(listing.id || "").trim().toUpperCase() !== "JU-GLO-009") return null;
-  if (!window.matchMedia || !window.matchMedia("(max-width: 720px)").matches) return null;
-  return "/assets/29299.png?v=202606162240";
 }
 
 function render(listing) {
@@ -1276,8 +1272,6 @@ function render(listing) {
   }
 
   state.photos = getListingPhotos(listing, 10);
-  const mobileDetailPhoto = getMobileDetailPhotoOverride(listing);
-  if (mobileDetailPhoto) state.photos = [mobileDetailPhoto];
   setPhoto(0);
 
   const img = document.querySelector("[data-gallery-img]");
@@ -1540,6 +1534,22 @@ function render(listing) {
   };
 
   const media = document.querySelector(".listing-gallery .media");
+  if (media && !media.dataset.lightboxBound) {
+    media.dataset.lightboxBound = "1";
+    media.setAttribute("role", "button");
+    media.setAttribute("tabindex", "0");
+    media.setAttribute("aria-label", "Agrandir la photo");
+    media.addEventListener("click", (e) => {
+      if (e.target instanceof HTMLElement && e.target.closest("button")) return;
+      openLightbox(state.index);
+    });
+    media.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        openLightbox(state.index);
+      }
+    });
+  }
   lbPrev?.addEventListener("click", () => setLightbox(state.index - 1));
   lbNext?.addEventListener("click", () => setLightbox(state.index + 1));
   lbClose?.addEventListener("click", closeLightbox);

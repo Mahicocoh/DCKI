@@ -6695,7 +6695,14 @@ body[data-page="listing"][data-listing-id="JU-GLO-009"] .listing-gallery .media{
 }
 body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media img{object-fit:cover;object-position:50% 50%;transform:none !important}
 body[data-page="home"] #exemples-biens .card.listing .media img{object-position:50% 50%}
-body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 92%}
+body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 50%}
+body[data-page="listing"] .listing-gallery .media{background:#eeece7}
+body[data-page="listing"] .listing-gallery .media{min-height:0;aspect-ratio:16 / 10;overflow:hidden}
+body[data-page="listing"] .listing-gallery .media img{width:100%;height:100%;object-fit:cover !important;object-position:center}
+body[data-page="listing"] .listing-gallery .media img.gallery-photo-contain{object-fit:contain !important}
+body[data-page="listing"] .modal .media{aspect-ratio:16 / 10;min-height:0}
+body[data-page="listing"] .modal .media img{width:100%;height:100%;object-fit:cover}
+body[data-page="listing"] .listing-gallery.card .media{background:#eeece7 !important}
 @media (max-width: 720px){
   #bonnes-affaires .hscroll{
     overflow-y:hidden;
@@ -6716,7 +6723,7 @@ body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:co
       inset -1px 0 0 rgba(255,255,255,.84),
       inset 0 2px 0 rgba(255,255,255,.72);
   }
-  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 92%;transform:none !important}
+  body[data-page="home"] #bonnes-affaires .card.home-deal .media img{object-fit:cover;object-position:50% 50%;transform:none !important}
   body[data-page="home"] #exemples-biens a[href*="id=JU-GLO-009"] .media img{object-fit:cover;object-position:42% 50%;transform:none !important}
   body[data-page="biens"] .card.listing[data-id="JU-GLO-009"] .media img{object-fit:cover;object-position:50% 50%;transform:none !important}
 }
@@ -7482,6 +7489,7 @@ body[data-page="listing"] .listing-gallery .media{cursor:default}
 .modal .media img{width:100%;height:100%;object-fit:cover}
 .modal .media{position:relative}
 .listing-gallery .media{position:relative}
+body[data-page="listing"] .listing-gallery .media{cursor:zoom-in}
 .modal .media .nav, .listing-gallery .media .nav{
   position:absolute;
   top:50%;
