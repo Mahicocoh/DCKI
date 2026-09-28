@@ -988,8 +988,12 @@ function setPhoto(idx) {
   const count = document.querySelector("[data-gallery-count]");
   if (!img) return;
   const photoUrl = state.photos[state.index];
+  const updatePhotoFit = () => {
+    img.classList.toggle("gallery-photo-contain", img.naturalHeight > img.naturalWidth);
+  };
+  img.onload = updatePhotoFit;
   img.src = photoUrl;
-  img.classList.toggle("gallery-photo-contain", /368F79F6-CAC9-4BCA-BB2F-F34CC040934D|7173a618-24eb-45e1-9541-e4ad9c28fcad/i.test(photoUrl));
+  if (img.complete && img.naturalWidth) updatePhotoFit();
   if (count) count.textContent = `${state.index + 1} / ${state.photos.length}`;
 }
 
@@ -1271,7 +1275,7 @@ function render(listing) {
     if (Number.isFinite(y)) mapPin.style.setProperty("--map-pin-y", `${y}%`);
   }
 
-  state.photos = getListingPhotos(listing, 10);
+  state.photos = getListingPhotos(listing, listing.gallery?.length || 10);
   setPhoto(0);
 
   const img = document.querySelector("[data-gallery-img]");

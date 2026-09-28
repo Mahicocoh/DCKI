@@ -102,7 +102,7 @@ function openModal(listing) {
 
   img.alt = titleText;
   state.listingId = listing.id;
-  state.photos = getListingPhotos(listing, 10);
+  state.photos = getListingPhotos(listing, listing.gallery?.length || 10);
   setPhoto(modal, 0);
 
   const rawStatus = String(listing.status || "")

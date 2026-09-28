@@ -54,12 +54,33 @@ async function loadSeedListings() {
   const all = Array.isArray(mod.LISTINGS) ? mod.LISTINGS : [];
   return all
     .filter((l) => l && typeof l.id === "string" && !String(l.id).includes("-AUTO-"))
-    .filter((l) => String(l.id).trim() === "JU-GLO-009");
+    .filter((l) => ["JU-GLO-009", "JU-GLO-010"].includes(String(l.id).trim()));
 }
 
 export async function getListings() {
   const existing = await kv.get(KEY);
-  if (Array.isArray(existing) && existing.length) return existing;
+  if (Array.isArray(existing) && existing.length) {
+    const seed = await loadSeedListings();
+    const newListing = seed.find((listing) => listing.id === "JU-GLO-010");
+    const movedPhotos = new Set(newListing?.gallery || []);
+    let changed = false;
+    const cleanedExisting = existing.map((listing) => {
+      if (listing.id !== "JU-GLO-009" || !Array.isArray(listing.gallery)) return listing;
+      const gallery = listing.gallery.filter((photo) => !movedPhotos.has(photo));
+      if (gallery.length === listing.gallery.length) return listing;
+      changed = true;
+      const image = movedPhotos.has(listing.image) ? gallery[0] || "" : listing.image;
+      return { ...listing, image, gallery };
+    });
+    const existingIds = new Set(cleanedExisting.map((listing) => listing.id));
+    const missing = seed.filter((listing) => !existingIds.has(listing.id));
+    if (changed || missing.length) {
+      const merged = [...missing, ...cleanedExisting];
+      await kv.set(KEY, merged);
+      return merged;
+    }
+    return cleanedExisting;
+  }
 
   const seed = await loadSeedListings();
   if (Array.isArray(seed) && seed.length) {

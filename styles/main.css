@@ -6149,6 +6149,8 @@ body[data-page="dossier"] .dossier-pills .pill--email a{
 #exemples-biens h2{
   color:var(--text);
 }
+#exemples-biens .card.listing .chipRow{margin-top:auto}
+#exemples-biens .card.listing .listing-bottom{margin-top:0}
 .services-section .services-intro{
   margin:0 0 16px;
   max-width:760px;

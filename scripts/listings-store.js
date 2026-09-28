@@ -1,8 +1,8 @@
 let cachePromise = null;
-const ONLY_LISTING_ID = "JU-GLO-009";
+const LISTING_IDS = new Set(["JU-GLO-009", "JU-GLO-010"]);
 
 function applyListingFilter(listings) {
-  const out = Array.isArray(listings) ? listings.filter((l) => l?.id === ONLY_LISTING_ID) : [];
+  const out = Array.isArray(listings) ? listings.filter((l) => LISTING_IDS.has(l?.id)) : [];
   return out;
 }
 
@@ -26,12 +26,19 @@ async function applyCanonicalOverride(listings) {
   const list = Array.isArray(listings) ? listings : [];
   const mod = await import("./listings-data.js");
   const seed = Array.isArray(mod?.LISTINGS) ? mod.LISTINGS : [];
-  const canonicalRaw = seed.find((l) => String(l?.id || "").trim() === ONLY_LISTING_ID);
-  if (!canonicalRaw) return list;
-  const canonical = normalizeListing(canonicalRaw);
-  const current = list.find((l) => l?.id === ONLY_LISTING_ID);
-  // Keep local seed data only as a fallback; non-empty admin/API values must stay authoritative.
-  return [current ? mergeListingWithFallback(canonical, current) : canonical].filter(Boolean);
+  const canonicalIds = ["JU-GLO-009", "JU-GLO-010"];
+  const canonicalListings = canonicalIds
+    .map((id) => {
+      const canonicalRaw = seed.find((l) => String(l?.id || "").trim() === id);
+      if (!canonicalRaw) return null;
+      const canonical = normalizeListing(canonicalRaw);
+      const current = list.find((l) => l?.id === id);
+      // Keep local seed data only as a fallback; non-empty admin/API values stay authoritative.
+      return current ? mergeListingWithFallback(canonical, current) : canonical;
+    })
+    .filter(Boolean);
+  const otherListings = list.filter((listing) => !canonicalIds.includes(listing.id));
+  return [...canonicalListings, ...otherListings];
 }
 
 function norm(s) {
@@ -57,7 +64,7 @@ function normalizeListing(l) {
   const out = { ...l };
   out.id = String(out.id ?? "").trim();
   out.category = normalizeCategory(out.category, out.priceSuffix);
-  if (out.id === ONLY_LISTING_ID) out.featured = true;
+  if (out.id === "JU-GLO-009") out.featured = true;
   return out;
 }
 

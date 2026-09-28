@@ -2714,7 +2714,7 @@ function getCardPhotos(card) {
   if (!id) return fallback;
   const listing = stateListings?.get(id);
   if (!listing) return fallback;
-  return getListingPhotos(listing, 10);
+  return getListingPhotos(listing, listing.gallery?.length || 10);
 }
 
 let stateListings = null;

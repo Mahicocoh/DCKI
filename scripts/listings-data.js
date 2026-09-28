@@ -145,9 +145,9 @@ const SEED_LISTINGS = [
     title: "Magnifique studio entièrement rénové",
     title_en: "Magnificent fully renovated studio",
     description:
-      "Très beau studio entièrement rénové à neuf, situé à Glovelier, au Village 2.\n\nCe logement offre un cadre de vie moderne, confortable et pratique, idéal pour une personne seule ou toute personne recherchant un bien fonctionnel, soigné et prêt à habiter.\n\nSitué au rez-de-chaussée, le studio bénéficie d’une entrée indépendante à l’immeuble, apportant davantage de confort, de discrétion et de praticité au quotidien. Son emplacement privilégié permet un accès rapide aux transports publics, aux commerces, aux restaurants ainsi qu’aux principaux axes de circulation.\n\nLe logement dispose d’une cuisine équipée, de fenêtres triple vitrage, ainsi que d’une colonne de lavage privative avec lave-linge et sèche-linge. Une place de parc extérieure dédiée au studio, une cave privative, une buanderie commune et un local à vélos complètent ce bien.\n\nDisponible immédiatement, ce studio représente une belle opportunité de profiter d’un logement entièrement rénové, confortable et idéalement situé au cœur de Glovelier.",
-    description_en:
-      "Beautiful studio in Glovelier (Jura), Au Village 2: fully renovated. Prime location with quick access to public transport, shops and restaurants. Triple-glazed windows. Dedicated outdoor parking space included. Fitted kitchen and a washer/dryer column. A shared laundry room, a private cellar and a bike room are also available in the building. No pets allowed.",
+      "Très beau studio entièrement rénové à neuf, situé à Glovelier, au Village 2.\n\nCe logement offre un cadre de vie moderne, confortable et pratique, idéal pour une personne seule ou toute personne recherchant un bien fonctionnel, soigné et prêt à habiter.\n\nSitué au rez-de-chaussée, le studio bénéficie d’une entrée indépendante à l’immeuble, apportant davantage de confort, de discrétion et de praticité au quotidien. Son emplacement privilégié permet un accès rapide aux transports publics, aux commerces, aux restaurants ainsi qu’aux principaux axes de circulation.\n\nLe logement dispose d’une cuisine équipée, de fenêtres triple vitrage, ainsi que d’une colonne de lavage privative avec lave-linge et sèche-linge. Une place de parc extérieure est également disponible avec le logement. Une cave privative, une buanderie commune et un local à vélos complètent ce bien.\n\nDisponible immédiatement, ce studio représente une belle opportunité de profiter d’un logement entièrement rénové, confortable et idéalement situé au cœur de Glovelier.",
+      description_en:
+        "Beautiful studio in Glovelier (Jura), Au Village 2: fully renovated. Prime location with quick access to public transport, shops and restaurants. Triple-glazed windows. A dedicated outdoor parking space is also available with the studio. Fitted kitchen and a washer/dryer column. A shared laundry room, a private cellar and a bike room are also available in the building.",
     region: "Jura",
     locality: "Glovelier",
     rooms: 1.0,
@@ -187,7 +187,7 @@ const SEED_LISTINGS = [
         items: ["Bancomat", "Entrée/sortie autoroute", "Arrêt de bus", "Restaurant(s)", "Commerces", "Transports publics"],
       },
       { title: "Extérieur", items: ["Place de parc"] },
-      { title: "Intérieur", items: ["Triple vitrage", "Animaux non autorisés", "Cave", "Local à vélos (commun)", "Buanderie commune"] },
+      { title: "Intérieur", items: ["Triple vitrage", "Cave", "Local à vélos (commun)", "Buanderie commune"] },
       {
         title: "Équipement",
         items: ["Cuisine équipée", "Colonne de lavage", "Four", "Réfrigérateur", "Douche italienne", "WC", "Lavabo"],
@@ -202,7 +202,7 @@ const SEED_LISTINGS = [
       { label: "Delémont", distance: "12 km", walk: "—", transit: "10 min", car: "12 min" },
       { label: "Porrentruy", distance: "16 km", walk: "—", transit: "12 min", car: "15 min" },
     ],
-    tags: ["Entièrement rénové", "Place de parc", "Quartier calme", "Cave", "Triple vitrage", "Cuisine équipée", "Colonne de lavage", "Buanderie commune", "Animaux non autorisés"],
+    tags: ["Entièrement rénové", "Place de parc", "Quartier calme", "Cave", "Triple vitrage", "Cuisine équipée", "Colonne de lavage", "Buanderie commune"],
     image: "/assets/8f255797-2f4e-4aa3-ab9a-e22e7fbc1a21.jpeg",
     gallery: [
       "/assets/8f255797-2f4e-4aa3-ab9a-e22e7fbc1a21.jpeg",
@@ -212,6 +212,59 @@ const SEED_LISTINGS = [
       "/assets/8c2b17c2-6c00-46c7-b8be-4c6dbc6a9134.jpeg",
       "/assets/8e746c4b-81d3-420b-ad5d-010244dccdbf.jpeg",
       "/assets/99c4840c-2732-41b7-b764-178ba9f863cd.jpeg"
+    ],
+  },
+  {
+    id: "JU-GLO-010",
+    category: "rent",
+    propertyType: "Studio",
+    title: "Studio entièrement rénové",
+    title_en: "Fully renovated studio",
+    description:
+      "Studio de 31 m² entièrement rénové en 2026, situé au 1er étage d’un immeuble au centre du village de Glovelier.\n\nLe logement bénéficie d’un intérieur moderne, lumineux et fonctionnel. Il se compose d’une agréable pièce de vie, d’une cuisine neuve entièrement équipée avec four, plaques de cuisson, hotte, réfrigérateur et nombreux rangements, ainsi que d’une salle de bains moderne avec douche, WC suspendu et lavabo.\n\nLa rénovation complète, les finitions contemporaines et le nouveau revêtement de sol offrent une atmosphère moderne, agréable et chaleureuse.\n\nUne place de parc est également disponible avec le logement.\n\nGrâce à sa situation centrale, le studio se trouve à proximité des commodités et des transports, et constitue un logement idéal pour une personne seule, un jeune actif ou une personne travaillant dans la région.\n\nLoyer mensuel : CHF 750.– charges comprises, sans décompte de charges.",
+    description_en:
+      "Fully renovated 31 m² studio in 2026, located on the first floor of a building in the centre of Glovelier.\n\nThe studio offers a modern, bright and functional interior, with a comfortable living area, a new fully equipped kitchen with oven, cooktop, extractor hood, refrigerator and ample storage, as well as a modern bathroom with shower, wall-hung toilet and washbasin.\n\nThe complete renovation, contemporary finishes and new flooring create a warm and welcoming atmosphere.\n\nA parking space is also available with the studio.\n\nCentrally located close to shops, services and public transport, it is ideal for a single person, a young professional or someone working in the area.\n\nMonthly rent: CHF 750, charges included with no additional charge statement.",
+    region: "Jura",
+    locality: "Glovelier",
+    rooms: 1,
+    surface: 31,
+    price: 750,
+    priceSuffix: "/mois, charges comprises",
+    bedrooms: 0,
+    bathrooms: 1,
+    wc: 1,
+    parking: true,
+    showTopFacts: true,
+    topFacts: ["Entièrement rénové", "Place de parc", "Centre du village", "Charges comprises"],
+    access: "Au Village 2, 2855 Glovelier, Suisse",
+    characteristics: [
+      { k: "Étage", v: "1er étage" },
+      { k: "Pièces", v: "1" },
+      { k: "Surface", v: "31 m²" },
+      { k: "Places de parc", v: "Disponible" },
+      { k: "Charges", v: "Comprises, sans décompte" },
+      { k: "Dernières rénovations", v: "2026" },
+    ],
+    amenityGroups: [
+      { title: "Environnement", items: ["Centre du village", "Commerces", "Transports publics"] },
+      { title: "Extérieur", items: ["Place de parc disponible"] },
+      { title: "Intérieur", items: ["Triple vitrage", "Cave", "Local à vélos (commun)", "Buanderie commune"] },
+      {
+        title: "Équipement",
+        items: ["Cuisine neuve équipée", "Four", "Plaques de cuisson", "Hotte", "Réfrigérateur", "Rangements", "Douche", "WC suspendu", "Lavabo"],
+      },
+    ],
+    tags: ["Entièrement rénové", "Place de parc", "Cuisine équipée", "Centre du village"],
+    image: "/assets/4a02a5bf-c4c7-42bd-b583-1eb62a52b183.jpeg",
+    gallery: [
+      "/assets/4a02a5bf-c4c7-42bd-b583-1eb62a52b183.jpeg",
+      "/assets/563b43b5-6011-4b3a-9110-0d53bea8c339.jpeg",
+      "/assets/607c76e7-35d5-4f85-8142-e479c60802e3.jpeg",
+      "/assets/770a544a-ab90-4438-bc56-d97cff680fba.jpeg",
+      "/assets/88d2f609-8aef-48fa-93b8-543182f5a6be.jpeg",
+      "/assets/c6bd9f4b-ebbb-458d-842b-23869533c4a9.jpeg",
+      "/assets/e22b925a-04d5-437b-a5d4-5a45d94795ff.jpeg",
+      "/assets/fb599c8d-7f40-485e-928d-0e5553cbd4d7.jpeg",
     ],
   },
   {
