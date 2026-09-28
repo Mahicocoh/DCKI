@@ -221,15 +221,15 @@ const SEED_LISTINGS = [
     title: "Studio entièrement rénové",
     title_en: "Fully renovated studio",
     description:
-      "Studio de 31 m² entièrement rénové en 2026, situé au 1er étage d’un immeuble au centre du village de Glovelier.\n\nLe logement bénéficie d’un intérieur moderne, lumineux et fonctionnel. Il se compose d’une agréable pièce de vie, d’une cuisine neuve entièrement équipée avec four, plaques de cuisson, hotte, réfrigérateur et nombreux rangements, ainsi que d’une salle de bains moderne avec douche, WC suspendu et lavabo.\n\nLa rénovation complète, les finitions contemporaines et le nouveau revêtement de sol offrent une atmosphère moderne, agréable et chaleureuse.\n\nUne place de parc est également disponible avec le logement.\n\nGrâce à sa situation centrale, le studio se trouve à proximité des commodités et des transports, et constitue un logement idéal pour une personne seule, un jeune actif ou une personne travaillant dans la région.\n\nLoyer mensuel : CHF 750.– charges comprises, sans décompte de charges.",
+      "Studio de 31 m² entièrement rénové en 2026, situé au 1er étage d’un immeuble au centre du village de Glovelier.\n\nLe logement bénéficie d’un intérieur moderne, lumineux et fonctionnel. Il se compose d’une agréable pièce de vie, d’une cuisine neuve entièrement équipée avec four, plaques de cuisson, hotte, réfrigérateur et nombreux rangements, ainsi que d’une salle de bains moderne avec douche, WC suspendu et lavabo.\n\nLa rénovation complète, les finitions contemporaines et le nouveau revêtement de sol offrent une atmosphère moderne, agréable et chaleureuse.\n\nUne place de parc est également disponible avec le logement.\n\nGrâce à sa situation centrale, le studio se trouve à proximité des commodités et des transports, et constitue un logement idéal pour une personne seule, un jeune actif ou une personne travaillant dans la région.",
     description_en:
-      "Fully renovated 31 m² studio in 2026, located on the first floor of a building in the centre of Glovelier.\n\nThe studio offers a modern, bright and functional interior, with a comfortable living area, a new fully equipped kitchen with oven, cooktop, extractor hood, refrigerator and ample storage, as well as a modern bathroom with shower, wall-hung toilet and washbasin.\n\nThe complete renovation, contemporary finishes and new flooring create a warm and welcoming atmosphere.\n\nA parking space is also available with the studio.\n\nCentrally located close to shops, services and public transport, it is ideal for a single person, a young professional or someone working in the area.\n\nMonthly rent: CHF 750, charges included with no additional charge statement.",
+      "Fully renovated 31 m² studio in 2026, located on the first floor of a building in the centre of Glovelier.\n\nThe studio offers a modern, bright and functional interior, with a comfortable living area, a new fully equipped kitchen with oven, cooktop, extractor hood, refrigerator and ample storage, as well as a modern bathroom with shower, wall-hung toilet and washbasin.\n\nThe complete renovation, contemporary finishes and new flooring create a warm and welcoming atmosphere.\n\nA parking space is also available with the studio.\n\nCentrally located close to shops, services and public transport, it is ideal for a single person, a young professional or someone working in the area.",
     region: "Jura",
     locality: "Glovelier",
     rooms: 1,
     surface: 31,
     price: 750,
-    priceSuffix: "/mois, charges comprises",
+    priceSuffix: "/mois",
     bedrooms: 0,
     bathrooms: 1,
     wc: 1,
